@@ -1,4 +1,4 @@
-# HORMONES - Comprehensive Project Plan
+# LOLO - Comprehensive Project Plan
 ## AI-Powered Relationship Intelligence App for Men
 
 ---
@@ -13,12 +13,15 @@
 6. [Qualifications & Experience Requirements](#6-qualifications--experience-requirements)
 7. [Budget Estimation](#7-budget-estimation)
 8. [Risk Matrix](#8-risk-matrix)
+9. [Appendix A: Hiring Priority Order](#appendix-a-hiring-priority-order)
+10. [Appendix B: Alternative Lean Approach](#appendix-b-alternative-lean-approach-3-person-mvp)
+11. [Appendix C: Team KPI Checklists & Accountability Tracker](#appendix-c-team-kpi-checklists--accountability-tracker)
 
 ---
 
 # 1. EXECUTIVE SUMMARY
 
-**Product Name:** Hormones
+**Product Name:** LOLO
 **Tagline:** "She won't know why you got so thoughtful. We won't tell."
 **Category:** Lifestyle / Relationship Intelligence
 **Platforms:** Android + iOS (simultaneous launch via Flutter), HarmonyOS / Huawei (Phase 3), Wear OS / WatchOS (Phase 4)
@@ -696,7 +699,7 @@ Month 1       Month 2       Month 3       Month 4       Month 5       Month 6-9
 **Core Team Size: 6 full-time + 2 part-time technical + 3 domain consultants**
 **MVP Team Size (minimum): 6 technical + 3 domain experts**
 
-> **Why Domain Experts are Non-Negotiable:** Without these 3 specialists, the AI generates generic internet-level advice. With them, Hormones delivers clinically-informed, astrologically-accurate, and emotionally-authentic content that no competitor can replicate. They are the app's **unfair advantage**.
+> **Why Domain Experts are Non-Negotiable:** Without these 3 specialists, the AI generates generic internet-level advice. With them, LOLO delivers clinically-informed, astrologically-accurate, and emotionally-authentic content that no competitor can replicate. They are the app's **unfair advantage**.
 
 ---
 
@@ -723,13 +726,13 @@ This staggered hiring reduces burn rate in early weeks when only planning and de
 
 ## 5.1 Product Manager
 
-**Job Title:** Product Manager - Hormones App
+**Job Title:** Product Manager - LOLO App
 **Department:** Product
 **Reports To:** Founder / Product Owner
 **Employment Type:** Full-Time
 
 ### Role Summary
-The Product Manager owns the product vision, roadmap, and backlog for the Hormones app. This person is the bridge between business goals, user needs, and the engineering team. They translate the founder's vision into actionable user stories, prioritize features, and ensure timely delivery of a product that users love.
+The Product Manager owns the product vision, roadmap, and backlog for the LOLO app. This person is the bridge between business goals, user needs, and the engineering team. They translate the founder's vision into actionable user stories, prioritize features, and ensure timely delivery of a product that users love.
 
 ### Key Responsibilities
 
@@ -873,7 +876,7 @@ The Tech Lead is the technical authority on the project. They architect the cros
 **Employment Type:** Full-Time (Weeks 1-22), Part-Time (Weeks 23+)
 
 ### Role Summary
-The UX/UI Designer creates the entire visual experience of Hormones — from first impression to daily interaction. This role requires someone who can craft a premium, masculine-yet-warm design language that men feel comfortable using. The app must feel like a "secret weapon," not a couples therapy tool.
+The UX/UI Designer creates the entire visual experience of LOLO — from first impression to daily interaction. This role requires someone who can craft a premium, masculine-yet-warm design language that men feel comfortable using. The app must feel like a "secret weapon," not a couples therapy tool.
 
 ### Key Responsibilities
 
@@ -911,7 +914,7 @@ The UX/UI Designer creates the entire visual experience of Hormones — from fir
 - Design Arabic and Malay store listing screenshots and feature graphics
 
 **Brand Identity**
-- Define visual brand identity for Hormones
+- Define visual brand identity for LOLO
 - Design logo (primary + icon variants) — ensure logo works in LTR and RTL contexts
 - Create marketing materials (store screenshots, feature graphics) — in EN, AR, MS
 - Establish illustration and iconography style
@@ -945,7 +948,7 @@ The UX/UI Designer creates the entire visual experience of Hormones — from fir
 **Employment Type:** Full-Time
 
 ### Role Summary
-The Backend Developer builds and maintains the server-side infrastructure that powers Hormones. This includes user data management, notification scheduling, calendar synchronization, payment processing, third-party API integrations, and the API layer consumed by the mobile app.
+The Backend Developer builds and maintains the server-side infrastructure that powers LOLO. This includes user data management, notification scheduling, calendar synchronization, payment processing, third-party API integrations, and the API layer consumed by the mobile app.
 
 ### Key Responsibilities
 
@@ -1023,7 +1026,7 @@ The Backend Developer builds and maintains the server-side infrastructure that p
 **Employment Type:** Full-Time
 
 ### Role Summary
-The AI/ML Engineer is the brain behind what makes Hormones unique. This person designs and operates the **multi-model AI architecture** — orchestrating Claude, Grok, Gemini, and GPT across different tasks to deliver the best emotional intelligence at optimal cost. They build the AI Router that routes each request to the right model, design prompt templates per model, generate personalized messages, power Smart Action Cards, recommend gifts with feedback learning, drive the SOS mode, analyze personality profiles, and leverage the Relationship Memory Vault to make every output deeply personal. They work at the intersection of prompt engineering, multi-model orchestration, and data science.
+The AI/ML Engineer is the brain behind what makes LOLO unique. This person designs and operates the **multi-model AI architecture** — orchestrating Claude, Grok, Gemini, and GPT across different tasks to deliver the best emotional intelligence at optimal cost. They build the AI Router that routes each request to the right model, design prompt templates per model, generate personalized messages, power Smart Action Cards, recommend gifts with feedback learning, drive the SOS mode, analyze personality profiles, and leverage the Relationship Memory Vault to make every output deeply personal. They work at the intersection of prompt engineering, multi-model orchestration, and data science.
 
 ### Key Responsibilities
 
@@ -1174,7 +1177,7 @@ The AI/ML Engineer is the brain behind what makes Hormones unique. This person d
 **Employment Type:** Full-Time (Weeks 9-22), Part-Time (Weeks 23+)
 
 ### Role Summary
-The QA Engineer ensures every feature of Hormones works flawlessly before it reaches users. Given the personal and sensitive nature of the app (partner data, reminders for important dates, AI messages), quality is non-negotiable — a missed anniversary reminder or an inappropriate AI message could directly damage a user's relationship.
+The QA Engineer ensures every feature of LOLO works flawlessly before it reaches users. Given the personal and sensitive nature of the app (partner data, reminders for important dates, AI messages), quality is non-negotiable — a missed anniversary reminder or an inappropriate AI message could directly damage a user's relationship.
 
 ### Key Responsibilities
 
@@ -1316,7 +1319,7 @@ The DevOps Engineer sets up and maintains the infrastructure, CI/CD pipelines, a
 **Employment Type:** Part-Time (Weeks 17-22), Full-Time (Weeks 23+)
 
 ### Role Summary
-The Marketing Specialist is responsible for building awareness, driving downloads, and growing the user base for Hormones. This role requires someone who understands the male audience, can create viral-worthy content, and knows the mobile app marketing ecosystem inside out.
+The Marketing Specialist is responsible for building awareness, driving downloads, and growing the user base for LOLO. This role requires someone who understands the male audience, can create viral-worthy content, and knows the mobile app marketing ecosystem inside out.
 
 ### Key Responsibilities
 
@@ -1387,7 +1390,7 @@ The Marketing Specialist is responsible for building awareness, driving download
 **Employment Type:** Part-Time Consultant (8-12 hours/week)
 
 ### Role Summary
-The Psychiatrist / Women's Psychology Expert is the scientific backbone of the Hormones app. This person ensures that all app content, AI responses, and feature behavior are grounded in real psychological understanding of women's emotional states across different life situations — menstrual cycles, pregnancy, postpartum, menopause, stress responses, grief, and daily emotional fluctuations. Their input directly trains the AI to respond with clinical accuracy rather than stereotypes.
+The Psychiatrist / Women's Psychology Expert is the scientific backbone of the LOLO app. This person ensures that all app content, AI responses, and feature behavior are grounded in real psychological understanding of women's emotional states across different life situations — menstrual cycles, pregnancy, postpartum, menopause, stress responses, grief, and daily emotional fluctuations. Their input directly trains the AI to respond with clinical accuracy rather than stereotypes.
 
 ### Key Responsibilities
 
@@ -1467,7 +1470,7 @@ The Psychiatrist / Women's Psychology Expert is the scientific backbone of the H
 **Employment Type:** Part-Time Consultant (10 hrs/week in Phase 1 & 3, 4 hrs/week afterward)
 
 ### Role Summary
-The Professional Astrologist transforms Hormones from a generic reminder app into a deeply personalized experience. This person builds the zodiac intelligence layer — defining how each sign thinks, loves, communicates, gets angry, and wants to be appreciated. Their work feeds directly into the AI message generator, gift recommendation engine, and personality profiling system, making every output feel eerily accurate to the user's partner.
+The Professional Astrologist transforms LOLO from a generic reminder app into a deeply personalized experience. This person builds the zodiac intelligence layer — defining how each sign thinks, loves, communicates, gets angry, and wants to be appreciated. Their work feeds directly into the AI message generator, gift recommendation engine, and personality profiling system, making every output feel eerily accurate to the user's partner.
 
 ### Key Responsibilities
 
@@ -1787,7 +1790,7 @@ Candidates should demonstrate:
 
 ### Design Challenge
 Candidates should complete:
-1. Design the Hormones onboarding flow (5-7 screens) in Figma — **in both English (LTR) and Arabic (RTL)**
+1. Design the LOLO onboarding flow (5-7 screens) in Figma — **in both English (LTR) and Arabic (RTL)**
 2. Present design rationale and decisions — **including RTL layout decisions and Arabic typography choices**
 3. Show how the design adapts to different screen sizes
 
@@ -1997,7 +2000,7 @@ Candidates should complete:
 ### Assessment
 1. Review 10 AI-generated love messages and rate each: "Would work / Needs adjustment / Would backfire" — with explanations
 2. Describe 3 common situations where men misread women's emotions, and what the right response actually is
-3. Evaluate the Hormones app concept from a woman's perspective: would she be flattered or offended if her partner used it?
+3. Evaluate the LOLO app concept from a woman's perspective: would she be flattered or offended if her partner used it?
 
 ---
 
@@ -2193,8 +2196,531 @@ In this model:
 
 ---
 
-*Document Version: 6.0*
+# APPENDIX C: TEAM KPI CHECKLISTS & ACCOUNTABILITY TRACKER
+
+> **How to use this appendix:** Each team member has a phase-by-phase checklist with measurable KPIs. The Product Manager (or Founder) should review these weekly during standups. Items marked with a target metric (e.g., "> 80%") are quantitative KPIs — track them on a dashboard. Items without metrics are binary deliverables (done / not done).
+
+---
+
+## C.1 Product Manager — KPI Checklist
+
+### Phase 1: Discovery & Planning (Weeks 1-4)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | Competitive analysis report completed | Report delivered by Week 1 | ☐ |
+| 2 | User personas created (minimum 3) | 3 personas with journey maps | ☐ |
+| 3 | Feature backlog created and prioritized (MoSCoW) | 100% of MVP features prioritized | ☐ |
+| 4 | All domain experts onboarded and briefed | 3/3 experts active by Week 1 | ☐ |
+| 5 | Sprint plan finalized for Phases 2-5 | Sprint plan approved by founder | ☐ |
+| 6 | Architecture document reviewed and approved | Sign-off by end of Week 4 | ☐ |
+| 7 | Multi-language strategy approved | EN/AR/MS localization plan signed off | ☐ |
+| 8 | Wireframes reviewed and approved | All 30+ screens approved | ☐ |
+
+### Phase 2: UI/UX Design (Weeks 5-8)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 9 | High-fidelity designs reviewed and approved | All screens (LTR + RTL) signed off | ☐ |
+| 10 | User testing completed | 10-15 male users tested | ☐ |
+| 11 | User testing satisfaction score | > 7/10 average rating | ☐ |
+| 12 | API contract document reviewed | All endpoints documented | ☐ |
+| 13 | Arabic + Malay UI translations reviewed | Native speakers approved translations | ☐ |
+| 14 | Design handoff meeting completed | Dev team confirms readiness | ☐ |
+
+### Phase 3: MVP Development (Weeks 9-16)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 15 | Sprint velocity tracked | Story points completed per sprint | ☐ |
+| 16 | Sprint goals met | > 85% of sprint goals delivered on time | ☐ |
+| 17 | Backlog groomed weekly | 0 undefined stories entering sprint | ☐ |
+| 18 | Blockers resolved within | < 24 hours average resolution time | ☐ |
+| 19 | Stakeholder updates sent | Weekly report to founder — every Friday | ☐ |
+| 20 | Feature acceptance testing done | PM signs off every completed feature | ☐ |
+
+### Phase 4-5: Testing & Launch (Weeks 17-22)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 21 | Beta testing program launched | 50-100 beta users recruited (include AR/MS users) | ☐ |
+| 22 | Beta feedback analyzed and prioritized | Report delivered within 5 days of beta close | ☐ |
+| 23 | Store listings optimized (ASO) | EN/AR/MS listings published | ☐ |
+| 24 | Launch day checklist completed | All items green before submission | ☐ |
+| 25 | Post-launch crash rate | < 1% crash-free rate target | ☐ |
+
+### Ongoing KPIs (Post-Launch)
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| DAU / MAU ratio | > 25% | Weekly |
+| D1 retention | > 40% | Weekly |
+| D7 retention | > 20% | Weekly |
+| D30 retention | > 10% | Monthly |
+| Free → Paid conversion | > 5% | Monthly |
+| App Store rating | > 4.3 stars (all markets) | Weekly |
+| NPS score | > 40 | Monthly |
+| Feature adoption rate | > 60% of users use 3+ modules | Monthly |
+
+---
+
+## C.2 Tech Lead / Senior Flutter Developer — KPI Checklist
+
+### Phase 2: Pre-Development (Weeks 5-8)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | Architecture document finalized | Clean Architecture + BLoC/Riverpod documented | ☐ |
+| 2 | Tech stack decided and documented | All packages selected from pub.dev | ☐ |
+| 3 | Folder structure and coding standards defined | Standards doc shared with team | ☐ |
+| 4 | Localization architecture designed | ARB file structure, RTL plan, font strategy documented | ☐ |
+| 5 | CI/CD pipeline architecture planned | GitHub Actions + Codemagic plan ready | ☐ |
+
+### Phase 3: MVP Development (Weeks 9-16)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 6 | Flutter project scaffold completed | Project builds on Android + iOS by Week 9 end | ☐ |
+| 7 | Localization infrastructure working | EN/AR/MS switching works, RTL renders correctly | ☐ |
+| 8 | Arabic font rendering verified | Noto Naskh Arabic + Cairo display correctly on 5+ devices | ☐ |
+| 9 | Code review turnaround time | < 4 hours per PR during business hours | ☐ |
+| 10 | PR merge success rate | > 90% PRs pass CI on first or second attempt | ☐ |
+| 11 | Test coverage (core logic) | > 80% unit + widget test coverage | ☐ |
+| 12 | App startup time | < 2 seconds (cold start) on both platforms | ☐ |
+| 13 | Frame rate | 60fps consistent (verified via Flutter DevTools) | ☐ |
+| 14 | All 10 modules functional | 10/10 modules demo-ready by Week 16 | ☐ |
+| 15 | RTL layout pass rate | 100% of screens render correctly in Arabic | ☐ |
+| 16 | Platform parity | Zero platform-only bugs (Android feature works same on iOS) | ☐ |
+| 17 | Technical debt log maintained | Debt items logged with priority and estimated effort | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| App crash rate | < 0.5% (Crashlytics) | Daily |
+| App size (APK / IPA) | < 50MB (Android), < 80MB (iOS) | Per release |
+| Build success rate | > 95% CI builds pass | Weekly |
+| Code review coverage | 100% of PRs reviewed before merge | Per PR |
+| Dependency updates | Monthly pub.dev audit for breaking changes | Monthly |
+
+---
+
+## C.3 UX/UI Designer — KPI Checklist
+
+### Phase 1: Discovery (Weeks 1-4)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | User personas created | 3 detailed personas with journey maps | ☐ |
+| 2 | Competitive UX audit completed | 5+ competitor apps analyzed | ☐ |
+| 3 | Wireframes delivered (low-fidelity) | 30+ screens wireframed | ☐ |
+| 4 | Design system foundations defined | Color palette, typography (EN + AR + MS), spacing, grid | ☐ |
+
+### Phase 2: UI/UX Design (Weeks 5-8)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 5 | High-fidelity screens completed (English/LTR) | 50+ screens designed in Figma | ☐ |
+| 6 | Arabic RTL screen variants completed | 50+ mirrored RTL screens in Figma | ☐ |
+| 7 | Brand identity finalized | Logo + icon + color system + Arabic/Malay fonts | ☐ |
+| 8 | Interactive prototype built | Clickable EN + AR prototypes | ☐ |
+| 9 | User testing completed | 10-15 users tested | ☐ |
+| 10 | User testing task completion rate | > 85% of testers complete core flows | ☐ |
+| 11 | User testing satisfaction | > 7/10 average score | ☐ |
+| 12 | Design iterations completed | All feedback-driven revisions done | ☐ |
+| 13 | Developer handoff package ready | Annotated designs + RTL guidelines + exported assets | ☐ |
+| 14 | Store listing graphics designed | EN/AR/MS screenshots and feature graphics | ☐ |
+
+### Phase 3-4: Development Support (Weeks 9-19)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 15 | Design QA conducted per sprint | Every implemented screen reviewed vs. Figma | ☐ |
+| 16 | Design QA pixel accuracy | > 95% match between Figma and implementation | ☐ |
+| 17 | RTL design QA | All Arabic screens match RTL Figma designs | ☐ |
+| 18 | Design change requests responded to | < 24-hour turnaround | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| Onboarding completion rate | > 75% of new users complete setup | Weekly |
+| User satisfaction (UI) | > 4/5 in-app feedback score | Monthly |
+| A/B test win rate | > 50% of design variants win | Per test |
+
+---
+
+## C.4 Backend Developer — KPI Checklist
+
+### Phase 3: MVP Development (Weeks 9-16)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | Firebase setup completed | Auth + Firestore + FCM working on Android + iOS | ☐ |
+| 2 | Database schema designed and reviewed | Schema approved by Tech Lead | ☐ |
+| 3 | Locale fields in database | User locale, her preferred language stored correctly | ☐ |
+| 4 | API response time | < 200ms for critical endpoints (p95) | ☐ |
+| 5 | API documentation complete | Swagger/OpenAPI docs for all endpoints | ☐ |
+| 6 | Authentication working | Email + Google + Apple Sign-In functional | ☐ |
+| 7 | Notification system reliability | > 99% notification delivery rate | ☐ |
+| 8 | Locale-aware notifications | Notifications sent in user's language (EN/AR/MS) | ☐ |
+| 9 | Calendar sync working | Google Calendar + Apple Calendar read/write | ☐ |
+| 10 | Hijri date support | Arabic users see Hijri dates alongside Gregorian | ☐ |
+| 11 | Payment integration | RevenueCat subscriptions working on Android + iOS | ☐ |
+| 12 | Redis caching implemented | AI response cache operational | ☐ |
+| 13 | Memory Vault encryption | AES-256 encryption verified, biometric lock working | ☐ |
+| 14 | GDPR endpoints | Data export and deletion APIs functional | ☐ |
+| 15 | Accept-Language header handling | All content endpoints respect locale parameter | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| API uptime | > 99.5% | Daily |
+| API error rate | < 1% of requests | Daily |
+| Average response time | < 200ms (p95) | Daily |
+| Database query performance | < 50ms average query time | Weekly |
+| Notification delivery rate | > 99% | Daily |
+| Cache hit ratio (Redis) | > 60% | Weekly |
+| Data backup success | 100% daily backups verified | Daily |
+| Security vulnerability scan | 0 critical/high vulnerabilities | Monthly |
+
+---
+
+## C.5 AI/ML Engineer — KPI Checklist
+
+### Phase 3: MVP Development (Weeks 9-16)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | AI Router / Orchestrator built and functional | Routes to correct model per task type | ☐ |
+| 2 | All 4 AI providers integrated | Claude + Grok + Gemini + GPT APIs connected | ☐ |
+| 3 | Automatic failover working | Model switch happens < 2 seconds on provider outage | ☐ |
+| 4 | 10 situational message modes built | All modes generate quality output | ☐ |
+| 5 | English prompt quality | > 8/10 average quality rating (internal review) | ☐ |
+| 6 | Arabic prompt library built | Separate Arabic prompts (not translated) with cultural context | ☐ |
+| 7 | Arabic output quality | > 7/10 average quality rating (native Arabic speaker review) | ☐ |
+| 8 | Bahasa Melayu prompt library built | Separate Malay prompts with cultural context | ☐ |
+| 9 | Malay output quality | > 7/10 average quality rating (native Malay speaker review) | ☐ |
+| 10 | Language verification pass rate | > 98% of outputs in correct requested language | ☐ |
+| 11 | Smart Action Cards generating daily | 1-2 contextual cards per user per day | ☐ |
+| 12 | Gift recommendation relevance | > 70% positive feedback from test users | ☐ |
+| 13 | SOS Mode response quality | > 8/10 quality rating (reviewed by Psychiatrist) | ☐ |
+| 14 | Context Awareness Engine functional | Mood/status input correctly adjusts all AI outputs | ☐ |
+| 15 | Batch processing pipeline operational | Next-day action cards pre-generated overnight | ☐ |
+| 16 | Response cache (Redis) operational | Language-specific caching working | ☐ |
+| 17 | Content safety filter active | 0 inappropriate messages pass through | ☐ |
+| 18 | Per-model cost tracking dashboard | Real-time cost tracking per model, per language | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| Message generation success rate | > 99% | Daily |
+| Message send-through rate | > 60% of generated messages actually sent by user | Weekly |
+| AI cost per user per month | < $0.50 (free tier), < $2.00 (pro tier) | Weekly |
+| Cache hit ratio (AI responses) | > 30% | Weekly |
+| Model routing accuracy | > 95% requests go to optimal model | Weekly |
+| Content safety filter catch rate | 100% of harmful content blocked | Daily |
+| Arabic output quality score | > 7/10 (monthly native speaker review) | Monthly |
+| Malay output quality score | > 7/10 (monthly native speaker review) | Monthly |
+| Smart Action Card engagement rate | > 40% of cards acted upon | Weekly |
+| Gift recommendation click-through | > 30% | Weekly |
+| SOS Mode satisfaction score | > 8/10 (user post-session rating) | Weekly |
+| Memory Vault personalization depth | Avg data points per user increasing month-over-month | Monthly |
+| Average AI response latency | < 3 seconds (p95) | Daily |
+| Monthly AI API cost (total) | Within budget ($420-$1,800/month dev, scaled post-launch) | Monthly |
+
+---
+
+## C.6 QA Engineer — KPI Checklist
+
+### Phase 3: Development (Weeks 9-16)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | Test strategy document created | Approved by Tech Lead | ☐ |
+| 2 | Test plans created per sprint | Plans ready before sprint starts | ☐ |
+| 3 | Unit test coverage | > 80% of core business logic | ☐ |
+| 4 | Widget test coverage | Key UI components covered | ☐ |
+| 5 | Integration tests written | All critical user journeys automated | ☐ |
+| 6 | RTL layout tests created | Golden tests for all screens in Arabic | ☐ |
+| 7 | Locale switching tests | Verify EN ↔ AR ↔ MS switch works without restart | ☐ |
+| 8 | Cross-platform testing | Tested on 5+ Android devices + 3+ iOS devices | ☐ |
+| 9 | Notification timing accuracy | Reminders fire within ±1 minute of scheduled time | ☐ |
+| 10 | AI output validation (English) | 100+ generated messages reviewed for quality | ☐ |
+| 11 | AI output validation (Arabic) | 50+ Arabic messages reviewed by native speaker | ☐ |
+| 12 | AI output validation (Malay) | 50+ Malay messages reviewed by native speaker | ☐ |
+
+### Phase 4: Testing & QA (Weeks 17-19)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 13 | Full regression test completed | All features pass on Android + iOS | ☐ |
+| 14 | RTL visual audit completed | All Arabic screens match design, no layout breaks | ☐ |
+| 15 | Security testing completed | 0 critical/high vulnerabilities | ☐ |
+| 16 | Performance benchmarks met | Startup < 2s, 60fps, memory < 200MB | ☐ |
+| 17 | Beta build distributed | TestFlight (iOS) + APK (Android) to 50-100 users | ☐ |
+| 18 | Beta bug report turnaround | All critical bugs reported within 24 hours | ☐ |
+| 19 | Multi-language QA pass | Native Arabic + Malay speakers approve full app flow | ☐ |
+| 20 | Release candidate approved | All quality gates passed, 0 P1 bugs open | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| Bug escape rate (production) | < 2 P1/P2 bugs per release | Per release |
+| Bug fix verification turnaround | < 24 hours after fix deployed | Per bug |
+| Automated test pass rate | > 95% in CI | Per PR |
+| Test coverage (core logic) | > 80% maintained | Weekly |
+| Crash-free rate | > 99.5% (both platforms) | Daily |
+| Translation completeness | 100% ARB keys translated (0 English fallbacks in AR/MS) | Per release |
+
+---
+
+## C.7 DevOps Engineer — KPI Checklist
+
+### Phase 3: Setup (Weeks 9-12)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | CI/CD pipeline operational | GitHub Actions builds both Android + iOS automatically | ☐ |
+| 2 | Automated testing in CI | Unit + widget tests run on every PR | ☐ |
+| 3 | Firebase project configured | Auth, Firestore, FCM, Crashlytics — both platforms | ☐ |
+| 4 | PostgreSQL + Redis provisioned | Cloud SQL + Memorystore running | ☐ |
+| 5 | Code signing configured | Android keystore + iOS certificates managed securely | ☐ |
+| 6 | Monitoring & alerting setup | Crashlytics + Cloud Monitoring + Sentry active | ☐ |
+| 7 | Infrastructure as code | Terraform/Pulumi for all cloud resources | ☐ |
+| 8 | Staging environment ready | Separate staging environment for testing | ☐ |
+
+### Phase 5: Launch (Weeks 20-22)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 9 | Store deployment automated | Fastlane deploys to Play Store + App Store | ☐ |
+| 10 | Production environment hardened | SSL, firewall, DDoS protection, secrets secured | ☐ |
+| 11 | Auto-scaling configured | Handles 10x traffic spike without downtime | ☐ |
+| 12 | Backup and recovery tested | Data recovery verified within 1 hour RTO | ☐ |
+| 13 | Runbook documented | Incident response procedures for all critical services | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| Infrastructure uptime | > 99.9% | Daily |
+| CI/CD build time | < 15 minutes (full build + test) | Per build |
+| Deployment frequency | Ability to deploy same-day hotfixes | As needed |
+| Mean time to recovery (MTTR) | < 30 minutes for P1 incidents | Per incident |
+| Security scan results | 0 critical vulnerabilities | Monthly |
+| Cloud cost efficiency | Within budget ± 10% | Monthly |
+
+---
+
+## C.8 Marketing Specialist — KPI Checklist
+
+### Phase 4: Pre-Launch (Weeks 17-19)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | Marketing strategy document delivered | EN/AR/MS market plans approved | ☐ |
+| 2 | Social media accounts created | Instagram, TikTok, Twitter/X — per market | ☐ |
+| 3 | Pre-launch content calendar created | 4-week launch calendar with 3+ posts/week | ☐ |
+| 4 | Influencer outreach initiated | 10+ influencers contacted per market | ☐ |
+| 5 | Store listings optimized (ASO) | Title, description, keywords, screenshots — EN/AR/MS | ☐ |
+| 6 | Pre-launch email list | > 500 signups before launch | ☐ |
+
+### Phase 5: Launch (Weeks 20-22)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 7 | Launch campaign executed | Coordinated launch across 3 markets | ☐ |
+| 8 | First-week installs | > 1,000 installs across all markets | ☐ |
+| 9 | PR coverage secured | 3+ tech/lifestyle media mentions | ☐ |
+| 10 | App Store reviews managed | All 1-2 star reviews responded to within 24 hours | ☐ |
+| 11 | Paid ad campaigns launched | Google Ads + Meta Ads running in EN/AR/MS | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| Cost per install (CPI) | < $2.00 (EN), < $1.50 (AR), < $1.00 (MS) | Weekly |
+| Organic vs. paid install ratio | > 40% organic | Monthly |
+| Social media follower growth | 10%+ month-over-month | Monthly |
+| Content engagement rate | > 3% average | Weekly |
+| Free → Paid conversion (attributed) | > 5% | Monthly |
+| ROAS (Return on Ad Spend) | > 2.0x | Monthly |
+| App Store keyword ranking | Top 10 for 5+ target keywords per market | Monthly |
+| Influencer campaign ROI | > 1.5x per partnership | Per campaign |
+| Seasonal campaign uplift | > 30% increase during Eid/Valentine's/Hari Raya | Per campaign |
+
+---
+
+## C.9 Psychiatrist / Women's Psychology Expert — KPI Checklist
+
+### Phase 1: Framework Development (Weeks 1-4)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | Women's Emotional State Framework delivered | Document approved by PM by Week 2 | ☐ |
+| 2 | Situation-Response Matrix created | 50+ situations mapped with approaches | ☐ |
+| 3 | AI Content Guidelines delivered | Do's/don'ts per emotional state — Week 4 | ☐ |
+| 4 | Smart Action Card scenarios reviewed | 50+ card templates clinically validated | ☐ |
+| 5 | Cultural sensitivity input provided | Emotional patterns across Arabic + Malay cultures included | ☐ |
+
+### Phase 3: Development Support (Weeks 9-16)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 6 | SOS Mode clinical framework delivered | Assessment logic + safe response protocols — Week 10 | ☐ |
+| 7 | AI-generated messages reviewed | 100+ messages validated for psychological accuracy | ☐ |
+| 8 | Arabic AI messages reviewed | Arabic emotional content validated for cultural appropriateness | ☐ |
+| 9 | Pregnancy & postpartum module delivered | Trimester-specific content framework — Week 12 | ☐ |
+| 10 | Weekly sessions with AI/ML Engineer | Attended every week (no skips without rescheduling) | ☐ |
+| 11 | Content flagged as harmful | 0 harmful messages pass review | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| Monthly content audit completed | 100% — every month without fail | Monthly |
+| AI message clinical accuracy | > 90% of reviewed messages pass validation | Monthly |
+| SOS Mode safety compliance | 0 responses that could cause harm | Monthly |
+| Framework update frequency | Quarterly review against latest research | Quarterly |
+| Response turnaround for edge cases | < 48 hours for urgent content review requests | As needed |
+| Professional help escalation accuracy | 100% of severe cases trigger "seek professional help" message | Ongoing |
+
+---
+
+## C.10 Professional Astrologist — KPI Checklist
+
+### Phase 1: Content Creation (Weeks 1-4)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | 12 Zodiac Master Profiles delivered | All 12 signs — comprehensive and deep | ☐ |
+| 2 | 144 Compatibility Pairing Guides delivered | All sign x sign combinations covered | ☐ |
+| 3 | Per-sign "cheat sheets" created | "5 Things a [Sign] Woman Needs to Hear" x 12 | ☐ |
+| 4 | Content depth validation | Each profile covers all 10 dimensions (love style, conflict, gifts, etc.) | ☐ |
+
+### Phase 3: AI Integration (Weeks 9-16)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 5 | Zodiac Message Tone Guide delivered | Per-sign AI calibration rules — Week 10 | ☐ |
+| 6 | Gift Recommendation Matrix delivered | Zodiac x budget x occasion mapping — Week 11 | ☐ |
+| 7 | Astrological Calendar Events delivered | 12-month cosmic event calendar — Week 12 | ☐ |
+| 8 | 20+ message templates per sign per occasion | Total: 240+ templates minimum | ☐ |
+| 9 | "Never say this" red flag rules created | Per-sign content restrictions defined | ☐ |
+| 10 | AI output zodiac accuracy validated | Native zodiac expertise confirms AI gets personalities right | ☐ |
+| 11 | Compatibility scoring inputs provided | Algorithm inputs for all 144 pairings | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| Monthly content refresh delivered | New seasonal templates and updates | Monthly |
+| User zodiac satisfaction score | > 7/10 ("Does the app understand your partner's sign?") | Monthly |
+| Zodiac content uniqueness | 0 generic horoscope-level content — everything must be specific and actionable | Per review |
+| Astrological event calendar updated | All significant transits/retrogrades/moon phases logged 30 days in advance | Monthly |
+| Response turnaround for content requests | < 72 hours for new zodiac content needs | As needed |
+
+---
+
+## C.11 Female Consultant / Emotional Intelligence Advisor — KPI Checklist
+
+### Phase 1: Concept Validation (Weeks 1-4)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 1 | App concept female validation report delivered | "Would women support or oppose this app?" — Week 1 | ☐ |
+| 2 | "What She Actually Wants" document delivered | 100+ real-world scenario cards — Weeks 2-3 | ☐ |
+| 3 | Cultural Sensitivity Guide delivered | Cross-cultural emotional needs guide — Week 4 | ☐ |
+| 4 | Arabic Women's Perspective Guide delivered | Arabic/Middle Eastern relationship norms and preferences | ☐ |
+| 5 | Malay Women's Perspective Guide delivered | Malaysian relationship norms and preferences | ☐ |
+| 6 | Gift feedback framework designed | Rating system + "what worked/failed" criteria | ☐ |
+| 7 | Smart Action Card scenarios validated | 50+ card templates pass "real woman" test | ☐ |
+
+### Phase 3: Content Validation (Weeks 9-16)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 8 | AI Message Review Report delivered | All message templates rated and corrected — Weeks 10-11 | ☐ |
+| 9 | Arabic AI messages reviewed | Arabic outputs pass cultural + emotional authenticity test | ☐ |
+| 10 | Malay AI messages reviewed | Malay outputs pass cultural + emotional authenticity test | ☐ |
+| 11 | Gift Red Flag List delivered | "Gifts that seem good but aren't" documented — Week 11 | ☐ |
+| 12 | SOS Mode Reality Check delivered | All emergency scripts validated — Week 13 | ☐ |
+| 13 | Message "cringe rate" | < 10% of reviewed messages rated as cringe/fake/creepy | ☐ |
+| 14 | Message "would work" rate | > 75% of reviewed messages rated as "would work" | ☐ |
+
+### Phase 4: Beta Validation (Weeks 17-19)
+
+| # | Checklist Item | KPI / Target | Status |
+|---|---------------|-------------|--------|
+| 15 | Female Focus Group conducted | 10-15 women (diverse: Western, Arabic, Malay) | ☐ |
+| 16 | Focus group satisfaction | > 70% of women say "I'd want my partner to use this" | ☐ |
+| 17 | Female Focus Group Report delivered | Insights translated into product changes | ☐ |
+
+### Ongoing KPIs
+
+| KPI | Target | Frequency |
+|-----|--------|-----------|
+| Monthly authenticity audit completed | All new content passes "real woman" test | Monthly |
+| Message authenticity score | > 8/10 average ("sounds like a real thoughtful man") | Monthly |
+| Cultural appropriateness (Arabic) | 0 culturally offensive outputs pass review | Monthly |
+| Cultural appropriateness (Malay) | 0 culturally offensive outputs pass review | Monthly |
+| Trend awareness updates | New scenarios/situations added based on social media trends | Monthly |
+| Response turnaround for urgent reviews | < 24 hours for content that's blocking development | As needed |
+
+---
+
+## C.12 Cross-Team KPI Dashboard (Founder's View)
+
+> **Use this summary dashboard to get a 5-minute weekly health check of the entire project.**
+
+### Weekly Health Check — Project Level
+
+| Category | Key Metric | Target | Owner | Status |
+|----------|-----------|--------|-------|--------|
+| **Schedule** | Sprint goals completion rate | > 85% | Product Manager | ☐ |
+| **Quality** | Open P1/P2 bugs | 0 P1, < 5 P2 | QA Engineer | ☐ |
+| **Quality** | Crash-free rate (both platforms) | > 99.5% | Tech Lead | ☐ |
+| **AI Quality** | Message quality score (EN) | > 8/10 | AI/ML Engineer | ☐ |
+| **AI Quality** | Message quality score (AR) | > 7/10 | AI/ML Engineer | ☐ |
+| **AI Quality** | Message quality score (MS) | > 7/10 | AI/ML Engineer | ☐ |
+| **Performance** | API response time (p95) | < 200ms | Backend Developer | ☐ |
+| **Performance** | App startup time | < 2 seconds | Tech Lead | ☐ |
+| **Cost** | Monthly AI API spend | Within budget | AI/ML Engineer | ☐ |
+| **Cost** | Monthly cloud infra spend | Within budget | DevOps | ☐ |
+| **Localization** | RTL layout bugs open | 0 | QA Engineer | ☐ |
+| **Localization** | Missing translation keys | 0 | Tech Lead | ☐ |
+| **Content** | Domain expert deliverables on track | 100% on schedule | Product Manager | ☐ |
+| **Content** | Female consultant approval rate | > 75% pass rate | Female Consultant | ☐ |
+
+### Monthly Health Check — Business Level (Post-Launch)
+
+| Category | Key Metric | Target | Owner |
+|----------|-----------|--------|-------|
+| **Growth** | Monthly installs (total) | Month-over-month increase | Marketing |
+| **Growth** | Installs by market (EN/AR/MS) | Balanced across 3 markets | Marketing |
+| **Retention** | D30 retention | > 10% | Product Manager |
+| **Revenue** | Free → Paid conversion | > 5% | Product Manager |
+| **Revenue** | Monthly recurring revenue (MRR) | Month-over-month increase | Product Manager |
+| **Satisfaction** | App Store rating (all markets) | > 4.3 stars | Marketing + PM |
+| **Satisfaction** | NPS score | > 40 | Product Manager |
+| **AI** | AI cost per user/month | < $0.50 free, < $2.00 pro | AI/ML Engineer |
+| **AI** | Message send-through rate | > 60% | AI/ML Engineer |
+| **Engagement** | Smart Action Card engagement | > 40% acted upon | AI/ML Engineer |
+| **Engagement** | Avg modules used per user | > 3 of 10 | Product Manager |
+| **Localization** | Per-market retention parity | AR/MS within 80% of EN retention | Product Manager |
+
+---
+
+> **Tip for the Founder:** Print the C.12 dashboard and bring it to every weekly standup. Any cell that turns red for 2 consecutive weeks requires an action plan from the responsible team member within 48 hours. This is how you ensure nobody drops the ball.
+
+---
+
+*Document Version: 6.1*
 *Created: February 14, 2026*
 *Last Updated: February 14, 2026*
-*Project: Hormones - AI Relationship Intelligence App*
+*Project: LOLO - AI Relationship Intelligence App*
 *Languages: English, Arabic, Bahasa Melayu*
