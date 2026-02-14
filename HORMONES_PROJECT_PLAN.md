@@ -41,35 +41,72 @@ The first AI-powered relationship assistant that combines personality profiling 
 - Family event reminders (in-law birthdays, gatherings)
 - Escalating notification system (7 days, 3 days, 1 day, same day)
 - Google Calendar / Outlook / Apple Calendar sync
+- **Promise tracker** — log promises made to her, get reminded to follow through
+- **Wish List Capture** — quick-log when she casually mentions wanting something ("she said she liked that bag"), app reminds him to buy it at the right moment
 
 ### Module 2: AI Message Generator
 - AI-generated love messages tailored to her personality profile
-- Context-aware messages (morning, goodnight, random, apology, celebration)
+- **Situational message modes** — user picks scenario, AI generates personalized message:
+  - Appreciation & compliments
+  - Apology & conflict repair
+  - Reassurance & emotional support
+  - Motivation & encouragement
+  - Celebration & milestones
+  - Flirting & romance
+  - After-argument repair
+  - Long-distance support
+  - Good morning / good night rituals
+  - "Just checking on you" care messages
+  - Pregnancy/health support messages
 - Tone adjustment (romantic, funny, poetic, casual, formal)
+- **Humor tolerance calibration** — AI adjusts humor level based on her profile (from "no jokes please" to "make her laugh")
 - Multi-language support
 - Message scheduling and auto-send via SMS/WhatsApp integration
 - Copy-to-clipboard for manual sending
+- **Context-aware adaptation** — messages automatically adjust based on current context (see Module 9)
 
 ### Module 3: Her Profile Engine (Personality Intelligence)
-- Zodiac sign & compatibility analysis
+- **Dual-input system:** zodiac sets smart defaults, user can manually override ANY trait
+- Zodiac sign & compatibility analysis (AI-generated defaults)
 - Love Language assessment (Words, Touch, Gifts, Acts, Quality Time)
+- **Communication style preference** (romantic / playful / calm / formal / direct)
+- **Conflict style** (needs space / wants to talk immediately / needs physical comfort / needs written words)
+- **Stress triggers & coping style** (what overwhelms her, what calms her)
+- **Humor tolerance level** (scale: serious <-> loves jokes, with type: sarcastic / wholesome / dark / silly)
 - Age & relationship stage awareness
 - Cultural background & tradition tracking
 - Interests, hobbies, and favorites database
 - Food preferences & dietary restrictions
 - Fashion style & size tracking (for gift accuracy)
+- **Sensitive topics list** — subjects to avoid (past trauma, insecurities, family issues)
+- **Important stories vault** — meaningful memories, how they met, inside jokes, her proudest moments (AI references these in messages)
+- **Wish list** — things she's mentioned wanting (items, experiences, places to visit)
+- **Favorite things quick reference** — flowers, colors, scents, restaurants, music, movies
 - Mood pattern tracking (optional)
 
 ### Module 4: Gift Recommendation Engine
 - AI-powered gift suggestions based on:
-  - Her personality profile (zodiac, interests, love language)
+  - Her full personality profile (zodiac + manual overrides + love language + interests)
   - Budget range (user-defined)
   - Location-based availability (local shops, online delivery)
   - Occasion type (birthday, anniversary, apology, "just because")
+  - **Past gift performance** — "this gift worked" / "she didn't love it" feedback loop (AI learns over time)
+  - **Her wish list items** — auto-suggest from things she's mentioned wanting
 - Affiliate integration with e-commerce platforms
 - Price comparison across vendors
 - One-tap gift ordering
 - Gift history tracking (avoid duplicates)
+- **Complete gift package suggestion:**
+  - The gift itself
+  - **Presentation idea** ("wrap it in her favorite color", "hide it in her bag")
+  - **Message to attach** (AI-generated card message matching the gift)
+  - **Backup plan** (alternative if primary gift unavailable)
+- **"Low Budget, High Impact" mode** — AI prioritizes emotional value over price tag:
+  - Handwritten letter templates
+  - DIY gift ideas
+  - Free experience suggestions (sunset walk, home-cooked dinner, playlist)
+  - "Under $20 that feels like $200" curated suggestions
+- **Gift timing intelligence** — "Don't give it on her birthday (expected). Give it on a random Tuesday (unexpected)."
 
 ### Module 5: SOS Mode (Emergency Relationship Assist)
 - "She's Upset" quick assessment wizard
@@ -78,14 +115,24 @@ The first AI-powered relationship assistant that combines personality profiling 
 - Real-time conversation coach ("What should I say?")
 - Instant gift/flower delivery integration
 - Apology message generator with escalation levels
+- **Context-aware SOS** — uses current context data (Module 9) to tailor emergency response
 
 ### Module 6: Gamification & Engagement
 - Thoughtfulness Streak tracker
 - Points system for completed relationship "missions"
 - Levels: Rookie > Good Partner > Thoughtful Husband > Legend
-- Monthly thoughtfulness score with trends
+- **Relationship Consistency Score** — weekly/monthly metric tracking:
+  - Messages sent (thoughtful, not just "ok")
+  - Events remembered (without last-minute panic)
+  - Caring actions completed
+  - **Promises kept** (from promise tracker)
+  - Surprise gestures executed
+  - Wish list items fulfilled
+- **Improvement trend graph** — visual chart showing relationship effort over weeks/months
+- **"Next Best Action" suggestion** — AI recommends the single most impactful thing to do today based on current context
 - Weekly challenges ("Surprise her with breakfast this week")
 - Achievement badges
+- **Milestone celebrations** — "You've been consistently thoughtful for 30 days!" with shareable badge
 
 ### Module 7: Community (Phase 2)
 - Anonymous tips board
@@ -93,11 +140,90 @@ The first AI-powered relationship assistant that combines personality profiling 
 - Weekly curated relationship advice
 - Expert Q&A sessions
 
-### Module 8: Smartwatch Companion (Phase 3)
+### Module 8: Smartwatch Companion (Phase 4)
 - Discreet wrist-tap notifications
 - Quick-reply AI messages from watch
 - Daily thoughtfulness streak display
 - Wear OS + WatchOS support
+
+### Module 9: Smart Action Cards (NEW — Proactive AI Suggestions)
+Instead of passive reminders ("Anniversary tomorrow"), the app delivers **contextual action cards** that tell the user exactly what to do, say, buy, and where to go.
+
+**Daily Context Check-In (5-second tap):**
+- Quick mood/status input: "How's her day?" (Great / Normal / Stressed / Upset / Sick)
+- Quick context tags: Travel mode / Busy week / Conflict happened / She's on her period / Pregnant
+- AI remembers context and adjusts ALL suggestions across the entire app
+
+**Smart Action Card Format:**
+Each card provides a complete action plan:
+```
+┌─────────────────────────────────────────────┐
+│  CONTEXT: She had a stressful work week     │
+│  + Anniversary is in 3 days                 │
+│─────────────────────────────────────────────│
+│  SAY:  "I know this week was tough.         │
+│         Let's do something low-key          │
+│         this weekend — just us."            │
+│                                             │
+│  DO:   Plan a quiet home date night         │
+│        (she's drained — skip the fancy      │
+│         restaurant this time)               │
+│                                             │
+│  BUY:  Comfort gift under $40:              │
+│        - Her favorite candle + bath bomb    │
+│        - Available at [Store near you]      │
+│                                             │
+│  GO:   Skip loud venues. Suggest:           │
+│        - Walk at [nearby park] at sunset    │
+│        - Cozy café [3 min drive]            │
+│                                             │
+│  PHRASE IT: "No big plans needed.           │
+│   I just want to be with you."             │
+└─────────────────────────────────────────────┘
+```
+
+**Card Categories:**
+- Daily proactive suggestions (1-2 per day)
+- Event-triggered cards (birthday approaching + current context)
+- Mood-reactive cards (she's stressed → adjust everything)
+- Seasonal cards (Valentine's prep, holiday planning)
+- Recovery cards (post-argument → step-by-step repair plan)
+- "Random Act of Kindness" cards (unprompted surprise ideas)
+
+**AI Adaptation Rules:**
+- If she's sick → avoid activity suggestions, focus on care actions
+- If conflict happened → avoid humor, focus on repair and space
+- If she's in travel mode → suggest long-distance gestures
+- If busy week → suggest low-effort but high-impact micro-actions
+- If she's on her period → suggest comfort-focused actions, avoid demanding plans
+- If she's pregnant → adjust per trimester (Psychiatrist-validated)
+
+### Module 10: Relationship Memory Vault (NEW)
+A searchable, AI-powered memory bank that stores everything meaningful about the relationship, making the AI deeply personal over time.
+
+**What Gets Stored:**
+- **Important stories** — how they met, first kiss, proposal story, funny incidents
+- **Inside jokes** — AI can reference these in messages for authenticity
+- **Sensitive topics** — subjects to never bring up (linked to Module 3)
+- **Past conflicts & resolutions** — what went wrong, what fixed it (helps SOS Mode learn)
+- **Gift history with ratings** — what was given, her reaction (1-5 stars), notes
+- **Her casual mentions** — "I wish I could go to Paris", "I love that necklace" (auto-feeds wish list)
+- **Milestone timeline** — visual relationship history (first date, moved in, engaged, etc.)
+- **Favorite restaurants, places, activities** — auto-suggested for date planning
+- **What works for HER specifically** — over time, AI learns: "For your wife, humor works best for apologies but sincerity works best for random love messages"
+
+**How AI Uses the Vault:**
+- Messages reference real memories: "Remember that rainy day in [place]? That's when I knew..."
+- Gift suggestions avoid past failures and repeat past successes
+- SOS Mode checks what resolution worked last time
+- Action Cards use her actual favorite places and activities
+- The longer the user uses the app, the smarter and more personal it becomes
+
+**Privacy & Security:**
+- All vault data encrypted at rest (AES-256) and in transit (TLS 1.3)
+- Biometric lock option for vault access (fingerprint / Face ID)
+- Data never shared with third parties
+- User can export or delete all data at any time (GDPR compliant)
 
 ---
 
@@ -129,6 +255,8 @@ The first AI-powered relationship assistant that combines personality profiling 
 |  Prompt Engineering Service                       |
 |  Personality Analysis Engine                      |
 |  Gift Recommendation ML Pipeline                  |
+|  Smart Action Card Generator                      |
+|  Context Awareness Engine                         |
 +--------------------------------------------------+
                         |
 +--------------------------------------------------+
@@ -137,6 +265,7 @@ The first AI-powered relationship assistant that combines personality profiling 
 |  PostgreSQL (Relational Data)                     |
 |  Redis (Caching & Sessions)                       |
 |  Cloud Storage (Media Assets)                     |
+|  Relationship Memory Vault (Encrypted)            |
 +--------------------------------------------------+
                         |
 +--------------------------------------------------+
@@ -177,8 +306,10 @@ The first AI-powered relationship assistant that combines personality profiling 
 | 4 | Design system creation | Color palette, typography, component library | UX/UI Designer |
 | 4 | Cultural Sensitivity Guide | Cross-cultural emotional needs guide | Female Consultant |
 | 4 | AI Content Guidelines | Do's/don'ts per emotional state | Psychiatrist + Female Consultant |
+| 4 | Smart Action Card scenarios | 50+ contextual action card templates | Female Consultant + Psychiatrist |
+| 4 | Gift feedback framework | Rating system design + "what worked/failed" criteria | Female Consultant |
 
-**Milestone:** Approved architecture + wireframes + sprint backlog + domain expert frameworks complete
+**Milestone:** Approved architecture + wireframes + sprint backlog + domain expert frameworks + action card templates complete
 
 ---
 
@@ -208,41 +339,53 @@ The first AI-powered relationship assistant that combines personality profiling 
 | Navigation framework + base UI components + design system implementation | Flutter Tech Lead |
 | User authentication (email, Google, Apple Sign-In) | Backend Developer |
 | CI/CD pipeline setup (GitHub Actions for Android APK + iOS IPA builds) | DevOps / Tech Lead |
-| Database schema design & implementation | Backend Developer |
+| Database schema design (including Relationship Memory Vault encrypted storage) | Backend Developer |
+| Biometric lock service implementation (fingerprint / Face ID for vault) | Flutter Tech Lead |
 
 ### Sprint 2 (Weeks 11-12): Core Features Part 1
 | Task | Owner |
 |------|-------|
-| Onboarding flow (user profile + her profile setup) | Flutter Developer |
-| Her Profile Engine (zodiac, love language, preferences) | Flutter Developer + Backend |
-| Smart Reminder Engine (date tracking, notifications) | Flutter Developer |
+| Onboarding flow (user profile + her profile setup with dual-input: zodiac defaults + manual overrides) | Flutter Developer |
+| Her Profile Engine (zodiac, love language, communication style, conflict style, humor tolerance, stress triggers) | Flutter Developer + Backend |
+| Relationship Memory Vault — core data model + encrypted storage + CRUD operations | Backend Developer + Flutter |
+| Wish List Capture feature (quick-log "she mentioned wanting X") | Flutter Developer |
+| Smart Reminder Engine (date tracking, notifications, **promise tracker**) | Flutter Developer |
 | Calendar sync integration (Google Calendar + Apple Calendar) | Backend Developer |
 | Push notification system (FCM for Android + APNs for iOS) | Backend Developer |
 | Unit + widget tests for core logic | QA Engineer |
 
-### Sprint 3 (Weeks 13-14): Core Features Part 2
+### Sprint 3 (Weeks 13-14): Core Features Part 2 + AI Engine
 | Task | Owner |
 |------|-------|
-| AI Message Generator integration (Claude/OpenAI API) | AI/ML Engineer + Backend |
-| Prompt engineering for personality-based messages | AI/ML Engineer |
-| Message UI (categories, tone selection, copy/share) | Flutter Developer |
-| Gift Recommendation Engine (basic version) | AI/ML Engineer + Backend |
+| AI Message Generator with **10 situational modes** (Claude/OpenAI API) | AI/ML Engineer + Backend |
+| Prompt engineering: personality-based + context-aware + humor-calibrated messages | AI/ML Engineer |
+| **Daily Context Check-In UI** (5-second mood/status tap screen) | Flutter Developer |
+| **Context Awareness Engine** — backend logic to feed context into all AI prompts | AI/ML Engineer + Backend |
+| Message UI (situational mode picker, tone selection, copy/share) | Flutter Developer |
+| Gift Recommendation Engine with **feedback loop** ("worked" / "didn't work" rating) | AI/ML Engineer + Backend |
+| **"Low Budget, High Impact" gift mode** + presentation ideas + attached message | AI/ML Engineer |
 | Settings & preferences screens | Flutter Developer |
+| Important stories + inside jokes + sensitive topics vault UI | Flutter Developer |
 | Integration testing (both Android + iOS) | QA Engineer |
 
-### Sprint 4 (Weeks 15-16): Polish & MVP Completion
+### Sprint 4 (Weeks 15-16): Smart Actions + Gamification + Polish
 | Task | Owner |
 |------|-------|
-| SOS Mode (basic: upset detection + message generation) | AI/ML Engineer + Flutter |
-| Gamification system (streaks, points, levels) with animations | Flutter Developer |
+| **Smart Action Cards engine** — contextual "what to say/do/buy/go" card generator | AI/ML Engineer + Backend |
+| **Smart Action Cards UI** — swipeable cards with complete action plans | Flutter Developer |
+| SOS Mode (upset detection + message generation + **context-aware response**) | AI/ML Engineer + Flutter |
+| Gamification system: streaks, points, levels, **Relationship Consistency Score**, **improvement trend graph** | Flutter Developer |
+| **"Next Best Action" AI suggestion** — single most impactful daily action | AI/ML Engineer |
+| Milestone celebrations with shareable badges | Flutter Developer |
 | Payment integration (RevenueCat for unified Android + iOS subscriptions) | Backend Developer + Flutter |
 | Subscription management (Free / Pro tiers) | Backend Developer |
+| Memory Vault — AI integration (messages reference stored memories, gifts use wish list) | AI/ML Engineer + Backend |
 | End-to-end testing on both platforms | QA Engineer |
 | Performance optimization (Impeller rendering, app size) | Flutter Developer + Tech Lead |
 | Platform-specific testing (iOS permissions, Android notifications) | QA Engineer |
 | Bug fixes from QA | All developers |
 
-**Milestone:** MVP feature-complete, internal testing passed
+**Milestone:** MVP feature-complete with all 10 modules, internal testing passed
 
 ---
 
@@ -610,9 +753,12 @@ The Backend Developer builds and maintains the server-side infrastructure that p
 **Database & Data Management**
 - Design and maintain database schema (PostgreSQL + Firebase Firestore)
 - Implement data models for user profiles, partner profiles, reminders, messages, gifts
+- **Relationship Memory Vault** — encrypted storage for stories, wish lists, sensitive topics, gift history
+- **Promise Tracker** data model — log, track, remind, mark as fulfilled
 - Build data migration scripts
 - Implement Redis caching for frequently accessed data
 - Design backup and recovery procedures
+- GDPR data export and deletion endpoints
 
 **Authentication & Security**
 - Implement Firebase Authentication (email, Google, Apple Sign-In)
@@ -663,49 +809,78 @@ The Backend Developer builds and maintains the server-side infrastructure that p
 **Employment Type:** Full-Time
 
 ### Role Summary
-The AI/ML Engineer is the brain behind what makes Hormones unique. This person designs the AI systems that generate personalized messages, recommend gifts, power the SOS mode, and analyze personality profiles. They work at the intersection of prompt engineering, API integration, and data science to deliver genuinely personalized, emotionally intelligent AI outputs.
+The AI/ML Engineer is the brain behind what makes Hormones unique. This person designs the AI systems that generate personalized messages, power Smart Action Cards, recommend gifts with feedback learning, drive the SOS mode, analyze personality profiles, and leverage the Relationship Memory Vault to make every output deeply personal. They work at the intersection of prompt engineering, API integration, and data science to deliver genuinely personalized, emotionally intelligent AI outputs.
 
 ### Key Responsibilities
 
-**AI Message Generation System**
+**AI Message Generation System (Module 2)**
 - Design prompt engineering architecture for Claude/OpenAI API
 - Build dynamic prompt templates that incorporate:
-  - Partner personality profile (zodiac, love language, age, interests)
-  - Context (occasion type, time of day, relationship stage)
-  - Tone preference (romantic, funny, poetic, casual)
+  - Partner personality profile (zodiac defaults + manual overrides + all profile fields)
+  - Current context state (from Module 9 daily check-in: mood, conflict, sick, travel, etc.)
+  - Tone preference (romantic, funny, poetic, casual) + **humor tolerance calibration**
+  - Relationship Memory Vault data (inside jokes, important stories, her favorites)
   - Message history (avoid repetition)
+- Build **10 situational message modes** with distinct prompt chains per mode
 - Implement message quality scoring and filtering
 - Build A/B testing framework for prompt variations
 - Optimize API costs through prompt efficiency and caching
 - Handle edge cases (inappropriate content filtering, cultural sensitivity)
 
-**Personality Analysis Engine**
+**Personality Analysis Engine (Module 3)**
 - Design the personality profiling algorithm combining:
-  - Zodiac characteristics and compatibility scores
+  - Zodiac characteristics and compatibility scores (smart defaults)
+  - **User manual overrides** (communication style, conflict style, humor tolerance, stress triggers)
   - Love Language assessment and scoring
   - Cultural background-specific patterns
   - Age-appropriate communication styles
 - Build personality vector representations for recommendation matching
 - Implement personality insight generation ("She values acts of service most")
 
-**Gift Recommendation Engine**
+**Smart Action Cards Engine (Module 9 — NEW)**
+- Design the contextual action card generation system:
+  - Input: current context (mood, events, conflicts, health) + her personality + calendar + memory vault
+  - Output: complete action cards (what to say, do, buy, where to go, how to phrase it)
+- Build context fusion logic — combine multiple signals into one recommendation:
+  - "She's stressed" + "Anniversary in 3 days" + "She likes quiet places" → specific low-key plan
+- Implement **daily proactive suggestion engine** (1-2 cards per day without user asking)
+- Design mood-reactive card adjustment (conflict → no humor, sick → care-focused)
+- Build "Random Act of Kindness" card generator for unprompted surprise ideas
+- Create "Next Best Action" single-recommendation algorithm
+
+**Gift Recommendation Engine with Learning (Module 4)**
 - Design recommendation algorithm incorporating:
-  - Personality profile matching
+  - Personality profile matching (zodiac + manual inputs)
   - Budget constraints
   - Location-based availability
   - Occasion appropriateness
   - Gift history (avoid repeats)
+  - **Past gift feedback ratings** ("worked" / "didn't work" with notes — AI learns over time)
+  - **Her wish list items** (auto-prioritized by recency and occasion match)
   - Seasonal and trending items
 - Build and maintain gift catalog data pipeline
 - Integrate with e-commerce affiliate APIs for real-time pricing/availability
 - Implement collaborative filtering (popular gifts for similar profiles)
+- **Complete gift package generator**: gift + presentation idea + attached message + backup plan
+- **"Low Budget, High Impact" mode** — special prompt chain for maximum emotional value per dollar
 
-**SOS Mode AI System**
+**SOS Mode AI System (Module 5)**
 - Design the "She's Upset" assessment flow (quick diagnostic questions)
 - Build situation classification model (forgot anniversary, argument, neglect, etc.)
+- **Context-aware SOS**: use current Module 9 context data to tailor emergency response
+- **Memory Vault integration**: check past conflict resolutions for what worked before
 - Create response generation system with escalation levels
 - Design real-time conversation coaching prompts
 - Build damage-control action plan generator
+
+**Relationship Memory Vault AI Integration (Module 10 — NEW)**
+- Design how AI consumes vault data to personalize all outputs:
+  - Messages reference real memories ("Remember when we [stored story]...")
+  - Gift suggestions avoid past failures, repeat past successes
+  - SOS Mode checks past conflict resolution patterns
+  - Action Cards use her actual favorite places and activities
+- Build the "learning loop" — the longer user uses app, the smarter AI becomes
+- Implement personalization scoring (how much vault data is available per user)
 
 **Optimization & Cost Management**
 - Monitor and optimize AI API costs (token usage, caching strategies)
@@ -713,22 +888,27 @@ The AI/ML Engineer is the brain behind what makes Hormones unique. This person d
 - Build fallback systems (if primary AI is down, serve cached/template responses)
 - Track AI output quality metrics (user ratings, message send rates)
 - Implement content safety filters
+- Optimize Smart Action Card generation to stay within cost targets
 
 **Data & Analytics**
 - Define and track AI-specific KPIs:
   - Message generation success rate
   - Message send-through rate (generated vs. actually sent)
+  - **Gift feedback score** (average rating of suggested gifts)
   - Gift recommendation click-through rate
+  - **Smart Action Card engagement rate** (cards shown vs. acted upon)
+  - **Wish list fulfillment rate**
   - SOS Mode usage and satisfaction
   - AI cost per user per month
+  - **Memory Vault depth** (avg data points per user — correlate with retention)
 - Build analytics dashboards for AI performance
 - Conduct regular prompt optimization based on data
 
 ### Tech Stack
 - **AI APIs:** Claude API (Anthropic) / OpenAI API
-- **Language:** Python (prompt engineering, data pipelines) + Kotlin/TypeScript (service layer)
+- **Language:** Python (prompt engineering, data pipelines) + Dart/TypeScript (service layer)
 - **Prompt Management:** LangChain or custom prompt templating
-- **Vector DB:** Pinecone or Weaviate (for personality matching)
+- **Vector DB:** Pinecone or Weaviate (for personality matching + memory retrieval)
 - **Analytics:** Custom dashboards + Firebase Analytics
 - **Content Safety:** Custom filters + API-provided safety layers
 
@@ -1690,6 +1870,6 @@ In this model:
 
 ---
 
-*Document Version: 3.0*
+*Document Version: 4.0*
 *Created: February 14, 2026*
 *Project: Hormones - AI Relationship Intelligence App*
