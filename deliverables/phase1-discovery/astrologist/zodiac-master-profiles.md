@@ -1412,3 +1412,306 @@
 - **Best times to send messages:** Morning (before her workday) and evening (after work hours). Do not interrupt her work flow with non-urgent messages during business hours.
 
 ---
+
+# 11. AQUARIUS WOMAN (January 20 - February 18)
+
+## 11.1 Core Personality Overview
+
+- **Element:** Air
+- **Modality:** Fixed
+- **Ruling Planets:** Uranus (revolution and innovation) and Saturn (structure and discipline)
+- **Key Personality Traits:**
+  1. Fiercely independent and unconventional
+  2. Intellectually brilliant with visionary thinking
+  3. Humanitarian and deeply concerned about social justice
+  4. Emotionally detached yet paradoxically caring about humanity
+  5. Quirky, eccentric, and unapologetically herself
+  6. Progressive and future-oriented in her worldview
+  7. Loyal to her values and principles above all else
+- **Shadow Traits / Challenges:**
+  - Emotional detachment that makes partners feel unloved
+  - Stubbornness disguised as principled conviction
+  - Contrarianism for its own sake
+  - Difficulty with traditional intimacy and vulnerability
+  - Can be aloof and unpredictable in relationships
+- **Life Motto / Core Drive:** "I exist to change the world." She seeks intellectual freedom, social progress, and a relationship that respects her individuality while contributing to something larger.
+
+## 11.2 Love Style
+
+- **How she expresses love:** Through intellectual connection, unwavering friendship, and supporting your individuality. She loves you by letting you be fully yourself while sharing her revolutionary ideas and humanitarian vision.
+- **How she wants to receive love:** She wants a partner who respects her independence, stimulates her mind, and does not try to make her conventional. She needs space, intellectual partnership, and someone who shares her values.
+- **Primary Love Language:** Quality Time (engaging, intellectually stimulating time together)
+- **Secondary Love Language:** Acts of Service (supporting causes she cares about, respecting her autonomy)
+- **What makes her feel most cherished:** When her partner genuinely engages with her ideas, supports her causes, and loves her for her eccentricities rather than despite them.
+- **Romantic expectations:** Unconventional. She does not want traditional romance -- she wants a partner who surprises her with unique, thoughtful gestures that prove he truly understands her. A donation to her favorite cause moves her more than diamonds.
+- **Early relationship vs. long-term:** Early on she keeps emotional distance, treating the relationship more like a fascinating intellectual experiment. Long-term, she becomes a deeply loyal, supportive partner who still needs significant independence.
+
+## 11.3 Communication Preferences
+
+- **Preferred style:** Intellectual, open-minded, and egalitarian. She values conversations that challenge assumptions and explore new ideas.
+- **Texting habits:** Irregular and content-driven. She sends articles, podcast links, social commentary, and thought-provoking questions. She does not do performative "good morning" texts unless she genuinely feels like it.
+- **How she says "I love you":** Through consistency -- showing up as a reliable friend and partner, sharing her inner world of ideas, and including you in her vision for the future.
+- **Topics she loves discussing:** Social issues, technology, futurism, alternative lifestyles, space, science, philosophy, community projects, and what needs to change in the world.
+- **Topics she avoids:** Conventional relationship milestones she finds arbitrary, possessive or jealous conversations, gossip about others' personal lives, and emotional conversations that feel like obligation rather than genuine connection.
+- **How to bring up difficult conversations:** Approach intellectually, not emotionally. Frame the issue as a shared problem to analyze. Do not be dramatic or guilt-trip her. She responds to logic and fairness.
+
+## 11.4 Conflict Behavior
+
+- **Common triggers:** Having her freedom restricted, intellectual dismissal, hypocrisy, social injustice (even in small forms), being treated as conventional, and possessive behavior.
+- **How she fights:** She becomes cold and analytical. She dismantles your argument with logic and then emotionally detaches. She may give you a calm, devastating critique and then need space.
+- **De-escalation approach:** Appeal to fairness and logic. Acknowledge her perspective. Give her space to process independently. Come back with a reasoned, non-emotional discussion.
+- **Recovery time:** Medium. She does not hold emotional grudges but may reassess the relationship's compatibility if the conflict reveals a fundamental values mismatch.
+- **What she needs to hear:** "I respect your perspective and I want to understand better. Let's figure out what is fair for both of us."
+- **What will make it WORSE:** Emotional manipulation, crying to gain sympathy (she sees through it), demanding she conform, restricting her freedom, or dismissing her concerns about fairness.
+
+## 11.5 Gift Preferences
+
+- **Gift philosophy:** Unique, meaningful, and values-aligned. She despises generic gifts. She values originality, social consciousness, and gifts that reflect who she truly is as an individual.
+- **Top 10 gift categories:**
+  1. Donations to causes she cares about in her name
+  2. Unique tech gadgets or innovative products
+  3. Tickets to unconventional experiences (planetarium shows, hackathons, social events)
+  4. Ethically sourced, handmade, or fair-trade items
+  5. Books on social change, futurism, science, or alternative thinking
+  6. Unique, handcrafted jewelry from independent artists
+  7. Subscriptions to innovative platforms (science journals, documentary services)
+  8. Art by independent or marginalized artists
+  9. Custom or one-of-a-kind items (vintage finds, bespoke creations)
+  10. An experience supporting a community she cares about (volunteering together, attending a rally)
+- **Top 5 "guaranteed miss" gifts:**
+  1. Conventional, mass-market gifts with no personality
+  2. Anything from a company she considers unethical
+  3. Traditional romantic gifts that feel like a cliche (red roses, heart-shaped boxes)
+  4. Status symbols chosen purely for brand recognition
+  5. Gifts that imply she should be more "normal" or conventional
+- **Budget sensitivity:** She genuinely does not care about price and may even prefer low-cost, high-meaning gifts. She values ethics and originality over luxury.
+- **Presentation:** Unique and unexpected. Skip the standard wrapping -- use recycled paper, a creative container, or present it in an unconventional way that matches the gift's spirit.
+- **Low Budget, High Impact ideas:**
+  - Volunteer together at a cause she is passionate about
+  - A "future us" vision board created together
+  - A curated playlist of revolutionary, independent, or underrated artists she would love
+  - A handwritten letter about how she has changed the way you see the world
+  - A vintage or thrifted item that perfectly captures her unique style
+
+## 11.6 Romance & Intimacy Expectations
+
+- **What romance means to her:** Connection beyond convention. Romance is a partner who sees the world through a different lens because of her. It is late-night conversations about the future of humanity, and feeling like intellectual soulmates.
+- **Ideal date scenarios:**
+  1. Attending a thought-provoking lecture, documentary screening, or panel discussion
+  2. Exploring a quirky neighborhood with independent shops and street art
+  3. Volunteering together followed by a debrief over food
+  4. Stargazing at an observatory or planetarium
+  5. A spontaneous road trip to a town neither of you has heard of
+- **Frequency of romantic gestures:** Irregular but genuine. She values authenticity over frequency. Forced romance repels her.
+- **Spontaneous vs. planned:** 60% spontaneous, 40% planned. She likes surprises that feel organic, not formulaic.
+- **Public vs. private affection:** Moderate and natural. She is not performative but is not shy either. She expresses affection in her own unique way and does not conform to expectations about how couples "should" act.
+
+## 11.7 Jealousy & Trust
+
+- **Jealousy trigger sensitivity:** Low. She is one of the least jealous signs. She values freedom too much to restrict her partner's. However, she expects the same freedom in return.
+- **Trust-building approaches:** Respect her independence completely. Do not check her phone, question her friendships, or restrict her activities. Show that you trust her, and she will trust you.
+- **What constitutes betrayal:** Restricting her freedom, violating her privacy, lying about values or beliefs, and hypocrisy.
+- **How to rebuild trust:** Through honest conversation and demonstrated respect for her autonomy. She can forgive if she believes the partner has genuinely evolved.
+- **Boundaries she expects respected:** Her independence, her unconventional lifestyle, her friendships and community involvement, and her right to be herself without compromise.
+
+## 11.8 Stress Response & Support Needs
+
+- **How she handles stress externally:** She intellectualizes everything, detaches emotionally, throws herself into causes or projects, and may become increasingly contrarian or argumentative.
+- **Internal stress patterns:** She feels isolated even in a room full of people. She struggles to ask for emotional support because she has trained herself to be self-sufficient.
+- **What support she needs:** Intellectual engagement that helps her process. A partner who gently grounds her without smothering. Practical help with things she is neglecting. Space with the reassurance that you are still there.
+- **Signs she is overwhelmed:** Increased emotional detachment, obsessive focus on one cause or project, erratic schedule, difficulty being present in the relationship, and unusual cynicism.
+- **Best actions a partner can take:** Engage her in a conversation about what she is feeling without labeling it as "emotional processing." Offer practical help. Suggest a change of environment. Remind her that needing people is not weakness.
+
+## 11.9 Celebration & Special Occasions
+
+- **Birthday expectations:** Unique and non-traditional. She does not want a standard birthday dinner. She wants something that reflects her individuality -- an unusual experience, a cause-related event, or a gathering of diverse, interesting people.
+- **Anniversary preferences:** She may find traditional anniversary celebrations arbitrary. She appreciates a partner who marks the occasion in a way that is meaningful to them specifically, not because convention says to.
+- **How she celebrates achievements:** By immediately pivoting to the next goal or cause. She needs a partner who insists on celebrating the moment before she moves on.
+- **Holiday/festival importance:** Low-Medium. She participates in her own way and may create alternative celebrations. She values the meaning behind holidays but not the commercial aspects.
+- **Social media and public acknowledgment:** She is ambivalent about social media. She does not need public posts but appreciates a partner who acknowledges her online presence and supports her public advocacy.
+
+## 11.10 Deal-Breakers & Non-Negotiables
+
+- **Top 5 deal-breakers:**
+  1. Attempting to control, restrict, or change her
+  2. Closed-mindedness and refusal to grow intellectually
+  3. Values misalignment on social issues she cares deeply about
+  4. Emotional manipulation or guilt-based relationship dynamics
+  5. Conformity pressure -- expecting her to fit a traditional partner mold
+- **Behavior that slowly erodes the relationship:** Dismissing her causes, resenting her independence, pressuring conventional milestones, intellectual complacency, and expecting her to prioritize the relationship above her mission.
+- **The "last straw" patterns:** When she feels the relationship requires her to be someone she is not, or when her partner reveals values fundamentally incompatible with hers.
+- **What she will forgive:** Genuine ignorance followed by growth. Honest mistakes. Struggles with understanding her unconventional nature, as long as the effort to understand is real.
+- **What she will NOT forgive:** Deliberate suppression of her identity, sustained hypocrisy, and betrayal of shared values.
+
+## 11.11 AI Integration Notes
+
+- **Default message tone:** Intellectual, progressive, and authentic. Avoid saccharine romance. Use language that respects her intelligence and individuality.
+- **Humor tolerance:** 4/5 -- She loves absurdist, clever, and satirical humor. Unexpected wit delights her. Avoid conventional, formulaic jokes. Self-aware humor works best.
+- **Emoji usage preference:** Moderate and unconventional. She uses emojis creatively and ironically. Alien, brain, lightning, globe, and unique emojis resonate. Avoid conventional heart-spam.
+- **Message length preference:** Variable. She appreciates both concise, punchy ideas and longer, thought-provoking messages. Content quality matters more than length.
+- **Best times to send messages:** Late afternoon and night. She is often a night owl with an irregular schedule. Send thought-provoking content when she is likely reflecting.
+
+---
+
+# 12. PISCES WOMAN (February 19 - March 20)
+
+## 12.1 Core Personality Overview
+
+- **Element:** Water
+- **Modality:** Mutable
+- **Ruling Planets:** Neptune (dreams, illusion, and transcendence) and Jupiter (expansion and faith)
+- **Key Personality Traits:**
+  1. Deeply empathetic and emotionally absorbent -- she feels everything
+  2. Creative and artistic with a rich inner world
+  3. Intuitive to the point of being psychic
+  4. Romantic, dreamy, and idealistic about love
+  5. Compassionate and selfless, often putting others first
+  6. Spiritually inclined and drawn to the mystical
+  7. Adaptable and fluid -- she can connect with anyone
+- **Shadow Traits / Challenges:**
+  - Escapism through fantasy, substances, or avoidance
+  - Difficulty with boundaries -- she absorbs others' pain
+  - Victim mentality when unbalanced
+  - Idealization of partners that leads to disappointment
+  - Indecisiveness and difficulty with practical matters
+- **Life Motto / Core Drive:** "I feel the universe." She seeks transcendent love, creative expression, spiritual meaning, and a partner who sees the world as magical as she does.
+
+## 12.2 Love Style
+
+- **How she expresses love:** Through emotional depth, creative expression, and selfless devotion. She writes you poetry, senses your moods before you speak, and loves you with a depth that feels otherworldly.
+- **How she wants to receive love:** She wants a fairy tale -- a love that feels destined, magical, and all-encompassing. She needs a partner who is emotionally available, protective, and willing to enter her dreamy world.
+- **Primary Love Language:** Quality Time (deep, soulful, present time together)
+- **Secondary Love Language:** Physical Touch (gentle, tender, emotionally connected touch)
+- **What makes her feel most cherished:** When her partner creates a moment that feels like it was pulled from a dream. When he protects her from the harshness of the world. When he sees and validates her inner world.
+- **Romantic expectations:** She is the most romantic sign of the zodiac. She wants the grand gesture AND the daily tenderness. She wants to feel like she is living inside a love story.
+- **Early relationship vs. long-term:** Early on she idealizes her partner and the relationship, sometimes falling in love with potential rather than reality. Long-term, she needs her partner to keep the magic alive, or disillusionment sets in.
+
+## 12.3 Communication Preferences
+
+- **Preferred style:** Emotional, poetic, and intuitive. She communicates through feeling, metaphor, and sometimes silence.
+- **Texting habits:** Emotional and artistic. She sends songs, poetry, screenshots of things that reminded her of you, and long voice notes when she is feeling deeply. She over-reads tone in texts and may misinterpret short replies as coldness.
+- **How she says "I love you":** Through art -- a song she wrote, a drawing, a playlist, and through the depth of emotional presence she brings to every interaction.
+- **Topics she loves discussing:** Dreams (literal and figurative), art, music, spirituality, the meaning of life, emotional experiences, fantasy, film, and the connections between souls.
+- **Topics she avoids:** Harsh criticism, cold logic devoid of empathy, confrontation, financial stress details, and conversations that strip the magic from the world.
+- **How to bring up difficult conversations:** Be extremely gentle. Lead with love and reassurance. Use metaphor if possible. Hold her hand while you talk. Make sure she feels safe before you address the issue.
+
+## 12.4 Conflict Behavior
+
+- **Common triggers:** Feeling unheard or emotionally dismissed, cruelty or harshness (toward her or others), broken promises about emotional connection, and the loss of romance in the relationship.
+- **How she fights:** She cries, withdraws into her inner world, and may give a devastatingly poetic description of how hurt she is. She does not fight aggressively -- she dissolves, which can be harder to address than anger.
+- **De-escalation approach:** Approach with tenderness. Hold her. Let her cry. Do not rush to fix -- just be present. Acknowledge the emotional truth of the situation, even if you disagree on facts.
+- **Recovery time:** Variable. She recovers from minor issues quickly with reassurance. Deep emotional wounds may cause her to retreat into fantasy or disillusionment for extended periods.
+- **What she needs to hear:** "I see your pain, and I am here. I love you, and I want to make this right. Tell me how you feel."
+- **What will make it WORSE:** Being cold or logical during an emotional moment, dismissing her feelings as irrational, rushing resolution, making her feel foolish for being sensitive, or being cruel with words.
+
+## 12.5 Gift Preferences
+
+- **Gift philosophy:** Romantic, artistic, and emotionally resonant. She values gifts that touch her soul -- the thought and emotion behind the gift IS the gift.
+- **Top 10 gift categories:**
+  1. Handwritten poetry or love letters
+  2. Art supplies or creative tools (quality paints, a beautiful journal, a musical instrument)
+  3. Music (vinyl records, concert tickets, a custom song written for her)
+  4. Crystal and spiritual items (healing crystals, tarot cards, meditation tools)
+  5. Dreamy, ethereal jewelry (moonstone, opal, sea glass, delicate silver)
+  6. Bath and self-care rituals (luxury bath bombs, aromatherapy, essential oils)
+  7. Photography or art that evokes emotion
+  8. A romantic getaway near water (seaside, lakehouse, riverside cabin)
+  9. Books of poetry, fantasy, or spiritual exploration
+  10. Anything that references a shared dream, song, or meaningful moment between you
+- **Top 5 "guaranteed miss" gifts:**
+  1. Harsh, utilitarian items with no soul
+  2. Gifts that feel transactional or obligatory
+  3. Anything aggressively modern or tech-heavy (unless she specifically likes tech)
+  4. Gift cards or cash (feels like you did not try)
+  5. Items that are flashy and attention-seeking rather than soulful
+- **Budget sensitivity:** She cares zero percent about price. A handwritten poem on a napkin will move her to tears. She values emotional investment above all material value.
+- **Presentation:** Dreamy and romantic. Wrap it with fabric, tie it with a ribbon, add dried flowers. Create an atmosphere -- dim the lights, play soft music, and present the gift as a moment.
+- **Low Budget, High Impact ideas:**
+  - A handwritten poem or love letter (she will keep it forever)
+  - A playlist titled something romantic with songs that tell your story
+  - A "dream date" at home with blankets, fairy lights, candles, and her favorite film
+  - A jar of painted or decorated stones with love messages on each
+  - Take her to a body of water (ocean, lake, river) at sunset with a simple picnic
+
+## 12.6 Romance & Intimacy Expectations
+
+- **What romance means to her:** Everything. Romance is not a category of life for Pisces -- it IS life. Romance is a partner who creates moments of magic, who speaks to her soul, and who makes the mundane feel transcendent.
+- **Ideal date scenarios:**
+  1. Sunset boat ride on a quiet lake
+  2. Live acoustic music at an intimate venue followed by a moonlit walk
+  3. Art museum followed by a cafe where you sketch or write together
+  4. A seaside evening with wine, blankets, and stargazing
+  5. A "dream date" at home -- fairy lights, candles, her favorite film, and cuddling
+- **Frequency of romantic gestures:** Daily. She wants to feel love constantly. Even small gestures -- a sweet text, a forehead kiss, a song dedication -- keep her world alive.
+- **Spontaneous vs. planned:** 60% spontaneous, 40% planned. She loves when romance feels like destiny, not an appointment.
+- **Public vs. private affection:** She enjoys both. She is unashamed of love and appreciates a partner who holds her hand, kisses her forehead in public, and makes her feel adored anywhere.
+
+## 12.7 Jealousy & Trust
+
+- **Jealousy trigger sensitivity:** Medium-High. She is deeply sensitive and picks up on emotional undercurrents. She may not confront directly but will internalize jealousy and let it eat at her.
+- **Trust-building approaches:** Be emotionally transparent. Share your feelings openly. Never let her sense something is off without explaining. She trusts people who are emotionally genuine and consistent.
+- **What constitutes betrayal:** Emotional dishonesty, choosing harshness over compassion, sharing her vulnerabilities with others, and shattering the romantic illusion through careless cruelty.
+- **How to rebuild trust:** With patience, tenderness, and sustained emotional vulnerability. She needs to believe in the love story again. She needs to see that the magic was not an illusion.
+- **Boundaries she expects respected:** Her emotional sensitivity (it is a gift, not a weakness), her creative time and inner world, her spiritual practices, and her need to be treated with gentleness.
+
+## 12.8 Stress Response & Support Needs
+
+- **How she handles stress externally:** She retreats into fantasy, sleep, art, or escapist behaviors. She may become listless, teary, or emotionally numb. She absorbs stress from her environment.
+- **Internal stress patterns:** She loses herself. She cannot distinguish between her own pain and others'. She may spiral into hopelessness and feel that the world is too harsh.
+- **What support she needs:** A safe harbor. Hold her, protect her from additional stress, and create a beautiful, calm environment. Let her escape into art, music, or nature. Do not demand she "snap out of it."
+- **Signs she is overwhelmed:** Excessive sleeping, emotional numbness alternating with tearfulness, withdrawing from reality, neglecting responsibilities, and increased escapist behavior.
+- **Best actions a partner can take:** Be her anchor. Run a warm bath with music playing. Hold her without talking. Shield her from harsh inputs. Gently bring her back to the present through sensory comfort -- a warm meal, a soft blanket, her favorite scent.
+
+## 12.9 Celebration & Special Occasions
+
+- **Birthday expectations:** Deeply romantic and magical. She wants to feel like the universe conspired to celebrate her existence. A surprise that moves her to tears, a heartfelt gift, and a day that feels like a dream.
+- **Anniversary preferences:** Romantic and nostalgic. She wants to relive the magic of the relationship's beginnings and reaffirm the love story.
+- **How she celebrates achievements:** Humbly and emotionally. She shares with her partner and close friends. She needs her partner to be genuinely moved by her accomplishments.
+- **Holiday/festival importance:** High. She loves the magic and meaning of holidays. She is drawn to the spiritual and emotional aspects rather than the commercial ones.
+- **Social media and public acknowledgment:** She appreciates beautiful, poetic public expressions of love. She values emotional authenticity in posts over polish.
+
+## 12.10 Deal-Breakers & Non-Negotiables
+
+- **Top 5 deal-breakers:**
+  1. Emotional cruelty or deliberate insensitivity
+  2. Killing the romance and refusing to nurture it
+  3. Dismissing her dreams, intuition, or creativity
+  4. A partner who is incapable of emotional vulnerability
+  5. Sustained harshness that makes the world feel unsafe
+- **Behavior that slowly erodes the relationship:** Cynicism, emotional unavailability, mocking her sensitivity, refusing to engage with her inner world, and replacing romance with cold routine.
+- **The "last straw" patterns:** When she realizes she has been loving an idealized version of her partner and the real person is incapable of the emotional depth she needs.
+- **What she will forgive:** Almost everything. She is the most forgiving sign. She believes in redemption, second chances, and the power of love to heal. This can be a vulnerability.
+- **What she will NOT forgive:** Deliberate cruelty, mocking her most tender vulnerabilities, and destroying the dream of the relationship so completely that she cannot rebuild the illusion.
+
+## 12.11 AI Integration Notes
+
+- **Default message tone:** Gentle, poetic, and emotionally rich. Use beautiful language, metaphor, and warmth. Messages should feel like a warm embrace.
+- **Humor tolerance:** 2/5 -- She appreciates gentle, whimsical humor. Fairy-tale humor, sweet absurdity, and tender jokes work. Avoid harsh sarcasm, dark humor, or anything that mocks vulnerability.
+- **Emoji usage preference:** Moderate-high. Dreamy, romantic emojis -- moon, stars, ocean, sparkles, hearts, butterflies. She finds beauty in emoji expression.
+- **Message length preference:** Long and heartfelt. She loves receiving messages that feel like love letters. Short, curt texts feel dismissive and trigger anxiety.
+- **Best times to send messages:** Evening and late night. She is a dreamer and comes alive when the world is quiet. Morning messages should be gentle and soft, never jarring.
+
+---
+
+# APPENDIX: Quick Reference Summary
+
+| Sign | Element | Ruling Planet | Primary Love Language | Jealousy Level | Humor (1-5) | Message Length | Key Gift Style |
+|------|---------|---------------|----------------------|----------------|-------------|----------------|----------------|
+| Aries | Fire | Mars | Words of Affirmation | Med-High | 4 | Short | Experiential |
+| Taurus | Earth | Venus | Physical Touch | High | 3 | Medium | Luxury/Quality |
+| Gemini | Air | Mercury | Words of Affirmation | Low-Med | 5 | Variable | Novel/Clever |
+| Cancer | Water | Moon | Acts of Service | High | 2 | Long | Sentimental |
+| Leo | Fire | Sun | Words of Affirmation | Med-High | 4 | Med-Long | Luxury/Grand |
+| Virgo | Earth | Mercury | Acts of Service | Medium | 3 | Medium | Practical/Quality |
+| Libra | Air | Venus | Quality Time | Medium | 3 | Medium | Beautiful/Elegant |
+| Scorpio | Water | Pluto/Mars | Physical Touch | Very High | 2 | Variable | Meaningful/Intimate |
+| Sagittarius | Fire | Jupiter | Quality Time | Low | 5 | Short-Med | Experiential |
+| Capricorn | Earth | Saturn | Acts of Service | Med-Low | 2 | Medium | Quality/Investment |
+| Aquarius | Air | Uranus/Saturn | Quality Time | Low | 4 | Variable | Unique/Values-aligned |
+| Pisces | Water | Neptune/Jupiter | Quality Time | Med-High | 2 | Long | Romantic/Artistic |
+
+---
+
+**End of Zodiac Master Profiles Document**
+**Prepared by Maya Starling for LOLO Relationship Intelligence App**
+**Version 1.0 -- February 2026**
