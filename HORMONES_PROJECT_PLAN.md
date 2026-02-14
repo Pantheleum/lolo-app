@@ -13,9 +13,12 @@
 6. [Qualifications & Experience Requirements](#6-qualifications--experience-requirements)
 7. [Budget Estimation](#7-budget-estimation)
 8. [Risk Matrix](#8-risk-matrix)
-9. [Appendix A: Hiring Priority Order](#appendix-a-hiring-priority-order)
-10. [Appendix B: Alternative Lean Approach](#appendix-b-alternative-lean-approach-3-person-mvp)
-11. [Appendix C: Team KPI Checklists & Accountability Tracker](#appendix-c-team-kpi-checklists--accountability-tracker)
+9. [Monetization Strategy](#9-monetization-strategy)
+10. [Legal, Compliance & Privacy](#10-legal-compliance--privacy)
+11. [MVP Success Criteria](#11-mvp-success-criteria)
+12. [Appendix A: Hiring Priority Order](#appendix-a-hiring-priority-order)
+13. [Appendix B: Alternative Lean Approach](#appendix-b-alternative-lean-approach-3-person-mvp)
+14. [Appendix C: Team KPI Checklists & Accountability Tracker](#appendix-c-team-kpi-checklists--accountability-tracker)
 
 ---
 
@@ -1646,7 +1649,7 @@ The Female Consultant is the app's **reality check**. While the psychiatrist pro
 6. **Arabic Women's Perspective Guide** (Week 3-4) — relationship norms, endearment preferences, what resonates vs. offends in Arabic culture
 7. **Malay Women's Perspective Guide** (Week 3-4) — Malaysian relationship norms, preferred expressions of love, cultural do's and don'ts
 8. **Female Focus Group Report** (Week 18) — beta testing from the female perspective (**include Arabic and Malay women**)
-7. **Monthly Authenticity Audit** (ongoing) — ongoing review that new content passes the "real woman" test
+9. **Monthly Authenticity Audit** (ongoing) — ongoing review that new content passes the "real woman" test
 
 ### Selection Criteria for This Role
 This role is NOT about academic credentials alone. The ideal candidate:
@@ -2145,6 +2148,216 @@ Candidates should complete:
 | **Translation misses or inconsistencies** | Medium | Medium | CI validation for missing ARB keys, automated screenshot comparison across locales, native speaker review |
 | **Cultural offense in Arabic/Malay markets** | Low | Critical | Domain experts review ALL content for cultural appropriateness, separate cultural guides per market, female consultant covers Arabic + Malay norms |
 | **Arabic token costs higher than English** | Low | Low | Arabic text uses more tokens per word — budget 20-30% more for Arabic AI costs, offset with caching |
+| **Accessibility rejection by Apple** | Medium | High | Implement VoiceOver/TalkBack from Sprint 1, WCAG AA contrast ratios, dynamic type support |
+| **Offline data sync conflicts** | Medium | Medium | Conflict resolution strategy (server wins for shared data, client wins for drafts), queue offline actions |
+| **Privacy law violation in target markets** | Low | Critical | Legal review before launch in each market, dedicated compliance checklist (GDPR, PDPA, PDPL) |
+| **Users churn after Day 7** | High | High | Progressive onboarding, smart re-engagement notifications, "Next Best Action" keeps users coming back |
+
+---
+
+# 9. MONETIZATION STRATEGY
+
+## 9.1 Subscription Tiers
+
+| Feature | Free | Pro ($6.99/mo or $49.99/yr) | Legend ($12.99/mo or $99.99/yr) |
+|---------|------|----------------------------|-------------------------------|
+| Smart Reminders (dates, events) | Unlimited | Unlimited | Unlimited |
+| AI Message Generator | 5 messages/month | 100 messages/month | Unlimited |
+| Situational message modes | 3 modes (appreciation, good morning, celebration) | All 10 modes | All 10 modes |
+| Smart Action Cards | 1 card/day (basic) | 3 cards/day (contextual) | Unlimited + premium cards |
+| Her Profile Engine | Basic (zodiac + love language) | Full profile (all fields) | Full profile + multi-partner |
+| Gift Recommendations | 3 suggestions/month | 20 suggestions/month | Unlimited + "Low Budget, High Impact" |
+| SOS Mode | Locked | Full access | Full access + real-time coaching |
+| Memory Vault | 10 entries | 100 entries | Unlimited |
+| Gamification | Basic streaks | Full system + badges | Full + leaderboard + shareable |
+| Wish List Capture | 5 items | 30 items | Unlimited |
+| Promise Tracker | 3 active | 15 active | Unlimited |
+| Community (Phase 2) | Read-only | Full access | Full + expert Q&A |
+| Smartwatch (Phase 4) | Not included | Basic notifications | Full companion app |
+| Ad-free experience | Ads in gift section | Ad-free | Ad-free |
+| Language support | All 3 languages | All 3 languages | All 3 languages |
+
+## 9.2 Regional Pricing
+
+| Tier | US/UK/Europe | GCC (UAE, Saudi, etc.) | Malaysia/Brunei/Singapore |
+|------|-------------|----------------------|--------------------------|
+| **Pro Monthly** | $6.99 | $6.99 (AED 25.99) | $3.99 (MYR 17.99) |
+| **Pro Annual** | $49.99 | $49.99 (AED 179.99) | $29.99 (MYR 129.99) |
+| **Legend Monthly** | $12.99 | $12.99 (AED 47.99) | $7.99 (MYR 34.99) |
+| **Legend Annual** | $99.99 | $99.99 (AED 369.99) | $59.99 (MYR 259.99) |
+
+> **Pricing rationale:** GCC purchasing power is comparable to Western markets — keep same pricing. Malaysia/Southeast Asia pricing is 40-50% lower to match local purchasing power and competition. Language support is free across all tiers to maximize adoption.
+
+## 9.3 Revenue Streams
+
+| Stream | Description | Expected % of Revenue |
+|--------|-------------|----------------------|
+| **Subscriptions (Pro + Legend)** | Primary revenue — monthly/annual recurring | 60-70% |
+| **Affiliate commissions** | Commission from gift/flower purchases via app links | 15-20% |
+| **In-app purchases** | One-time purchases: premium zodiac report, detailed compatibility deep-dive | 5-10% |
+| **Targeted ads (Free tier only)** | Non-intrusive ads in gift recommendation section only | 5-10% |
+
+## 9.4 Free-to-Paid Conversion Strategy
+
+- **7-day free trial** of Pro tier for all new users (no credit card required)
+- **Soft paywall:** user hits Pro features naturally during onboarding (e.g., "Unlock all 10 message modes")
+- **Event-triggered upgrade prompts:** "Your anniversary is in 5 days — unlock SOS Mode and AI-crafted gift packages"
+- **Post-value upgrade:** let user experience 1 full Smart Action Card before asking to upgrade
+- **"Gift for her" upgrade path:** partner's birthday approaching → "Unlock unlimited gift recommendations for $6.99/month"
+- **Seasonal promotions:** 40% off annual plan during Valentine's Day, Eid, Hari Raya
+
+---
+
+# 10. LEGAL, COMPLIANCE & PRIVACY
+
+## 10.1 Privacy & Data Protection by Region
+
+| Region | Law | Key Requirements | Impact on App |
+|--------|-----|-----------------|---------------|
+| **EU / UK** | GDPR | Consent before data collection, right to erasure, data portability, DPO required if >5K EU users | Privacy policy, cookie consent, data export/delete endpoints, consent logs |
+| **Saudi Arabia** | PDPL (Personal Data Protection Law) | Data processed in Saudi or with adequate protections, consent required, data localization preferences | May need GCC data residency option, Arabic privacy policy |
+| **UAE** | Federal Data Protection Law | Consent, purpose limitation, data breach notification within 72 hours | Breach notification system, Arabic privacy policy |
+| **Malaysia** | PDPA 2010 | Consent, access rights, data integrity, not applicable to data outside Malaysia processed by Malaysian entity | Malay-language privacy notice, data access request handling |
+| **US** | CCPA (California), state laws | "Do Not Sell" option, disclosure of data practices | Privacy policy, opt-out mechanisms |
+
+## 10.2 Required Legal Documents (Before Launch)
+
+| Document | When Needed | Who Prepares |
+|----------|-------------|-------------|
+| **Privacy Policy** (EN/AR/MS) | Before beta launch | Legal counsel + Product Manager |
+| **Terms of Service** (EN/AR/MS) | Before beta launch | Legal counsel |
+| **Medical / Mental Health Disclaimer** | Before beta launch | Legal counsel + Psychiatrist |
+| **App Content Moderation Policy** | Before community features (Phase 2) | Legal counsel + Product Manager |
+| **Data Processing Agreements (DPAs)** | Before connecting AI providers | Legal counsel (with Anthropic, xAI, Google, OpenAI) |
+| **Cookie / Tracking Consent** | Before launch | Tech Lead + Legal counsel |
+| **Affiliate Disclosure** | Before gift feature launch | Legal counsel |
+| **EULA (End-User License Agreement)** | Before store submission | Legal counsel |
+
+## 10.3 Medical Disclaimer Requirements
+
+The app must clearly state at every touchpoint involving psychological content:
+
+> **"LOLO provides emotional support suggestions, not medical or psychological advice. If you or your partner are experiencing a mental health crisis, please contact a licensed professional or your local emergency services."**
+
+- Disclaimer must appear in: onboarding, SOS Mode entry, settings, app store listing
+- Translated into all 3 languages
+- SOS Mode must include "Emergency Resources" link (localized crisis hotlines per region)
+- Content must NEVER diagnose or prescribe — only suggest and support
+
+## 10.4 Intellectual Property
+
+| Item | Action | Status |
+|------|--------|--------|
+| **App name trademark** | File trademark for "LOLO" in target markets (US, GCC, Malaysia) | Before launch |
+| **Domain name** | Secure primary domain + regional variants | Before marketing |
+| **Social media handles** | Reserve @lolo on Instagram, TikTok, Twitter/X, YouTube | Before marketing |
+| **AI-generated content ownership** | Clarify ownership of AI-generated messages in Terms of Service | Before launch |
+| **Zodiac content IP** | Agreement with Astrologist on content ownership (work-for-hire) | At hiring |
+| **Logo & brand assets** | Register copyright for logo and visual identity | Before launch |
+
+## 10.5 Age Requirements
+
+- **Minimum age: 18 years** (relationship app with mature content themes)
+- Age gate during onboarding (date of birth or age confirmation)
+- Comply with Apple's age rating guidelines (likely 17+ rating)
+- No targeting of minors in advertising
+
+---
+
+# 11. MVP SUCCESS CRITERIA
+
+## 11.1 Go / No-Go Launch Checklist
+
+All items must be GREEN before submitting to app stores:
+
+| # | Category | Criteria | Status |
+|---|----------|----------|--------|
+| 1 | **Core Features** | All 10 modules functional (at least MVP scope) | ☐ |
+| 2 | **Languages** | EN/AR/MS fully localized — 0 missing strings, RTL verified | ☐ |
+| 3 | **AI Quality** | Message quality > 7/10 in all 3 languages (domain expert approved) | ☐ |
+| 4 | **Platforms** | Works on Android 10+ and iOS 15+ (tested on 8+ devices) | ☐ |
+| 5 | **Performance** | Startup < 2s, 60fps, < 50MB APK | ☐ |
+| 6 | **Security** | AES-256 encryption, 0 critical vulnerabilities, biometric lock works | ☐ |
+| 7 | **Payments** | RevenueCat subscriptions work on both platforms, all tiers functional | ☐ |
+| 8 | **Privacy** | Privacy policy live (EN/AR/MS), GDPR endpoints work, medical disclaimers in place | ☐ |
+| 9 | **Beta Testing** | 50+ beta users tested, all P1 bugs resolved, NPS > 30 | ☐ |
+| 10 | **Content** | All domain expert deliverables received and integrated | ☐ |
+| 11 | **Store Listings** | ASO-optimized listings in EN/AR/MS with screenshots and descriptions | ☐ |
+| 12 | **Monitoring** | Crashlytics, analytics, and alerting active | ☐ |
+| 13 | **Accessibility** | VoiceOver/TalkBack basic support, WCAG AA contrast, dynamic type | ☐ |
+| 14 | **Legal** | Terms of Service, Privacy Policy, Medical Disclaimer, EULA — all live | ☐ |
+
+## 11.2 MVP Success Metrics (First 90 Days Post-Launch)
+
+| Metric | 30-Day Target | 60-Day Target | 90-Day Target |
+|--------|:------------:|:------------:|:------------:|
+| **Total installs** | 2,000+ | 5,000+ | 10,000+ |
+| **DAU / MAU ratio** | > 15% | > 20% | > 25% |
+| **D1 retention** | > 35% | > 40% | > 45% |
+| **D7 retention** | > 15% | > 18% | > 20% |
+| **D30 retention** | — | > 8% | > 10% |
+| **Free → Paid conversion** | > 2% | > 4% | > 5% |
+| **App Store rating** | > 4.0 | > 4.2 | > 4.3 |
+| **Crash-free rate** | > 99% | > 99.5% | > 99.5% |
+| **AI message send-through rate** | > 40% | > 50% | > 60% |
+| **NPS score** | > 20 | > 30 | > 40 |
+| **Arabic user % of total** | > 15% | > 20% | > 20% |
+| **Malay user % of total** | > 10% | > 15% | > 15% |
+
+## 11.3 Accessibility Strategy
+
+| Requirement | Implementation | Priority |
+|-------------|---------------|----------|
+| **Screen reader support** | VoiceOver (iOS) + TalkBack (Android) — all interactive elements labeled with `Semantics` widget | P1 (MVP) |
+| **Dynamic type / font scaling** | Respect system font size settings, UI doesn't break at 200% font scale | P1 (MVP) |
+| **Color contrast** | WCAG AA minimum (4.5:1 for text, 3:1 for large text) — verify in both LTR and RTL | P1 (MVP) |
+| **Touch targets** | Minimum 48x48dp for all interactive elements | P1 (MVP) |
+| **Motion sensitivity** | Respect "Reduce Motion" system setting for animations | P2 (v1.1) |
+| **Color-blind friendly** | Don't rely on color alone for status (add icons/text to streaks, levels) | P2 (v1.1) |
+
+## 11.4 Offline Mode Strategy
+
+| Feature | Offline Behavior | Sync Strategy |
+|---------|-----------------|---------------|
+| **Reminders** | Fire locally (flutter_local_notifications) — no internet needed | Sync new/edited reminders when online |
+| **Her Profile** | Fully accessible offline (cached locally via Hive/Isar) | Sync changes on reconnect |
+| **AI Messages** | Show cached/previously generated messages. New generation requires internet. Show "You're offline — here's a saved message" | Queue generation request, execute on reconnect |
+| **Gift Recommendations** | Not available offline (requires live API) | Show "Connect to internet for gift suggestions" |
+| **Smart Action Cards** | Show pre-generated cards (batch processing generates next-day cards) | Refresh cards when online |
+| **SOS Mode** | Show cached emergency tips + stored past resolutions from vault | Full AI mode requires internet |
+| **Memory Vault** | Fully accessible offline (encrypted local storage) | Sync new entries on reconnect |
+| **Gamification** | Streak count + points tracked locally | Sync with server on reconnect |
+| **Notifications** | Local notifications always work | Push notifications require connectivity |
+
+> **Conflict resolution:** Server wins for shared data (subscription status, profile). Client wins for drafts (unsent messages, vault entries). Last-write-wins with timestamps for reminders.
+
+## 11.5 User Retention & Re-engagement Plan
+
+**Progressive Onboarding (Don't overwhelm Day 1):**
+1. **Day 1:** Set up profile + her profile (basic: name, birthday, zodiac). Get first AI message immediately. Show 1 Smart Action Card.
+2. **Day 2:** Push notification: "How was your first message? Add more about her to get better results" → deepens Her Profile
+3. **Day 3:** Push: "Your first Smart Action Card for today" → builds habit
+4. **Day 5:** Push: "You've been thoughtful for 5 days! Keep your streak going" → gamification hook
+5. **Day 7:** Push: "Unlock all 10 message modes — try Pro free for 7 days" → soft upsell
+
+**Re-engagement Triggers:**
+
+| Trigger | When | Notification | Goal |
+|---------|------|-------------|------|
+| **Streak about to break** | User missed 1 day | "Don't lose your 12-day streak! Quick — send her a goodnight message" | Prevent churn |
+| **Important date approaching** | 7 days before event | "Her birthday is in 7 days. Start planning now — we have ideas" | Show value |
+| **User inactive 3 days** | After 3 days silence | "She mentioned wanting [wish list item]. Want us to find it for you?" | Re-engage with personal data |
+| **User inactive 7 days** | After 7 days silence | "A lot can change in a week. Quick check-in: how's she doing?" (leads to context update) | Re-engage with value |
+| **User inactive 14 days** | After 14 days silence | "Your partner probably noticed you've been extra thoughtful lately. Don't stop now." | Emotional nudge |
+| **Seasonal hook** | Before Valentine's / Eid / Hari Raya | "[Event] is coming. Men who use LOLO report 3x more appreciation from their partners" | Seasonal re-engagement |
+| **After conflict context logged** | After user logs "conflict happened" | Next day: "Day after an argument is crucial. Here's what to do today." | High-value moment |
+
+**Notification Frequency Rules:**
+- Maximum 1 push notification per day (avoid spamming)
+- User can customize frequency in settings (daily / 3x week / weekly / critical only)
+- Smart timing: send notifications at user's local time, not UTC
+- No notifications between 10 PM - 7 AM (user's timezone)
+- Arabic users: pause casual notifications during prayer times if user opts in
 
 ---
 
@@ -2719,7 +2932,7 @@ In this model:
 
 ---
 
-*Document Version: 6.1*
+*Document Version: 7.0*
 *Created: February 14, 2026*
 *Last Updated: February 14, 2026*
 *Project: LOLO - AI Relationship Intelligence App*
