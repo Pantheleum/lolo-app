@@ -22,11 +22,12 @@
 **Tagline:** "She won't know why you got so thoughtful. We won't tell."
 **Category:** Lifestyle / Relationship Intelligence
 **Platforms:** Android + iOS (simultaneous launch via Flutter), HarmonyOS / Huawei (Phase 3), Wear OS / WatchOS (Phase 4)
-**Target Market:** Men aged 22-55 in committed relationships
+**Languages:** English, Arabic (with full RTL support), Bahasa Melayu — expandable to more languages post-launch
+**Target Market:** Men aged 22-55 in committed relationships — initially targeting English-speaking, Arabic-speaking (GCC/MENA), and Malay-speaking (Malaysia/Brunei/Singapore) markets
 **Business Model:** Freemium + Affiliate Revenue + In-App Purchases
 
 **Unique Value Proposition:**
-The first AI-powered relationship assistant that combines personality profiling (zodiac, love language, cultural background), smart reminders, AI-generated personalized messages, gift recommendations, and an emergency "SOS Mode" — all in one app designed specifically to help men become more thoughtful partners.
+The first AI-powered relationship assistant that combines personality profiling (zodiac, love language, cultural background), smart reminders, AI-generated personalized messages, gift recommendations, and an emergency "SOS Mode" — all in one app designed specifically to help men become more thoughtful partners. Launches in 3 languages (English, Arabic, Bahasa Melayu) to serve a combined addressable market of 1.5+ billion people.
 
 ---
 
@@ -60,7 +61,12 @@ The first AI-powered relationship assistant that combines personality profiling 
   - Pregnancy/health support messages
 - Tone adjustment (romantic, funny, poetic, casual, formal)
 - **Humor tolerance calibration** — AI adjusts humor level based on her profile (from "no jokes please" to "make her laugh")
-- Multi-language support
+- **Multi-language support (English, Arabic, Bahasa Melayu):**
+  - AI generates messages natively in user's chosen language (not translated — written from scratch per language)
+  - Arabic messages use culturally appropriate endearments, Islamic occasion awareness, and formal/informal register
+  - Bahasa Melayu messages use natural Malaysian expressions, cultural idioms, and Malay relationship norms
+  - Language-specific emoji and formatting (RTL punctuation for Arabic)
+  - User can switch output language per message (e.g., send her a message in Arabic even if app UI is English)
 - Message scheduling and auto-send via SMS/WhatsApp integration
 - Copy-to-clipboard for manual sending
 - **Context-aware adaptation** — messages automatically adjust based on current context (see Module 9)
@@ -75,6 +81,8 @@ The first AI-powered relationship assistant that combines personality profiling 
 - **Humor tolerance level** (scale: serious <-> loves jokes, with type: sarcastic / wholesome / dark / silly)
 - Age & relationship stage awareness
 - Cultural background & tradition tracking
+- **Preferred language** — which language she prefers for messages (English / Arabic / Bahasa Melayu)
+- **Cultural-religious context** — Islamic holidays (Eid, Ramadan), Malay festivals (Hari Raya), Western holidays — app auto-adjusts events and suggestions
 - Interests, hobbies, and favorites database
 - Food preferences & dietary restrictions
 - Fashion style & size tracking (for gift accuracy)
@@ -276,6 +284,7 @@ A searchable, AI-powered memory bank that stores everything meaningful about the
 |  - Personality Analysis Engine                     |
 |  - Smart Action Card Generator                     |
 |  - Context Awareness Engine                        |
+|  - **Localization Engine (EN/AR/MS)**              |
 |  - Response Cache (Redis)                          |
 |  - Content Safety Filter                           |
 +--------------------------------------------------+
@@ -289,6 +298,7 @@ A searchable, AI-powered memory bank that stores everything meaningful about the
 |  Relationship Memory Vault (AES-256 Encrypted)    |
 |  Pinecone / Weaviate (Vector DB — personality     |
 |    matching + memory retrieval)                    |
+|  ARB Localization Files (EN/AR/MS translations)   |
 +--------------------------------------------------+
                         |
 +--------------------------------------------------+
@@ -306,7 +316,45 @@ A searchable, AI-powered memory bank that stores everything meaningful about the
 
 > **Why Multi-Model AI?** No single AI excels at everything. Claude leads in warmth and emotional depth, Grok has the highest EQ benchmark score (1586 Elo on EQ-Bench3) for crisis empathy, Gemini Flash is 20x cheaper for data tasks, and GPT-5 Mini provides reliable fallback. Multi-model reduces costs by 60-70% while delivering best-in-class quality per task.
 
-### 2.3 AI Model Task Routing Map
+### 2.3 Multi-Language Architecture (English, Arabic, Bahasa Melayu)
+
+**Two-Layer Localization Strategy:**
+
+| Layer | What It Covers | Technology | Notes |
+|-------|---------------|------------|-------|
+| **UI Localization** | All static text — buttons, labels, menus, onboarding, settings, error messages | Flutter `intl` + ARB files (`app_en.arb`, `app_ar.arb`, `app_ms.arb`) | Fully offline, instant switching |
+| **AI Content Localization** | All dynamic text — AI messages, action cards, gift descriptions, SOS advice | Multi-model AI generates natively per language (not post-translated) | Each prompt includes `target_language` parameter |
+
+**Arabic-Specific Requirements (RTL):**
+- Full Right-to-Left (RTL) layout using Flutter's `Directionality` widget and `TextDirection.rtl`
+- `EdgeInsetsDirectional` instead of `EdgeInsets` throughout (start/end, not left/right)
+- Mirrored navigation, icons, and swipe gestures
+- Arabic-optimized fonts: Noto Naskh Arabic (body), Cairo or Tajawal (headings)
+- RTL-aware number formatting (Arabic-Indic numerals optional, user preference)
+- `DateFormat` with Arabic locale (`ar`) for Hijri date support alongside Gregorian
+- Bidirectional text handling for mixed Arabic-English content (names, brands)
+
+**Bahasa Melayu Requirements:**
+- Standard LTR layout (same as English)
+- Bahasa Melayu-optimized fonts (Noto Sans covers Malay Latin script)
+- Malay date formatting (`DateFormat` with `ms` locale)
+- Support for Jawi script as optional future addition
+
+**AI Multi-Language Generation Strategy:**
+- All AI prompts include `language` and `cultural_context` parameters
+- Prompts are NOT translated — separate prompt templates exist per language for cultural accuracy
+- Arabic prompts include: Islamic greeting conventions, Arabic endearment terms (حبيبتي، يا عمري), formal vs. Egyptian/Gulf/Levantine dialect options
+- Malay prompts include: Malaysian cultural norms, Malay endearments (sayang, cinta), respectful register for elders
+- All 4 AI models (Claude, Grok, Gemini, GPT) support EN/AR/MS — Claude and GPT have strongest Arabic quality; Gemini has strong Malay support
+- AI response caching is language-specific (separate cache keys per locale)
+
+**Language Detection & Switching:**
+- User selects app language during onboarding (can change anytime in settings)
+- Her Profile includes "preferred message language" (can differ from app UI language)
+- AI messages generate in her preferred language by default
+- Quick toggle: user can override per message ("send this one in Arabic")
+
+### 2.4 AI Model Task Routing Map
 
 | App Feature | Primary Model | Fallback Model | Why This Model | Cost/1M Tokens (In/Out) |
 |-------------|--------------|----------------|----------------|------------------------|
@@ -325,7 +373,7 @@ A searchable, AI-powered memory bank that stores everything meaningful about the
 | **Pregnancy/health messages** | Claude Sonnet 4.5 | Claude Haiku 4.5 | Strongest safety guardrails for sensitive medical-adjacent content | $3 / $15 |
 | **General fallback** (any model down) | GPT-5 Mini | Claude Haiku 4.5 | Most reliable uptime, decent emotional quality | ~$3 / $6 |
 
-### 2.4 AI Router Decision Logic
+### 2.5 AI Router Decision Logic
 
 ```
 User Request Arrives
@@ -338,6 +386,8 @@ User Request Arrives
 │    needed? (1-5)   │
 │  - Latency need?   │
 │  - Cost tier?      │
+│  - Language? (EN/  │
+│    AR/MS)          │
 └────────┬──────────┘
          │
     ┌────▼────┐
@@ -365,15 +415,20 @@ User Request Arrives
     └──────┬──────┘
            │
            ▼
+    ┌──────────────┐
+    │ LANGUAGE CHECK│ ← Verify output is in requested language (EN/AR/MS)
+    └──────┬───────┘
+           │
+           ▼
     ┌─────────────┐
-    │ CACHE RESULT │ ← Cache common patterns to reduce future API calls
+    │ CACHE RESULT │ ← Cache per language (separate keys for EN/AR/MS)
     └──────┬──────┘
            │
            ▼
       RETURN TO APP
 ```
 
-### 2.5 Cost Optimization Strategies
+### 2.6 Cost Optimization Strategies
 
 | Strategy | How It Works | Savings |
 |----------|-------------|---------|
@@ -411,8 +466,12 @@ User Request Arrives
 | 4 | AI Content Guidelines | Do's/don'ts per emotional state | Psychiatrist + Female Consultant |
 | 4 | Smart Action Card scenarios | 50+ contextual action card templates | Female Consultant + Psychiatrist |
 | 4 | Gift feedback framework | Rating system design + "what worked/failed" criteria | Female Consultant |
+| 3-4 | **Multi-language strategy kickoff** | Localization architecture document (ARB structure, RTL plan, AI prompt strategy per language) | Tech Lead + AI/ML Engineer |
+| 3-4 | **Arabic cultural context guide** | Arabic endearment conventions, Islamic occasion calendar, Gulf vs. Levantine vs. Egyptian dialect strategy | Female Consultant + Psychiatrist |
+| 3-4 | **Malay cultural context guide** | Malaysian relationship norms, Malay cultural expressions, Hari Raya and local festival calendar | Female Consultant |
+| 4 | **UI string catalog (English master)** | Complete list of all UI strings for translation (~500-800 strings) | UX Designer + Product Manager |
 
-**Milestone:** Approved architecture + wireframes + sprint backlog + domain expert frameworks + action card templates complete
+**Milestone:** Approved architecture + wireframes + sprint backlog + domain expert frameworks + action card templates + localization strategy complete
 
 ---
 
@@ -420,15 +479,18 @@ User Request Arrives
 
 | Week | Activity | Deliverables | Team Involved |
 |------|----------|-------------|---------------|
-| 5-6 | High-fidelity UI design | All screen designs (Figma) | UX/UI Designer |
-| 5 | Brand identity finalization | Logo, icon, color system, typography | UX/UI Designer |
-| 6 | Interactive prototype | Clickable prototype for user testing | UX/UI Designer |
-| 7 | User testing (10-15 men) | User feedback report | UX/UI Designer, Product Manager |
-| 7 | Design iteration based on feedback | Revised designs | UX/UI Designer |
-| 8 | Design handoff to development | Annotated designs, asset export | UX/UI Designer |
-| 8 | API contract definition | API documentation (Swagger/OpenAPI) | Tech Lead, Backend Developer |
+| 5-6 | High-fidelity UI design | All screen designs (Figma) — English (LTR) | UX/UI Designer |
+| 5-6 | **Arabic RTL design variants** | RTL-mirrored layouts for all screens (Figma) — Arabic | UX/UI Designer |
+| 5 | Brand identity finalization | Logo, icon, color system, typography (including Arabic + Malay fonts) | UX/UI Designer |
+| 6 | Interactive prototype | Clickable prototype for user testing — English + Arabic RTL | UX/UI Designer |
+| 6 | **Arabic UI string translation** | Professional Arabic translation of all ~500-800 UI strings | Arabic Translator (contract) |
+| 6 | **Bahasa Melayu UI string translation** | Professional Malay translation of all ~500-800 UI strings | Malay Translator (contract) |
+| 7 | User testing (10-15 men) | User feedback report — include Arabic and Malay speakers if possible | UX/UI Designer, Product Manager |
+| 7 | Design iteration based on feedback | Revised designs (LTR + RTL) | UX/UI Designer |
+| 8 | Design handoff to development | Annotated designs + RTL guidelines, asset export | UX/UI Designer |
+| 8 | API contract definition | API documentation (Swagger/OpenAPI) — include locale parameter in all content endpoints | Tech Lead, Backend Developer |
 
-**Milestone:** Final approved designs + API contracts ready
+**Milestone:** Final approved designs (LTR + RTL) + API contracts + translated UI strings (EN/AR/MS) ready
 
 ---
 
@@ -438,24 +500,29 @@ User Request Arrives
 | Task | Owner |
 |------|-------|
 | Flutter project setup (Dart, Riverpod/Bloc, GoRouter, folder structure) | Flutter Tech Lead |
+| **Flutter localization setup** — `flutter_localizations`, `intl` package, ARB file structure (`app_en.arb`, `app_ar.arb`, `app_ms.arb`), locale-aware widgets | Flutter Tech Lead |
+| **RTL infrastructure** — `Directionality` widget, `EdgeInsetsDirectional` throughout, RTL-aware navigation/icons | Flutter Tech Lead |
+| **Arabic font integration** — Noto Naskh Arabic, Cairo/Tajawal fonts bundled + fallback chain | Flutter Tech Lead |
 | Firebase setup (Auth, Firestore, FCM) for both Android + iOS | Backend Developer |
-| Navigation framework + base UI components + design system implementation | Flutter Tech Lead |
+| Navigation framework + base UI components + design system implementation (LTR + RTL variants) | Flutter Tech Lead |
 | User authentication (email, Google, Apple Sign-In) | Backend Developer |
+| **Language selection in onboarding** — user picks app language (EN/AR/MS), persisted locally | Flutter Tech Lead |
 | CI/CD pipeline setup (GitHub Actions for Android APK + iOS IPA builds) | DevOps / Tech Lead |
-| Database schema design (including Relationship Memory Vault encrypted storage) | Backend Developer |
+| Database schema design (including Relationship Memory Vault encrypted storage + locale fields) | Backend Developer |
 | Biometric lock service implementation (fingerprint / Face ID for vault) | Flutter Tech Lead |
 
 ### Sprint 2 (Weeks 11-12): Core Features Part 1
 | Task | Owner |
 |------|-------|
-| Onboarding flow (user profile + her profile setup with dual-input: zodiac defaults + manual overrides) | Flutter Developer |
-| Her Profile Engine (zodiac, love language, communication style, conflict style, humor tolerance, stress triggers) | Flutter Developer + Backend |
+| Onboarding flow (user profile + her profile setup with dual-input: zodiac defaults + manual overrides) — **all 3 languages** | Flutter Developer |
+| Her Profile Engine (zodiac, love language, communication style, conflict style, humor tolerance, stress triggers, **preferred language, cultural-religious context**) | Flutter Developer + Backend |
 | Relationship Memory Vault — core data model + encrypted storage + CRUD operations | Backend Developer + Flutter |
 | Wish List Capture feature (quick-log "she mentioned wanting X") | Flutter Developer |
-| Smart Reminder Engine (date tracking, notifications, **promise tracker**) | Flutter Developer |
+| Smart Reminder Engine (date tracking, notifications, **promise tracker**) — **locale-aware date formatting (Gregorian + Hijri)** | Flutter Developer |
 | Calendar sync integration (Google Calendar + Apple Calendar) | Backend Developer |
-| Push notification system (FCM for Android + APNs for iOS) | Backend Developer |
-| Unit + widget tests for core logic | QA Engineer |
+| Push notification system (FCM for Android + APNs for iOS) — **notification text pulled from ARB per user locale** | Backend Developer |
+| **Integrate translated ARB files** — wire all 3 language files into onboarding, profile, reminders, settings | Flutter Developer |
+| Unit + widget tests for core logic — **include RTL layout tests and locale switching tests** | QA Engineer |
 
 ### Sprint 3 (Weeks 13-14): Core Features Part 2 + Multi-Model AI Engine
 | Task | Owner |
@@ -464,17 +531,19 @@ User Request Arrives
 | Integrate 4 AI providers: Claude API, Grok API, Gemini API, OpenAI API | AI/ML Engineer + Backend |
 | Build model-specific prompt adapters (each model needs different prompting strategy) | AI/ML Engineer |
 | AI Message Generator with **10 situational modes** routed to Claude Haiku/Sonnet | AI/ML Engineer |
-| Prompt engineering: personality-based + context-aware + humor-calibrated (Grok for humor) | AI/ML Engineer |
+| Prompt engineering: personality-based + context-aware + humor-calibrated (Grok for humor) — **language-specific prompt templates (EN/AR/MS)** | AI/ML Engineer |
+| **Arabic AI prompt library** — separate prompt chains with Arabic cultural context, endearments, and Islamic occasion awareness | AI/ML Engineer |
+| **Bahasa Melayu AI prompt library** — separate prompt chains with Malay cultural context, expressions, and festival awareness | AI/ML Engineer |
 | **Daily Context Check-In UI** (5-second mood/status tap screen) | Flutter Developer |
 | **Context Awareness Engine** — backend logic to feed context into all AI prompts | AI/ML Engineer + Backend |
 | Message UI (situational mode picker, tone selection, copy/share) | Flutter Developer |
 | Gift Recommendation Engine routed to **Gemini Flash** with **feedback loop** | AI/ML Engineer + Backend |
 | **"Low Budget, High Impact" gift mode** + presentation ideas (Claude Haiku) + attached message | AI/ML Engineer |
-| AI response cache (Redis) — cache common patterns for 30-40% cost savings | Backend Developer |
-| Per-model cost tracking dashboard | AI/ML Engineer + Backend |
+| AI response cache (Redis) — cache common patterns for 30-40% cost savings — **language-specific cache keys** | Backend Developer |
+| Per-model cost tracking dashboard — **include per-language cost breakdown** | AI/ML Engineer + Backend |
 | Settings & preferences screens | Flutter Developer |
 | Important stories + inside jokes + sensitive topics vault UI | Flutter Developer |
-| Integration testing (both Android + iOS) + AI output quality testing across all 4 models | QA Engineer |
+| Integration testing (both Android + iOS) + AI output quality testing across all 4 models **in all 3 languages** | QA Engineer |
 
 ### Sprint 4 (Weeks 15-16): Smart Actions + Gamification + Polish
 | Task | Owner |
@@ -489,12 +558,14 @@ User Request Arrives
 | Payment integration (RevenueCat for unified Android + iOS subscriptions) | Backend Developer + Flutter |
 | Subscription management (Free / Pro tiers) | Backend Developer |
 | Memory Vault — AI integration (messages reference stored memories, gifts use wish list) | AI/ML Engineer + Backend |
-| End-to-end testing on both platforms | QA Engineer |
-| Performance optimization (Impeller rendering, app size) | Flutter Developer + Tech Lead |
+| End-to-end testing on both platforms **in all 3 languages** | QA Engineer |
+| **RTL full regression testing** — verify all screens render correctly in Arabic (mirrored layout, fonts, punctuation) | QA Engineer |
+| **Multi-language AI output quality review** — native speakers validate AI message quality in Arabic and Bahasa Melayu | QA Engineer + Arabic/Malay reviewers |
+| Performance optimization (Impeller rendering, app size — account for Arabic font bundle) | Flutter Developer + Tech Lead |
 | Platform-specific testing (iOS permissions, Android notifications) | QA Engineer |
 | Bug fixes from QA | All developers |
 
-**Milestone:** MVP feature-complete with all 10 modules, internal testing passed
+**Milestone:** MVP feature-complete with all 10 modules in 3 languages, internal testing passed
 
 ---
 
@@ -502,12 +573,14 @@ User Request Arrives
 
 | Week | Activity | Deliverables |
 |------|----------|-------------|
-| 17 | Comprehensive QA testing | Bug report + severity classification |
+| 17 | Comprehensive QA testing (all 3 languages) | Bug report + severity classification |
 | 17 | Security audit (data privacy, encryption) | Security assessment report |
-| 18 | Beta release (closed group: 50-100 users) | Beta APK (Android) + TestFlight (iOS) distribution |
+| 17 | **Multi-language QA** — native Arabic and Malay speakers test full app flow | Language-specific bug report |
+| 17 | **RTL visual audit** — screenshot comparison of all screens in Arabic vs. English | RTL compliance report |
+| 18 | Beta release (closed group: 50-100 users — include Arabic & Malay users) | Beta APK (Android) + TestFlight (iOS) distribution |
 | 18 | Performance testing (load, battery, memory) | Performance benchmark report |
-| 19 | Beta feedback collection & analysis | Feedback summary + priority fixes |
-| 19 | Critical bug fixes + final polish | Release candidate build |
+| 19 | Beta feedback collection & analysis — **per-language feedback segregation** | Feedback summary + priority fixes |
+| 19 | Critical bug fixes + final polish (including translation fixes) | Release candidate build |
 
 **Milestone:** Release candidate approved
 
@@ -517,14 +590,14 @@ User Request Arrives
 
 | Week | Activity | Deliverables |
 |------|----------|-------------|
-| 20 | App Store Optimization (ASO) | Store listings for BOTH Google Play + Apple App Store |
-| 20 | Google Play Store + Apple App Store submission | Published app on both stores (under review) |
-| 21 | Marketing launch campaign | Social media, influencer outreach, PR |
+| 20 | App Store Optimization (ASO) | Store listings in EN/AR/MS for BOTH Google Play + Apple App Store |
+| 20 | Google Play Store + Apple App Store submission | Published app on both stores (under review) — targeting US, UK, UAE, Saudi Arabia, Malaysia, Brunei |
+| 21 | Marketing launch campaign — **region-specific:** English (global), Arabic (GCC/MENA), Malay (MY/BN/SG) | Social media, influencer outreach, PR in 3 languages |
 | 21 | Monitor crash reports & analytics | Firebase Crashlytics dashboard (both platforms) |
 | 22 | First patch release (based on launch feedback) | v1.0.1 update on both stores |
 | 22 | Post-launch retrospective | Lessons learned document |
 
-**Milestone:** Live on Google Play Store + Apple App Store with stable v1.0
+**Milestone:** Live on Google Play Store + Apple App Store with stable v1.0 in 3 languages (EN/AR/MS)
 
 ---
 
@@ -554,7 +627,8 @@ Month 1       Month 2       Month 3       Month 4       Month 5       Month 6-9
  Research      Figma         Foundation    AI + Gifts    Beta Test     HarmonyOS
  Wireframes    Prototype     Reminders     SOS Mode      Go Live!      Huawei Port
  Architecture  User Tests    Her Profile   Gamification  Android+iOS   Watch Apps
- Domain Exp.   Handoff       Flutter App   Payments      BOTH Stores   Community
+ Domain Exp.   RTL Design    Flutter App   Payments      BOTH Stores   Community
+ L10n Strategy Translations  EN/AR/MS      3-Lang AI     3-Lang QA     New Languages
 ```
 
 **Total MVP Timeline: ~22 weeks (5.5 months) — Android + iOS simultaneously**
@@ -739,6 +813,17 @@ The Tech Lead is the technical authority on the project. They architect the cros
 - Optimize Impeller rendering engine performance for smooth 60fps animations
 - Plan and architect HarmonyOS compatibility layer for Phase 3
 
+**Multi-Language & RTL Implementation**
+- Architect Flutter localization infrastructure using `flutter_localizations` + `intl` package
+- Set up ARB file structure (`app_en.arb`, `app_ar.arb`, `app_ms.arb`) with CI validation for missing keys
+- Implement full RTL support for Arabic: `Directionality` widget, `EdgeInsetsDirectional`, mirrored layouts
+- Integrate Arabic fonts (Noto Naskh Arabic, Cairo/Tajawal) with proper fallback chains
+- Build language switching mechanism (runtime locale change without app restart)
+- Implement bidirectional text handling for mixed Arabic-English content (names, brands, numbers)
+- Ensure all custom widgets respect `TextDirection` (swipe gestures, sliders, progress bars)
+- Handle Arabic-Indic numeral option (٠١٢٣٤٥٦٧٨٩) vs Western numerals per user preference
+- Test and optimize app performance with Arabic font rendering (larger glyph sets increase bundle size)
+
 **Technical Leadership**
 - Conduct code reviews for all PRs (enforce quality standards)
 - Architect CI/CD pipeline (GitHub Actions + Codemagic/Fastlane for both platforms)
@@ -773,6 +858,8 @@ The Tech Lead is the technical authority on the project. They architect the cros
 - **Payments:** RevenueCat (unified Android + iOS + future HarmonyOS)
 - **Notifications:** flutter_local_notifications + Firebase Messaging
 - **Animations:** Rive, Lottie, Flutter built-in animations
+- **Localization:** flutter_localizations, intl, ARB files (EN/AR/MS), Directionality widget, EdgeInsetsDirectional
+- **Arabic Fonts:** Noto Naskh Arabic (Google Fonts), Cairo, Tajawal
 - **Testing:** flutter_test, mockito/mocktail, integration_test, golden tests
 - **CI/CD:** GitHub Actions + Codemagic / Fastlane
 
@@ -813,10 +900,20 @@ The UX/UI Designer creates the entire visual experience of Hormones — from fir
 - Design micro-interactions and animations
 - Create app icon and store listing graphics
 
+**Multi-Language & RTL Design**
+- Design full RTL (Right-to-Left) variants of all screens for Arabic users
+- Select and pair Arabic-optimized typography (Noto Naskh Arabic body + Cairo/Tajawal headings) with English typography
+- Select Bahasa Melayu typography (Noto Sans covers Latin script)
+- Design bidirectional layouts for mixed Arabic-English content (names, numbers, brands)
+- Ensure icons and illustrations work in both LTR and RTL contexts (mirror where appropriate)
+- Design language selector UI in onboarding and settings
+- Create localized onboarding screens per language (culturally adapted, not just translated)
+- Design Arabic and Malay store listing screenshots and feature graphics
+
 **Brand Identity**
 - Define visual brand identity for Hormones
-- Design logo (primary + icon variants)
-- Create marketing materials (store screenshots, feature graphics)
+- Design logo (primary + icon variants) — ensure logo works in LTR and RTL contexts
+- Create marketing materials (store screenshots, feature graphics) — in EN, AR, MS
 - Establish illustration and iconography style
 
 **Prototyping & Testing**
@@ -883,6 +980,14 @@ The Backend Developer builds and maintains the server-side infrastructure that p
 - Implement escalating reminder logic (7-day, 3-day, 1-day, same-day)
 - Build SMS notification fallback (Twilio integration)
 - Handle timezone-aware scheduling across regions
+- **Locale-aware notification content** — notification text served in user's language (EN/AR/MS) from server-side translation strings
+
+**Multi-Language API Support**
+- Include `Accept-Language` header handling in all API endpoints
+- Return locale-specific content (event names, gift descriptions, category labels) based on user locale
+- Design database schema to store translations for user-generated content labels
+- Implement Hijri date support alongside Gregorian calendar for Arabic users
+- Configure Twilio SMS for Arabic and Malay character encoding (UTF-8 / Unicode support)
 
 **Third-Party Integrations**
 - Google Calendar API integration (read/write sync)
@@ -1008,12 +1113,25 @@ The AI/ML Engineer is the brain behind what makes Hormones unique. This person d
 - Build the "learning loop" — the longer user uses app, the smarter AI becomes
 - Implement personalization scoring (how much vault data is available per user)
 
+**Multi-Language AI Generation (English, Arabic, Bahasa Melayu)**
+- Design language-specific prompt templates — NOT translated prompts, but natively written per language:
+  - **English prompts:** Standard emotional messaging with Western relationship norms
+  - **Arabic prompts:** Include Islamic greeting conventions (السلام عليكم), Arabic endearment terms (حبيبتي، يا عمري، يا قلبي), awareness of Ramadan/Eid/Islamic occasions, Gulf vs. Levantine vs. Egyptian dialect options
+  - **Bahasa Melayu prompts:** Include Malay endearments (sayang, cinta, kasih), Malaysian cultural norms, Hari Raya awareness, respectful register for elders, Malay humor style
+- Implement `target_language` and `cultural_context` parameters in all AI prompts
+- Build language-specific output validation — verify AI actually responds in requested language (not English fallback)
+- Design Arabic dialect selector: Modern Standard Arabic (formal) vs. Gulf dialect (casual) vs. Egyptian dialect (humorous)
+- Implement language-specific content safety filters (Arabic profanity filter, Malay cultural sensitivity)
+- Build bilingual memory vault queries — user stores memories in any language, AI retrieves and references them correctly
+- Test and rank each AI model's quality per language: Claude (strong Arabic), Gemini (strong Malay), Grok (variable), GPT (solid all-around)
+- Optimize AI costs per language — Arabic tokens are longer (more characters per word), budget accordingly
+
 **Optimization & Cost Management**
-- Monitor and optimize AI API costs (token usage, caching strategies)
-- Implement response caching for common scenarios
+- Monitor and optimize AI API costs (token usage, caching strategies) — **per language breakdown**
+- Implement response caching for common scenarios — **language-specific cache keys**
 - Build fallback systems (if primary AI is down, serve cached/template responses)
-- Track AI output quality metrics (user ratings, message send rates)
-- Implement content safety filters
+- Track AI output quality metrics (user ratings, message send rates) — **segmented by language**
+- Implement content safety filters — **language-specific filters for Arabic and Malay**
 - Optimize Smart Action Card generation to stay within cost targets
 
 **Data & Analytics**
@@ -1042,8 +1160,9 @@ The AI/ML Engineer is the brain behind what makes Hormones unique. This person d
 - **Vector DB:** Pinecone or Weaviate (for personality matching + memory retrieval)
 - **Caching:** Redis (AI response cache — 30-40% cost reduction)
 - **Analytics:** Custom dashboards + Firebase Analytics + per-model cost tracking
-- **Content Safety:** Custom filters + API-provided safety layers (all models pass through unified safety check)
-- **Batch Processing:** Cloud Functions scheduled jobs for overnight action card pre-generation
+- **Content Safety:** Custom filters + API-provided safety layers (all models pass through unified safety check) + language-specific filters (AR/MS)
+- **Multi-Language:** Language-specific prompt template libraries (EN/AR/MS), language detection validation, Arabic dialect handling
+- **Batch Processing:** Cloud Functions scheduled jobs for overnight action card pre-generation (per language)
 
 ---
 
@@ -1093,12 +1212,25 @@ The QA Engineer ensures every feature of Hormones works flawlessly before it rea
 
 **Specialized Testing**
 - **Notification testing:** Verify reminders fire at correct times across timezones
-- **AI output testing:** Validate messages are appropriate, non-repetitive, and personality-aligned
+- **AI output testing:** Validate messages are appropriate, non-repetitive, and personality-aligned **in all 3 languages**
 - **Payment testing:** Sandbox testing for all subscription flows
 - **Security testing:** Basic penetration testing, data leak verification
 - **Performance testing:** App startup time, memory usage, battery drain
 - **Accessibility testing:** Screen reader compatibility, font scaling
-- **Localization testing:** Multi-language support validation
+- **Multi-Language & RTL Testing (Critical):**
+  - Full RTL layout verification for Arabic — all screens, all flows, all components
+  - Verify `EdgeInsetsDirectional` applied correctly (no hardcoded left/right)
+  - Test bidirectional text rendering (mixed Arabic-English content)
+  - Validate Arabic font rendering (Noto Naskh Arabic, Cairo) on all target devices
+  - Test Arabic-Indic numeral display option
+  - Verify Hijri date formatting alongside Gregorian dates
+  - Test language switching (runtime switch between EN/AR/MS without restart)
+  - Validate all UI strings translated (no missing keys — English fallback detection)
+  - AI output language verification — ensure AI responds in requested language, not English
+  - Native speaker review of Arabic AI outputs (grammar, tone, cultural appropriateness)
+  - Native speaker review of Bahasa Melayu AI outputs (grammar, tone, cultural appropriateness)
+  - Test cultural occasion triggers (Eid, Ramadan, Hari Raya) in each locale
+  - Verify store listings display correctly in Arabic and Malay
 
 **Bug Management**
 - Document bugs with clear reproduction steps, screenshots, and severity levels
@@ -1222,11 +1354,20 @@ The Marketing Specialist is responsible for building awareness, driving download
 - Create weekly marketing performance reports
 - Implement referral program ("invite a friend who needs help")
 
+**Multi-Market Launch Strategy (EN / AR / MS)**
+- Develop region-specific marketing strategies:
+  - **English markets (US, UK, Australia, Canada):** Humor-driven content, social media virality, influencer partnerships
+  - **Arabic markets (UAE, Saudi Arabia, Kuwait, Qatar, Bahrain, Oman, Egypt):** Ramadan/Eid-themed campaigns, respect for cultural norms, Arabic influencer outreach, Huawei AppGallery emphasis for GCC
+  - **Malay markets (Malaysia, Brunei, Singapore):** Hari Raya campaigns, local influencer partnerships, Malay humor style, Grab/Shopee integration opportunities
+- Create localized App Store and Play Store listings per language
+- Manage region-specific social media accounts or content threads
+- Adapt ad creatives and copy for cultural appropriateness per market
+
 **Launch Campaign**
-- Plan and execute pre-launch buzz campaign
+- Plan and execute pre-launch buzz campaign — **coordinated across 3 markets**
 - Coordinate launch day activities
-- Manage PR outreach (tech blogs, relationship media)
-- Plan seasonal campaigns (Valentine's Day, Mother's Day, Christmas)
+- Manage PR outreach (tech blogs, relationship media) — **include Arabic tech media and Malaysian tech outlets**
+- Plan seasonal campaigns (Valentine's Day, Mother's Day, Christmas, **Eid al-Fitr, Eid al-Adha, Ramadan, Hari Raya Aidilfitri, Hari Raya Haji**)
 
 ### Tools
 - **ASO:** AppFollow, Sensor Tower, or AppTweak
@@ -1460,7 +1601,9 @@ The Female Consultant is the app's **reality check**. While the psychiatrist pro
 - Create a "Natural Language Filter" — rules to make AI messages sound like a real thoughtful man, not an AI
 - Define cultural sensitivity guidelines:
   - What works in Western relationships vs. Middle Eastern vs. Asian vs. Latin cultures
-  - Religious considerations (modesty, public affection norms)
+  - **Arabic cultural norms:** modesty in public affection, family involvement in relationships, Islamic marriage dynamics, Ramadan emotional patterns, importance of family gatherings (العائلة)
+  - **Malay cultural norms:** respect for elders, family-centric relationship decisions, Malay wedding customs, Hari Raya relationship expectations, Muslim Malay vs. non-Muslim differences
+  - Religious considerations (modesty, public affection norms, halal gift considerations)
   - Generational differences (what a 25-year-old woman expects vs. 45-year-old)
 
 **SOS Mode Female Validation**
@@ -1497,7 +1640,9 @@ The Female Consultant is the app's **reality check**. While the psychiatrist pro
 3. **Gift Red Flag List** (Week 11) — gifts that seem good but aren't, with explanations
 4. **SOS Mode Reality Check** (Week 13) — female validation of all emergency response scripts
 5. **Cultural Sensitivity Guide** (Week 4) — how emotional needs vary across cultures and ages
-6. **Female Focus Group Report** (Week 18) — beta testing from the female perspective
+6. **Arabic Women's Perspective Guide** (Week 3-4) — relationship norms, endearment preferences, what resonates vs. offends in Arabic culture
+7. **Malay Women's Perspective Guide** (Week 3-4) — Malaysian relationship norms, preferred expressions of love, cultural do's and don'ts
+8. **Female Focus Group Report** (Week 18) — beta testing from the female perspective (**include Arabic and Malay women**)
 7. **Monthly Authenticity Audit** (ongoing) — ongoing review that new content passes the "real woman" test
 
 ### Selection Criteria for This Role
@@ -1596,7 +1741,8 @@ This role is NOT about academic credentials alone. The ideal candidate:
 | **Published Apps** | At least 2 production Flutter apps on BOTH Google Play + App Store |
 | **Leadership** | Experience conducting code reviews and mentoring junior developers |
 | **Platform Channels** | Experience writing platform-specific code (MethodChannel) for native features |
-| **Nice to Have** | Experience with Wear OS / WatchOS Flutter plugins, HarmonyOS, Rive/Lottie animations, AI API integration, RevenueCat |
+| **Localization** | Experience implementing Flutter localization (`flutter_localizations`, `intl`, ARB files). RTL (Right-to-Left) layout experience strongly preferred. |
+| **Nice to Have** | Experience with Wear OS / WatchOS Flutter plugins, HarmonyOS, Rive/Lottie animations, AI API integration, RevenueCat, **Arabic RTL implementation, bidirectional text handling** |
 
 ### Must-Have Competencies
 - Has architected at least 1 Flutter app from scratch serving both Android + iOS
@@ -1605,12 +1751,13 @@ This role is NOT about academic credentials alone. The ideal candidate:
 - Strong understanding of Flutter performance optimization (Impeller, widget rebuilds, tree shaking)
 - Experience with sensitive data handling and encryption (flutter_secure_storage)
 - Can handle platform-specific edge cases (iOS permissions, Android notification channels, etc.)
+- **Experience implementing RTL layouts for Arabic-language apps (Directionality, EdgeInsetsDirectional, mirrored navigation)**
 
 ### Technical Assessment
 Candidates should demonstrate:
-1. Build a small Flutter app with Clean Architecture + Riverpod/BLoC that runs on both Android + iOS (take-home test)
+1. Build a small Flutter app with Clean Architecture + Riverpod/BLoC that runs on both Android + iOS — **must include locale switching (EN + AR) with RTL support** (take-home test)
 2. Architecture whiteboard session (design the reminder scheduling system with cross-platform notifications)
-3. Code review exercise (review a Flutter PR with intentional issues including platform-specific bugs)
+3. Code review exercise (review a Flutter PR with intentional issues including platform-specific bugs **and RTL layout errors**)
 
 ---
 
@@ -1626,9 +1773,10 @@ Candidates should demonstrate:
 | **Prototyping** | Proficient in interactive prototyping |
 | **User Research** | Experience conducting user interviews and usability testing |
 | **Platform Knowledge** | Deep understanding of Material Design 3 + Apple Human Interface Guidelines (app must feel native on both platforms) |
+| **RTL Design** | **Experience designing RTL (Right-to-Left) interfaces for Arabic-language apps — layout mirroring, Arabic typography, bidirectional content** |
 | **Handoff** | Experience working closely with Flutter developers on cross-platform implementation |
 | **Motion Design** | Ability to design micro-interactions and animations |
-| **Nice to Have** | Experience with male-targeted consumer apps, illustration skills, Lottie animations |
+| **Nice to Have** | Experience with male-targeted consumer apps, illustration skills, Lottie animations, **Arabic typography pairing, multi-language design systems** |
 
 ### Must-Have Competencies
 - Portfolio shows modern, clean, premium mobile designs (not web-converted-to-mobile)
@@ -1639,8 +1787,8 @@ Candidates should demonstrate:
 
 ### Design Challenge
 Candidates should complete:
-1. Design the Hormones onboarding flow (5-7 screens) in Figma
-2. Present design rationale and decisions
+1. Design the Hormones onboarding flow (5-7 screens) in Figma — **in both English (LTR) and Arabic (RTL)**
+2. Present design rationale and decisions — **including RTL layout decisions and Arabic typography choices**
 3. Show how the design adapts to different screen sizes
 
 ---
@@ -1693,7 +1841,8 @@ Candidates should complete:
 | **Cost Optimization** | Experience managing and optimizing multi-model LLM API costs at scale (routing, caching, batching) |
 | **Content Safety** | Experience implementing content moderation and safety filters across different model providers |
 | **Caching** | Experience with Redis or similar for AI response caching |
-| **Nice to Have** | Experience with LiteLLM/OpenRouter (unified multi-model access), LangChain, vector databases (Pinecone/Weaviate), fine-tuning models, sentiment analysis, EQ-Bench evaluation |
+| **Multi-Language AI** | Experience generating AI content in non-English languages, especially Arabic and/or Bahasa Melayu. Understanding of language-specific prompt engineering (Arabic dialects, Malay register). |
+| **Nice to Have** | Experience with LiteLLM/OpenRouter (unified multi-model access), LangChain, vector databases (Pinecone/Weaviate), fine-tuning models, sentiment analysis, EQ-Bench evaluation, **Arabic NLP, Southeast Asian language support** |
 
 ### Must-Have Competencies
 - Has built at least 1 production system using 2+ different LLM APIs
@@ -1702,7 +1851,8 @@ Candidates should complete:
 - Can build intelligent routing logic (classify request → select model → handle failover)
 - Experience with A/B testing AI outputs across different models
 - Ability to evaluate AI output quality systematically with emotional intelligence metrics
-- Understands cost-per-request modeling and can predict monthly AI costs at different user scales
+- **Experience generating AI content in Arabic and/or Bahasa Melayu — understanding that prompts must be culturally native, not translated**
+- Understands cost-per-request modeling and can predict monthly AI costs at different user scales (accounting for language-specific token differences)
 
 ### Technical Assessment
 1. **Multi-model task:** Given 3 relationship scenarios, design which model to use for each and write the prompt for each model — demonstrating understanding of model behavioral differences (take-home)
@@ -1725,7 +1875,8 @@ Candidates should complete:
 | **Bug Management** | Proficient with Jira or similar bug tracking tools |
 | **Device Testing** | Experience testing across multiple Android versions AND iOS versions/devices |
 | **Performance** | Experience with Flutter DevTools and Firebase Performance monitoring |
-| **Nice to Have** | Experience with golden tests, Patrol, Firebase Test Lab, BrowserStack, accessibility testing, security testing basics |
+| **Localization QA** | Experience testing multi-language apps, including RTL (Arabic) layout verification |
+| **Nice to Have** | Experience with golden tests, Patrol, Firebase Test Lab, BrowserStack, accessibility testing, security testing basics, **Arabic RTL testing, multi-language AI output validation** |
 
 ### Must-Have Competencies
 - Has QA'd at least 1 Flutter app through full release cycle on BOTH Android + iOS
@@ -1735,6 +1886,7 @@ Candidates should complete:
 - Attention to detail (critical for notification timing, AI output quality)
 - Experience with timezone-related testing
 - Can identify platform-specific bugs (rendering differences, permission flows, etc.)
+- **Experience testing RTL layouts and multi-language content (Arabic and/or Malay preferred)**
 
 ---
 
@@ -1829,10 +1981,10 @@ Candidates should complete:
 | **Relationship Experience** | Has navigated long-term relationships (can speak from lived experience, not just theory) |
 | **Professional Background** | At least ONE of: licensed relationship counselor, certified life coach, published relationship content creator, women's wellness professional |
 | **Communication Style** | Brutally honest, articulate, can explain emotional nuances clearly |
-| **Cultural Awareness** | Has lived in or extensively worked with people from multiple cultural backgrounds |
+| **Cultural Awareness** | Has lived in or extensively worked with people from multiple cultural backgrounds. **Experience with Arabic/Middle Eastern AND/OR Malay/Southeast Asian relationship norms strongly preferred.** |
 | **Digital Fluency** | Active on social media, understands modern relationship dynamics, memes, and trends |
 | **Content Skills** | Can write, review, and edit emotional/relationship content |
-| **Nice to Have** | Experience moderating focus groups, social media following in relationship/lifestyle space, multilingual, experience with product testing or UX research |
+| **Nice to Have** | Experience moderating focus groups, social media following in relationship/lifestyle space, **multilingual (Arabic and/or Bahasa Melayu is a major plus)**, experience with product testing or UX research |
 
 ### Must-Have Competencies
 - Can articulate the difference between what women say and what they actually feel (emotional subtext)
@@ -1916,14 +2068,22 @@ Candidates should complete:
 | Cloud infrastructure (GCP/AWS) | $200 - $1,000 | $1,800 - $9,000 |
 | Third-party services (Twilio, RevenueCat, etc.) | $200 - $700 | $1,800 - $6,300 |
 | Tools & licenses (Figma, Jira, Codemagic, etc.) | $300 - $600 | $2,700 - $5,400 |
-| Marketing ad budget | $2,000 - $10,000 | $10,000 - $50,000 |
+| **Localization & Translation:** | | |
+| — Arabic UI translation (professional translator) | One-time | $3,000 - $5,000 |
+| — Bahasa Melayu UI translation (professional translator) | One-time | $2,000 - $3,500 |
+| — Arabic AI prompt cultural consultant | $500 - $1,000 | $4,500 - $9,000 |
+| — Malay AI prompt cultural consultant | $400 - $800 | $3,600 - $7,200 |
+| — Arabic fonts license (if premium fonts used) | One-time | $0 - $500 |
+| — Native speaker QA reviewers (Arabic + Malay, beta phase) | One-time | $2,000 - $4,000 |
+| **Localization Subtotal** | | **$15,100 - $29,200** |
+| Marketing ad budget — **3 markets (EN/AR/MS)** | $3,000 - $15,000 | $15,000 - $75,000 |
 | Apple Developer Program | One-time $99/year | $99 |
 | Google Play Store fee | One-time $25 | $25 |
 | Huawei Developer account | One-time $0 (free) | $0 |
 | HarmonyOS port contractor (Phase 3) | Fixed contract | $15,000 - $30,000 |
-| **Subtotal** | | **$36,204 - $117,024** |
+| **Subtotal** | | **$56,304 - $171,224** |
 
-### Grand Total Estimated Budget: $368,104 - $778,424
+### Grand Total Estimated Budget: $388,204 - $832,624
 
 ### Multi-Model AI Cost Savings
 
@@ -1976,6 +2136,12 @@ Candidates should complete:
 | Women find the app offensive/manipulative | Medium | Critical | Female Consultant validates ALL content before release |
 | Domain experts unavailable mid-project | Low | High | Document all frameworks early, create structured knowledge base |
 | Psychiatrist content crosses into medical advice territory | Medium | High | Clear disclaimers, legal review, strict content boundaries |
+| **Arabic AI output quality is unnatural or dialect-wrong** | Medium | High | Native Arabic speaker validates all AI outputs, offer dialect selector (MSA/Gulf/Egyptian), use Claude + GPT which have strongest Arabic |
+| **Bahasa Melayu AI output sounds like Indonesian, not Malaysian** | Medium | Medium | Native Malaysian Malay speaker validates outputs, use Gemini (strong SE Asian support), explicit "Malaysian Malay" in prompts |
+| **RTL layout bugs in Arabic** | High | Medium | Dedicated RTL testing phase, golden tests comparing EN vs. AR screenshots, use `EdgeInsetsDirectional` throughout, avoid hardcoded left/right |
+| **Translation misses or inconsistencies** | Medium | Medium | CI validation for missing ARB keys, automated screenshot comparison across locales, native speaker review |
+| **Cultural offense in Arabic/Malay markets** | Low | Critical | Domain experts review ALL content for cultural appropriateness, separate cultural guides per market, female consultant covers Arabic + Malay norms |
+| **Arabic token costs higher than English** | Low | Low | Arabic text uses more tokens per word — budget 20-30% more for Arabic AI costs, offset with caching |
 
 ---
 
@@ -2012,20 +2178,23 @@ If budget is very limited, a bare-minimum MVP team could be:
 | **Astrologist** (contract) | Zodiac content package (fixed deliverable) |
 
 In this model:
-- Use a freelance designer for UI (fixed contract)
-- Skip dedicated QA (developers test + beta users)
+- Use a freelance designer for UI (fixed contract — must have RTL experience)
+- Skip dedicated QA (developers test + beta users — recruit Arabic + Malay beta testers)
 - Use Firebase for most backend (reduce backend work)
 - Marketing done by founder + social media
 - Psychiatrist input: consult 2-3 sessions to build initial framework, then use published research
-- Female Consultant: fixed contract for content review milestones
+- Female Consultant: fixed contract for content review milestones (must cover Arabic + Malay cultural review)
 - Astrologist: fixed deliverable contract for zodiac content package
-- **Estimated cost: $110,000 - $200,000**
+- **Localization:** Hire freelance Arabic and Malay translators for UI strings (one-time $4K-$7K)
+- **Estimated cost: $120,000 - $215,000**
 - **Timeline: 7-9 months to MVP**
 
 > **Even in the leanest approach, never skip the Female Consultant.** She is the cheapest hire and the highest ROI — one tone-deaf message going viral on social media can kill the app.
 
 ---
 
-*Document Version: 5.0*
+*Document Version: 6.0*
 *Created: February 14, 2026*
+*Last Updated: February 14, 2026*
 *Project: Hormones - AI Relationship Intelligence App*
+*Languages: English, Arabic, Bahasa Melayu*
