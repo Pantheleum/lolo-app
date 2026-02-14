@@ -250,22 +250,45 @@ A searchable, AI-powered memory bank that stores everything meaningful about the
 +--------------------------------------------------+
                         |
 +--------------------------------------------------+
-|                 AI LAYER                          |
-|  Claude API / OpenAI API                          |
-|  Prompt Engineering Service                       |
-|  Personality Analysis Engine                      |
-|  Gift Recommendation ML Pipeline                  |
-|  Smart Action Card Generator                      |
-|  Context Awareness Engine                         |
+|          AI LAYER — MULTI-MODEL ARCHITECTURE      |
+|                                                    |
+|  ┌──────────────────────────────────────────────┐ |
+|  │         AI ROUTER / ORCHESTRATOR              │ |
+|  │  Routes each request to optimal model based   │ |
+|  │  on: task type, emotional depth needed,       │ |
+|  │  cost budget, model availability              │ |
+|  └──────┬──────┬──────────┬──────────┬──────────┘ |
+|         │      │          │          │            |
+|  ┌──────▼──┐┌──▼─────┐┌──▼──────┐┌──▼────────┐  |
+|  │ CLAUDE  ││ GROK   ││ GEMINI  ││ GPT-5     │  |
+|  │ Haiku/  ││ 4.1    ││ Flash   ││ Mini      │  |
+|  │ Sonnet  ││ Fast   ││         ││           │  |
+|  │         ││        ││         ││           │  |
+|  │Emotional││Crisis  ││Data &   ││Fallback   │  |
+|  │Messages ││SOS Mode││Gift     ││& General  │  |
+|  │Action   ││Convo   ││Search   ││Tasks      │  |
+|  │Cards    ││Coach   ││Location ││           │  |
+|  │Zodiac   ││Humor   ││Memory   ││           │  |
+|  └─────────┘└────────┘└─────────┘└───────────┘  |
+|                                                    |
+|  Shared Services:                                  |
+|  - Prompt Engineering Service                      |
+|  - Personality Analysis Engine                     |
+|  - Smart Action Card Generator                     |
+|  - Context Awareness Engine                        |
+|  - Response Cache (Redis)                          |
+|  - Content Safety Filter                           |
 +--------------------------------------------------+
                         |
 +--------------------------------------------------+
 |                DATA LAYER                         |
 |  Firebase Firestore (User Data)                   |
 |  PostgreSQL (Relational Data)                     |
-|  Redis (Caching & Sessions)                       |
+|  Redis (Caching & Sessions + AI Response Cache)   |
 |  Cloud Storage (Media Assets)                     |
-|  Relationship Memory Vault (Encrypted)            |
+|  Relationship Memory Vault (AES-256 Encrypted)    |
+|  Pinecone / Weaviate (Vector DB — personality     |
+|    matching + memory retrieval)                    |
 +--------------------------------------------------+
                         |
 +--------------------------------------------------+
@@ -280,6 +303,86 @@ A searchable, AI-powered memory bank that stores everything meaningful about the
 ```
 
 > **Why Flutter?** Single codebase deploys to Android + iOS simultaneously at launch. Eliminates the need for separate iOS development in Phase 2, saving $56K-$96K. Flutter's rendering engine (Impeller) provides 60fps animations critical for gamification features. HarmonyOS support via community port or ArkUI-X wrapper in Phase 3.
+
+> **Why Multi-Model AI?** No single AI excels at everything. Claude leads in warmth and emotional depth, Grok has the highest EQ benchmark score (1586 Elo on EQ-Bench3) for crisis empathy, Gemini Flash is 20x cheaper for data tasks, and GPT-5 Mini provides reliable fallback. Multi-model reduces costs by 60-70% while delivering best-in-class quality per task.
+
+### 2.3 AI Model Task Routing Map
+
+| App Feature | Primary Model | Fallback Model | Why This Model | Cost/1M Tokens (In/Out) |
+|-------------|--------------|----------------|----------------|------------------------|
+| **Daily love messages** (high volume) | Claude Haiku 4.5 | Grok 4.1 Fast | Warm, empathetic, cheapest for emotional content | $1 / $5 |
+| **Special occasion messages** (premium) | Claude Sonnet 4.5 | Claude Haiku 4.5 | Deepest emotional intelligence, references memories beautifully | $3 / $15 |
+| **SOS Mode — "She's upset"** (crisis) | Grok 4.1 Fast | Claude Sonnet 4.5 | Highest EQ-Bench3 score, most human-like crisis empathy | $0.20 / $0.50 |
+| **Smart Action Cards** (daily proactive) | Claude Haiku 4.5 | Grok 4.1 Fast | Fast, warm, cheap enough for multiple daily cards | $1 / $5 |
+| **Conversation coaching** (real-time) | Grok 4.1 Fast | Claude Haiku 4.5 | Most natural conversational tone, feels like a friend's advice | $0.20 / $0.50 |
+| **After-argument repair** (delicate) | Grok 4.1 Fast | Claude Sonnet 4.5 | Best emotional awareness for sensitive situations | $0.20 / $0.50 |
+| **Gift recommendations** (data/search) | Gemini Flash | GPT-5 Mini | Cheapest, fastest for structured data and location queries | $0.075 / $0.30 |
+| **Gift presentation ideas** | Claude Haiku 4.5 | Grok 4.1 Fast | Creative, warm suggestions need emotional touch | $1 / $5 |
+| **Memory Vault queries** (retrieval) | Gemini Flash | GPT-5 Mini | Fast retrieval, cheap, good at structured search | $0.075 / $0.30 |
+| **Zodiac personality analysis** | Claude Sonnet 4.5 | Claude Haiku 4.5 | Best at nuanced, detailed personality writing | $3 / $15 |
+| **Context awareness processing** | Gemini Flash | GPT-5 Mini | Fast inference for real-time context classification | $0.075 / $0.30 |
+| **Humor-calibrated messages** | Grok 4.1 Fast | Claude Haiku 4.5 | Most natural humor, doesn't feel forced | $0.20 / $0.50 |
+| **Pregnancy/health messages** | Claude Sonnet 4.5 | Claude Haiku 4.5 | Strongest safety guardrails for sensitive medical-adjacent content | $3 / $15 |
+| **General fallback** (any model down) | GPT-5 Mini | Claude Haiku 4.5 | Most reliable uptime, decent emotional quality | ~$3 / $6 |
+
+### 2.4 AI Router Decision Logic
+
+```
+User Request Arrives
+        │
+        ▼
+┌───────────────────┐
+│  CLASSIFY REQUEST  │
+│  - Task type?      │
+│  - Emotional depth │
+│    needed? (1-5)   │
+│  - Latency need?   │
+│  - Cost tier?      │
+└────────┬──────────┘
+         │
+    ┌────▼────┐
+    │ Emotion  │──── depth >= 4 ──→ Is it crisis/SOS?
+    │ Score?   │                         │
+    └────┬────┘                    Yes ──▼──── GROK 4.1 FAST
+         │                         No  ──▼──── CLAUDE SONNET 4.5
+    depth 2-3 ──→ CLAUDE HAIKU 4.5
+         │
+    depth 1 (data only) ──→ GEMINI FLASH
+         │
+    ┌────▼──────────┐
+    │ PRIMARY MODEL  │
+    │ AVAILABLE?     │
+    └────┬──────┬───┘
+       Yes     No
+         │      │
+         ▼      ▼
+      EXECUTE  ROUTE TO
+      REQUEST  FALLBACK MODEL
+         │
+         ▼
+    ┌─────────────┐
+    │ SAFETY CHECK │ ← Content filter before returning to user
+    └──────┬──────┘
+           │
+           ▼
+    ┌─────────────┐
+    │ CACHE RESULT │ ← Cache common patterns to reduce future API calls
+    └──────┬──────┘
+           │
+           ▼
+      RETURN TO APP
+```
+
+### 2.5 Cost Optimization Strategies
+
+| Strategy | How It Works | Savings |
+|----------|-------------|---------|
+| **Response caching** | Cache common message types (good morning for Scorpio + romantic tone). Serve cached response if <24hrs old. | 30-40% reduction |
+| **Prompt compression** | Use efficient prompt templates. Include only relevant personality fields per request, not entire profile. | 20-30% token reduction |
+| **Tiered model routing** | Use cheapest model (Gemini Flash) for data tasks, premium models only when emotional depth is needed. | 60-70% vs. single premium model |
+| **Batch processing** | Pre-generate next-day's action cards overnight using batch API (50% discount). | 50% on batch-eligible tasks |
+| **Smart fallback** | If primary model returns low-quality output (safety filter triggered), retry once with fallback model before serving template. | Avoids wasted retries |
+| **Per-user monthly cap** | Free tier: 50 AI generations/month. Pro: 500. Legend: unlimited. Prevents abuse. | Predictable costs |
 
 ---
 
@@ -354,26 +457,32 @@ A searchable, AI-powered memory bank that stores everything meaningful about the
 | Push notification system (FCM for Android + APNs for iOS) | Backend Developer |
 | Unit + widget tests for core logic | QA Engineer |
 
-### Sprint 3 (Weeks 13-14): Core Features Part 2 + AI Engine
+### Sprint 3 (Weeks 13-14): Core Features Part 2 + Multi-Model AI Engine
 | Task | Owner |
 |------|-------|
-| AI Message Generator with **10 situational modes** (Claude/OpenAI API) | AI/ML Engineer + Backend |
-| Prompt engineering: personality-based + context-aware + humor-calibrated messages | AI/ML Engineer |
+| **AI Router / Orchestrator** — build routing service with model selection logic, failover, and caching | AI/ML Engineer + Backend |
+| Integrate 4 AI providers: Claude API, Grok API, Gemini API, OpenAI API | AI/ML Engineer + Backend |
+| Build model-specific prompt adapters (each model needs different prompting strategy) | AI/ML Engineer |
+| AI Message Generator with **10 situational modes** routed to Claude Haiku/Sonnet | AI/ML Engineer |
+| Prompt engineering: personality-based + context-aware + humor-calibrated (Grok for humor) | AI/ML Engineer |
 | **Daily Context Check-In UI** (5-second mood/status tap screen) | Flutter Developer |
 | **Context Awareness Engine** — backend logic to feed context into all AI prompts | AI/ML Engineer + Backend |
 | Message UI (situational mode picker, tone selection, copy/share) | Flutter Developer |
-| Gift Recommendation Engine with **feedback loop** ("worked" / "didn't work" rating) | AI/ML Engineer + Backend |
-| **"Low Budget, High Impact" gift mode** + presentation ideas + attached message | AI/ML Engineer |
+| Gift Recommendation Engine routed to **Gemini Flash** with **feedback loop** | AI/ML Engineer + Backend |
+| **"Low Budget, High Impact" gift mode** + presentation ideas (Claude Haiku) + attached message | AI/ML Engineer |
+| AI response cache (Redis) — cache common patterns for 30-40% cost savings | Backend Developer |
+| Per-model cost tracking dashboard | AI/ML Engineer + Backend |
 | Settings & preferences screens | Flutter Developer |
 | Important stories + inside jokes + sensitive topics vault UI | Flutter Developer |
-| Integration testing (both Android + iOS) | QA Engineer |
+| Integration testing (both Android + iOS) + AI output quality testing across all 4 models | QA Engineer |
 
 ### Sprint 4 (Weeks 15-16): Smart Actions + Gamification + Polish
 | Task | Owner |
 |------|-------|
-| **Smart Action Cards engine** — contextual "what to say/do/buy/go" card generator | AI/ML Engineer + Backend |
+| **Smart Action Cards engine** — contextual cards via Claude Haiku + Gemini Flash for location data | AI/ML Engineer + Backend |
 | **Smart Action Cards UI** — swipeable cards with complete action plans | Flutter Developer |
-| SOS Mode (upset detection + message generation + **context-aware response**) | AI/ML Engineer + Flutter |
+| SOS Mode routed to **Grok 4.1 Fast** (highest EQ for crisis empathy) + context-aware response | AI/ML Engineer + Flutter |
+| Batch processing pipeline — pre-generate next-day action cards overnight at 50% API discount | AI/ML Engineer + Backend |
 | Gamification system: streaks, points, levels, **Relationship Consistency Score**, **improvement trend graph** | Flutter Developer |
 | **"Next Best Action" AI suggestion** — single most impactful daily action | AI/ML Engineer |
 | Milestone celebrations with shareable badges | Flutter Developer |
@@ -809,12 +918,29 @@ The Backend Developer builds and maintains the server-side infrastructure that p
 **Employment Type:** Full-Time
 
 ### Role Summary
-The AI/ML Engineer is the brain behind what makes Hormones unique. This person designs the AI systems that generate personalized messages, power Smart Action Cards, recommend gifts with feedback learning, drive the SOS mode, analyze personality profiles, and leverage the Relationship Memory Vault to make every output deeply personal. They work at the intersection of prompt engineering, API integration, and data science to deliver genuinely personalized, emotionally intelligent AI outputs.
+The AI/ML Engineer is the brain behind what makes Hormones unique. This person designs and operates the **multi-model AI architecture** — orchestrating Claude, Grok, Gemini, and GPT across different tasks to deliver the best emotional intelligence at optimal cost. They build the AI Router that routes each request to the right model, design prompt templates per model, generate personalized messages, power Smart Action Cards, recommend gifts with feedback learning, drive the SOS mode, analyze personality profiles, and leverage the Relationship Memory Vault to make every output deeply personal. They work at the intersection of prompt engineering, multi-model orchestration, and data science.
 
 ### Key Responsibilities
 
+**Multi-Model AI Router & Orchestration (Core Infrastructure)**
+- Design and build the AI Router service that routes each request to the optimal model:
+  - Classify incoming requests by task type, required emotional depth (1-5), latency requirements
+  - Route emotional tasks (messages, action cards) → Claude Haiku/Sonnet
+  - Route crisis/SOS tasks → Grok 4.1 Fast
+  - Route data/search tasks (gifts, memory queries) → Gemini Flash
+  - Route fallback (model unavailable) → GPT-5 Mini
+- Implement automatic failover — if primary model is down, seamlessly route to fallback
+- Build model-specific prompt adapters (each model has different prompting best practices)
+- Implement unified response format — normalize outputs from 4 different models into consistent format
+- Build cost tracking per model, per user, per task type
+- Implement per-user monthly generation caps (Free: 50, Pro: 500, Legend: unlimited)
+- Design response caching layer (Redis) — cache common patterns to reduce API calls by 30-40%
+- Build batch processing pipeline — pre-generate next-day action cards overnight at 50% API discount
+- Monitor model quality scores per task — if a model's output quality drops, re-route to alternative
+- Manage API keys, rate limits, and billing across 4 providers (Anthropic, xAI, Google, OpenAI)
+
 **AI Message Generation System (Module 2)**
-- Design prompt engineering architecture for Claude/OpenAI API
+- Design prompt engineering architecture per model (Claude, Grok, Gemini, GPT — each needs different prompt style)
 - Build dynamic prompt templates that incorporate:
   - Partner personality profile (zodiac defaults + manual overrides + all profile fields)
   - Current context state (from Module 9 daily check-in: mood, conflict, sick, travel, etc.)
@@ -905,12 +1031,19 @@ The AI/ML Engineer is the brain behind what makes Hormones unique. This person d
 - Conduct regular prompt optimization based on data
 
 ### Tech Stack
-- **AI APIs:** Claude API (Anthropic) / OpenAI API
-- **Language:** Python (prompt engineering, data pipelines) + Dart/TypeScript (service layer)
-- **Prompt Management:** LangChain or custom prompt templating
+- **AI APIs (Multi-Model):**
+  - Claude API — Anthropic (Haiku 4.5 for daily, Sonnet 4.5 for premium)
+  - Grok API — xAI (4.1 Fast for SOS, crisis, humor, conversation coaching)
+  - Gemini API — Google (Flash for data tasks, gift search, memory queries)
+  - OpenAI API — GPT-5 Mini (fallback and general tasks)
+- **AI Orchestration:** Custom AI Router service or LiteLLM / OpenRouter for unified multi-model access
+- **Language:** Python (prompt engineering, data pipelines, router logic) + Dart/TypeScript (service layer)
+- **Prompt Management:** LangChain or custom prompt templating with model-specific adapters
 - **Vector DB:** Pinecone or Weaviate (for personality matching + memory retrieval)
-- **Analytics:** Custom dashboards + Firebase Analytics
-- **Content Safety:** Custom filters + API-provided safety layers
+- **Caching:** Redis (AI response cache — 30-40% cost reduction)
+- **Analytics:** Custom dashboards + Firebase Analytics + per-model cost tracking
+- **Content Safety:** Custom filters + API-provided safety layers (all models pass through unified safety check)
+- **Batch Processing:** Cloud Functions scheduled jobs for overnight action card pre-generation
 
 ---
 
@@ -1549,28 +1682,33 @@ Candidates should complete:
 | Requirement | Details |
 |------------|---------|
 | **Education** | Bachelor's or Master's degree in Computer Science, AI/ML, Data Science, or related field |
-| **Min. Experience** | 3-5 years in AI/ML engineering, 1+ year with LLM integration |
-| **LLM Experience** | Hands-on experience with Claude API or OpenAI API (production usage required) |
-| **Prompt Engineering** | Proven experience designing complex prompt chains with dynamic variables |
-| **Python** | Strong Python skills for data processing and prompt engineering |
-| **NLP** | Understanding of natural language processing concepts |
+| **Min. Experience** | 3-5 years in AI/ML engineering, 2+ years with LLM integration in production |
+| **Multi-Model Experience** | **Hands-on experience with at least 2 of:** Claude API (Anthropic), OpenAI API, Gemini API (Google), Grok API (xAI). Must understand behavioral differences between models. |
+| **Model Orchestration** | Experience building AI routing/orchestration systems that select models based on task type, cost, and quality requirements |
+| **Prompt Engineering** | Proven experience designing complex prompt chains with dynamic variables. Must understand that different models require different prompting strategies. |
+| **Python** | Strong Python skills for data processing, prompt engineering, and router logic |
+| **NLP** | Understanding of natural language processing concepts and emotional tone analysis |
 | **Recommendation Systems** | Experience building recommendation engines (collaborative or content-based filtering) |
-| **API Integration** | Experience building AI service layers consumed by mobile/web apps |
-| **Cost Optimization** | Experience managing and optimizing LLM API costs at scale |
-| **Content Safety** | Experience implementing content moderation and safety filters |
-| **Nice to Have** | Experience with LangChain, vector databases (Pinecone/Weaviate), fine-tuning models, sentiment analysis |
+| **API Integration** | Experience building AI service layers consumed by mobile/web apps across multiple providers |
+| **Cost Optimization** | Experience managing and optimizing multi-model LLM API costs at scale (routing, caching, batching) |
+| **Content Safety** | Experience implementing content moderation and safety filters across different model providers |
+| **Caching** | Experience with Redis or similar for AI response caching |
+| **Nice to Have** | Experience with LiteLLM/OpenRouter (unified multi-model access), LangChain, vector databases (Pinecone/Weaviate), fine-tuning models, sentiment analysis, EQ-Bench evaluation |
 
 ### Must-Have Competencies
-- Has built at least 1 production system using LLM APIs
-- Can design prompt templates that produce consistent, high-quality outputs
-- Understands token optimization and caching strategies
-- Experience with A/B testing AI outputs
-- Ability to evaluate AI output quality systematically
+- Has built at least 1 production system using 2+ different LLM APIs
+- Can design model-specific prompt templates (understands Claude vs. Grok vs. GPT prompting differences)
+- Understands token optimization, response caching, and batch processing strategies
+- Can build intelligent routing logic (classify request → select model → handle failover)
+- Experience with A/B testing AI outputs across different models
+- Ability to evaluate AI output quality systematically with emotional intelligence metrics
+- Understands cost-per-request modeling and can predict monthly AI costs at different user scales
 
 ### Technical Assessment
-1. Design a prompt system that generates personalized love messages based on personality inputs (take-home)
-2. Whiteboard: architect the SOS Mode assessment and response system
-3. Discussion: how to handle AI hallucinations and inappropriate outputs in a relationship context
+1. **Multi-model task:** Given 3 relationship scenarios, design which model to use for each and write the prompt for each model — demonstrating understanding of model behavioral differences (take-home)
+2. **Architecture whiteboard:** Design the AI Router — how to classify requests, route to models, handle failover, cache responses, and track costs
+3. **Emotional quality evaluation:** Review 10 AI-generated messages (from different models, unlabeled) and rank them by emotional quality — demonstrating ability to evaluate EQ in AI outputs
+4. **Discussion:** How to handle AI hallucinations, inappropriate outputs, and model-specific safety concerns in a relationship context
 
 ---
 
@@ -1769,7 +1907,12 @@ Candidates should complete:
 
 | Item | Monthly Cost | 9-Month Total |
 |------|-------------|---------------|
-| AI API costs (Claude/OpenAI) | $500 - $2,000 | $4,500 - $18,000 |
+| **AI API costs (Multi-Model):** | | |
+| — Claude API (Haiku + Sonnet) | $300 - $1,200 | $2,700 - $10,800 |
+| — Grok API (4.1 Fast) | $50 - $300 | $450 - $2,700 |
+| — Gemini API (Flash) | $20 - $100 | $180 - $900 |
+| — OpenAI API (GPT-5 Mini fallback) | $50 - $200 | $450 - $1,800 |
+| **AI API Subtotal** | **$420 - $1,800** | **$3,780 - $16,200** |
 | Cloud infrastructure (GCP/AWS) | $200 - $1,000 | $1,800 - $9,000 |
 | Third-party services (Twilio, RevenueCat, etc.) | $200 - $700 | $1,800 - $6,300 |
 | Tools & licenses (Figma, Jira, Codemagic, etc.) | $300 - $600 | $2,700 - $5,400 |
@@ -1778,9 +1921,19 @@ Candidates should complete:
 | Google Play Store fee | One-time $25 | $25 |
 | Huawei Developer account | One-time $0 (free) | $0 |
 | HarmonyOS port contractor (Phase 3) | Fixed contract | $15,000 - $30,000 |
-| **Subtotal** | | **$35,924 - $118,824** |
+| **Subtotal** | | **$36,204 - $117,024** |
 
-### Grand Total Estimated Budget: $367,824 - $780,224
+### Grand Total Estimated Budget: $368,104 - $778,424
+
+### Multi-Model AI Cost Savings
+
+| Approach | Monthly AI Cost (10K users) | Annual AI Cost |
+|----------|---------------------------|----------------|
+| **Single model (Claude Sonnet for everything)** | $4,500 - $15,000 | $54,000 - $180,000 |
+| **Multi-model (our approach)** | $750 - $4,500 | $9,000 - $54,000 |
+| **Savings** | **$3,750 - $10,500/mo** | **$45,000 - $126,000/yr** |
+
+> The multi-model approach saves **60-70% on AI costs** while delivering **better quality per task** because each model is used for what it does best.
 
 ### Flutter Cost Savings vs. Native Android + iOS
 
@@ -1805,7 +1958,10 @@ Candidates should complete:
 | AI generates inappropriate messages | Medium | High | Multi-layer content filtering + human review for edge cases |
 | Users perceive app as sexist/offensive | Medium | High | Careful branding, inclusive language, female beta testers |
 | Low user retention after install | High | High | Gamification, streak rewards, valuable push notifications |
-| AI API costs exceed budget | Medium | Medium | Implement caching, optimize prompts, set per-user limits |
+| AI API costs exceed budget | Low | Medium | Multi-model routing (cheapest model per task), Redis caching (30-40% savings), batch processing (50% discount), per-user caps |
+| Single AI provider outage breaks app | Low | Low | Multi-model architecture with automatic failover — if Claude is down, route to Grok/GPT |
+| AI model quality degrades after provider update | Medium | Medium | Automated quality scoring per model, A/B testing, can re-route to alternative model within hours |
+| Prompt injection or misuse by users | Medium | High | Input sanitization, content safety filter on all 4 models, rate limiting per user |
 | Competitor copies unique features | Medium | Medium | Move fast, build brand loyalty, continuous innovation |
 | App Store rejection | Low | High | Follow all Play Store guidelines, privacy policy compliance |
 | Key team member leaves | Medium | High | Document everything, cross-training, modular architecture |
@@ -1870,6 +2026,6 @@ In this model:
 
 ---
 
-*Document Version: 4.0*
+*Document Version: 5.0*
 *Created: February 14, 2026*
 *Project: Hormones - AI Relationship Intelligence App*
