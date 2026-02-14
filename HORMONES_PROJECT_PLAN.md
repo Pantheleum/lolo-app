@@ -156,16 +156,25 @@ The first AI-powered relationship assistant that combines personality profiling 
 
 | Week | Activity | Deliverables | Team Involved |
 |------|----------|-------------|---------------|
-| 1 | Market research deep-dive | Competitive analysis report | Product Manager, Business Analyst |
-| 1 | Define user personas & journeys | User persona documents (x3) | UX Designer, Product Manager |
+| 1 | Market research deep-dive | Competitive analysis report | Product Manager |
+| 1 | Define user personas & journeys | User persona documents (x3) | UX Designer, Product Manager, Female Consultant |
+| 1 | Women's Emotional State Framework kickoff | Framework outline | Psychiatrist |
+| 1 | Zodiac Master Profiles kickoff | 12-sign profile research begins | Astrologist |
+| 1 | App concept female validation | "Would women support or oppose this app?" report | Female Consultant |
 | 2 | Feature prioritization (MoSCoW) | Prioritized feature backlog | Product Manager, Tech Lead |
 | 2 | Technical architecture design | Architecture document, tech stack decision | Tech Lead, Backend Developer |
+| 2 | Women's Emotional State Framework delivery | Complete psychological framework document | Psychiatrist |
+| 2-3 | "What She Actually Wants" document | 100+ real-world scenario cards | Female Consultant + Psychiatrist |
+| 2-3 | 12 Zodiac Master Profiles delivery | Comprehensive personality profiles per sign | Astrologist |
 | 3 | Wireframing (all screens) | Low-fidelity wireframes (30+ screens) | UX/UI Designer |
 | 3 | AI prompt engineering research | AI strategy document | AI/ML Engineer |
+| 3-4 | 144 Compatibility Pairing Guides | All zodiac x zodiac dynamics | Astrologist |
 | 4 | Project plan finalization | Sprint plan, resource allocation | Product Manager, all leads |
 | 4 | Design system creation | Color palette, typography, component library | UX/UI Designer |
+| 4 | Cultural Sensitivity Guide | Cross-cultural emotional needs guide | Female Consultant |
+| 4 | AI Content Guidelines | Do's/don'ts per emotional state | Psychiatrist + Female Consultant |
 
-**Milestone:** Approved architecture + wireframes + sprint backlog
+**Milestone:** Approved architecture + wireframes + sprint backlog + domain expert frameworks complete
 
 ---
 
@@ -298,34 +307,37 @@ Month 1       Month 2       Month 3       Month 4       Month 5       Month 6-9
 ## 4.1 Organization Chart
 
 ```
-                    +---------------------+
-                    |    Product Owner     |
-                    |    (You / Founder)   |
-                    +----------+----------+
-                               |
-                    +----------+----------+
-                    |   Product Manager    |
-                    +----------+----------+
-                               |
-          +--------------------+--------------------+
-          |                    |                    |
-+---------+---------+ +-------+--------+ +---------+---------+
-|   Tech Lead /     | |   UX/UI        | |   AI/ML           |
-|   Senior Android  | |   Designer     | |   Engineer         |
-|   Developer       | +----------------+ +-------------------+
-+---------+---------+
-          |
-+---------+---------+
-|   Backend         |
-|   Developer       |
-+---------+---------+
-          |
-+---------+---------+
-|   QA Engineer     |
-+-------------------+
+                         +---------------------+
+                         |    Product Owner     |
+                         |    (You / Founder)   |
+                         +----------+----------+
+                                    |
+                         +----------+----------+
+                         |   Product Manager    |
+                         +----------+----------+
+                                    |
+     +-------------+----------------+----------------+-------------+
+     |              |                |                |             |
++----+----+  +------+------+  +-----+------+  +-----+------+  +---+---+
+|Tech Lead|  |   UX/UI     |  |   AI/ML    |  |  Domain    |  |Market-|
+|Sr.Android| |  Designer   |  |  Engineer  |  |  Experts   |  | ing   |
+|Developer|  +-------------+  +------------+  |  Advisory   |  +-------+
++----+----+                                   |  Board     |
+     |                                        +-----+------+
++----+----+                                         |
+| Backend |                          +--------------+--------------+
+|Developer|                          |              |              |
++----+----+                   +------+-----+ +-----+------+ +-----+------+
+     |                        | Psychiatrist| | Astrologist | |  Female    |
++----+----+                   | (Women's   | | (Zodiac    | | Consultant |
+|   QA    |                   | Psychology)| | Expert)    | | (Emotional |
+| Engineer|                   +------------+ +------------+ | Intelligence|
++---------+                                                 +------------+
 ```
 
 ## 4.2 Team Roster
+
+### Technical Team
 
 | # | Role | Type | Phase Needed | Commitment |
 |---|------|------|-------------|------------|
@@ -338,8 +350,19 @@ Month 1       Month 2       Month 3       Month 4       Month 5       Month 6-9
 | 7 | **DevOps Engineer** | Part-time / Contractor | Phase 3, 5 | Weeks 9-12, 20-22 |
 | 8 | **Marketing Specialist** | Part-time then Full-time | Phase 4-6 | Weeks 17-36 |
 
-**Core Team Size: 6 full-time + 2 part-time = 8 members**
-**MVP Team Size (minimum): 6 members**
+### Domain Expert Advisory Board
+
+| # | Role | Type | Phase Needed | Commitment |
+|---|------|------|-------------|------------|
+| 9 | **Psychiatrist / Women's Psychology Expert** | Part-time Consultant | Phase 1-6 | Weeks 1-36 (8-12 hrs/week) |
+| 10 | **Professional Astrologist** | Part-time Consultant | Phase 1, 3, then on-call | Weeks 1-4, 9-16 (10 hrs/week), then 4 hrs/week |
+| 11 | **Female Consultant / Emotional Intelligence Advisor** | Part-time Consultant | Phase 1-6 | Weeks 1-36 (8-12 hrs/week) |
+
+**Total Team Size: 8 technical + 3 domain experts = 11 members**
+**Core Team Size: 6 full-time + 2 part-time technical + 3 domain consultants**
+**MVP Team Size (minimum): 6 technical + 3 domain experts**
+
+> **Why Domain Experts are Non-Negotiable:** Without these 3 specialists, the AI generates generic internet-level advice. With them, Hormones delivers clinically-informed, astrologically-accurate, and emotionally-authentic content that no competitor can replicate. They are the app's **unfair advantage**.
 
 ---
 
@@ -347,11 +370,14 @@ Month 1       Month 2       Month 3       Month 4       Month 5       Month 6-9
 
 ```
 Week 1  ====> Product Manager + UX/UI Designer
+Week 1  ====> Psychiatrist + Astrologist + Female Consultant (Domain Advisory Board)
 Week 5  ====> Tech Lead / Senior Android Developer
 Week 9  ====> Backend Developer + AI/ML Engineer + QA Engineer
 Week 9  ====> DevOps Engineer (part-time contractor)
 Week 17 ====> Marketing Specialist
 ```
+
+> **Critical:** The 3 domain experts start on **Week 1** alongside the Product Manager. Their input shapes every feature from day one — the personality engine, message tone, zodiac logic, SOS mode scenarios, and content guidelines all depend on their expertise. Starting them later would mean expensive rework.
 
 This staggered hiring reduces burn rate in early weeks when only planning and design work is happening.
 
@@ -870,6 +896,321 @@ The Marketing Specialist is responsible for building awareness, driving download
 
 ---
 
+## 5.9 Psychiatrist / Women's Psychology Expert
+
+**Job Title:** Women's Psychology Consultant
+**Department:** Domain Expert Advisory Board
+**Reports To:** Product Manager
+**Employment Type:** Part-Time Consultant (8-12 hours/week)
+
+### Role Summary
+The Psychiatrist / Women's Psychology Expert is the scientific backbone of the Hormones app. This person ensures that all app content, AI responses, and feature behavior are grounded in real psychological understanding of women's emotional states across different life situations — menstrual cycles, pregnancy, postpartum, menopause, stress responses, grief, and daily emotional fluctuations. Their input directly trains the AI to respond with clinical accuracy rather than stereotypes.
+
+### Key Responsibilities
+
+**Psychological Framework Development**
+- Design the core emotional state model that powers the AI engine:
+  - Menstrual cycle phases (follicular, ovulation, luteal, menstruation) and their emotional/behavioral impact
+  - Pregnancy trimesters: emotional changes, needs, sensitivities, and communication adjustments per trimester
+  - Postpartum period: emotional vulnerability, support needs, warning signs for PPD
+  - Menopause transition: mood changes, emotional needs, sensitivity triggers
+  - General stress responses: work stress, family conflict, grief, health anxiety
+- Create evidence-based emotional profiles for each life stage
+- Define "emotional temperature" indicators the app can use to adjust message tone
+
+**AI Content Validation & Training**
+- Review and validate all AI-generated message templates for psychological accuracy
+- Create "do's and don'ts" guidelines for each emotional state:
+  - What to say when she's in her luteal phase (PMS) vs. what to absolutely avoid
+  - How to communicate during pregnancy anxiety vs. pregnancy excitement
+  - Appropriate vs. harmful responses when she's grieving
+  - When to encourage, when to listen, when to give space
+- Design the SOS Mode assessment questions (clinically informed)
+- Validate SOS Mode response recommendations for psychological safety
+- Flag content that could be emotionally harmful or manipulative
+
+**Situation Mapping & Response Libraries**
+- Build comprehensive situation database with recommended approaches:
+
+  | Situation Category | Sub-Situations | Output |
+  |-------------------|----------------|--------|
+  | Menstrual Cycle | PMS, cramps, heavy flow, irregular | Tailored message tone + action suggestions |
+  | Pregnancy | Each trimester, morning sickness, anxiety, nesting | Appropriate care messages + gift ideas |
+  | Postpartum | Baby blues, sleep deprivation, body image, PPD signs | Support messages + when to seek help flags |
+  | Menopause | Hot flashes, mood swings, self-image changes | Patience-focused guidance + comfort suggestions |
+  | Emotional Crisis | Argument, betrayal feeling, work stress, family loss | De-escalation scripts + empathy coaching |
+  | Daily Moods | Happy, tired, overwhelmed, lonely, anxious | Context-appropriate check-in messages |
+
+- Define severity levels for each situation (1-5 scale)
+- Create escalation protocols (when the app should suggest professional help vs. handle in-app)
+
+**Content Ethics & Safety**
+- Ensure all content avoids:
+  - Reducing women to their biology (respectful framing)
+  - Manipulative tactics disguised as "advice"
+  - Medical advice (clear disclaimers — app provides emotional support, not medical diagnosis)
+  - Stereotyping or generalizing female behavior
+- Design content review checklist for ongoing AI output auditing
+- Advise on mental health resource integration (crisis hotlines, therapy recommendations)
+- Review app disclaimer and legal language around psychological content
+
+**User Research Support**
+- Advise on survey design for understanding male users' relationship pain points
+- Interpret user behavior data through psychological lens
+- Contribute to beta testing evaluation (is the app helping or creating dependency?)
+- Consult on gamification psychology (ensure healthy engagement, not addiction)
+
+**Ongoing Advisory**
+- Weekly review sessions with AI/ML Engineer to refine prompt psychology
+- Monthly content audit of AI-generated messages
+- Quarterly update of psychological frameworks based on latest research
+- On-call availability for edge case review during development sprints
+
+### Deliverables
+1. **Women's Emotional State Framework Document** (Week 2) — the master reference for all AI behavior
+2. **Situation-Response Matrix** (Week 3) — comprehensive mapping of 50+ situations to recommended approaches
+3. **AI Content Guidelines** (Week 4) — do's, don'ts, and tone rules for every emotional context
+4. **SOS Mode Clinical Framework** (Week 10) — assessment logic and safe response protocols
+5. **Monthly Content Audit Reports** (ongoing) — review of AI output quality and safety
+6. **Pregnancy & Postpartum Module** (Week 12) — specialized content framework for expectant/new parents
+
+---
+
+## 5.10 Professional Astrologist
+
+**Job Title:** Astrology & Zodiac Systems Consultant
+**Department:** Domain Expert Advisory Board
+**Reports To:** Product Manager
+**Employment Type:** Part-Time Consultant (10 hrs/week in Phase 1 & 3, 4 hrs/week afterward)
+
+### Role Summary
+The Professional Astrologist transforms Hormones from a generic reminder app into a deeply personalized experience. This person builds the zodiac intelligence layer — defining how each sign thinks, loves, communicates, gets angry, and wants to be appreciated. Their work feeds directly into the AI message generator, gift recommendation engine, and personality profiling system, making every output feel eerily accurate to the user's partner.
+
+### Key Responsibilities
+
+**Zodiac Personality Engine Design**
+- Create comprehensive personality profiles for all 12 zodiac signs covering:
+
+  | Dimension | Per-Sign Detail |
+  |-----------|----------------|
+  | Love style | How she expresses and receives love |
+  | Communication | Preferred communication style (direct, subtle, emotional, logical) |
+  | Conflict behavior | How she acts when upset, what triggers her, de-escalation approach |
+  | Gift preferences | What types of gifts resonate (sentimental vs. practical vs. luxury vs. experiential) |
+  | Romance expectations | Grand gestures vs. small daily acts, public vs. private affection |
+  | Jealousy & trust | Sensitivity levels, trust-building approaches |
+  | Stress response | How she handles stress, what support she needs |
+  | Celebration style | How she likes to celebrate (quiet dinner vs. surprise party vs. travel) |
+  | Deal-breakers | What each sign considers unforgivable |
+  | Peak emotional times | Moon phase sensitivity, seasonal patterns |
+
+- Define compatibility dynamics between male and female sign pairings (144 combinations)
+- Create "cheat sheets" for each sign: "The 5 Things a Scorpio Woman Needs to Hear"
+
+**Zodiac-Based Message Calibration**
+- Design message tone guidelines per zodiac sign:
+  - Aries: direct, bold, confident compliments
+  - Taurus: sensual, comfort-focused, stability-affirming
+  - Gemini: witty, intellectually stimulating, playful
+  - Cancer: deeply emotional, nurturing, home-centered
+  - Leo: dramatic, admiring, public acknowledgment
+  - Virgo: thoughtful, detail-oriented, practical appreciation
+  - Libra: romantic, aesthetic, harmony-focused
+  - Scorpio: intense, passionate, deeply personal
+  - Sagittarius: adventurous, freedom-respecting, humor-driven
+  - Capricorn: ambitious acknowledgment, respect-based, goal-supportive
+  - Aquarius: unique, unconventional, intellectual connection
+  - Pisces: dreamy, poetic, emotionally deep
+- Create 20+ message templates per sign per occasion type (birthday, anniversary, apology, random love, etc.)
+- Define "never say this to a [sign]" red flag content rules
+
+**Gift Recommendation by Zodiac**
+- Build zodiac-based gift preference matrices:
+  - Budget tiers ($25, $50, $100, $250, $500+) per sign
+  - Occasion types (birthday, anniversary, apology, Valentine's, "just because") per sign
+  - Gift categories ranked by sign preference (jewelry, experiences, tech, books, fashion, home, wellness, food)
+- Define seasonal gift recommendations (what a Cancer wants for Christmas vs. her birthday)
+- Create "guaranteed hit" gift lists per sign (top 10 gifts that never fail)
+
+**Compatibility & Relationship Dynamics**
+- Design compatibility scoring algorithm inputs for all sign pairings
+- Define relationship challenge predictions by pairing ("Aries man + Cancer woman: expect conflict around...")
+- Create pairing-specific advice: "As a Taurus man with a Sagittarius woman, remember to..."
+- Build monthly relationship forecast content framework
+
+**Astrological Calendar Integration**
+- Define zodiac-relevant dates and their significance:
+  - Mercury retrograde periods (communication caution alerts)
+  - Venus transits (romance peak windows)
+  - Full moon emotional intensity warnings
+  - Her sign's ruling planet transits
+- Create astrological event notification content
+- Design "cosmic timing" suggestions ("Best day this month to have a deep conversation with your Leo partner: [date]")
+
+**AI Prompt Engineering Support**
+- Work directly with AI/ML Engineer to embed zodiac logic into prompts
+- Validate AI output accuracy for zodiac-specific content
+- Refine prompts based on astrological nuance feedback
+- Create zodiac "personality vectors" the AI can reference
+
+### Deliverables
+1. **12 Zodiac Master Profiles** (Week 2-3) — comprehensive personality documents per sign
+2. **144 Compatibility Pairing Guides** (Week 3-4) — interaction dynamics for every combination
+3. **Zodiac Message Tone Guide** (Week 10) — AI calibration rules per sign
+4. **Gift Recommendation Matrix** (Week 11) — complete zodiac x budget x occasion mapping
+5. **Astrological Calendar Events** (Week 12) — 12-month cosmic event calendar with content templates
+6. **Monthly Content Refresh** (ongoing) — seasonal zodiac updates and new templates
+
+---
+
+## 5.11 Female Consultant / Emotional Intelligence Advisor
+
+**Job Title:** Female Emotional Intelligence & Relationship Experience Consultant
+**Department:** Domain Expert Advisory Board
+**Reports To:** Product Manager
+**Employment Type:** Part-Time Consultant (8-12 hours/week)
+
+### Role Summary
+The Female Consultant is the app's **reality check**. While the psychiatrist provides clinical accuracy and the astrologist provides zodiac depth, this role provides the raw, honest, lived female perspective. She answers the question every feature must pass: *"Would this actually make a real woman feel loved, or would it feel fake/creepy/tone-deaf?"* This person validates that every message, gift suggestion, and SOS response would genuinely resonate with women — not just sound good in theory.
+
+### Key Responsibilities
+
+**Authentic Female Perspective Validation**
+- Review ALL AI-generated messages and rate them on a "Real Woman" scale:
+  - Would she smile or cringe reading this?
+  - Does this feel genuine or robotic?
+  - Is this what she actually wants to hear, or what men think she wants to hear?
+  - Would she suspect an app wrote this?
+- Provide alternative phrasing that sounds more natural and human
+- Identify messages that are technically correct but emotionally off
+- Flag content that crosses from "sweet" to "creepy" or "trying too hard"
+
+**Emotional Scenario Validation**
+- For every situation the app handles, validate the recommended approach:
+
+  | Scenario | What Men Think She Wants | What She Actually Wants | Gap Analysis |
+  |----------|------------------------|------------------------|-------------|
+  | She's upset after argument | Apologize immediately | Sometimes: space first, then acknowledge her feeling, THEN apologize | Timing matters |
+  | She's stressed about work | Offer solutions | Listen first, validate, ask if she wants advice or just venting | Don't fix, empathize |
+  | She says "I'm fine" | Take it at face value | Check in gently, notice body language cues | Read between lines |
+  | She's on her period | Avoid the topic | Bring comfort without being asked (blanket, tea, chocolate) | Proactive care |
+  | Pregnancy mood swing | Try to cheer her up | Validate that her feelings are real and okay | Don't minimize |
+  | She's comparing to other couples | Reassure verbally | Show through action, not just words | Actions > words |
+
+- Create 100+ real-world scenario cards with honest female-validated responses
+- Define "the gap" between what men assume and what women actually feel (this becomes core app content)
+
+**Gift Recommendation Reality Check**
+- Review gift suggestions for each occasion and rate:
+  - "She'll love this" / "She'll say she loves it but won't" / "She'll be disappointed" / "This is offensive"
+- Add female-specific gift insights:
+  - Size-related gifts: when it's safe vs. dangerous (never guess her size wrong)
+  - Practical gifts: when appreciated (she asked for it) vs. insulting (you thought she needed a vacuum)
+  - Surprise factor: what actually surprises vs. what feels forced
+  - Timing: a gift on a random Tuesday can mean more than a birthday gift
+- Create "Gifts That Seem Good But Aren't" red flag list
+
+**Tone & Language Calibration**
+- Define the language spectrum for each emotional context:
+  - **Too cold:** "I acknowledge your frustration" (robotic)
+  - **Just right:** "I can see you're having a rough day. What do you need from me?" (caring)
+  - **Too much:** "My eternal queen, your divine emotions are a gift to this world" (cringe)
+- Create a "Natural Language Filter" — rules to make AI messages sound like a real thoughtful man, not an AI
+- Define cultural sensitivity guidelines:
+  - What works in Western relationships vs. Middle Eastern vs. Asian vs. Latin cultures
+  - Religious considerations (modesty, public affection norms)
+  - Generational differences (what a 25-year-old woman expects vs. 45-year-old)
+
+**SOS Mode Female Validation**
+- For every SOS scenario, provide the honest female perspective:
+  - "He forgot our anniversary" — what she's actually feeling (not just anger, but: does he even care about us?)
+  - "We had a big fight" — what would actually make her soften vs. what would make it worse
+  - "She found out I lied" — the trust destruction hierarchy and what rebuilds it
+- Rate SOS response recommendations: "This would work" / "This would backfire"
+- Define the "too late" threshold — when no app can fix it and he needs real action
+
+**Onboarding & UX Female Perspective**
+- Review the onboarding flow for potential female backlash:
+  - If his partner sees the app, would she be flattered or offended?
+  - Is the app positioned as "help" or "manipulation"?
+  - Would women recommend this app to their partners? (viral growth angle)
+- Advise on app naming, tagline, and marketing from a female viewpoint
+- Review promotional content for tone-deafness
+
+**Focus Group Facilitation**
+- Help recruit and moderate female focus groups (10-15 women, diverse ages/backgrounds)
+- Conduct "Would You Feel Loved?" testing sessions with AI-generated content
+- Gather honest feedback on app concept from women's perspective
+- Translate female focus group insights into actionable product requirements
+
+**Content Freshness & Trends**
+- Advise on trending relationship dynamics and expectations
+- Monitor social media (TikTok relationship content, Reddit relationship subs) for real female sentiment
+- Identify new situations/scenarios to add to the app based on current culture
+- Advise on seasonal emotional patterns (holiday stress, summer body image, back-to-school overwhelm)
+
+### Deliverables
+1. **"What She Actually Wants" Master Document** (Week 2-3) — honest female perspective on 100+ common situations
+2. **AI Message Review Report** (Week 10-11) — rated review of all message templates with corrections
+3. **Gift Red Flag List** (Week 11) — gifts that seem good but aren't, with explanations
+4. **SOS Mode Reality Check** (Week 13) — female validation of all emergency response scripts
+5. **Cultural Sensitivity Guide** (Week 4) — how emotional needs vary across cultures and ages
+6. **Female Focus Group Report** (Week 18) — beta testing from the female perspective
+7. **Monthly Authenticity Audit** (ongoing) — ongoing review that new content passes the "real woman" test
+
+### Selection Criteria for This Role
+This role is NOT about academic credentials alone. The ideal candidate:
+- Is a woman aged 28-45 with diverse relationship experience
+- Has professional experience in relationship counseling, coaching, or therapy
+- Is brutally honest and comfortable giving critical feedback
+- Understands multiple cultural contexts
+- Active on social media and understands modern relationship dynamics
+- Can articulate WHY something feels right or wrong emotionally (not just "I don't like it")
+- Ideally: has experience in content creation or editorial roles
+
+---
+
+# DOMAIN EXPERT ADVISORY BOARD: HOW THEY WORK TOGETHER
+
+```
++------------------+     +------------------+     +------------------+
+|   PSYCHIATRIST   |     |   ASTROLOGIST    |     | FEMALE CONSULTANT|
+|                  |     |                  |     |                  |
+| "Here's what's   |     | "A Scorpio woman |     | "That message    |
+|  happening in    |     |  processes anger  |     |  sounds great    |
+|  her brain       |     |  by withdrawing.  |     |  on paper but    |
+|  during PMS      |     |  Don't chase —   |     |  she'd roll her  |
+|  from a clinical |     |  wait 24 hours   |     |  eyes. Say THIS  |
+|  perspective"    |     |  then approach"  |     |  instead..."     |
++--------+---------+     +--------+---------+     +--------+---------+
+         |                         |                        |
+         +-------------------------+------------------------+
+                                   |
+                          +--------v---------+
+                          |   AI/ML ENGINEER  |
+                          |                  |
+                          | Combines all 3   |
+                          | inputs into      |
+                          | prompt logic     |
+                          | that generates   |
+                          | perfect messages |
+                          +------------------+
+```
+
+### Collaboration Model
+
+| Activity | Frequency | Participants | Output |
+|----------|-----------|-------------|--------|
+| Content Strategy Session | Weekly (2 hrs) | All 3 experts + Product Manager | Content direction decisions |
+| AI Prompt Review | Weekly (1 hr) | All 3 experts + AI/ML Engineer | Validated prompt templates |
+| Message Quality Audit | Bi-weekly (2 hrs) | Female Consultant + AI/ML Engineer | Approved/rejected message batches |
+| Zodiac Content Creation | Weekly (2 hrs) | Astrologist + AI/ML Engineer | New zodiac-specific content |
+| Scenario Workshop | Bi-weekly (2 hrs) | Psychiatrist + Female Consultant | New situation-response mappings |
+| Feature Validation | Per sprint | All 3 experts | Feature sign-off from domain perspective |
+| Emergency Content Review | As needed | Relevant expert | Rapid review for sensitive content |
+
+---
+
 # 6. QUALIFICATIONS & EXPERIENCE REQUIREMENTS
 
 ## 6.1 Product Manager
@@ -1061,7 +1402,100 @@ Candidates should complete:
 
 ---
 
-## 6.8 Marketing Specialist
+## 6.8 Marketing Specialist (unchanged — see above)
+
+---
+
+## 6.9 Psychiatrist / Women's Psychology Expert
+
+| Requirement | Details |
+|------------|---------|
+| **Education** | MD in Psychiatry or PhD/PsyD in Clinical Psychology. Must hold a valid license. |
+| **Min. Experience** | 7-10 years in clinical practice with focus on women's mental health |
+| **Specialization** | Women's psychology, reproductive psychiatry, or perinatal mental health |
+| **Required Expertise** | Deep clinical knowledge of hormonal impacts on mood and behavior (menstrual cycle, pregnancy, postpartum, perimenopause, menopause) |
+| **Relationship Focus** | Experience in couples therapy or relationship counseling |
+| **Communication** | Ability to translate clinical concepts into simple, actionable language for non-medical audiences |
+| **Content Creation** | Experience writing for consumer audiences (articles, books, or digital content) |
+| **Cultural Sensitivity** | Experience working with diverse populations across cultures and age groups |
+| **Tech Comfort** | Comfortable collaborating with engineers and reviewing AI-generated content |
+| **Nice to Have** | Published research in women's psychology, media appearances (podcast/TV), experience advising health/wellness apps or startups |
+
+### Must-Have Competencies
+- Can explain complex psychological states in plain language
+- Understands the ethical boundary between "emotional support content" and "medical advice"
+- Comfortable defining content safety guardrails (when the app should recommend professional help)
+- Experience with mood/emotional assessment frameworks
+- Strong opinions on what constitutes respectful vs. reductive portrayal of women's psychology
+
+### Red Flags in Candidates
+- Views women's emotions as purely hormonal (reductive approach)
+- Cannot articulate nuance ("all women want X" generalizations)
+- No practical experience with real patients (academic-only background)
+- Uncomfortable with technology or AI concepts
+
+---
+
+## 6.10 Professional Astrologist
+
+| Requirement | Details |
+|------------|---------|
+| **Education** | Certified by a recognized astrology school/organization (e.g., NCGR, AFA, ISAR, or equivalent international certification). Formal education in psychology, philosophy, or humanities is a strong plus. |
+| **Min. Experience** | 5-8 years of professional astrology practice with paying clients |
+| **Specialization** | Relationship/synastry astrology (compatibility readings between partners) |
+| **Chart Reading** | Expert in natal chart interpretation, synastry charts, and transit analysis |
+| **Zodiac Depth** | Can articulate detailed behavioral patterns for all 12 signs beyond surface-level horoscopes |
+| **Content Creation** | Experience writing horoscope content, astrology blogs, or books |
+| **Modern Approach** | Blends traditional astrology with modern psychological understanding (not purely mystical) |
+| **Client-Facing** | Proven track record of satisfied clients (testimonials/reviews) |
+| **Digital Presence** | Active online presence (blog, social media, YouTube, or podcast) demonstrating expertise |
+| **Nice to Have** | Experience consulting for apps or digital products, understanding of moon phases and planetary transits for timing recommendations, Vedic astrology knowledge for broader cultural appeal |
+
+### Must-Have Competencies
+- Can create detailed, actionable personality profiles per sign (not generic horoscope fluff)
+- Understands compatibility dynamics at a deep level (beyond "Scorpio and Leo don't match")
+- Can provide specific, practical relationship advice per sign pairing
+- Comfortable creating structured data (matrices, frameworks) from astrological knowledge
+- Willing to work within an AI/tech context (translating astrology into prompt engineering inputs)
+
+### Assessment
+1. Provide a detailed personality profile for any 2 zodiac signs (demonstrating depth)
+2. Describe the relationship dynamics between a specific pairing (e.g., Taurus man + Aquarius woman)
+3. Create 5 personalized love message examples for a specific sign, varying by occasion
+
+---
+
+## 6.11 Female Consultant / Emotional Intelligence Advisor
+
+| Requirement | Details |
+|------------|---------|
+| **Education** | Bachelor's degree minimum. Preferred: Psychology, Counseling, Communications, Social Work, Gender Studies, or related field. |
+| **Min. Experience** | 5-8 years in relationship counseling, life coaching, content creation, or women's advocacy |
+| **Age Range** | 28-45 preferred (broad enough to understand both younger and older women's perspectives) |
+| **Relationship Experience** | Has navigated long-term relationships (can speak from lived experience, not just theory) |
+| **Professional Background** | At least ONE of: licensed relationship counselor, certified life coach, published relationship content creator, women's wellness professional |
+| **Communication Style** | Brutally honest, articulate, can explain emotional nuances clearly |
+| **Cultural Awareness** | Has lived in or extensively worked with people from multiple cultural backgrounds |
+| **Digital Fluency** | Active on social media, understands modern relationship dynamics, memes, and trends |
+| **Content Skills** | Can write, review, and edit emotional/relationship content |
+| **Nice to Have** | Experience moderating focus groups, social media following in relationship/lifestyle space, multilingual, experience with product testing or UX research |
+
+### Must-Have Competencies
+- Can articulate the difference between what women say and what they actually feel (emotional subtext)
+- Comfortable providing critical feedback to a mostly-male team without filtering
+- Understands generational differences in relationship expectations (Gen Z vs. Millennial vs. Gen X)
+- Can evaluate AI-generated content for authenticity and emotional resonance
+- Has empathy for the male user too (the app should help him, not shame him)
+- Understands the fine line between "helpful" and "manipulative"
+
+### Assessment
+1. Review 10 AI-generated love messages and rate each: "Would work / Needs adjustment / Would backfire" — with explanations
+2. Describe 3 common situations where men misread women's emotions, and what the right response actually is
+3. Evaluate the Hormones app concept from a woman's perspective: would she be flattered or offended if her partner used it?
+
+---
+
+## 6.12 Marketing Specialist
 
 | Requirement | Details |
 |------------|---------|
@@ -1088,6 +1522,8 @@ Candidates should complete:
 
 ## 7.1 Monthly Team Cost (Estimated Ranges)
 
+### Technical Team
+
 | Role | Monthly Cost (USD) | Duration | Total Cost |
 |------|-------------------|----------|------------|
 | Product Manager | $5,000 - $8,000 | 9 months | $45,000 - $72,000 |
@@ -1099,7 +1535,19 @@ Candidates should complete:
 | DevOps (Contractor) | $3,000 - $5,000 | 2 months (spread) | $6,000 - $10,000 |
 | Marketing Specialist | $3,500 - $6,000 | 5 months | $17,500 - $30,000 |
 
-### Total Team Cost: $245,500 - $413,000
+**Technical Team Subtotal: $245,500 - $413,000**
+
+### Domain Expert Advisory Board
+
+| Role | Hourly Rate (USD) | Hours/Week | Duration | Total Cost |
+|------|-------------------|------------|----------|------------|
+| Psychiatrist / Women's Psychology Expert | $150 - $300/hr | 8-12 hrs | 9 months | $43,200 - $129,600 |
+| Professional Astrologist | $75 - $150/hr | 10 hrs (Phase 1,3), 4 hrs (after) | 9 months | $21,600 - $54,000 |
+| Female Consultant / EI Advisor | $75 - $150/hr | 8-12 hrs | 9 months | $21,600 - $64,800 |
+
+**Domain Expert Subtotal: $86,400 - $248,400**
+
+### Total Team Cost: $331,900 - $661,400
 
 ## 7.2 Additional Costs
 
@@ -1113,9 +1561,11 @@ Candidates should complete:
 | App Store fees | One-time $25 (Google) | $25 |
 | **Subtotal** | | **$19,025 - $86,000** |
 
-### Grand Total Estimated Budget: $264,525 - $499,000
+### Grand Total Estimated Budget: $351,000 - $747,400
 
-> **Note:** These are estimates for remote/international team hiring. Costs vary significantly by region. Hiring in South Asia or Eastern Europe can reduce team costs by 40-60%. US/Western Europe based teams could be 2-3x higher.
+> **Note:** These are estimates for remote/international team hiring. Costs vary significantly by region. Hiring tech team in South Asia or Eastern Europe can reduce technical team costs by 40-60%. Domain experts (especially the psychiatrist) command higher rates in Western markets but may be sourced globally. US/Western Europe based teams could be 2-3x higher.
+
+> **Cost Optimization Tip:** Domain experts can be engaged on a deliverable-based contract rather than hourly. For example, pay the Astrologist a fixed fee of $15,000-$25,000 for delivering the complete zodiac content package, then a $2,000-$4,000/month retainer for ongoing support. This can reduce domain expert costs by 30-40%.
 
 ---
 
@@ -1133,6 +1583,11 @@ Candidates should complete:
 | Calendar sync reliability issues | Medium | Medium | Extensive timezone testing, fallback to local reminders |
 | Payment integration complications | Low | Medium | Use well-documented libraries, sandbox testing |
 | Data privacy breach | Low | Critical | Encryption, security audits, minimal data collection |
+| AI content lacks emotional depth without domain experts | High | Critical | Engage Psychiatrist + Female Consultant from Week 1 |
+| Zodiac content feels generic/shallow | Medium | High | Hire certified professional astrologist, not hobbyist |
+| Women find the app offensive/manipulative | Medium | Critical | Female Consultant validates ALL content before release |
+| Domain experts unavailable mid-project | Low | High | Document all frameworks early, create structured knowledge base |
+| Psychiatrist content crosses into medical advice territory | Medium | High | Clear disclaimers, legal review, strict content boundaries |
 
 ---
 
@@ -1142,12 +1597,17 @@ If budget is constrained, hire in this order:
 
 1. **Product Manager** (Week 1) — Cannot start without direction
 2. **UX/UI Designer** (Week 1) — Design runs parallel to planning
-3. **Tech Lead / Sr. Android Dev** (Week 5) — Needs designs to build from
-4. **Backend Developer** (Week 9) — Backend work starts with dev sprints
-5. **AI/ML Engineer** (Week 9) — AI features are the core differentiator
-6. **QA Engineer** (Week 9) — Testing starts immediately with development
-7. **DevOps** (Week 9) — Contract for initial setup, then on-call
-8. **Marketing** (Week 17) — Ramp up before launch
+3. **Female Consultant** (Week 1) — Validates concept from day one, prevents building the wrong thing
+4. **Psychiatrist** (Week 1) — Shapes the psychological framework before any content is created
+5. **Astrologist** (Week 1) — Zodiac engine design needed before development starts
+6. **Tech Lead / Sr. Android Dev** (Week 5) — Needs designs to build from
+7. **Backend Developer** (Week 9) — Backend work starts with dev sprints
+8. **AI/ML Engineer** (Week 9) — AI features are the core differentiator
+9. **QA Engineer** (Week 9) — Testing starts immediately with development
+10. **DevOps** (Week 9) — Contract for initial setup, then on-call
+11. **Marketing** (Week 17) — Ramp up before launch
+
+> **Why domain experts rank higher than developers:** If you build the app without their input and retrofit their knowledge later, you'll rewrite 40-60% of the AI content. Their early involvement prevents costly rework.
 
 ---
 
@@ -1160,17 +1620,24 @@ If budget is very limited, a bare-minimum MVP team could be:
 | **You (Founder)** | Product Manager + Business decisions |
 | **Full-Stack Android Developer** | Tech Lead + Backend + basic DevOps |
 | **AI/ML Engineer** | AI features + prompt engineering |
+| **Female Consultant** (contract) | Reality check + content validation |
+| **Astrologist** (contract) | Zodiac content package (fixed deliverable) |
 
 In this model:
 - Use a freelance designer for UI (fixed contract)
 - Skip dedicated QA (developers test + beta users)
 - Use Firebase for most backend (reduce backend work)
 - Marketing done by founder + social media
-- **Estimated cost: $80,000 - $150,000**
+- Psychiatrist input: consult 2-3 sessions to build initial framework, then use published research
+- Female Consultant: fixed contract for content review milestones
+- Astrologist: fixed deliverable contract for zodiac content package
+- **Estimated cost: $110,000 - $200,000**
 - **Timeline: 7-9 months to MVP**
+
+> **Even in the leanest approach, never skip the Female Consultant.** She is the cheapest hire and the highest ROI — one tone-deaf message going viral on social media can kill the app.
 
 ---
 
-*Document Version: 1.0*
+*Document Version: 2.0*
 *Created: February 14, 2026*
 *Project: Hormones - AI Relationship Intelligence App*
