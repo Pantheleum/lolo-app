@@ -21,7 +21,7 @@
 **Product Name:** Hormones
 **Tagline:** "She won't know why you got so thoughtful. We won't tell."
 **Category:** Lifestyle / Relationship Intelligence
-**Platforms:** Android (primary), iOS (Phase 2), Wear OS / WatchOS (Phase 3)
+**Platforms:** Android + iOS (simultaneous launch via Flutter), HarmonyOS / Huawei (Phase 3), Wear OS / WatchOS (Phase 4)
 **Target Market:** Men aged 22-55 in committed relationships
 **Business Model:** Freemium + Affiliate Revenue + In-App Purchases
 
@@ -106,19 +106,21 @@ The first AI-powered relationship assistant that combines personality profiling 
 ```
 +--------------------------------------------------+
 |                  CLIENT LAYER                     |
-|  Android App (Kotlin + Jetpack Compose)           |
-|  iOS App (Swift + SwiftUI) [Phase 2]              |
-|  Wear OS / WatchOS App [Phase 3]                  |
+|  Flutter App (Dart) ── Single Codebase            |
+|    ├── Android (Google Play Store)                |
+|    ├── iOS (Apple App Store)                      |
+|    ├── HarmonyOS (Huawei AppGallery) [Phase 3]   |
+|    └── Wear OS / WatchOS [Phase 4]               |
 +--------------------------------------------------+
                         |
                     REST API / GraphQL
                         |
 +--------------------------------------------------+
 |                BACKEND LAYER                      |
-|  API Gateway (Node.js / Kotlin Ktor)              |
+|  API Gateway (Node.js TypeScript / Dart Shelf)    |
 |  Authentication Service (Firebase Auth)           |
 |  Notification Service (FCM + APNs)                |
-|  Scheduling Engine (Cron / WorkManager)           |
+|  Scheduling Engine (Cloud Functions / Cron)       |
 +--------------------------------------------------+
                         |
 +--------------------------------------------------+
@@ -139,14 +141,16 @@ The first AI-powered relationship assistant that combines personality profiling 
                         |
 +--------------------------------------------------+
 |             THIRD-PARTY INTEGRATIONS              |
-|  Google Calendar API                              |
+|  Google Calendar API + Apple Calendar (EventKit)  |
 |  WhatsApp Business API                            |
 |  E-commerce Affiliate APIs                        |
-|  Payment Gateway (Stripe / Google Pay)            |
+|  Payment Gateway (RevenueCat / Stripe)            |
 |  Flower/Gift Delivery APIs                        |
 |  Astrology/Zodiac Data API                        |
 +--------------------------------------------------+
 ```
+
+> **Why Flutter?** Single codebase deploys to Android + iOS simultaneously at launch. Eliminates the need for separate iOS development in Phase 2, saving $56K-$96K. Flutter's rendering engine (Impeller) provides 60fps animations critical for gamification features. HarmonyOS support via community port or ArkUI-X wrapper in Phase 3.
 
 ---
 
@@ -199,42 +203,43 @@ The first AI-powered relationship assistant that combines personality profiling 
 ### Sprint 1 (Weeks 9-10): Foundation
 | Task | Owner |
 |------|-------|
-| Project setup (Kotlin, Jetpack Compose, dependency injection) | Android Developer |
-| Firebase setup (Auth, Firestore, FCM) | Backend Developer |
-| Navigation framework + base UI components | Android Developer |
+| Flutter project setup (Dart, Riverpod/Bloc, GoRouter, folder structure) | Flutter Tech Lead |
+| Firebase setup (Auth, Firestore, FCM) for both Android + iOS | Backend Developer |
+| Navigation framework + base UI components + design system implementation | Flutter Tech Lead |
 | User authentication (email, Google, Apple Sign-In) | Backend Developer |
-| CI/CD pipeline setup | DevOps / Tech Lead |
+| CI/CD pipeline setup (GitHub Actions for Android APK + iOS IPA builds) | DevOps / Tech Lead |
 | Database schema design & implementation | Backend Developer |
 
 ### Sprint 2 (Weeks 11-12): Core Features Part 1
 | Task | Owner |
 |------|-------|
-| Onboarding flow (user profile + her profile setup) | Android Developer |
-| Her Profile Engine (zodiac, love language, preferences) | Android Developer + Backend |
-| Smart Reminder Engine (date tracking, notifications) | Android Developer |
-| Calendar sync integration (Google Calendar) | Backend Developer |
-| Push notification system | Backend Developer |
-| Unit tests for core logic | QA Engineer |
+| Onboarding flow (user profile + her profile setup) | Flutter Developer |
+| Her Profile Engine (zodiac, love language, preferences) | Flutter Developer + Backend |
+| Smart Reminder Engine (date tracking, notifications) | Flutter Developer |
+| Calendar sync integration (Google Calendar + Apple Calendar) | Backend Developer |
+| Push notification system (FCM for Android + APNs for iOS) | Backend Developer |
+| Unit + widget tests for core logic | QA Engineer |
 
 ### Sprint 3 (Weeks 13-14): Core Features Part 2
 | Task | Owner |
 |------|-------|
 | AI Message Generator integration (Claude/OpenAI API) | AI/ML Engineer + Backend |
 | Prompt engineering for personality-based messages | AI/ML Engineer |
-| Message UI (categories, tone selection, copy/share) | Android Developer |
+| Message UI (categories, tone selection, copy/share) | Flutter Developer |
 | Gift Recommendation Engine (basic version) | AI/ML Engineer + Backend |
-| Settings & preferences screens | Android Developer |
-| Integration testing | QA Engineer |
+| Settings & preferences screens | Flutter Developer |
+| Integration testing (both Android + iOS) | QA Engineer |
 
 ### Sprint 4 (Weeks 15-16): Polish & MVP Completion
 | Task | Owner |
 |------|-------|
-| SOS Mode (basic: upset detection + message generation) | AI/ML Engineer + Android |
-| Gamification system (streaks, points, levels) | Android Developer |
-| Payment integration (Stripe / Google Play Billing) | Backend Developer |
+| SOS Mode (basic: upset detection + message generation) | AI/ML Engineer + Flutter |
+| Gamification system (streaks, points, levels) with animations | Flutter Developer |
+| Payment integration (RevenueCat for unified Android + iOS subscriptions) | Backend Developer + Flutter |
 | Subscription management (Free / Pro tiers) | Backend Developer |
-| End-to-end testing | QA Engineer |
-| Performance optimization | Android Developer + Tech Lead |
+| End-to-end testing on both platforms | QA Engineer |
+| Performance optimization (Impeller rendering, app size) | Flutter Developer + Tech Lead |
+| Platform-specific testing (iOS permissions, Android notifications) | QA Engineer |
 | Bug fixes from QA | All developers |
 
 **Milestone:** MVP feature-complete, internal testing passed
@@ -247,7 +252,7 @@ The first AI-powered relationship assistant that combines personality profiling 
 |------|----------|-------------|
 | 17 | Comprehensive QA testing | Bug report + severity classification |
 | 17 | Security audit (data privacy, encryption) | Security assessment report |
-| 18 | Beta release (closed group: 50-100 users) | Beta APK distribution |
+| 18 | Beta release (closed group: 50-100 users) | Beta APK (Android) + TestFlight (iOS) distribution |
 | 18 | Performance testing (load, battery, memory) | Performance benchmark report |
 | 19 | Beta feedback collection & analysis | Feedback summary + priority fixes |
 | 19 | Critical bug fixes + final polish | Release candidate build |
@@ -260,14 +265,14 @@ The first AI-powered relationship assistant that combines personality profiling 
 
 | Week | Activity | Deliverables |
 |------|----------|-------------|
-| 20 | App Store Optimization (ASO) | Store listing (screenshots, description, keywords) |
-| 20 | Google Play Store submission | Published app (under review) |
+| 20 | App Store Optimization (ASO) | Store listings for BOTH Google Play + Apple App Store |
+| 20 | Google Play Store + Apple App Store submission | Published app on both stores (under review) |
 | 21 | Marketing launch campaign | Social media, influencer outreach, PR |
-| 21 | Monitor crash reports & analytics | Firebase Crashlytics dashboard |
-| 22 | First patch release (based on launch feedback) | v1.0.1 update |
+| 21 | Monitor crash reports & analytics | Firebase Crashlytics dashboard (both platforms) |
+| 22 | First patch release (based on launch feedback) | v1.0.1 update on both stores |
 | 22 | Post-launch retrospective | Lessons learned document |
 
-**Milestone:** Live on Google Play Store with stable v1.0
+**Milestone:** Live on Google Play Store + Apple App Store with stable v1.0
 
 ---
 
@@ -275,12 +280,14 @@ The first AI-powered relationship assistant that combines personality profiling 
 
 | Period | Focus | Key Deliverables |
 |--------|-------|-----------------|
-| Weeks 23-26 | Iteration based on user feedback | v1.1 with top-requested improvements |
+| Weeks 23-26 | Iteration based on user feedback | v1.1 with top-requested improvements (both platforms) |
 | Weeks 23-26 | Affiliate partnerships | Signed agreements with gift/flower vendors |
 | Weeks 27-30 | Community features (anonymous tips, success stories) | v1.2 with social features |
-| Weeks 27-30 | iOS development begins | iOS project setup + core module porting |
-| Weeks 31-36 | Smartwatch companion app | Wear OS companion app v1.0 |
+| Weeks 27-30 | **HarmonyOS / Huawei port begins** | HarmonyOS native wrapper via ArkUI-X or Flutter OHOS port |
+| Weeks 27-30 | Huawei AppGallery setup | Huawei developer account, HMS Core integration |
+| Weeks 31-36 | Smartwatch companion app | Wear OS + WatchOS companion v1.0 |
 | Weeks 31-36 | Advanced AI features | Enhanced personality engine, mood prediction |
+| Weeks 31-36 | **HarmonyOS app launch** | Published on Huawei AppGallery |
 
 ---
 
@@ -292,13 +299,14 @@ Month 1       Month 2       Month 3       Month 4       Month 5       Month 6-9
  & Planning    Design        1 & 2]        3 & 4]        Launch]        & Growth]
     |             |             |             |             |              |
     v             v             v             v             v              v
- Research      Figma         Foundation    AI + Gifts    Beta Test     iOS + Watch
- Wireframes    Prototype     Reminders     SOS Mode      Go Live!      Community
- Architecture  User Tests    Her Profile   Gamification  ASO           Affiliates
+ Research      Figma         Foundation    AI + Gifts    Beta Test     HarmonyOS
+ Wireframes    Prototype     Reminders     SOS Mode      Go Live!      Huawei Port
+ Architecture  User Tests    Her Profile   Gamification  Android+iOS   Watch Apps
+ Domain Exp.   Handoff       Flutter App   Payments      BOTH Stores   Community
 ```
 
-**Total MVP Timeline: ~22 weeks (5.5 months)**
-**Full Product (all platforms): ~9 months**
+**Total MVP Timeline: ~22 weeks (5.5 months) — Android + iOS simultaneously**
+**Full Product (all 3 platforms + watch): ~9 months**
 
 ---
 
@@ -320,7 +328,7 @@ Month 1       Month 2       Month 3       Month 4       Month 5       Month 6-9
      |              |                |                |             |
 +----+----+  +------+------+  +-----+------+  +-----+------+  +---+---+
 |Tech Lead|  |   UX/UI     |  |   AI/ML    |  |  Domain    |  |Market-|
-|Sr.Android| |  Designer   |  |  Engineer  |  |  Experts   |  | ing   |
+|Sr.Flutter| |  Designer   |  |  Engineer  |  |  Experts   |  | ing   |
 |Developer|  +-------------+  +------------+  |  Advisory   |  +-------+
 +----+----+                                   |  Board     |
      |                                        +-----+------+
@@ -342,7 +350,7 @@ Month 1       Month 2       Month 3       Month 4       Month 5       Month 6-9
 | # | Role | Type | Phase Needed | Commitment |
 |---|------|------|-------------|------------|
 | 1 | **Product Manager** | Full-time | All phases | Weeks 1-36 |
-| 2 | **Tech Lead / Senior Android Developer** | Full-time | Phase 2-6 | Weeks 5-36 |
+| 2 | **Tech Lead / Senior Flutter Developer** | Full-time | Phase 2-6 | Weeks 5-36 |
 | 3 | **UX/UI Designer** | Full-time then Part-time | Phase 1-5, then on-call | Weeks 1-22 FT, then PT |
 | 4 | **Backend Developer** | Full-time | Phase 3-6 | Weeks 9-36 |
 | 5 | **AI/ML Engineer** | Full-time | Phase 3-6 | Weeks 9-36 |
@@ -371,7 +379,7 @@ Month 1       Month 2       Month 3       Month 4       Month 5       Month 6-9
 ```
 Week 1  ====> Product Manager + UX/UI Designer
 Week 1  ====> Psychiatrist + Astrologist + Female Consultant (Domain Advisory Board)
-Week 5  ====> Tech Lead / Senior Android Developer
+Week 5  ====> Tech Lead / Senior Flutter Developer
 Week 9  ====> Backend Developer + AI/ML Engineer + QA Engineer
 Week 9  ====> DevOps Engineer (part-time contractor)
 Week 17 ====> Marketing Specialist
@@ -441,64 +449,80 @@ The Product Manager owns the product vision, roadmap, and backlog for the Hormon
 
 ---
 
-## 5.2 Tech Lead / Senior Android Developer
+## 5.2 Tech Lead / Senior Flutter Developer
 
-**Job Title:** Tech Lead & Senior Android Developer
+**Job Title:** Tech Lead & Senior Flutter Developer
 **Department:** Engineering
 **Reports To:** Product Manager
 **Employment Type:** Full-Time
 
 ### Role Summary
-The Tech Lead is the technical authority on the project. They architect the Android application, make technology decisions, write core code, conduct code reviews, and mentor the development team. This is a hands-on leadership role — expect 60% coding, 40% leadership.
+The Tech Lead is the technical authority on the project. They architect the cross-platform Flutter application, make technology decisions, write core code, conduct code reviews, and mentor the development team. This role owns the single codebase that ships to Android, iOS, and eventually HarmonyOS. This is a hands-on leadership role — expect 60% coding, 40% leadership.
 
 ### Key Responsibilities
 
 **Technical Architecture**
-- Design and own the overall Android application architecture (MVVM + Clean Architecture)
-- Select and standardize the tech stack (Kotlin, Jetpack Compose, Hilt, Room, Retrofit, etc.)
-- Design modular architecture for scalability (feature modules)
+- Design and own the overall Flutter application architecture (Clean Architecture + BLoC/Riverpod)
+- Select and standardize the tech stack (Dart, state management, routing, DI, local storage)
+- Design modular architecture with feature-first folder structure for scalability
 - Define coding standards, branching strategy, and PR review process
-- Architect offline-first data strategy with local caching
-- Design the notification scheduling system (WorkManager + AlarmManager)
+- Architect offline-first data strategy with local caching (Hive/Isar + Firestore sync)
+- Design the notification scheduling system (flutter_local_notifications + FCM + APNs)
+- Define platform-specific abstraction layers (Android vs. iOS vs. future HarmonyOS)
 
 **Hands-On Development**
-- Build core UI framework using Jetpack Compose
-- Implement navigation architecture (Compose Navigation)
+- Build core UI framework using Flutter widgets + Material 3 / Cupertino adaptive design
+- Implement navigation architecture (GoRouter or auto_route)
 - Develop the Her Profile Engine and personality data models
 - Build the Smart Reminder Engine with local + cloud scheduling
-- Implement gamification system (streaks, points, levels)
-- Integrate payment system (Google Play Billing Library)
+- Implement gamification system (streaks, points, levels) with Flutter animations (Rive/Lottie)
+- Integrate payment system (RevenueCat for unified Android + iOS subscriptions)
+- Handle platform channels for native functionality (calendar access, biometrics, etc.)
+
+**Cross-Platform Excellence**
+- Ensure pixel-perfect rendering on both Android and iOS
+- Implement platform-adaptive UI (Material on Android, Cupertino on iOS where appropriate)
+- Handle platform-specific permissions and behaviors (iOS photo library, Android notification channels)
+- Manage Apple App Store and Google Play Store build configurations
+- Optimize Impeller rendering engine performance for smooth 60fps animations
+- Plan and architect HarmonyOS compatibility layer for Phase 3
 
 **Technical Leadership**
 - Conduct code reviews for all PRs (enforce quality standards)
-- Architect CI/CD pipeline (GitHub Actions / Bitrise / Fastlane)
-- Define testing strategy (unit, integration, UI tests)
-- Make buy-vs-build decisions for third-party libraries
+- Architect CI/CD pipeline (GitHub Actions + Codemagic/Fastlane for both platforms)
+- Define testing strategy (unit, widget, integration, golden tests)
+- Make buy-vs-build decisions for third-party packages (pub.dev evaluation)
 - Manage technical debt and refactoring priorities
 - Write and maintain technical documentation
 
 **Performance & Security**
-- Ensure app meets performance benchmarks (startup < 2s, smooth 60fps)
-- Implement encryption for sensitive user data (her profile data)
-- Manage ProGuard/R8 configuration for release builds
-- Monitor and optimize app size, memory usage, and battery consumption
+- Ensure app meets performance benchmarks (startup < 2s, smooth 60fps on both platforms)
+- Implement encryption for sensitive user data (flutter_secure_storage for her profile data)
+- Configure code obfuscation and tree shaking for release builds
+- Monitor and optimize app size, memory usage, and battery consumption on both platforms
+- Manage separate signing configurations (Android keystore + iOS certificates/provisioning)
 
 **Collaboration**
-- Translate UI designs into technical implementation plans
+- Translate UI designs from Figma into Flutter widget trees
 - Work with AI/ML Engineer on API integration patterns
 - Coordinate with Backend Developer on API contracts
 - Estimate development effort for sprint planning
 
 ### Tech Stack Ownership
-- **Language:** Kotlin (100%)
-- **UI:** Jetpack Compose + Material 3
-- **Architecture:** MVVM + Clean Architecture + Repository Pattern
-- **DI:** Hilt / Dagger
-- **Local DB:** Room
-- **Networking:** Retrofit + OkHttp + Kotlin Coroutines + Flow
-- **Navigation:** Compose Navigation
-- **Testing:** JUnit 5, MockK, Espresso, Compose Testing
-- **CI/CD:** GitHub Actions / Fastlane
+- **Language:** Dart (100%)
+- **Framework:** Flutter 3.x with Impeller rendering engine
+- **UI:** Material 3 + Cupertino adaptive widgets
+- **State Management:** Riverpod or BLoC/Cubit
+- **Architecture:** Clean Architecture + Repository Pattern
+- **DI:** Riverpod / get_it + injectable
+- **Local DB:** Hive / Isar (NoSQL) or Drift (SQL)
+- **Networking:** Dio + Retrofit (dart) + Dart async/streams
+- **Navigation:** GoRouter or auto_route
+- **Payments:** RevenueCat (unified Android + iOS + future HarmonyOS)
+- **Notifications:** flutter_local_notifications + Firebase Messaging
+- **Animations:** Rive, Lottie, Flutter built-in animations
+- **Testing:** flutter_test, mockito/mocktail, integration_test, golden tests
+- **CI/CD:** GitHub Actions + Codemagic / Fastlane
 
 ---
 
@@ -607,7 +631,7 @@ The Backend Developer builds and maintains the server-side infrastructure that p
 
 **Third-Party Integrations**
 - Google Calendar API integration (read/write sync)
-- Payment processing (Stripe + Google Play Billing verification)
+- Payment processing (RevenueCat + Stripe for Android, iOS, and future HarmonyOS)
 - WhatsApp Business API for message sending
 - E-commerce affiliate APIs for gift recommendations
 - Flower/gift delivery service APIs
@@ -620,14 +644,14 @@ The Backend Developer builds and maintains the server-side infrastructure that p
 - Implement auto-scaling for traffic spikes
 
 ### Tech Stack
-- **Runtime:** Node.js (TypeScript) or Kotlin (Ktor)
+- **Runtime:** Node.js (TypeScript) or Dart (Shelf/Serverpod)
 - **Database:** PostgreSQL + Firebase Firestore
 - **Cache:** Redis
-- **Auth:** Firebase Authentication
+- **Auth:** Firebase Authentication (supports Android + iOS + web)
 - **Cloud:** Google Cloud Platform or AWS
-- **Notifications:** Firebase Cloud Messaging + Twilio
-- **Payments:** Stripe + Google Play Billing Library
-- **Monitoring:** Sentry, Cloud Logging, Firebase Crashlytics
+- **Notifications:** Firebase Cloud Messaging (Android) + APNs (iOS) + Twilio (SMS fallback)
+- **Payments:** RevenueCat (unified cross-platform subscriptions) + Stripe (web/direct)
+- **Monitoring:** Sentry, Cloud Logging, Firebase Crashlytics (both platforms)
 
 ---
 
@@ -740,14 +764,17 @@ The QA Engineer ensures every feature of Hormones works flawlessly before it rea
 - Perform exploratory testing
 - Execute regression testing before each release
 - Test across multiple Android devices and OS versions (Android 10-15)
-- Validate edge cases (no internet, low battery, app killed by system)
+- Test across multiple iOS devices and versions (iOS 15-18, iPhone + iPad)
+- Validate edge cases (no internet, low battery, app killed by system) on BOTH platforms
+- Verify platform-specific behaviors (iOS permissions, Android notification channels)
 
 **Test Automation**
 - Build and maintain automated test suite:
-  - Unit tests (JUnit 5 + MockK)
-  - Integration tests (API contract testing)
-  - UI tests (Espresso + Compose Testing)
-  - End-to-end tests (critical user journeys)
+  - Unit tests (flutter_test + mockito/mocktail)
+  - Widget tests (Flutter widget testing framework)
+  - Integration tests (integration_test package for full app flows)
+  - Golden tests (pixel-perfect screenshot comparison across platforms)
+  - End-to-end tests (critical user journeys on both Android + iOS)
 - Set up automated test runs in CI/CD pipeline
 - Maintain test coverage metrics (target: 80%+ for core logic)
 
@@ -775,11 +802,11 @@ The QA Engineer ensures every feature of Hormones works flawlessly before it rea
 ### Tools
 - **Bug Tracking:** Jira, Linear, or GitHub Issues
 - **Test Management:** TestRail, Zephyr, or Notion
-- **Automation:** JUnit 5, MockK, Espresso, Compose Test, Appium
+- **Automation:** flutter_test, integration_test, mockito, Patrol (for native UI testing)
 - **API Testing:** Postman, REST Assured
-- **Performance:** Android Profiler, Firebase Performance
-- **CI Integration:** GitHub Actions
-- **Device Testing:** Firebase Test Lab, BrowserStack
+- **Performance:** Flutter DevTools, Firebase Performance (both platforms)
+- **CI Integration:** GitHub Actions + Codemagic
+- **Device Testing:** Firebase Test Lab (Android), Xcode Simulator (iOS), BrowserStack (cross-platform)
 
 ---
 
@@ -796,11 +823,12 @@ The DevOps Engineer sets up and maintains the infrastructure, CI/CD pipelines, a
 ### Key Responsibilities
 
 **CI/CD Pipeline**
-- Set up GitHub Actions (or Bitrise) for automated builds
-- Configure automated testing on every PR
-- Set up automated APK/AAB generation for testing and release
-- Configure Fastlane for automated Play Store deployment
+- Set up GitHub Actions + Codemagic for automated Flutter builds (Android + iOS)
+- Configure automated testing on every PR (unit, widget, integration tests)
+- Set up automated APK/AAB (Android) + IPA (iOS) generation for testing and release
+- Configure Fastlane for automated Google Play Store + Apple App Store deployment
 - Implement branch protection rules and merge requirements
+- Set up code signing for both platforms (Android keystore + iOS certificates/profiles)
 
 **Cloud Infrastructure**
 - Provision and configure Google Cloud / AWS resources
@@ -825,12 +853,13 @@ The DevOps Engineer sets up and maintains the infrastructure, CI/CD pipelines, a
 - Set up automated security scanning
 
 ### Tools
-- **CI/CD:** GitHub Actions, Fastlane
+- **CI/CD:** GitHub Actions + Codemagic (Flutter builds), Fastlane (store deployment)
 - **Cloud:** Google Cloud Platform / AWS
 - **IaC:** Terraform or Pulumi
 - **Containers:** Docker (if needed for backend)
-- **Monitoring:** Firebase Crashlytics, Cloud Monitoring, Sentry
+- **Monitoring:** Firebase Crashlytics (both platforms), Cloud Monitoring, Sentry
 - **Security:** Cloud Secret Manager, Cloud Armor
+- **Code Signing:** Android keystore management + Apple Developer certificate/profile management
 
 ---
 
@@ -847,7 +876,7 @@ The Marketing Specialist is responsible for building awareness, driving download
 ### Key Responsibilities
 
 **App Store Optimization (ASO)**
-- Optimize Google Play Store listing (title, description, keywords)
+- Optimize Google Play Store + Apple App Store listings (title, description, keywords)
 - Create compelling store screenshots and feature graphics
 - Write A/B tested app descriptions
 - Monitor and respond to app store reviews
@@ -1236,36 +1265,39 @@ This role is NOT about academic credentials alone. The ideal candidate:
 
 ---
 
-## 6.2 Tech Lead / Senior Android Developer
+## 6.2 Tech Lead / Senior Flutter Developer
 
 | Requirement | Details |
 |------------|---------|
 | **Education** | Bachelor's degree in Computer Science, Software Engineering, or related field |
-| **Min. Experience** | 5-7 years in Android development, 2+ years in a tech lead role |
-| **Language Mastery** | Expert-level Kotlin (not Java-first developers) |
-| **UI Framework** | 2+ years with Jetpack Compose (production apps) |
-| **Architecture** | Proven experience with MVVM + Clean Architecture at scale |
-| **APIs** | Experience integrating REST APIs with Retrofit + Coroutines + Flow |
-| **Database** | Proficient with Room, Firebase Firestore |
-| **DI** | Expert with Hilt or Dagger 2 |
-| **Testing** | Experience writing unit, integration, and UI tests |
-| **CI/CD** | Experience setting up GitHub Actions or Bitrise |
-| **Published Apps** | At least 2 production apps on Google Play Store |
+| **Min. Experience** | 5-7 years in mobile development, 3+ years with Flutter/Dart, 2+ years in a tech lead role |
+| **Language Mastery** | Expert-level Dart. Kotlin or Swift knowledge is a strong plus for platform channels. |
+| **Framework** | 3+ years with Flutter in production apps (not hobby projects) |
+| **Architecture** | Proven experience with Clean Architecture + BLoC/Riverpod at scale |
+| **Cross-Platform** | Has shipped at least 1 Flutter app on BOTH Google Play Store AND Apple App Store |
+| **APIs** | Experience integrating REST APIs with Dio + Dart async/streams |
+| **Database** | Proficient with Hive/Isar (local), Firebase Firestore (cloud) |
+| **State Management** | Expert with Riverpod or BLoC/Cubit (not just setState or Provider) |
+| **Testing** | Experience writing unit, widget, integration, and golden tests in Flutter |
+| **CI/CD** | Experience setting up GitHub Actions or Codemagic for Flutter builds |
+| **Published Apps** | At least 2 production Flutter apps on BOTH Google Play + App Store |
 | **Leadership** | Experience conducting code reviews and mentoring junior developers |
-| **Nice to Have** | Experience with Wear OS development, Kotlin Multiplatform, AI API integration |
+| **Platform Channels** | Experience writing platform-specific code (MethodChannel) for native features |
+| **Nice to Have** | Experience with Wear OS / WatchOS Flutter plugins, HarmonyOS, Rive/Lottie animations, AI API integration, RevenueCat |
 
 ### Must-Have Competencies
-- Has architected at least 1 Android app from scratch using modern stack
-- Can design modular, scalable app architecture
-- Comfortable making buy-vs-build decisions
-- Strong understanding of Android performance optimization
-- Experience with sensitive data handling and encryption
+- Has architected at least 1 Flutter app from scratch serving both Android + iOS
+- Can design modular, scalable app architecture with feature-first folder structure
+- Comfortable making buy-vs-build decisions (evaluating pub.dev packages)
+- Strong understanding of Flutter performance optimization (Impeller, widget rebuilds, tree shaking)
+- Experience with sensitive data handling and encryption (flutter_secure_storage)
+- Can handle platform-specific edge cases (iOS permissions, Android notification channels, etc.)
 
 ### Technical Assessment
 Candidates should demonstrate:
-1. Build a small Compose app with MVVM + Hilt in a take-home test
-2. Architecture whiteboard session (design the reminder scheduling system)
-3. Code review exercise (review a PR with intentional issues)
+1. Build a small Flutter app with Clean Architecture + Riverpod/BLoC that runs on both Android + iOS (take-home test)
+2. Architecture whiteboard session (design the reminder scheduling system with cross-platform notifications)
+3. Code review exercise (review a Flutter PR with intentional issues including platform-specific bugs)
 
 ---
 
@@ -1280,8 +1312,8 @@ Candidates should demonstrate:
 | **Design Systems** | Experience creating and maintaining design systems |
 | **Prototyping** | Proficient in interactive prototyping |
 | **User Research** | Experience conducting user interviews and usability testing |
-| **Platform Knowledge** | Deep understanding of Material Design 3 guidelines |
-| **Handoff** | Experience working closely with Android developers on implementation |
+| **Platform Knowledge** | Deep understanding of Material Design 3 + Apple Human Interface Guidelines (app must feel native on both platforms) |
+| **Handoff** | Experience working closely with Flutter developers on cross-platform implementation |
 | **Motion Design** | Ability to design micro-interactions and animations |
 | **Nice to Have** | Experience with male-targeted consumer apps, illustration skills, Lottie animations |
 
@@ -1367,22 +1399,24 @@ Candidates should complete:
 | Requirement | Details |
 |------------|---------|
 | **Education** | Bachelor's degree in Computer Science, Software Engineering, or related field |
-| **Min. Experience** | 3-4 years in mobile app QA (Android required) |
-| **Manual Testing** | Expert in writing and executing test cases for Android apps |
-| **Automation** | Proficient with Espresso, JUnit, and at least one mobile automation framework |
+| **Min. Experience** | 3-4 years in mobile app QA (cross-platform Flutter experience strongly preferred) |
+| **Manual Testing** | Expert in writing and executing test cases for both Android AND iOS apps |
+| **Automation** | Proficient with Flutter testing framework (flutter_test, integration_test, widget tests) |
 | **API Testing** | Experience testing REST APIs with Postman or REST Assured |
-| **CI/CD** | Experience integrating automated tests into CI/CD pipelines |
+| **CI/CD** | Experience integrating automated tests into CI/CD pipelines (GitHub Actions / Codemagic) |
 | **Bug Management** | Proficient with Jira or similar bug tracking tools |
-| **Device Testing** | Experience testing across multiple Android versions and device types |
-| **Performance** | Basic experience with Android Profiler and performance testing |
-| **Nice to Have** | Experience with Compose Testing, Firebase Test Lab, accessibility testing, security testing basics |
+| **Device Testing** | Experience testing across multiple Android versions AND iOS versions/devices |
+| **Performance** | Experience with Flutter DevTools and Firebase Performance monitoring |
+| **Nice to Have** | Experience with golden tests, Patrol, Firebase Test Lab, BrowserStack, accessibility testing, security testing basics |
 
 ### Must-Have Competencies
-- Has QA'd at least 1 Android app through full release cycle
+- Has QA'd at least 1 Flutter app through full release cycle on BOTH Android + iOS
 - Can create comprehensive test plans from user stories
 - Comfortable with both manual and automated testing
+- Understands platform-specific behaviors (iOS vs. Android notification, permissions, UX patterns)
 - Attention to detail (critical for notification timing, AI output quality)
 - Experience with timezone-related testing
+- Can identify platform-specific bugs (rendering differences, permission flows, etc.)
 
 ---
 
@@ -1393,12 +1427,14 @@ Candidates should complete:
 | **Education** | Bachelor's degree in Computer Science or related field |
 | **Min. Experience** | 3-5 years in DevOps / Cloud Infrastructure |
 | **Cloud** | Strong GCP or AWS experience (certified preferred) |
-| **CI/CD** | Expert with GitHub Actions, plus experience with Fastlane for mobile |
+| **CI/CD** | Expert with GitHub Actions + Codemagic, plus Fastlane for both Android + iOS deployment |
+| **Flutter Builds** | Experience configuring Flutter CI/CD pipelines (Android APK/AAB + iOS IPA) |
+| **Code Signing** | Experience managing Android keystores AND iOS certificates/provisioning profiles |
 | **IaC** | Terraform or Pulumi experience |
 | **Monitoring** | Experience setting up Crashlytics, Cloud Monitoring, Sentry |
 | **Security** | SSL, secrets management, firewall configuration |
-| **Firebase** | Experience configuring Firebase projects at scale |
-| **Nice to Have** | Docker, Kubernetes (if backend is containerized), GCP Professional certification |
+| **Firebase** | Experience configuring Firebase projects at scale (both Android + iOS) |
+| **Nice to Have** | Docker, Kubernetes (if backend is containerized), GCP Professional certification, Apple Developer portal experience |
 
 ---
 
@@ -1527,7 +1563,7 @@ Candidates should complete:
 | Role | Monthly Cost (USD) | Duration | Total Cost |
 |------|-------------------|----------|------------|
 | Product Manager | $5,000 - $8,000 | 9 months | $45,000 - $72,000 |
-| Tech Lead / Sr. Android Dev | $7,000 - $12,000 | 8 months | $56,000 - $96,000 |
+| Tech Lead / Sr. Flutter Dev | $7,000 - $12,000 | 8 months | $56,000 - $96,000 |
 | UX/UI Designer | $4,000 - $7,000 | 5.5 months FT + 3.5 PT | $28,000 - $49,000 |
 | Backend Developer | $5,000 - $8,000 | 7 months | $35,000 - $56,000 |
 | AI/ML Engineer | $6,000 - $10,000 | 7 months | $42,000 - $70,000 |
@@ -1555,13 +1591,26 @@ Candidates should complete:
 |------|-------------|---------------|
 | AI API costs (Claude/OpenAI) | $500 - $2,000 | $4,500 - $18,000 |
 | Cloud infrastructure (GCP/AWS) | $200 - $1,000 | $1,800 - $9,000 |
-| Third-party services (Twilio, etc.) | $100 - $500 | $900 - $4,500 |
-| Tools & licenses (Figma, Jira, etc.) | $200 - $500 | $1,800 - $4,500 |
+| Third-party services (Twilio, RevenueCat, etc.) | $200 - $700 | $1,800 - $6,300 |
+| Tools & licenses (Figma, Jira, Codemagic, etc.) | $300 - $600 | $2,700 - $5,400 |
 | Marketing ad budget | $2,000 - $10,000 | $10,000 - $50,000 |
-| App Store fees | One-time $25 (Google) | $25 |
-| **Subtotal** | | **$19,025 - $86,000** |
+| Apple Developer Program | One-time $99/year | $99 |
+| Google Play Store fee | One-time $25 | $25 |
+| Huawei Developer account | One-time $0 (free) | $0 |
+| HarmonyOS port contractor (Phase 3) | Fixed contract | $15,000 - $30,000 |
+| **Subtotal** | | **$35,924 - $118,824** |
 
-### Grand Total Estimated Budget: $351,000 - $747,400
+### Grand Total Estimated Budget: $367,824 - $780,224
+
+### Flutter Cost Savings vs. Native Android + iOS
+
+| Item | Native (Android + iOS separate) | Flutter (single codebase) | Savings |
+|------|-------------------------------|--------------------------|---------|
+| iOS Developer (Phase 2) | $35,000 - $56,000 | $0 (included in Flutter) | $35,000 - $56,000 |
+| Separate iOS QA testing | $8,000 - $15,000 | $0 (same QA covers both) | $8,000 - $15,000 |
+| iOS CI/CD setup | $3,000 - $5,000 | Minimal extra config | $2,000 - $4,000 |
+| Code maintenance (2 codebases) | Ongoing high cost | Single codebase | Ongoing savings |
+| **Total Savings** | | | **$45,000 - $75,000** |
 
 > **Note:** These are estimates for remote/international team hiring. Costs vary significantly by region. Hiring tech team in South Asia or Eastern Europe can reduce technical team costs by 40-60%. Domain experts (especially the psychiatrist) command higher rates in Western markets but may be sourced globally. US/Western Europe based teams could be 2-3x higher.
 
@@ -1581,7 +1630,10 @@ Candidates should complete:
 | App Store rejection | Low | High | Follow all Play Store guidelines, privacy policy compliance |
 | Key team member leaves | Medium | High | Document everything, cross-training, modular architecture |
 | Calendar sync reliability issues | Medium | Medium | Extensive timezone testing, fallback to local reminders |
-| Payment integration complications | Low | Medium | Use well-documented libraries, sandbox testing |
+| Payment integration complications | Low | Medium | Use RevenueCat for unified cross-platform subscriptions |
+| Flutter platform-specific bugs (Android vs. iOS) | Medium | Medium | Dedicated cross-platform QA, golden tests, platform channels |
+| HarmonyOS Flutter port instability | Medium | Medium | Plan ArkUI-X native wrapper as fallback, delay until ecosystem matures |
+| Apple App Store rejection | Medium | Medium | Follow Apple HIG guidelines, privacy labels, App Tracking Transparency |
 | Data privacy breach | Low | Critical | Encryption, security audits, minimal data collection |
 | AI content lacks emotional depth without domain experts | High | Critical | Engage Psychiatrist + Female Consultant from Week 1 |
 | Zodiac content feels generic/shallow | Medium | High | Hire certified professional astrologist, not hobbyist |
@@ -1600,7 +1652,7 @@ If budget is constrained, hire in this order:
 3. **Female Consultant** (Week 1) — Validates concept from day one, prevents building the wrong thing
 4. **Psychiatrist** (Week 1) — Shapes the psychological framework before any content is created
 5. **Astrologist** (Week 1) — Zodiac engine design needed before development starts
-6. **Tech Lead / Sr. Android Dev** (Week 5) — Needs designs to build from
+6. **Tech Lead / Sr. Flutter Dev** (Week 5) — Needs designs to build from
 7. **Backend Developer** (Week 9) — Backend work starts with dev sprints
 8. **AI/ML Engineer** (Week 9) — AI features are the core differentiator
 9. **QA Engineer** (Week 9) — Testing starts immediately with development
@@ -1618,7 +1670,7 @@ If budget is very limited, a bare-minimum MVP team could be:
 | Role | Covers |
 |------|--------|
 | **You (Founder)** | Product Manager + Business decisions |
-| **Full-Stack Android Developer** | Tech Lead + Backend + basic DevOps |
+| **Full-Stack Flutter Developer** | Tech Lead + Backend (Firebase) + basic DevOps |
 | **AI/ML Engineer** | AI features + prompt engineering |
 | **Female Consultant** (contract) | Reality check + content validation |
 | **Astrologist** (contract) | Zodiac content package (fixed deliverable) |
@@ -1638,6 +1690,6 @@ In this model:
 
 ---
 
-*Document Version: 2.0*
+*Document Version: 3.0*
 *Created: February 14, 2026*
 *Project: Hormones - AI Relationship Intelligence App*
