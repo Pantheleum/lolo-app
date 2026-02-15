@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_spacing.dart';
+import 'package:lolo/features/onboarding/presentation/screens/onboarding_name_screen.dart';
+import 'package:lolo/features/onboarding/presentation/screens/onboarding_partner_screen.dart';
+import 'package:lolo/features/onboarding/presentation/screens/onboarding_anniversary_screen.dart';
+import 'package:lolo/features/onboarding/presentation/screens/onboarding_privacy_screen.dart';
+import 'package:lolo/features/onboarding/presentation/screens/onboarding_first_card_screen.dart';
 
 /// Main onboarding screen with PageView for 5 onboarding steps.
 ///
@@ -65,12 +70,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   setState(() => _currentPage = index);
                 },
                 children: const [
-                  // TODO: Replace with actual step screens
-                  Placeholder(), // Step 1: Name
-                  Placeholder(), // Step 2: Partner
-                  Placeholder(), // Step 3: Anniversary
-                  Placeholder(), // Step 4: Privacy
-                  Placeholder(), // Step 5: First Card
+                  OnboardingNameScreen(),
+                  OnboardingPartnerScreen(),
+                  OnboardingAnniversaryScreen(),
+                  OnboardingPrivacyScreen(),
+                  OnboardingFirstCardScreen(),
                 ],
               ),
             ),
