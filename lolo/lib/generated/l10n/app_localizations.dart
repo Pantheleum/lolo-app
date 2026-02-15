@@ -1273,59 +1273,239 @@ abstract class AppLocalizations {
   /// **'{count, plural, =0{Today} =1{Tomorrow} other{In {count} days}}'**
   String days_remaining(int count);
 
-  /// Title for the action cards screen.
+  /// Title for the action cards screen
   ///
   /// In en, this message translates to:
   /// **'Daily Actions'**
   String get actionCardsTitle;
 
-  /// Title shown when all daily action cards are completed.
+  /// Title shown when all daily action cards are completed
   ///
   /// In en, this message translates to:
   /// **'All done for today!'**
   String get allCardsDone;
 
-  /// Subtitle shown when all daily action cards are completed.
+  /// Subtitle shown when all daily action cards are completed
   ///
   /// In en, this message translates to:
   /// **'Come back tomorrow for fresh ideas'**
   String get allCardsDoneSubtitle;
 
-  /// Section header for action card instructions.
+  /// Section header for action card instructions
   ///
   /// In en, this message translates to:
   /// **'What to do'**
   String get whatToDo;
 
-  /// Section header for post-action feedback.
+  /// Section header for post-action feedback
   ///
   /// In en, this message translates to:
   /// **'How did it go?'**
   String get howDidItGo;
 
-  /// Hint text for optional notes input.
+  /// Hint text for optional notes input
   ///
   /// In en, this message translates to:
   /// **'Add notes (optional)'**
   String get optionalNotes;
 
-  /// Button label to mark an action card as complete.
+  /// Button label to mark an action card as complete
   ///
   /// In en, this message translates to:
   /// **'Mark Complete'**
   String get markComplete;
 
-  /// Title for the gamification hub screen.
+  /// Title for the gamification hub screen
   ///
   /// In en, this message translates to:
   /// **'Progress'**
   String get gamification;
 
-  /// Section title for achievement badges.
+  /// Section title for achievement badges
   ///
   /// In en, this message translates to:
   /// **'Badges'**
   String get badges;
+
+  /// No description provided for @sosTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS Mode'**
+  String get sosTitle;
+
+  /// No description provided for @sosSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency help when she\'s upset'**
+  String get sosSubtitle;
+
+  /// No description provided for @getHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Help Now'**
+  String get getHelp;
+
+  /// No description provided for @assessment.
+  ///
+  /// In en, this message translates to:
+  /// **'Assessment'**
+  String get assessment;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @coaching.
+  ///
+  /// In en, this message translates to:
+  /// **'Coaching'**
+  String get coaching;
+
+  /// No description provided for @stepProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String stepProgress(int current, int total);
+
+  /// No description provided for @sayThis.
+  ///
+  /// In en, this message translates to:
+  /// **'Say This'**
+  String get sayThis;
+
+  /// No description provided for @dontSay.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t Say This'**
+  String get dontSay;
+
+  /// No description provided for @whatHappened.
+  ///
+  /// In en, this message translates to:
+  /// **'What happened?'**
+  String get whatHappened;
+
+  /// No description provided for @nextStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Step'**
+  String get nextStep;
+
+  /// No description provided for @viewRecoveryPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'View Recovery Plan'**
+  String get viewRecoveryPlan;
+
+  /// No description provided for @recoveryPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery Plan'**
+  String get recoveryPlan;
+
+  /// No description provided for @immediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediate'**
+  String get immediate;
+
+  /// No description provided for @immediateStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Apologize sincerely'**
+  String get immediateStep1;
+
+  /// No description provided for @immediateStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Give her space if needed'**
+  String get immediateStep2;
+
+  /// No description provided for @immediateStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen without defending'**
+  String get immediateStep3;
+
+  /// No description provided for @shortTerm.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Term'**
+  String get shortTerm;
+
+  /// No description provided for @shortTermStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan a thoughtful gesture'**
+  String get shortTermStep1;
+
+  /// No description provided for @shortTermStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow through on promises'**
+  String get shortTermStep2;
+
+  /// No description provided for @longTerm.
+  ///
+  /// In en, this message translates to:
+  /// **'Long Term'**
+  String get longTerm;
+
+  /// No description provided for @longTermStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Address the root cause'**
+  String get longTermStep1;
+
+  /// No description provided for @longTermStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Build new habits together'**
+  String get longTermStep2;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @upgradePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade Plan'**
+  String get upgradePlan;
+
+  /// No description provided for @noPlansAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No plans available at this time'**
+  String get noPlansAvailable;
+
+  /// No description provided for @restorePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Purchases'**
+  String get restorePurchases;
+
+  /// No description provided for @subscriptionTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & Conditions apply'**
+  String get subscriptionTerms;
+
+  /// No description provided for @unlockFullPotential.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Full Potential'**
+  String get unlockFullPotential;
+
+  /// No description provided for @paywallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get unlimited access to all features'**
+  String get paywallSubtitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,14 +1,59 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:lolo/core/localization/locale_provider.dart';
+import 'package:lolo/core/network/dio_client.dart';
+import 'package:lolo/features/onboarding/data/datasources/onboarding_local_datasource.dart';
+import 'package:lolo/features/onboarding/data/datasources/onboarding_remote_datasource.dart';
+import 'package:lolo/features/onboarding/data/repositories/onboarding_repository_impl.dart';
 import 'package:lolo/features/onboarding/domain/entities/onboarding_data_entity.dart';
+import 'package:lolo/features/onboarding/domain/repositories/onboarding_repository.dart';
 import 'package:lolo/features/onboarding/domain/usecases/save_onboarding_step_usecase.dart';
 import 'package:lolo/features/onboarding/domain/usecases/complete_onboarding_usecase.dart';
 import 'package:lolo/features/onboarding/domain/usecases/get_onboarding_progress_usecase.dart';
 import 'package:lolo/features/onboarding/presentation/providers/onboarding_state.dart';
 
-part 'onboarding_provider.g.dart';
+// ---------------------------------------------------------------------------
+// Data source, repository, and use case providers
+// ---------------------------------------------------------------------------
+
+final onboardingLocalDataSourceProvider =
+    Provider<OnboardingLocalDataSource>((ref) {
+  return OnboardingLocalDataSource();
+});
+
+final onboardingRemoteDataSourceProvider =
+    Provider<OnboardingRemoteDataSource>((ref) {
+  return OnboardingRemoteDataSource(ref.watch(dioProvider));
+});
+
+final onboardingRepositoryProvider = Provider<OnboardingRepository>((ref) {
+  return OnboardingRepositoryImpl(
+    localDataSource: ref.watch(onboardingLocalDataSourceProvider),
+    remoteDataSource: ref.watch(onboardingRemoteDataSourceProvider),
+  );
+});
+
+final saveOnboardingStepUseCaseProvider =
+    Provider<SaveOnboardingStepUseCase>((ref) {
+  return SaveOnboardingStepUseCase(ref.watch(onboardingRepositoryProvider));
+});
+
+final completeOnboardingUseCaseProvider =
+    Provider<CompleteOnboardingUseCase>((ref) {
+  return CompleteOnboardingUseCase(ref.watch(onboardingRepositoryProvider));
+});
+
+final getOnboardingProgressUseCaseProvider =
+    Provider<GetOnboardingProgressUseCase>((ref) {
+  return GetOnboardingProgressUseCase(ref.watch(onboardingRepositoryProvider));
+});
+
+// ---------------------------------------------------------------------------
+// Presentation providers
+// ---------------------------------------------------------------------------
 
 /// Manages the 8-step onboarding flow state.
 ///
@@ -21,8 +66,7 @@ part 'onboarding_provider.g.dart';
 /// 5. Relationship status
 /// 6. Key date (anniversary / wedding)
 /// 7. First AI action card (typewriter animation)
-@riverpod
-class OnboardingNotifier extends _$OnboardingNotifier {
+class OnboardingNotifier extends Notifier<OnboardingState> {
   late SaveOnboardingStepUseCase _saveStep;
   late CompleteOnboardingUseCase _complete;
   late GetOnboardingProgressUseCase _getProgress;
@@ -262,3 +306,8 @@ class OnboardingNotifier extends _$OnboardingNotifier {
         _ => 'Authentication failed. Please try again.',
       };
 }
+
+final onboardingNotifierProvider =
+    NotifierProvider<OnboardingNotifier, OnboardingState>(
+  OnboardingNotifier.new,
+);

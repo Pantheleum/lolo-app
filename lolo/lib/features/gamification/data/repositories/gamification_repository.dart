@@ -55,8 +55,8 @@ class GamificationRepositoryImpl implements GamificationRepository {
     try {
       final res = await _dio.get('/gamification/badges');
       final d = res.data['data'] as Map<String, dynamic>;
-      final earned = (d['earned'] as List).map((b) => _mapBadge(b)).toList();
-      final unearned = (d['unearned'] as List).map((b) => _mapBadge(b)).toList();
+      final earned = (d['earned'] as List).map((b) => _mapBadge(b as Map<String, dynamic>)).toList();
+      final unearned = (d['unearned'] as List).map((b) => _mapBadge(b as Map<String, dynamic>)).toList();
       return Right((earned: earned, unearned: unearned));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));

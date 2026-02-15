@@ -28,7 +28,7 @@ sealed class NetworkException implements Exception {
   const factory NetworkException.unknown({String? message}) =
       UnknownNetworkException;
 
-  String get userMessage;
+  String? get userMessage;
 }
 
 class NoConnectionException extends NetworkException {

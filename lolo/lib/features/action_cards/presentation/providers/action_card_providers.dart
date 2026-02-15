@@ -1,25 +1,21 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/action_cards/data/repositories/action_card_repository.dart';
 import 'package:lolo/features/action_cards/domain/entities/action_card_entity.dart';
 
-part 'action_card_providers.g.dart';
-
-@riverpod
-Future<DailyCardsSummary> dailyCards(DailyCardsRef ref) async {
+final dailyCardsProvider = FutureProvider<DailyCardsSummary>((ref) async {
   final repo = ref.watch(actionCardRepositoryProvider);
   final result = await repo.getDailyCards();
   return result.fold((f) => throw Exception(f.message), (s) => s);
-}
+});
 
-@riverpod
-Future<List<ActionCardEntity>> cardHistory(CardHistoryRef ref) async {
+final cardHistoryProvider =
+    FutureProvider<List<ActionCardEntity>>((ref) async {
   final repo = ref.watch(actionCardRepositoryProvider);
   final result = await repo.getHistory();
   return result.fold((f) => throw Exception(f.message), (l) => l);
-}
+});
 
-@riverpod
-class CardActionNotifier extends _$CardActionNotifier {
+class CardActionNotifier extends Notifier<AsyncValue<void>> {
   @override
   AsyncValue<void> build() => const AsyncData(null);
 
@@ -56,3 +52,8 @@ class CardActionNotifier extends _$CardActionNotifier {
     ref.invalidate(dailyCardsProvider);
   }
 }
+
+final cardActionNotifierProvider =
+    NotifierProvider<CardActionNotifier, AsyncValue<void>>(
+  CardActionNotifier.new,
+);

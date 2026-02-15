@@ -1,7 +1,7 @@
 // FILE: lib/features/ai/presentation/providers/gift_provider.dart
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/ai/domain/entities/ai_request.dart';
 import 'package:lolo/features/ai/domain/entities/ai_response.dart';
 import 'package:lolo/features/ai/domain/enums/ai_enums.dart';
@@ -9,7 +9,6 @@ import 'package:lolo/features/ai/presentation/providers/ai_providers.dart';
 import 'package:lolo/features/ai/presentation/providers/cost_tracker_provider.dart';
 
 part 'gift_provider.freezed.dart';
-part 'gift_provider.g.dart';
 
 @freezed
 class GiftRecommendationState with _$GiftRecommendationState {
@@ -20,8 +19,7 @@ class GiftRecommendationState with _$GiftRecommendationState {
   const factory GiftRecommendationState.error(String message) = _GiftError;
 }
 
-@riverpod
-class GiftRecommendationNotifier extends _$GiftRecommendationNotifier {
+class GiftRecommendationNotifier extends Notifier<GiftRecommendationState> {
   @override
   GiftRecommendationState build() => const GiftRecommendationState.idle();
 
@@ -80,3 +78,8 @@ class GiftRecommendationNotifier extends _$GiftRecommendationNotifier {
 
   void reset() => state = const GiftRecommendationState.idle();
 }
+
+final giftRecommendationNotifierProvider =
+    NotifierProvider<GiftRecommendationNotifier, GiftRecommendationState>(
+  GiftRecommendationNotifier.new,
+);

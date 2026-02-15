@@ -9,6 +9,7 @@ import 'package:lolo/core/widgets/lolo_chip_group.dart';
 import 'package:lolo/core/widgets/lolo_empty_state.dart';
 import 'package:lolo/core/widgets/gift_card.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_category.dart';
+import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_filter_provider.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_provider.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_state.dart';
@@ -211,7 +212,7 @@ class _GiftGrid extends StatefulWidget {
     required this.onSaveTap,
   });
 
-  final List gifts;
+  final List<GiftRecommendationEntity> gifts;
   final bool hasMore;
   final bool isLoadingMore;
   final Future<void> Function() onLoadMore;

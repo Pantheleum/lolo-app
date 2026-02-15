@@ -196,34 +196,34 @@ class AppLocalizationsMs extends AppLocalizations {
   String get onboarding_signup_legal_privacy => 'Dasar Privasi';
 
   @override
-  String get onboarding_signup_error_emailInUse => 'This email is already registered.';
+  String get onboarding_signup_error_emailInUse => 'Emel ini sudah didaftarkan.';
 
   @override
-  String get onboarding_signup_error_invalidEmail => 'Please enter a valid email address.';
+  String get onboarding_signup_error_invalidEmail => 'Sila masukkan alamat emel yang sah.';
 
   @override
-  String get onboarding_signup_error_weakPassword => 'Password must be at least 8 characters.';
+  String get onboarding_signup_error_weakPassword => 'Kata laluan mesti sekurang-kurangnya 8 aksara.';
 
   @override
-  String get onboarding_signup_error_networkFailed => 'Network error. Check your connection.';
+  String get onboarding_signup_error_networkFailed => 'Ralat rangkaian. Semak sambungan anda.';
 
   @override
-  String get onboarding_signup_error_generic => 'Authentication failed. Please try again.';
+  String get onboarding_signup_error_generic => 'Pengesahan gagal. Sila cuba lagi.';
 
   @override
-  String get onboarding_login_title => 'Log In';
+  String get onboarding_login_title => 'Log Masuk';
 
   @override
-  String get onboarding_login_heading => 'Welcome back';
+  String get onboarding_login_heading => 'Selamat kembali';
 
   @override
-  String get onboarding_login_button_login => 'Log In';
+  String get onboarding_login_button_login => 'Log Masuk';
 
   @override
-  String get onboarding_login_link_forgot => 'Forgot password?';
+  String get onboarding_login_link_forgot => 'Lupa kata laluan?';
 
   @override
-  String get onboarding_login_link_signup => 'Don\'t have an account? Sign up';
+  String get onboarding_login_link_signup => 'Tiada akaun? Daftar sekarang';
 
   @override
   String get onboarding_name_title => 'Apa nama anda?';
@@ -250,7 +250,7 @@ class AppLocalizationsMs extends AppLocalizations {
   String get onboarding_partner_label_status => 'Status hubungan';
 
   @override
-  String get onboarding_partner_error_name => 'Please enter her name';
+  String get onboarding_partner_error_name => 'Sila masukkan nama dia';
 
   @override
   String get onboarding_status_dating => 'Bercinta';
@@ -333,28 +333,28 @@ class AppLocalizationsMs extends AppLocalizations {
   String get profile_edit_conflictStyle => 'Gaya Konflik';
 
   @override
-  String get profile_edit_loveLanguage_words => 'Words of Affirmation';
+  String get profile_edit_loveLanguage_words => 'Kata-kata Pujian';
 
   @override
-  String get profile_edit_loveLanguage_acts => 'Acts of Service';
+  String get profile_edit_loveLanguage_acts => 'Tindakan Perkhidmatan';
 
   @override
-  String get profile_edit_loveLanguage_gifts => 'Receiving Gifts';
+  String get profile_edit_loveLanguage_gifts => 'Menerima Hadiah';
 
   @override
-  String get profile_edit_loveLanguage_time => 'Quality Time';
+  String get profile_edit_loveLanguage_time => 'Masa Berkualiti';
 
   @override
-  String get profile_edit_loveLanguage_touch => 'Physical Touch';
+  String get profile_edit_loveLanguage_touch => 'Sentuhan Fizikal';
 
   @override
-  String get profile_edit_commStyle_direct => 'Direct';
+  String get profile_edit_commStyle_direct => 'Langsung';
 
   @override
-  String get profile_edit_commStyle_indirect => 'Indirect';
+  String get profile_edit_commStyle_indirect => 'Tidak Langsung';
 
   @override
-  String get profile_edit_commStyle_mixed => 'Mixed';
+  String get profile_edit_commStyle_mixed => 'Campuran';
 
   @override
   String get profile_preferences_title => 'Keutamaan Dia';
@@ -374,22 +374,22 @@ class AppLocalizationsMs extends AppLocalizations {
   String get profile_preferences_dislikes => 'Tidak Suka & Pencetus';
 
   @override
-  String get profile_preferences_category_flowers => 'Flowers';
+  String get profile_preferences_category_flowers => 'Bunga';
 
   @override
-  String get profile_preferences_category_food => 'Food';
+  String get profile_preferences_category_food => 'Makanan';
 
   @override
-  String get profile_preferences_category_music => 'Music';
+  String get profile_preferences_category_music => 'Muzik';
 
   @override
-  String get profile_preferences_category_movies => 'Movies';
+  String get profile_preferences_category_movies => 'Filem';
 
   @override
-  String get profile_preferences_category_brands => 'Brands';
+  String get profile_preferences_category_brands => 'Jenama';
 
   @override
-  String get profile_preferences_category_colors => 'Colors';
+  String get profile_preferences_category_colors => 'Warna';
 
   @override
   String get profile_cultural_title => 'Konteks Budaya';
@@ -413,43 +413,43 @@ class AppLocalizationsMs extends AppLocalizations {
   String get profile_cultural_info => 'Ini membantu LOLO menyesuaikan kandungan AI, menapis cadangan yang tidak sesuai, dan menambah hari kelepasan yang berkaitan secara automatik.';
 
   @override
-  String get profile_cultural_bg_gulf => 'Gulf Arab';
+  String get profile_cultural_bg_gulf => 'Arab Teluk';
 
   @override
   String get profile_cultural_bg_levantine => 'Levantine';
 
   @override
-  String get profile_cultural_bg_egyptian => 'Egyptian';
+  String get profile_cultural_bg_egyptian => 'Mesir';
 
   @override
-  String get profile_cultural_bg_northAfrican => 'North African';
+  String get profile_cultural_bg_northAfrican => 'Afrika Utara';
 
   @override
-  String get profile_cultural_bg_malay => 'Malaysian/Malay';
+  String get profile_cultural_bg_malay => 'Malaysia/Melayu';
 
   @override
-  String get profile_cultural_bg_western => 'Western';
+  String get profile_cultural_bg_western => 'Barat';
 
   @override
-  String get profile_cultural_bg_southAsian => 'South Asian';
+  String get profile_cultural_bg_southAsian => 'Asia Selatan';
 
   @override
-  String get profile_cultural_bg_eastAsian => 'East Asian';
+  String get profile_cultural_bg_eastAsian => 'Asia Timur';
 
   @override
-  String get profile_cultural_bg_other => 'Other';
+  String get profile_cultural_bg_other => 'Lain-lain';
 
   @override
-  String get profile_cultural_obs_high => 'High -- Observes all religious practices';
+  String get profile_cultural_obs_high => 'Tinggi -- Mengamalkan semua amalan keagamaan';
 
   @override
-  String get profile_cultural_obs_moderate => 'Moderate -- Observes major practices';
+  String get profile_cultural_obs_moderate => 'Sederhana -- Mengamalkan amalan utama';
 
   @override
-  String get profile_cultural_obs_low => 'Low -- Culturally connected';
+  String get profile_cultural_obs_low => 'Rendah -- Berkaitan secara budaya';
 
   @override
-  String get profile_cultural_obs_secular => 'Secular';
+  String get profile_cultural_obs_secular => 'Sekular';
 
   @override
   String get reminders_title => 'Peringatan';
@@ -497,43 +497,43 @@ class AppLocalizationsMs extends AppLocalizations {
   String get reminders_create_button_save => 'Cipta Peringatan';
 
   @override
-  String get reminders_create_recurrence_none => 'No repeat';
+  String get reminders_create_recurrence_none => 'Tiada ulangan';
 
   @override
-  String get reminders_create_recurrence_weekly => 'Weekly';
+  String get reminders_create_recurrence_weekly => 'Mingguan';
 
   @override
-  String get reminders_create_recurrence_monthly => 'Monthly';
+  String get reminders_create_recurrence_monthly => 'Bulanan';
 
   @override
-  String get reminders_create_recurrence_yearly => 'Yearly';
+  String get reminders_create_recurrence_yearly => 'Tahunan';
 
   @override
-  String get reminders_create_category_birthday => 'Birthday';
+  String get reminders_create_category_birthday => 'Hari Lahir';
 
   @override
-  String get reminders_create_category_anniversary => 'Anniversary';
+  String get reminders_create_category_anniversary => 'Ulang Tahun';
 
   @override
-  String get reminders_create_category_islamic => 'Islamic Holiday';
+  String get reminders_create_category_islamic => 'Hari Raya Islam';
 
   @override
-  String get reminders_create_category_cultural => 'Cultural';
+  String get reminders_create_category_cultural => 'Budaya';
 
   @override
-  String get reminders_create_category_custom => 'Custom';
+  String get reminders_create_category_custom => 'Tersuai';
 
   @override
-  String get reminders_create_category_promise => 'Promise';
+  String get reminders_create_category_promise => 'Janji';
 
   @override
-  String get reminders_create_error_title => 'Title is required';
+  String get reminders_create_error_title => 'Tajuk diperlukan';
 
   @override
-  String get reminders_create_error_date => 'Please select a date';
+  String get reminders_create_error_date => 'Sila pilih tarikh';
 
   @override
-  String get reminders_create_error_pastDate => 'Reminder date cannot be in the past';
+  String get reminders_create_error_pastDate => 'Tarikh peringatan tidak boleh pada masa lalu';
 
   @override
   String get reminders_detail_title => 'Butiran Peringatan';
@@ -600,11 +600,11 @@ class AppLocalizationsMs extends AppLocalizations {
   String get reminders_delete_message => 'Peringatan ini akan dipadamkan secara kekal dan semua pemberitahuannya akan dibatalkan. Adakah anda pasti?';
 
   @override
-  String get reminders_notification_today => 'Today is the day!';
+  String get reminders_notification_today => 'Hari ini hari yang ditunggu!';
 
   @override
   String reminders_notification_daysUntil(int days, String title) {
-    return '$days days until $title';
+    return '$days hari lagi sebelum $title';
   }
 
   @override
@@ -669,4 +669,96 @@ class AppLocalizationsMs extends AppLocalizations {
 
   @override
   String get badges => 'Lencana';
+
+  @override
+  String get sosTitle => 'Mod SOS';
+
+  @override
+  String get sosSubtitle => 'Bantuan kecemasan apabila dia kecewa';
+
+  @override
+  String get getHelp => 'Dapatkan Bantuan';
+
+  @override
+  String get assessment => 'Penilaian';
+
+  @override
+  String get back => 'Kembali';
+
+  @override
+  String get coaching => 'Bimbingan';
+
+  @override
+  String stepProgress(int current, int total) {
+    return 'Langkah $current daripada $total';
+  }
+
+  @override
+  String get sayThis => 'Katakan Ini';
+
+  @override
+  String get dontSay => 'Jangan Katakan Ini';
+
+  @override
+  String get whatHappened => 'Apa yang berlaku?';
+
+  @override
+  String get nextStep => 'Langkah Seterusnya';
+
+  @override
+  String get viewRecoveryPlan => 'Lihat Pelan Pemulihan';
+
+  @override
+  String get recoveryPlan => 'Pelan Pemulihan';
+
+  @override
+  String get immediate => 'Segera';
+
+  @override
+  String get immediateStep1 => 'Minta maaf dengan ikhlas';
+
+  @override
+  String get immediateStep2 => 'Beri dia ruang jika perlu';
+
+  @override
+  String get immediateStep3 => 'Dengar tanpa membela diri';
+
+  @override
+  String get shortTerm => 'Jangka Pendek';
+
+  @override
+  String get shortTermStep1 => 'Rancang isyarat yang bermakna';
+
+  @override
+  String get shortTermStep2 => 'Tunaikan janji anda';
+
+  @override
+  String get longTerm => 'Jangka Panjang';
+
+  @override
+  String get longTermStep1 => 'Tangani punca masalah';
+
+  @override
+  String get longTermStep2 => 'Bina tabiat baru bersama';
+
+  @override
+  String get done => 'Selesai';
+
+  @override
+  String get upgradePlan => 'Naik Taraf Pelan';
+
+  @override
+  String get noPlansAvailable => 'Tiada pelan tersedia pada masa ini';
+
+  @override
+  String get restorePurchases => 'Pulihkan Pembelian';
+
+  @override
+  String get subscriptionTerms => 'Terma & Syarat terpakai';
+
+  @override
+  String get unlockFullPotential => 'Buka Potensi Penuh';
+
+  @override
+  String get paywallSubtitle => 'Dapatkan akses tanpa had ke semua ciri';
 }

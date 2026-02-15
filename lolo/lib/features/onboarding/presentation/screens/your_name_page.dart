@@ -65,6 +65,7 @@ class _YourNamePageState extends ConsumerState<YourNamePage> {
             const SizedBox(height: LoloSpacing.space2xl),
 
             LoloTextField(
+              label: l10n.onboarding_name_hint,
               controller: _nameController,
               hint: l10n.onboarding_name_hint,
               textInputAction: TextInputAction.done,
@@ -76,7 +77,7 @@ class _YourNamePageState extends ConsumerState<YourNamePage> {
                 }
                 return null;
               },
-              onFieldSubmitted: (_) => _submit(),
+              onSubmitted: (_) => _submit(),
             ),
 
             const Spacer(flex: 3),

@@ -61,7 +61,7 @@ class AiRepositoryImpl implements AiRepository {
         'includeAlternatives': request.includeAlternatives,
       });
 
-      final result = AiMessageResponse.fromJson(response.data['data']);
+      final result = AiMessageResponse.fromJson(response.data['data'] as Map<String, dynamic>);
 
       final postValidation = _safety.validateOutput(result.content);
       if (!postValidation.isValid) {
@@ -161,7 +161,7 @@ class AiRepositoryImpl implements AiRepository {
         'count': request.count,
       });
 
-      final result = GiftRecommendationResponse.fromJson(response.data['data']);
+      final result = GiftRecommendationResponse.fromJson(response.data['data'] as Map<String, dynamic>);
       await _cache.put(cacheKey, result, ttl: const Duration(hours: 24));
       return Right(result);
     } on TierLimitException catch (e) {
@@ -199,7 +199,7 @@ class AiRepositoryImpl implements AiRepository {
         if (request.briefContext != null) 'briefContext': request.briefContext,
         if (request.profileId != null) 'profileId': request.profileId,
       });
-      return Right(SosActivateResponse.fromJson(response.data['data']));
+      return Right(SosActivateResponse.fromJson(response.data['data'] as Map<String, dynamic>));
     } on TierLimitException catch (e) {
       return Left(AiTierLimitFailure(message: e.message));
     } on DioException catch (e) {
@@ -214,7 +214,7 @@ class AiRepositoryImpl implements AiRepository {
         'sessionId': request.sessionId,
         'answers': request.answers.toJson(),
       });
-      return Right(SosAssessResponse.fromJson(response.data['data']));
+      return Right(SosAssessResponse.fromJson(response.data['data'] as Map<String, dynamic>));
     } on DioException catch (e) {
       return Left(_mapDioError(e));
     }
@@ -230,7 +230,7 @@ class AiRepositoryImpl implements AiRepository {
         if (request.herResponse != null) 'herResponse': request.herResponse,
         'stream': false,
       });
-      return Right(SosCoachResponse.fromJson(response.data['data']));
+      return Right(SosCoachResponse.fromJson(response.data['data'] as Map<String, dynamic>));
     } on DioException catch (e) {
       return Left(_mapDioError(e));
     }
@@ -304,7 +304,7 @@ class AiRepositoryImpl implements AiRepository {
         if (forceRefresh) 'forceRefresh': true,
       });
 
-      final result = ActionCardsResponse.fromJson(response.data['data']);
+      final result = ActionCardsResponse.fromJson(response.data['data'] as Map<String, dynamic>);
       await _cache.put('cards:$effectiveDate', result,
           ttl: const Duration(hours: 12));
       return Right(result);
@@ -323,7 +323,7 @@ class AiRepositoryImpl implements AiRepository {
         if (notes != null) 'notes': notes,
       });
       _cache.invalidatePattern('cards:');
-      return Right(CardCompleteResponse.fromJson(response.data['data']));
+      return Right(CardCompleteResponse.fromJson(response.data['data'] as Map<String, dynamic>));
     } on DioException catch (e) {
       return Left(_mapDioError(e));
     }
@@ -337,9 +337,9 @@ class AiRepositoryImpl implements AiRepository {
         if (reason != null) 'reason': reason,
       });
       _cache.invalidatePattern('cards:');
-      final replacement = response.data['data']['replacementCard'];
+      final replacement = (response.data['data'] as Map<String, dynamic>)['replacementCard'];
       if (replacement != null) {
-        return Right(ActionCard.fromJson(replacement));
+        return Right(ActionCard.fromJson(replacement as Map<String, dynamic>));
       }
       return const Right(null);
     } on DioException catch (e) {
@@ -365,7 +365,7 @@ class AiRepositoryImpl implements AiRepository {
       final response = await _api.get('/ai/usage', queryParameters: {
         'type': type.apiValue,
       });
-      return Right(AiUsageInfo.fromJson(response.data['data']));
+      return Right(AiUsageInfo.fromJson(response.data['data'] as Map<String, dynamic>));
     } on DioException catch (e) {
       return Left(_mapDioError(e));
     }

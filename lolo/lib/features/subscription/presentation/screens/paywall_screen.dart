@@ -30,29 +30,29 @@ class PaywallScreen extends ConsumerWidget {
           final packages = current.availablePackages;
 
           return SingleChildScrollView(
-            padding: const EdgeInsetsDirectional.all(LoloSpacing.lg),
+            padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceLg),
             child: Column(
               children: [
                 _HeroBanner(),
-                const SizedBox(height: LoloSpacing.lg),
+                const SizedBox(height: LoloSpacing.spaceLg),
                 _TierComparison(),
-                const SizedBox(height: LoloSpacing.lg),
+                const SizedBox(height: LoloSpacing.spaceLg),
                 ...packages.map((pkg) => Padding(
-                  padding: const EdgeInsetsDirectional.only(bottom: LoloSpacing.sm),
+                  padding: const EdgeInsetsDirectional.only(bottom: LoloSpacing.spaceSm),
                   child: _PackageCard(
                     package: pkg,
                     isLoading: purchaseState is AsyncLoading,
                     onTap: () => ref.read(purchaseNotifierProvider.notifier).purchase(pkg),
                   ),
                 )),
-                const SizedBox(height: LoloSpacing.md),
+                const SizedBox(height: LoloSpacing.spaceMd),
                 TextButton(
                   onPressed: purchaseState is AsyncLoading
                       ? null
                       : () => ref.read(purchaseNotifierProvider.notifier).restore(),
                   child: Text(l10n.restorePurchases),
                 ),
-                const SizedBox(height: LoloSpacing.sm),
+                const SizedBox(height: LoloSpacing.spaceSm),
                 Text(l10n.subscriptionTerms,
                     style: theme.textTheme.bodySmall?.copyWith(color: Colors.white38),
                     textAlign: TextAlign.center),
@@ -72,7 +72,7 @@ class _HeroBanner extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsetsDirectional.all(LoloSpacing.xl),
+      padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceXl),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [Color(0xFFC9A96E), Color(0xFF8B6914)],
@@ -84,11 +84,11 @@ class _HeroBanner extends StatelessWidget {
       child: Column(
         children: [
           const Icon(Icons.workspace_premium, size: 48, color: Colors.white),
-          const SizedBox(height: LoloSpacing.sm),
+          const SizedBox(height: LoloSpacing.spaceSm),
           Text(l10n.unlockFullPotential,
               style: theme.textTheme.headlineSmall?.copyWith(color: Colors.white),
               textAlign: TextAlign.center),
-          const SizedBox(height: LoloSpacing.xs),
+          const SizedBox(height: LoloSpacing.spaceXs),
           Text(l10n.paywallSubtitle,
               style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white70),
               textAlign: TextAlign.center),
@@ -121,7 +121,7 @@ class _TierComparison extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsetsDirectional.all(LoloSpacing.md),
+            padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceMd),
             child: Row(
               children: [
                 const Expanded(flex: 3, child: SizedBox()),
@@ -139,7 +139,7 @@ class _TierComparison extends StatelessWidget {
           const Divider(height: 1),
           ...features.map((f) => Padding(
             padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: LoloSpacing.md, vertical: LoloSpacing.sm),
+                horizontal: LoloSpacing.spaceMd, vertical: LoloSpacing.spaceSm),
             child: Row(
               children: [
                 Expanded(flex: 3, child: Text(f.$1, style: theme.textTheme.bodySmall)),
@@ -185,7 +185,7 @@ class _PackageCard extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          padding: const EdgeInsetsDirectional.all(LoloSpacing.md),
+          padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceMd),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(

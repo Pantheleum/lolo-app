@@ -17,6 +17,7 @@ class LoloDialog extends StatelessWidget {
     this.variant = DialogVariant.confirmation,
     this.cancelLabel,
     this.onCancel,
+    this.confirmColor,
     this.semanticLabel,
     super.key,
   });
@@ -28,42 +29,60 @@ class LoloDialog extends StatelessWidget {
   final DialogVariant variant;
   final String? cancelLabel;
   final VoidCallback? onCancel;
+  /// Optional override for the confirm button background colour.
+  final Color? confirmColor;
   final String? semanticLabel;
 
   /// Shows the dialog as a modal.
-  static Future<bool?> show(
-    BuildContext context, {
+  ///
+  /// [body] and [message] are aliases -- whichever is provided will be used
+  /// as the dialog body text. [confirmLabel] defaults to 'Confirm'.
+  /// [confirmColor] overrides the confirm button background colour.
+  /// [onConfirm] is an optional callback invoked when the user taps confirm.
+  static Future<bool?> show({
+    required BuildContext context,
     required String title,
-    required String body,
-    required String confirmLabel,
+    String? body,
+    String? message,
+    String? confirmLabel,
     DialogVariant variant = DialogVariant.confirmation,
     String? cancelLabel,
-  }) =>
-      showGeneralDialog<bool>(
-        context: context,
-        barrierDismissible: true,
-        barrierLabel: 'Dismiss dialog',
-        barrierColor: Theme.of(context).brightness == Brightness.dark
-            ? LoloColors.darkSurfaceOverlay
-            : LoloColors.lightSurfaceOverlay,
-        transitionDuration: const Duration(milliseconds: 200),
-        transitionBuilder: (_, anim, __, child) {
-          return FadeTransition(
-            opacity: anim,
-            child: ScaleTransition(scale: Tween<double>(begin: 0.95, end: 1.0).animate(
-              CurvedAnimation(parent: anim, curve: Curves.easeOutCubic)), child: child),
-          );
+    Color? confirmColor,
+    VoidCallback? onConfirm,
+  }) {
+    final effectiveBody = body ?? message ?? '';
+    final effectiveConfirmLabel = confirmLabel ?? 'Confirm';
+
+    return showGeneralDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Dismiss dialog',
+      barrierColor: Theme.of(context).brightness == Brightness.dark
+          ? LoloColors.darkSurfaceOverlay
+          : LoloColors.lightSurfaceOverlay,
+      transitionDuration: const Duration(milliseconds: 200),
+      transitionBuilder: (_, anim, __, child) {
+        return FadeTransition(
+          opacity: anim,
+          child: ScaleTransition(scale: Tween<double>(begin: 0.95, end: 1.0).animate(
+            CurvedAnimation(parent: anim, curve: Curves.easeOutCubic)), child: child),
+        );
+      },
+      pageBuilder: (ctx, _, __) => LoloDialog(
+        title: title,
+        body: effectiveBody,
+        confirmLabel: effectiveConfirmLabel,
+        variant: confirmColor != null ? DialogVariant.destructive : variant,
+        confirmColor: confirmColor,
+        cancelLabel: cancelLabel ?? (variant == DialogVariant.info ? null : 'Cancel'),
+        onConfirm: () {
+          Navigator.of(ctx).pop(true);
+          onConfirm?.call();
         },
-        pageBuilder: (ctx, _, __) => LoloDialog(
-          title: title,
-          body: body,
-          confirmLabel: confirmLabel,
-          variant: variant,
-          cancelLabel: cancelLabel ?? (variant == DialogVariant.info ? null : 'Cancel'),
-          onConfirm: () => Navigator.of(ctx).pop(true),
-          onCancel: () => Navigator.of(ctx).pop(false),
-        ),
-      );
+        onCancel: () => Navigator.of(ctx).pop(false),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +91,7 @@ class LoloDialog extends StatelessWidget {
     final dialogBg = isDark ? LoloColors.darkSurfaceElevated1 : LoloColors.lightSurfaceElevated1;
     final secondaryText = isDark ? LoloColors.darkTextSecondary : LoloColors.lightTextSecondary;
 
-    final confirmBgColor = switch (variant) {
+    final confirmBgColor = confirmColor ?? switch (variant) {
       DialogVariant.destructive => LoloColors.colorError,
       _ => LoloColors.colorPrimary,
     };

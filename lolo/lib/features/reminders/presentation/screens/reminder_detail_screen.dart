@@ -209,19 +209,19 @@ class ReminderDetailScreen extends ConsumerWidget {
     );
   }
 
-  void _confirmDelete(BuildContext context, WidgetRef ref) {
+  void _confirmDelete(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context);
-    LoloDialog.show(
+    final confirmed = await LoloDialog.show(
       context: context,
       title: l10n.reminders_delete_title,
-      message: l10n.reminders_delete_message,
+      body: l10n.reminders_delete_message,
       confirmLabel: l10n.common_button_delete,
-      confirmColor: LoloColors.colorError,
-      onConfirm: () {
-        // Delete via provider
-        Navigator.of(context).pop();
-      },
+      variant: DialogVariant.destructive,
     );
+    if (confirmed == true && context.mounted) {
+      // Delete via provider
+      Navigator.of(context).pop();
+    }
   }
 }
 

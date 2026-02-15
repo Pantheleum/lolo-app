@@ -52,10 +52,10 @@ class _State extends ConsumerState<SosActivationScreen> {
       backgroundColor: const Color(0xFF1A0000),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsetsDirectional.all(LoloSpacing.lg),
+          padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceLg),
           child: Column(
             children: [
-              const SizedBox(height: LoloSpacing.lg),
+              const SizedBox(height: LoloSpacing.spaceLg),
               Container(
                 width: 80, height: 80,
                 decoration: BoxDecoration(
@@ -70,20 +70,20 @@ class _State extends ConsumerState<SosActivationScreen> {
                 ),
                 child: const Icon(Icons.sos, color: Colors.white, size: 40),
               ),
-              const SizedBox(height: LoloSpacing.md),
+              const SizedBox(height: LoloSpacing.spaceMd),
               Text(l10n.sosTitle, style: theme.textTheme.headlineMedium?.copyWith(
                 color: Colors.white,
               )),
-              const SizedBox(height: LoloSpacing.xs),
+              const SizedBox(height: LoloSpacing.spaceXs),
               Text(l10n.sosSubtitle, style: theme.textTheme.bodyMedium?.copyWith(
                 color: Colors.white70,
               )),
-              const SizedBox(height: LoloSpacing.lg),
+              const SizedBox(height: LoloSpacing.spaceLg),
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 2,
-                  mainAxisSpacing: LoloSpacing.sm,
-                  crossAxisSpacing: LoloSpacing.sm,
+                  mainAxisSpacing: LoloSpacing.spaceSm,
+                  crossAxisSpacing: LoloSpacing.spaceSm,
                   childAspectRatio: 2.2,
                   children: _scenarios.map((s) => _ScenarioChip(
                     scenario: s.$1,
@@ -94,7 +94,7 @@ class _State extends ConsumerState<SosActivationScreen> {
                   )).toList(),
                 ),
               ),
-              const SizedBox(height: LoloSpacing.md),
+              const SizedBox(height: LoloSpacing.spaceMd),
               SegmentedButton<SosUrgency>(
                 segments: const [
                   ButtonSegment(value: SosUrgency.happeningNow, label: Text('NOW')),
@@ -107,7 +107,7 @@ class _State extends ConsumerState<SosActivationScreen> {
                   foregroundColor: WidgetStatePropertyAll(Colors.white),
                 ),
               ),
-              const SizedBox(height: LoloSpacing.lg),
+              const SizedBox(height: LoloSpacing.spaceLg),
               SizedBox(
                 width: double.infinity,
                 height: 56,

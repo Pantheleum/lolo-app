@@ -7,6 +7,7 @@ import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_empty_state.dart';
 import 'package:lolo/core/widgets/lolo_skeleton.dart';
 import 'package:lolo/core/widgets/reminder_tile.dart';
+import 'package:lolo/features/reminders/domain/entities/reminder_entity.dart';
 import 'package:lolo/features/reminders/presentation/providers/reminders_provider.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
@@ -84,7 +85,7 @@ class RemindersScreen extends ConsumerWidget {
           final upcoming = reminders.where((r) => !r.isOverdue).toList();
 
           // Group upcoming by date
-          final grouped = <String, List<dynamic>>{};
+          final grouped = <String, List<ReminderEntity>>{};
           for (final r in upcoming) {
             final key =
                 '${r.date.day}/${r.date.month}/${r.date.year}';
@@ -205,8 +206,8 @@ class RemindersScreen extends ConsumerWidget {
 /// Calendar view showing reminders on a monthly calendar grid.
 class _CalendarView extends StatefulWidget {
   const _CalendarView({required this.reminders, required this.onTap});
-  final List<dynamic> reminders;
-  final void Function(dynamic) onTap;
+  final List<ReminderEntity> reminders;
+  final void Function(ReminderEntity) onTap;
 
   @override
   State<_CalendarView> createState() => _CalendarViewState();
@@ -231,7 +232,7 @@ class _CalendarViewState extends State<_CalendarView> {
     final startWeekday = firstDay.weekday % 7; // 0=Sun
 
     // Build set of days that have reminders this month
-    final reminderDays = <int, List<dynamic>>{};
+    final reminderDays = <int, List<ReminderEntity>>{};
     for (final r in widget.reminders) {
       if (r.date.year == _focusedMonth.year &&
           r.date.month == _focusedMonth.month) {

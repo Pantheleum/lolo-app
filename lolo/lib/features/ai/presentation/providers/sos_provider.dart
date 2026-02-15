@@ -2,7 +2,7 @@
 
 import 'dart:async';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/ai/domain/entities/ai_request.dart';
 import 'package:lolo/features/ai/domain/entities/ai_response.dart';
 import 'package:lolo/features/ai/domain/enums/ai_enums.dart';
@@ -11,7 +11,6 @@ import 'package:lolo/features/ai/presentation/providers/ai_providers.dart';
 import 'package:lolo/features/ai/presentation/providers/cost_tracker_provider.dart';
 
 part 'sos_provider.freezed.dart';
-part 'sos_provider.g.dart';
 
 @freezed
 class SosSessionState with _$SosSessionState {
@@ -32,8 +31,7 @@ class SosSessionState with _$SosSessionState {
   const factory SosSessionState.error(String message) = _SosError;
 }
 
-@riverpod
-class SosSession extends _$SosSession {
+class SosSession extends Notifier<SosSessionState> {
   String? _activeSessionId;
   StreamSubscription<SosCoachingEvent>? _streamSub;
 
@@ -170,9 +168,9 @@ class SosSession extends _$SosSession {
     _activeSessionId = null;
     state = const SosSessionState.inactive();
   }
-
-  @override
-  void dispose() {
-    _streamSub?.cancel();
-  }
 }
+
+final sosSessionProvider =
+    NotifierProvider<SosSession, SosSessionState>(
+  SosSession.new,
+);

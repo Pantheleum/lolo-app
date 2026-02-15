@@ -1,13 +1,10 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
-
-part 'message_mode_provider.g.dart';
 
 /// Tracks the currently selected message mode across the
 /// AI Messages flow. Set on the Mode Picker screen, consumed
 /// by the Configuration screen.
-@riverpod
-class SelectedMessageMode extends _$SelectedMessageMode {
+class SelectedMessageMode extends Notifier<MessageMode?> {
   @override
   MessageMode? build() => null;
 
@@ -19,3 +16,8 @@ class SelectedMessageMode extends _$SelectedMessageMode {
     state = null;
   }
 }
+
+final selectedMessageModeProvider =
+    NotifierProvider<SelectedMessageMode, MessageMode?>(
+  SelectedMessageMode.new,
+);

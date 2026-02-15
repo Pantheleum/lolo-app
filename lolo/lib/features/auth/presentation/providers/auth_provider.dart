@@ -1,35 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:lolo/features/auth/domain/entities/auth_user.dart';
 import 'package:lolo/features/auth/domain/repositories/auth_repository.dart';
 import 'package:lolo/features/auth/data/repositories/auth_repository_impl.dart';
 
-part 'auth_provider.g.dart';
-
-@Riverpod(keepAlive: true)
-AuthRepository authRepository(AuthRepositoryRef ref) {
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(
     auth: FirebaseAuth.instance,
     googleSignIn: GoogleSignIn(),
   );
-}
+});
 
 /// Streams the current auth state across the app.
-@Riverpod(keepAlive: true)
-Stream<AuthUser?> authState(AuthStateRef ref) {
+final authStateProvider = StreamProvider<AuthUser?>((ref) {
   return ref.watch(authRepositoryProvider).authStateChanges;
-}
+});
 
 /// Current authenticated user (synchronous read).
-@riverpod
-AuthUser? currentUser(CurrentUserRef ref) {
+final currentUserProvider = Provider<AuthUser?>((ref) {
   return ref.watch(authRepositoryProvider).currentUser;
-}
+});
 
 /// Sign-in notifier for managing loading/error state during authentication.
-@riverpod
-class AuthNotifier extends _$AuthNotifier {
+class AuthNotifier extends Notifier<AsyncValue<void>> {
   @override
   AsyncValue<void> build() => const AsyncData(null);
 
@@ -123,3 +117,8 @@ class AuthNotifier extends _$AuthNotifier {
     state = const AsyncData(null);
   }
 }
+
+final authNotifierProvider =
+    NotifierProvider<AuthNotifier, AsyncValue<void>>(
+  AuthNotifier.new,
+);

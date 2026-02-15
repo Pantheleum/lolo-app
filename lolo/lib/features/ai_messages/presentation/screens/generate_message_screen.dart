@@ -58,7 +58,7 @@ class _GenerateMessageScreenState
     final selectedMode = ref.watch(selectedMessageModeProvider);
     final generationState = ref.watch(messageGenerationNotifierProvider);
 
-    final isGenerating = generationState is _Generating;
+    final isGenerating = generationState == const MessageGenerationState.generating();
 
     // Navigate to result on success
     ref.listen<MessageGenerationState>(

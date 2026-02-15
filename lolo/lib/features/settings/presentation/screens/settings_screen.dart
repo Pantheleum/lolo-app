@@ -340,8 +340,8 @@ class _ProfileCard extends StatelessWidget {
             children: [
               LoloAvatar(
                 name: name,
-                photoUrl: photoUrl,
-                size: LoloSpacing.avatarSizeMedium,
+                imageUrl: photoUrl,
+                size: AvatarSize.medium,
               ),
               const SizedBox(width: LoloSpacing.spaceMd),
               Expanded(

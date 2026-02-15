@@ -12,6 +12,7 @@ enum AvatarSize { small, medium, large }
 class LoloAvatar extends StatelessWidget {
   const LoloAvatar({
     this.imageUrl,
+    this.photoUrl,
     this.name,
     this.size = AvatarSize.medium,
     this.zodiacIcon,
@@ -21,6 +22,8 @@ class LoloAvatar extends StatelessWidget {
   });
 
   final String? imageUrl;
+  /// Alias for [imageUrl]. Used as fallback when imageUrl is null.
+  final String? photoUrl;
   final String? name;
   final AvatarSize size;
   /// Optional zodiac icon to overlay as a small badge.
@@ -57,7 +60,7 @@ class LoloAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label: semanticLabel ?? name ?? 'Avatar',
-      image: imageUrl != null,
+      image: _effectiveImageUrl != null,
       child: GestureDetector(
         onTap: onTap,
         child: SizedBox(
@@ -104,10 +107,12 @@ class LoloAvatar extends StatelessWidget {
     );
   }
 
+  String? get _effectiveImageUrl => imageUrl ?? photoUrl;
+
   Widget _buildContent() {
-    if (imageUrl != null && imageUrl!.isNotEmpty) {
+    if (_effectiveImageUrl != null && _effectiveImageUrl!.isNotEmpty) {
       return Image.network(
-        imageUrl!,
+        _effectiveImageUrl!,
         fit: BoxFit.cover,
         width: _diameter,
         height: _diameter,

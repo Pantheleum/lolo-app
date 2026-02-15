@@ -22,7 +22,7 @@ class OnboardingRemoteDataSource {
     required String language,
   }) async {
     final response = await _dio.post(
-      ApiEndpoints.register,
+      ApiEndpoints.authRegister,
       data: {
         'email': email,
         'password': password,

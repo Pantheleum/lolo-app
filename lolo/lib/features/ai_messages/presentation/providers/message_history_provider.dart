@@ -1,13 +1,11 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
 import 'package:lolo/features/ai_messages/domain/repositories/message_repository.dart';
 import 'package:lolo/features/ai_messages/presentation/providers/message_state.dart';
 
-part 'message_history_provider.g.dart';
-
 /// Filter state for the message history screen.
-@riverpod
-class MessageHistoryFilter extends _$MessageHistoryFilter {
+class MessageHistoryFilter
+    extends Notifier<({bool? favoritesOnly, MessageMode? mode, String? search})> {
   @override
   ({bool? favoritesOnly, MessageMode? mode, String? search}) build() =>
       (favoritesOnly: null, mode: null, search: null);
@@ -33,9 +31,13 @@ class MessageHistoryFilter extends _$MessageHistoryFilter {
   }
 }
 
+final messageHistoryFilterProvider = NotifierProvider<MessageHistoryFilter,
+    ({bool? favoritesOnly, MessageMode? mode, String? search})>(
+  MessageHistoryFilter.new,
+);
+
 /// Manages paginated message history with filter support.
-@riverpod
-class MessageHistoryNotifier extends _$MessageHistoryNotifier {
+class MessageHistoryNotifier extends Notifier<MessageHistoryState> {
   static const int _pageSize = 20;
 
   @override
@@ -73,32 +75,55 @@ class MessageHistoryNotifier extends _$MessageHistoryNotifier {
   /// Load the next page (infinite scroll).
   Future<void> loadNextPage() async {
     final current = state;
-    if (current is! _HistoryLoaded || !current.hasMore || current.isLoadingMore) {
+    if (current is! MessageHistoryState ||
+        current != state) {
       return;
     }
 
-    state = current.copyWith(isLoadingMore: true);
+    // Check if current state is loaded with hasMore
+    state.whenOrNull(
+      loaded: (messages, hasMore, currentPage, isLoadingMore) async {
+        if (!hasMore || isLoadingMore) return;
 
-    final filter = ref.read(messageHistoryFilterProvider);
-    final repository = ref.read(messageRepositoryProvider);
-    final nextPage = current.currentPage + 1;
+        state = MessageHistoryState.loaded(
+          messages: messages,
+          hasMore: hasMore,
+          currentPage: currentPage,
+          isLoadingMore: true,
+        );
 
-    final result = await repository.getMessageHistory(
-      page: nextPage,
-      pageSize: _pageSize,
-      favoritesOnly: filter.favoritesOnly,
-      modeFilter: filter.mode,
-      searchQuery: filter.search,
-    );
+        final filter = ref.read(messageHistoryFilterProvider);
+        final repository = ref.read(messageRepositoryProvider);
+        final nextPage = currentPage + 1;
 
-    state = result.fold(
-      (failure) => current.copyWith(isLoadingMore: false),
-      (messages) => current.copyWith(
-        messages: [...current.messages, ...messages],
-        hasMore: messages.length >= _pageSize,
-        currentPage: nextPage,
-        isLoadingMore: false,
-      ),
+        final result = await repository.getMessageHistory(
+          page: nextPage,
+          pageSize: _pageSize,
+          favoritesOnly: filter.favoritesOnly,
+          modeFilter: filter.mode,
+          searchQuery: filter.search,
+        );
+
+        state = result.fold(
+          (failure) => MessageHistoryState.loaded(
+            messages: messages,
+            hasMore: hasMore,
+            currentPage: currentPage,
+            isLoadingMore: false,
+          ),
+          (newMessages) => MessageHistoryState.loaded(
+            messages: [...messages, ...newMessages],
+            hasMore: newMessages.length >= _pageSize,
+            currentPage: nextPage,
+            isLoadingMore: false,
+          ),
+        );
+      },
     );
   }
 }
+
+final messageHistoryNotifierProvider =
+    NotifierProvider<MessageHistoryNotifier, MessageHistoryState>(
+  MessageHistoryNotifier.new,
+);

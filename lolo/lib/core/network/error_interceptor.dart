@@ -29,9 +29,9 @@ class ErrorInterceptor extends Interceptor {
 
     final statusCode = err.response?.statusCode;
     final errorBody = err.response?.data;
-    final errorCode = errorBody is Map ? errorBody['error']?['code'] : null;
-    final errorMessage =
-        errorBody is Map ? errorBody['error']?['message'] : null;
+    final errorMap = (errorBody is Map) ? errorBody['error'] : null;
+    final errorCode = (errorMap is Map) ? errorMap['code'] as String? : null;
+    final errorMessage = (errorMap is Map) ? errorMap['message'] as String? : null;
 
     return switch (statusCode) {
       400 => NetworkException.badRequest(

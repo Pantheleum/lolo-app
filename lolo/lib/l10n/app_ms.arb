@@ -205,5 +205,41 @@
   "optionalNotes": "Tambah nota (pilihan)",
   "markComplete": "Tandakan Selesai",
   "gamification": "Kemajuan",
-  "badges": "Lencana"
+  "badges": "Lencana",
+  "sosTitle": "Mod SOS",
+  "sosSubtitle": "Bantuan kecemasan apabila dia kecewa",
+  "getHelp": "Dapatkan Bantuan",
+  "assessment": "Penilaian",
+  "back": "Kembali",
+  "coaching": "Bimbingan",
+  "stepProgress": "Langkah {current} daripada {total}",
+  "@stepProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "sayThis": "Katakan Ini",
+  "dontSay": "Jangan Katakan Ini",
+  "whatHappened": "Apa yang berlaku?",
+  "nextStep": "Langkah Seterusnya",
+  "viewRecoveryPlan": "Lihat Pelan Pemulihan",
+  "recoveryPlan": "Pelan Pemulihan",
+  "immediate": "Segera",
+  "immediateStep1": "Minta maaf dengan ikhlas",
+  "immediateStep2": "Beri dia ruang jika perlu",
+  "immediateStep3": "Dengar tanpa membela diri",
+  "shortTerm": "Jangka Pendek",
+  "shortTermStep1": "Rancang isyarat yang bermakna",
+  "shortTermStep2": "Tunaikan janji anda",
+  "longTerm": "Jangka Panjang",
+  "longTermStep1": "Tangani punca masalah",
+  "longTermStep2": "Bina tabiat baru bersama",
+  "done": "Selesai",
+  "upgradePlan": "Naik Taraf Pelan",
+  "noPlansAvailable": "Tiada pelan tersedia pada masa ini",
+  "restorePurchases": "Pulihkan Pembelian",
+  "subscriptionTerms": "Terma & Syarat terpakai",
+  "unlockFullPotential": "Buka Potensi Penuh",
+  "paywallSubtitle": "Dapatkan akses tanpa had ke semua ciri"
 }

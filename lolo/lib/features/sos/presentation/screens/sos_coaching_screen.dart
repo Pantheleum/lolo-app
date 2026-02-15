@@ -51,7 +51,7 @@ class _State extends ConsumerState<SosCoachingScreen> {
 
   Widget _buildCoachingContent(ThemeData theme, AppLocalizations l10n, CoachingStep step) =>
       SingleChildScrollView(
-        padding: const EdgeInsetsDirectional.all(LoloSpacing.lg),
+        padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -61,15 +61,15 @@ class _State extends ConsumerState<SosCoachingScreen> {
                     style: theme.textTheme.titleMedium),
                 const Spacer(),
                 if (!step.isLastStep)
-                  Text(l10n.stepProgress,
+                  Text(l10n.stepProgress(step.stepNumber, step.totalSteps),
                       style: theme.textTheme.bodySmall),
               ],
             ),
-            const SizedBox(height: LoloSpacing.lg),
+            const SizedBox(height: LoloSpacing.spaceLg),
             // SAY THIS - green card
             Container(
               width: double.infinity,
-              padding: const EdgeInsetsDirectional.all(LoloSpacing.md),
+              padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceMd),
               decoration: BoxDecoration(
                 color: const Color(0xFF48BB78).withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
@@ -85,24 +85,24 @@ class _State extends ConsumerState<SosCoachingScreen> {
                       color: const Color(0xFF48BB78),
                     )),
                   ]),
-                  const SizedBox(height: LoloSpacing.sm),
+                  const SizedBox(height: LoloSpacing.spaceSm),
                   Text(step.sayThis, style: theme.textTheme.bodyLarge?.copyWith(
                     fontStyle: FontStyle.italic,
                     height: 1.6,
                   )),
                   if (step.whyItWorks.isNotEmpty) ...[
-                    const SizedBox(height: LoloSpacing.sm),
+                    const SizedBox(height: LoloSpacing.spaceSm),
                     Text(step.whyItWorks, style: theme.textTheme.bodySmall),
                   ],
                 ],
               ),
             ),
-            const SizedBox(height: LoloSpacing.md),
+            const SizedBox(height: LoloSpacing.spaceMd),
             // DON'T SAY - red card
             if (step.doNotSay.isNotEmpty)
               Container(
                 width: double.infinity,
-                padding: const EdgeInsetsDirectional.all(LoloSpacing.md),
+                padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceMd),
                 decoration: BoxDecoration(
                   color: LoloColors.colorError.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(12),
@@ -118,7 +118,7 @@ class _State extends ConsumerState<SosCoachingScreen> {
                         color: LoloColors.colorError,
                       )),
                     ]),
-                    const SizedBox(height: LoloSpacing.sm),
+                    const SizedBox(height: LoloSpacing.spaceSm),
                     ...step.doNotSay.map((s) => Padding(
                       padding: const EdgeInsetsDirectional.only(bottom: 4),
                       child: Row(
@@ -132,11 +132,11 @@ class _State extends ConsumerState<SosCoachingScreen> {
                   ],
                 ),
               ),
-            const SizedBox(height: LoloSpacing.md),
+            const SizedBox(height: LoloSpacing.spaceMd),
             // Body language tip
             Container(
               width: double.infinity,
-              padding: const EdgeInsetsDirectional.all(LoloSpacing.md),
+              padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceMd),
               decoration: BoxDecoration(
                 color: LoloColors.colorPrimary.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(12),
@@ -150,13 +150,13 @@ class _State extends ConsumerState<SosCoachingScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: LoloSpacing.xl),
+            const SizedBox(height: LoloSpacing.spaceXl),
             if (!step.isLastStep) ...[
               if (step.nextStepPrompt != null)
                 Text(step.nextStepPrompt!, style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
                 )),
-              const SizedBox(height: LoloSpacing.sm),
+              const SizedBox(height: LoloSpacing.spaceSm),
               TextField(
                 controller: _updateController,
                 maxLines: 2,
@@ -165,7 +165,7 @@ class _State extends ConsumerState<SosCoachingScreen> {
                   border: const OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: LoloSpacing.md),
+              const SizedBox(height: LoloSpacing.spaceMd),
               LoloPrimaryButton(
                 label: l10n.nextStep,
                 onPressed: () {

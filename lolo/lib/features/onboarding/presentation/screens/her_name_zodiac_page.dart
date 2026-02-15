@@ -70,6 +70,7 @@ class _HerNameZodiacPageState extends ConsumerState<HerNameZodiacPage> {
 
             // Partner name input
             LoloTextField(
+              label: l10n.onboarding_partner_hint,
               controller: _nameController,
               hint: l10n.onboarding_partner_hint,
               textCapitalization: TextCapitalization.words,

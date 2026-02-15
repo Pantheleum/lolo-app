@@ -1,12 +1,10 @@
 // FILE: lib/features/ai/presentation/providers/cost_tracker_provider.dart
 
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/ai/domain/entities/ai_response.dart';
 import 'package:lolo/features/ai/domain/enums/ai_enums.dart';
 import 'package:lolo/features/ai/presentation/providers/ai_providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-part 'cost_tracker_provider.g.dart';
 
 class UsageSnapshot {
   final int used;
@@ -28,8 +26,7 @@ class UsageSnapshot {
   bool get isUnlimited => limit == -1;
 }
 
-@Riverpod(keepAlive: true)
-class CostTracker extends _$CostTracker {
+class CostTracker extends Notifier<Map<AiRequestType, UsageSnapshot>> {
   final Map<AiRequestType, AiUsageInfo> _usageCache = {};
   AiUsageInfo? _lastQueried;
 
@@ -125,20 +122,22 @@ class CostTracker extends _$CostTracker {
   UsageSnapshot? snapshotFor(AiRequestType type) => state[type];
 }
 
-@riverpod
-UsageSnapshot? messageUsage(MessageUsageRef ref) {
+final costTrackerProvider =
+    NotifierProvider<CostTracker, Map<AiRequestType, UsageSnapshot>>(
+  CostTracker.new,
+);
+
+final messageUsageSnapshotProvider = Provider<UsageSnapshot?>((ref) {
   final tracker = ref.watch(costTrackerProvider);
   return tracker[AiRequestType.message];
-}
+});
 
-@riverpod
-UsageSnapshot? giftUsage(GiftUsageRef ref) {
+final giftUsageProvider = Provider<UsageSnapshot?>((ref) {
   final tracker = ref.watch(costTrackerProvider);
   return tracker[AiRequestType.gift];
-}
+});
 
-@riverpod
-UsageSnapshot? sosUsage(SosUsageRef ref) {
+final sosUsageProvider = Provider<UsageSnapshot?>((ref) {
   final tracker = ref.watch(costTrackerProvider);
   return tracker[AiRequestType.sosAssessment];
-}
+});

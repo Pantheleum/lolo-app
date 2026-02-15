@@ -1,4 +1,4 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/ai_messages/domain/entities/generated_message_entity.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_request_entity.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
@@ -7,12 +7,9 @@ import 'package:lolo/features/ai_messages/domain/entities/message_length.dart';
 import 'package:lolo/features/ai_messages/domain/repositories/message_repository.dart';
 import 'package:lolo/features/ai_messages/presentation/providers/message_state.dart';
 
-part 'message_provider.g.dart';
-
 /// Manages message generation -- builds the request from the
 /// configuration screen inputs and delegates to the repository.
-@riverpod
-class MessageGenerationNotifier extends _$MessageGenerationNotifier {
+class MessageGenerationNotifier extends Notifier<MessageGenerationState> {
   @override
   MessageGenerationState build() => const MessageGenerationState.idle();
 
@@ -98,10 +95,15 @@ class MessageGenerationNotifier extends _$MessageGenerationNotifier {
   }
 }
 
+final messageGenerationNotifierProvider =
+    NotifierProvider<MessageGenerationNotifier, MessageGenerationState>(
+  MessageGenerationNotifier.new,
+);
+
 /// Provides the current month's usage count for the usage counter
 /// displayed on the result screen.
-@riverpod
-class MessageUsage extends _$MessageUsage {
+class MessageUsageNotifier
+    extends AsyncNotifier<({int used, int limit})> {
   @override
   Future<({int used, int limit})> build() async {
     final repository = ref.watch(messageRepositoryProvider);
@@ -112,3 +114,8 @@ class MessageUsage extends _$MessageUsage {
     );
   }
 }
+
+final messageUsageProvider =
+    AsyncNotifierProvider<MessageUsageNotifier, ({int used, int limit})>(
+  MessageUsageNotifier.new,
+);

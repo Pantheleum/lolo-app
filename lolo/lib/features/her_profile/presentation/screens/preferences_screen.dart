@@ -107,10 +107,11 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
               children: [
                 Expanded(
                   child: LoloTextField(
+                    label: l10n.profile_preferences_add_hint(_activeCategory),
                     controller: _addController,
                     hint: l10n.profile_preferences_add_hint(_activeCategory),
                     textInputAction: TextInputAction.done,
-                    onFieldSubmitted: (_) => _addItem(),
+                    onSubmitted: (_) => _addItem(),
                   ),
                 ),
                 const SizedBox(width: LoloSpacing.spaceXs),
@@ -129,8 +130,22 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                 style: theme.textTheme.titleLarge),
             const SizedBox(height: LoloSpacing.spaceSm),
             LoloChipGroup(
-              items: _hobbies,
-              onRemoved: (item) => setState(() => _hobbies.remove(item)),
+              items: _hobbies.map((s) => ChipItem(label: s)).toList(),
+              selectedIndices: Set<int>.from(List.generate(_hobbies.length, (i) => i)),
+              onSelectionChanged: (indices) {
+                setState(() {
+                  final toRemove = <String>[];
+                  for (int i = 0; i < _hobbies.length; i++) {
+                    if (!indices.contains(i)) {
+                      toRemove.add(_hobbies[i]);
+                    }
+                  }
+                  for (final item in toRemove) {
+                    _hobbies.remove(item);
+                  }
+                });
+              },
+              selectionMode: ChipSelectionMode.multi,
             ),
 
             const SizedBox(height: LoloSpacing.space2xl),
@@ -140,9 +155,22 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                 style: theme.textTheme.titleLarge),
             const SizedBox(height: LoloSpacing.spaceSm),
             LoloChipGroup(
-              items: _dislikes,
-              chipColor: LoloColors.colorError.withValues(alpha: 0.12),
-              onRemoved: (item) => setState(() => _dislikes.remove(item)),
+              items: _dislikes.map((s) => ChipItem(label: s, color: LoloColors.colorError)).toList(),
+              selectedIndices: Set<int>.from(List.generate(_dislikes.length, (i) => i)),
+              onSelectionChanged: (indices) {
+                setState(() {
+                  final toRemove = <String>[];
+                  for (int i = 0; i < _dislikes.length; i++) {
+                    if (!indices.contains(i)) {
+                      toRemove.add(_dislikes[i]);
+                    }
+                  }
+                  for (final item in toRemove) {
+                    _dislikes.remove(item);
+                  }
+                });
+              },
+              selectionMode: ChipSelectionMode.multi,
             ),
 
             const SizedBox(height: LoloSpacing.space2xl),

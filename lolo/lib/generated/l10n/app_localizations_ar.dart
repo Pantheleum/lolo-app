@@ -196,34 +196,34 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboarding_signup_legal_privacy => 'سياسة الخصوصية';
 
   @override
-  String get onboarding_signup_error_emailInUse => 'This email is already registered.';
+  String get onboarding_signup_error_emailInUse => 'هذا البريد الإلكتروني مسجل بالفعل.';
 
   @override
-  String get onboarding_signup_error_invalidEmail => 'Please enter a valid email address.';
+  String get onboarding_signup_error_invalidEmail => 'يرجى إدخال بريد إلكتروني صالح.';
 
   @override
-  String get onboarding_signup_error_weakPassword => 'Password must be at least 8 characters.';
+  String get onboarding_signup_error_weakPassword => 'يجب أن تكون كلمة المرور 8 أحرف على الأقل.';
 
   @override
-  String get onboarding_signup_error_networkFailed => 'Network error. Check your connection.';
+  String get onboarding_signup_error_networkFailed => 'خطأ في الشبكة. تحقق من اتصالك.';
 
   @override
-  String get onboarding_signup_error_generic => 'Authentication failed. Please try again.';
+  String get onboarding_signup_error_generic => 'فشلت المصادقة. يرجى المحاولة مرة أخرى.';
 
   @override
-  String get onboarding_login_title => 'Log In';
+  String get onboarding_login_title => 'تسجيل الدخول';
 
   @override
-  String get onboarding_login_heading => 'Welcome back';
+  String get onboarding_login_heading => 'مرحباً بعودتك';
 
   @override
-  String get onboarding_login_button_login => 'Log In';
+  String get onboarding_login_button_login => 'تسجيل الدخول';
 
   @override
-  String get onboarding_login_link_forgot => 'Forgot password?';
+  String get onboarding_login_link_forgot => 'نسيت كلمة المرور؟';
 
   @override
-  String get onboarding_login_link_signup => 'Don\'t have an account? Sign up';
+  String get onboarding_login_link_signup => 'ليس لديك حساب؟ سجّل الآن';
 
   @override
   String get onboarding_name_title => 'ماذا نناديك؟';
@@ -250,7 +250,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboarding_partner_label_status => 'حالة العلاقة';
 
   @override
-  String get onboarding_partner_error_name => 'Please enter her name';
+  String get onboarding_partner_error_name => 'يرجى إدخال اسمها';
 
   @override
   String get onboarding_status_dating => 'مواعدة';
@@ -333,28 +333,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile_edit_conflictStyle => 'أسلوب التعامل مع الخلافات';
 
   @override
-  String get profile_edit_loveLanguage_words => 'Words of Affirmation';
+  String get profile_edit_loveLanguage_words => 'كلمات التشجيع';
 
   @override
-  String get profile_edit_loveLanguage_acts => 'Acts of Service';
+  String get profile_edit_loveLanguage_acts => 'أفعال الخدمة';
 
   @override
-  String get profile_edit_loveLanguage_gifts => 'Receiving Gifts';
+  String get profile_edit_loveLanguage_gifts => 'تلقي الهدايا';
 
   @override
-  String get profile_edit_loveLanguage_time => 'Quality Time';
+  String get profile_edit_loveLanguage_time => 'وقت مميز معاً';
 
   @override
-  String get profile_edit_loveLanguage_touch => 'Physical Touch';
+  String get profile_edit_loveLanguage_touch => 'التواصل الجسدي';
 
   @override
-  String get profile_edit_commStyle_direct => 'Direct';
+  String get profile_edit_commStyle_direct => 'مباشر';
 
   @override
-  String get profile_edit_commStyle_indirect => 'Indirect';
+  String get profile_edit_commStyle_indirect => 'غير مباشر';
 
   @override
-  String get profile_edit_commStyle_mixed => 'Mixed';
+  String get profile_edit_commStyle_mixed => 'مختلط';
 
   @override
   String get profile_preferences_title => 'تفضيلاتها';
@@ -374,22 +374,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile_preferences_dislikes => 'الأشياء التي لا تحبها';
 
   @override
-  String get profile_preferences_category_flowers => 'Flowers';
+  String get profile_preferences_category_flowers => 'زهور';
 
   @override
-  String get profile_preferences_category_food => 'Food';
+  String get profile_preferences_category_food => 'طعام';
 
   @override
-  String get profile_preferences_category_music => 'Music';
+  String get profile_preferences_category_music => 'موسيقى';
 
   @override
-  String get profile_preferences_category_movies => 'Movies';
+  String get profile_preferences_category_movies => 'أفلام';
 
   @override
-  String get profile_preferences_category_brands => 'Brands';
+  String get profile_preferences_category_brands => 'ماركات';
 
   @override
-  String get profile_preferences_category_colors => 'Colors';
+  String get profile_preferences_category_colors => 'ألوان';
 
   @override
   String get profile_cultural_title => 'السياق الثقافي';
@@ -413,43 +413,43 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile_cultural_info => 'هذا يساعد LOLO في تخصيص المحتوى، وتصفية الاقتراحات غير المناسبة، وإضافة المناسبات تلقائياً.';
 
   @override
-  String get profile_cultural_bg_gulf => 'Gulf Arab';
+  String get profile_cultural_bg_gulf => 'خليجي';
 
   @override
-  String get profile_cultural_bg_levantine => 'Levantine';
+  String get profile_cultural_bg_levantine => 'شامي';
 
   @override
-  String get profile_cultural_bg_egyptian => 'Egyptian';
+  String get profile_cultural_bg_egyptian => 'مصري';
 
   @override
-  String get profile_cultural_bg_northAfrican => 'North African';
+  String get profile_cultural_bg_northAfrican => 'شمال أفريقي';
 
   @override
-  String get profile_cultural_bg_malay => 'Malaysian/Malay';
+  String get profile_cultural_bg_malay => 'ماليزي/ملايو';
 
   @override
-  String get profile_cultural_bg_western => 'Western';
+  String get profile_cultural_bg_western => 'غربي';
 
   @override
-  String get profile_cultural_bg_southAsian => 'South Asian';
+  String get profile_cultural_bg_southAsian => 'جنوب آسيوي';
 
   @override
-  String get profile_cultural_bg_eastAsian => 'East Asian';
+  String get profile_cultural_bg_eastAsian => 'شرق آسيوي';
 
   @override
-  String get profile_cultural_bg_other => 'Other';
+  String get profile_cultural_bg_other => 'أخرى';
 
   @override
-  String get profile_cultural_obs_high => 'High -- Observes all religious practices';
+  String get profile_cultural_obs_high => 'عالي -- يلتزم بجميع الممارسات الدينية';
 
   @override
-  String get profile_cultural_obs_moderate => 'Moderate -- Observes major practices';
+  String get profile_cultural_obs_moderate => 'متوسط -- يلتزم بالممارسات الرئيسية';
 
   @override
-  String get profile_cultural_obs_low => 'Low -- Culturally connected';
+  String get profile_cultural_obs_low => 'منخفض -- مرتبط ثقافياً';
 
   @override
-  String get profile_cultural_obs_secular => 'Secular';
+  String get profile_cultural_obs_secular => 'علماني';
 
   @override
   String get reminders_title => 'التذكيرات';
@@ -497,43 +497,43 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reminders_create_button_save => 'إنشاء تذكير';
 
   @override
-  String get reminders_create_recurrence_none => 'No repeat';
+  String get reminders_create_recurrence_none => 'بدون تكرار';
 
   @override
-  String get reminders_create_recurrence_weekly => 'Weekly';
+  String get reminders_create_recurrence_weekly => 'أسبوعياً';
 
   @override
-  String get reminders_create_recurrence_monthly => 'Monthly';
+  String get reminders_create_recurrence_monthly => 'شهرياً';
 
   @override
-  String get reminders_create_recurrence_yearly => 'Yearly';
+  String get reminders_create_recurrence_yearly => 'سنوياً';
 
   @override
-  String get reminders_create_category_birthday => 'Birthday';
+  String get reminders_create_category_birthday => 'عيد ميلاد';
 
   @override
-  String get reminders_create_category_anniversary => 'Anniversary';
+  String get reminders_create_category_anniversary => 'ذكرى سنوية';
 
   @override
-  String get reminders_create_category_islamic => 'Islamic Holiday';
+  String get reminders_create_category_islamic => 'عيد إسلامي';
 
   @override
-  String get reminders_create_category_cultural => 'Cultural';
+  String get reminders_create_category_cultural => 'ثقافي';
 
   @override
-  String get reminders_create_category_custom => 'Custom';
+  String get reminders_create_category_custom => 'مخصص';
 
   @override
-  String get reminders_create_category_promise => 'Promise';
+  String get reminders_create_category_promise => 'وعد';
 
   @override
-  String get reminders_create_error_title => 'Title is required';
+  String get reminders_create_error_title => 'العنوان مطلوب';
 
   @override
-  String get reminders_create_error_date => 'Please select a date';
+  String get reminders_create_error_date => 'يرجى اختيار تاريخ';
 
   @override
-  String get reminders_create_error_pastDate => 'Reminder date cannot be in the past';
+  String get reminders_create_error_pastDate => 'لا يمكن أن يكون تاريخ التذكير في الماضي';
 
   @override
   String get reminders_detail_title => 'تفاصيل التذكير';
@@ -600,11 +600,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reminders_delete_message => 'سيتم حذف هذا التذكير نهائياً وإلغاء جميع إشعاراته. هل أنت متأكد؟';
 
   @override
-  String get reminders_notification_today => 'Today is the day!';
+  String get reminders_notification_today => 'اليوم هو اليوم!';
 
   @override
   String reminders_notification_daysUntil(int days, String title) {
-    return '$days days until $title';
+    return 'باقي $days يوم على $title';
   }
 
   @override
@@ -678,4 +678,96 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get badges => 'الشارات';
+
+  @override
+  String get sosTitle => 'وضع الطوارئ';
+
+  @override
+  String get sosSubtitle => 'مساعدة عاجلة عندما تكون منزعجة';
+
+  @override
+  String get getHelp => 'احصل على المساعدة';
+
+  @override
+  String get assessment => 'التقييم';
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get coaching => 'التوجيه';
+
+  @override
+  String stepProgress(int current, int total) {
+    return 'الخطوة $current من $total';
+  }
+
+  @override
+  String get sayThis => 'قل هذا';
+
+  @override
+  String get dontSay => 'لا تقل هذا';
+
+  @override
+  String get whatHappened => 'ماذا حدث؟';
+
+  @override
+  String get nextStep => 'الخطوة التالية';
+
+  @override
+  String get viewRecoveryPlan => 'عرض خطة التعافي';
+
+  @override
+  String get recoveryPlan => 'خطة التعافي';
+
+  @override
+  String get immediate => 'فوري';
+
+  @override
+  String get immediateStep1 => 'اعتذر بصدق';
+
+  @override
+  String get immediateStep2 => 'أعطها مساحة إذا لزم الأمر';
+
+  @override
+  String get immediateStep3 => 'استمع بدون دفاع';
+
+  @override
+  String get shortTerm => 'قصير المدى';
+
+  @override
+  String get shortTermStep1 => 'خطط لبادرة مدروسة';
+
+  @override
+  String get shortTermStep2 => 'التزم بوعودك';
+
+  @override
+  String get longTerm => 'طويل المدى';
+
+  @override
+  String get longTermStep1 => 'عالج السبب الجذري';
+
+  @override
+  String get longTermStep2 => 'ابنِ عادات جديدة معاً';
+
+  @override
+  String get done => 'تم';
+
+  @override
+  String get upgradePlan => 'ترقية الخطة';
+
+  @override
+  String get noPlansAvailable => 'لا توجد خطط متاحة حالياً';
+
+  @override
+  String get restorePurchases => 'استعادة المشتريات';
+
+  @override
+  String get subscriptionTerms => 'تطبق الشروط والأحكام';
+
+  @override
+  String get unlockFullPotential => 'افتح الإمكانيات الكاملة';
+
+  @override
+  String get paywallSubtitle => 'احصل على وصول غير محدود لجميع الميزات';
 }

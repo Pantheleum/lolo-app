@@ -1,7 +1,7 @@
 // FILE: lib/features/ai/presentation/providers/message_generation_provider.dart
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/ai/domain/entities/ai_request.dart';
 import 'package:lolo/features/ai/domain/entities/ai_response.dart';
 import 'package:lolo/features/ai/domain/enums/ai_enums.dart';
@@ -9,7 +9,6 @@ import 'package:lolo/features/ai/presentation/providers/ai_providers.dart';
 import 'package:lolo/features/ai/presentation/providers/cost_tracker_provider.dart';
 
 part 'message_generation_provider.freezed.dart';
-part 'message_generation_provider.g.dart';
 
 @freezed
 class MessageGenState with _$MessageGenState {
@@ -23,8 +22,7 @@ class MessageGenState with _$MessageGenState {
   const factory MessageGenState.error(String message) = _Error;
 }
 
-@riverpod
-class MessageGenerator extends _$MessageGenerator {
+class MessageGenerator extends Notifier<MessageGenState> {
   @override
   MessageGenState build() => const MessageGenState.idle();
 
@@ -87,8 +85,12 @@ class MessageGenerator extends _$MessageGenerator {
   void reset() => state = const MessageGenState.idle();
 }
 
-@riverpod
-class MessageHistory extends _$MessageHistory {
+final messageGeneratorProvider =
+    NotifierProvider<MessageGenerator, MessageGenState>(
+  MessageGenerator.new,
+);
+
+class MessageHistory extends Notifier<AsyncValue<List<AiMessageResponse>>> {
   static const _pageSize = 20;
   String? _lastDocId;
   bool _hasMore = true;
@@ -137,3 +139,8 @@ class MessageHistory extends _$MessageHistory {
     await _loadInitial();
   }
 }
+
+final messageHistoryProvider =
+    NotifierProvider<MessageHistory, AsyncValue<List<AiMessageResponse>>>(
+  MessageHistory.new,
+);

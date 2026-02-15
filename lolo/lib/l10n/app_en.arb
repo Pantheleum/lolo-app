@@ -342,5 +342,41 @@
   "badges": "Badges",
   "@badges": {
     "description": "Section title for achievement badges"
-  }
+  },
+  "sosTitle": "SOS Mode",
+  "sosSubtitle": "Emergency help when she's upset",
+  "getHelp": "Get Help Now",
+  "assessment": "Assessment",
+  "back": "Back",
+  "coaching": "Coaching",
+  "stepProgress": "Step {current} of {total}",
+  "@stepProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "sayThis": "Say This",
+  "dontSay": "Don't Say This",
+  "whatHappened": "What happened?",
+  "nextStep": "Next Step",
+  "viewRecoveryPlan": "View Recovery Plan",
+  "recoveryPlan": "Recovery Plan",
+  "immediate": "Immediate",
+  "immediateStep1": "Apologize sincerely",
+  "immediateStep2": "Give her space if needed",
+  "immediateStep3": "Listen without defending",
+  "shortTerm": "Short Term",
+  "shortTermStep1": "Plan a thoughtful gesture",
+  "shortTermStep2": "Follow through on promises",
+  "longTerm": "Long Term",
+  "longTermStep1": "Address the root cause",
+  "longTermStep2": "Build new habits together",
+  "done": "Done",
+  "upgradePlan": "Upgrade Plan",
+  "noPlansAvailable": "No plans available at this time",
+  "restorePurchases": "Restore Purchases",
+  "subscriptionTerms": "Terms & Conditions apply",
+  "unlockFullPotential": "Unlock Full Potential",
+  "paywallSubtitle": "Get unlimited access to all features"
 }

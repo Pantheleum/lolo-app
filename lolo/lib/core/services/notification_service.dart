@@ -4,10 +4,25 @@
 /// - FCM token registration
 /// - Local notification channel setup
 /// - Notification display and routing
-abstract final class NotificationService {
+class NotificationService {
   static Future<void> init() async {
     // TODO: Initialize FCM and local notification channels
     // await FirebaseMessaging.instance.requestPermission();
     // await _setupLocalNotifications();
+  }
+
+  /// Cancel all notifications for a given reminder.
+  Future<void> cancelReminder(String reminderId) async {
+    // TODO: Cancel local notifications by tag/id
+  }
+
+  /// Schedule a local notification.
+  Future<void> scheduleReminder({
+    required String id,
+    required String title,
+    required String body,
+    required DateTime scheduledDate,
+  }) async {
+    // TODO: Schedule local notification
   }
 }

@@ -15,6 +15,7 @@ class LoloPrimaryButton extends StatelessWidget {
     this.isEnabled = true,
     this.icon,
     this.fullWidth = true,
+    this.isExpanded,
     this.semanticLabel,
     super.key,
   });
@@ -37,6 +38,9 @@ class LoloPrimaryButton extends StatelessWidget {
   /// Whether button stretches to full available width.
   final bool fullWidth;
 
+  /// Alias for [fullWidth]. When true, button stretches to full width.
+  final bool? isExpanded;
+
   /// Accessibility label override.
   final String? semanticLabel;
 
@@ -46,6 +50,7 @@ class LoloPrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final effectiveFullWidth = isExpanded ?? fullWidth;
 
     final bgColor = _isInteractive
         ? LoloColors.colorPrimary
@@ -59,7 +64,7 @@ class LoloPrimaryButton extends StatelessWidget {
       button: true,
       enabled: _isInteractive,
       child: SizedBox(
-        width: fullWidth ? double.infinity : null,
+        width: effectiveFullWidth ? double.infinity : null,
         height: 52,
         child: ElevatedButton(
           onPressed: _isInteractive
@@ -75,7 +80,7 @@ class LoloPrimaryButton extends StatelessWidget {
             disabledForegroundColor: fgColor,
             elevation: isDark ? 0 : (_isInteractive ? 2 : 0),
             shadowColor: isDark ? Colors.transparent : Colors.black26,
-            minimumSize: Size(fullWidth ? double.infinity : 120, 52),
+            minimumSize: Size(effectiveFullWidth ? double.infinity : 120, 52),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
             ),
@@ -95,7 +100,7 @@ class LoloPrimaryButton extends StatelessWidget {
                   ),
                 )
               : Row(
-                  mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
+                  mainAxisSize: effectiveFullWidth ? MainAxisSize.max : MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (icon != null) ...[

@@ -1,36 +1,34 @@
-// FILE: lib/features/ai/domain/failures/ai_failures.dart
-
 import 'package:lolo/core/errors/failures.dart';
 
-class TierLimitFailure extends Failure {
-  const TierLimitFailure(super.message);
+class AiTierLimitFailure extends Failure {
+  const AiTierLimitFailure({required super.message, super.code});
 }
 
 class ContentSafetyFailure extends Failure {
-  const ContentSafetyFailure(super.message);
+  const ContentSafetyFailure({required super.message, super.code});
 }
 
 class RateLimitFailure extends Failure {
   final int? retryAfter;
-  const RateLimitFailure(super.message, {this.retryAfter});
+  const RateLimitFailure({required super.message, super.code, this.retryAfter});
 }
 
 class AiServiceUnavailableFailure extends Failure {
-  const AiServiceUnavailableFailure(super.message);
+  const AiServiceUnavailableFailure({required super.message, super.code});
 }
 
-class ValidationFailure extends Failure {
-  const ValidationFailure(super.message);
+class AiValidationFailure extends Failure {
+  const AiValidationFailure({required super.message, super.code});
 }
 
-class AuthFailure extends Failure {
-  const AuthFailure(super.message);
+class AiAuthFailure extends Failure {
+  const AiAuthFailure({required super.message, super.code});
 }
 
 class PermissionFailure extends Failure {
-  const PermissionFailure(super.message);
+  const PermissionFailure({required super.message, super.code});
 }
 
 class NotFoundFailure extends Failure {
-  const NotFoundFailure(super.message);
+  const NotFoundFailure({required super.message, super.code});
 }

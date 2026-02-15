@@ -25,6 +25,9 @@ class LoloTextField extends StatelessWidget {
     this.focusNode,
     this.autofillHints,
     this.semanticLabel,
+    this.validator,
+    this.autofocus = false,
+    this.textCapitalization = TextCapitalization.none,
     super.key,
   });
 
@@ -45,6 +48,9 @@ class LoloTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final Iterable<String>? autofillHints;
   final String? semanticLabel;
+  final FormFieldValidator<String>? validator;
+  final bool autofocus;
+  final TextCapitalization textCapitalization;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +85,9 @@ class LoloTextField extends StatelessWidget {
         onFieldSubmitted: onSubmitted,
         textInputAction: textInputAction,
         autofillHints: autofillHints,
+        validator: validator,
+        autofocus: autofocus,
+        textCapitalization: textCapitalization,
         style: theme.textTheme.bodyLarge?.copyWith(
           color: enabled
               ? (isDark ? LoloColors.darkTextPrimary : LoloColors.lightTextPrimary)

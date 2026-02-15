@@ -205,5 +205,41 @@
   "optionalNotes": "أضف ملاحظات (اختياري)",
   "markComplete": "تم الإنجاز",
   "gamification": "التقدم",
-  "badges": "الشارات"
+  "badges": "الشارات",
+  "sosTitle": "وضع الطوارئ",
+  "sosSubtitle": "مساعدة عاجلة عندما تكون منزعجة",
+  "getHelp": "احصل على المساعدة",
+  "assessment": "التقييم",
+  "back": "رجوع",
+  "coaching": "التوجيه",
+  "stepProgress": "الخطوة {current} من {total}",
+  "@stepProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "sayThis": "قل هذا",
+  "dontSay": "لا تقل هذا",
+  "whatHappened": "ماذا حدث؟",
+  "nextStep": "الخطوة التالية",
+  "viewRecoveryPlan": "عرض خطة التعافي",
+  "recoveryPlan": "خطة التعافي",
+  "immediate": "فوري",
+  "immediateStep1": "اعتذر بصدق",
+  "immediateStep2": "أعطها مساحة إذا لزم الأمر",
+  "immediateStep3": "استمع بدون دفاع",
+  "shortTerm": "قصير المدى",
+  "shortTermStep1": "خطط لبادرة مدروسة",
+  "shortTermStep2": "التزم بوعودك",
+  "longTerm": "طويل المدى",
+  "longTermStep1": "عالج السبب الجذري",
+  "longTermStep2": "ابنِ عادات جديدة معاً",
+  "done": "تم",
+  "upgradePlan": "ترقية الخطة",
+  "noPlansAvailable": "لا توجد خطط متاحة حالياً",
+  "restorePurchases": "استعادة المشتريات",
+  "subscriptionTerms": "تطبق الشروط والأحكام",
+  "unlockFullPotential": "افتح الإمكانيات الكاملة",
+  "paywallSubtitle": "احصل على وصول غير محدود لجميع الميزات"
 }

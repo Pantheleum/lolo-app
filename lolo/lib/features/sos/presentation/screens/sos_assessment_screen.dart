@@ -42,7 +42,7 @@ class _State extends ConsumerState<SosAssessmentScreen> {
     return Scaffold(
       appBar: LoloAppBar(title: l10n.assessment),
       body: Padding(
-        padding: const EdgeInsetsDirectional.all(LoloSpacing.lg),
+        padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -51,16 +51,16 @@ class _State extends ConsumerState<SosAssessmentScreen> {
               backgroundColor: LoloColors.darkBorderMuted,
               valueColor: const AlwaysStoppedAnimation(LoloColors.colorError),
             ),
-            const SizedBox(height: LoloSpacing.xl),
+            const SizedBox(height: LoloSpacing.spaceXl),
             Text('${_step + 1}/${_questions.length}',
                 style: theme.textTheme.labelMedium?.copyWith(color: LoloColors.colorError)),
-            const SizedBox(height: LoloSpacing.sm),
+            const SizedBox(height: LoloSpacing.spaceSm),
             Text(q.$2, style: theme.textTheme.headlineSmall),
-            const SizedBox(height: LoloSpacing.lg),
+            const SizedBox(height: LoloSpacing.spaceLg),
             Expanded(
               child: ListView.separated(
                 itemCount: q.$3.length,
-                separatorBuilder: (_, __) => const SizedBox(height: LoloSpacing.sm),
+                separatorBuilder: (_, __) => const SizedBox(height: LoloSpacing.spaceSm),
                 itemBuilder: (_, i) {
                   final opt = q.$3[i];
                   final isSelected = _answers[q.$1]?.toString() == opt;

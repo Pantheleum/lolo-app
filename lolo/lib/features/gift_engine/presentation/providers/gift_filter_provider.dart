@@ -1,11 +1,9 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_category.dart';
 
-part 'gift_filter_provider.g.dart';
-
 /// Filter state for the Gift Browse screen.
-@riverpod
-class GiftBrowseFilter extends _$GiftBrowseFilter {
+class GiftBrowseFilter
+    extends Notifier<({GiftCategory? category, String? search, bool lowBudget})> {
   @override
   ({GiftCategory? category, String? search, bool lowBudget}) build() =>
       (category: null, search: null, lowBudget: false);
@@ -37,9 +35,14 @@ class GiftBrowseFilter extends _$GiftBrowseFilter {
   }
 }
 
+final giftBrowseFilterProvider = NotifierProvider<GiftBrowseFilter,
+    ({GiftCategory? category, String? search, bool lowBudget})>(
+  GiftBrowseFilter.new,
+);
+
 /// Filter for the Gift History screen.
-@riverpod
-class GiftHistoryFilter extends _$GiftHistoryFilter {
+class GiftHistoryFilter
+    extends Notifier<({bool? likedOnly, bool? dislikedOnly})> {
   @override
   ({bool? likedOnly, bool? dislikedOnly}) build() =>
       (likedOnly: null, dislikedOnly: null);
@@ -56,3 +59,8 @@ class GiftHistoryFilter extends _$GiftHistoryFilter {
     state = (likedOnly: null, dislikedOnly: true);
   }
 }
+
+final giftHistoryFilterProvider = NotifierProvider<GiftHistoryFilter,
+    ({bool? likedOnly, bool? dislikedOnly})>(
+  GiftHistoryFilter.new,
+);

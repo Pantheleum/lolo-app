@@ -1,20 +1,17 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lolo/features/settings/domain/entities/app_settings.dart';
 import 'package:lolo/features/settings/domain/repositories/settings_repository.dart';
 import 'package:lolo/features/settings/data/repositories/settings_repository_impl.dart';
 
-part 'settings_provider.g.dart';
-
-@Riverpod(keepAlive: true)
-Future<SettingsRepository> settingsRepository(SettingsRepositoryRef ref) async {
+final settingsRepositoryProvider =
+    FutureProvider<SettingsRepository>((ref) async {
   final prefs = await SharedPreferences.getInstance();
   return SettingsRepositoryImpl(prefs: prefs);
-}
+});
 
 /// Provides app settings with persistence.
-@riverpod
-class SettingsNotifier extends _$SettingsNotifier {
+class SettingsNotifier extends AsyncNotifier<AppSettings> {
   @override
   Future<AppSettings> build() async {
     final repository = await ref.watch(settingsRepositoryProvider.future);
@@ -70,3 +67,8 @@ class SettingsNotifier extends _$SettingsNotifier {
     );
   }
 }
+
+final settingsNotifierProvider =
+    AsyncNotifierProvider<SettingsNotifier, AppSettings>(
+  SettingsNotifier.new,
+);

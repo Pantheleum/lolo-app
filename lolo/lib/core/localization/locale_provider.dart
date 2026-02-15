@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'locale_provider.g.dart';
 
 /// Supported locales for the LOLO app.
 const supportedLocales = [
@@ -20,10 +17,10 @@ const _kSettingsBox = 'settings';
 ///
 /// Reads from Hive on initialization, writes on change.
 /// The [LoloApp] widget watches this provider to set [MaterialApp.locale].
-@Riverpod(keepAlive: true)
-class LocaleNotifier extends _$LocaleNotifier {
-  @override
-  Locale build() {
+class LocaleNotifier extends StateNotifier<Locale> {
+  LocaleNotifier() : super(_initialLocale());
+
+  static Locale _initialLocale() {
     final box = Hive.box(_kSettingsBox);
     final stored = box.get(_kLocaleKey, defaultValue: 'en') as String;
     return Locale(stored);
@@ -43,18 +40,24 @@ class LocaleNotifier extends _$LocaleNotifier {
   bool get isRtl => state.languageCode == 'ar';
 }
 
+/// Provider for [LocaleNotifier].
+final localeNotifierProvider =
+    StateNotifierProvider<LocaleNotifier, Locale>((ref) {
+  return LocaleNotifier();
+});
+
 /// Convenience provider that exposes just the locale value.
 final localeProvider = Provider<Locale>((ref) {
   return ref.watch(localeNotifierProvider);
 });
 
-/// Theme mode provider with persistence.
-@Riverpod(keepAlive: true)
-class ThemeModeNotifier extends _$ThemeModeNotifier {
+/// Theme mode notifier with persistence.
+class ThemeModeNotifier extends StateNotifier<ThemeMode> {
   static const _kThemeKey = 'theme_mode';
 
-  @override
-  ThemeMode build() {
+  ThemeModeNotifier() : super(_initialThemeMode());
+
+  static ThemeMode _initialThemeMode() {
     final box = Hive.box(_kSettingsBox);
     final stored = box.get(_kThemeKey, defaultValue: 'dark') as String;
     return stored == 'light' ? ThemeMode.light : ThemeMode.dark;
@@ -70,6 +73,12 @@ class ThemeModeNotifier extends _$ThemeModeNotifier {
     setThemeMode(state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
   }
 }
+
+/// Provider for [ThemeModeNotifier].
+final themeModeNotifierProvider =
+    StateNotifierProvider<ThemeModeNotifier, ThemeMode>((ref) {
+  return ThemeModeNotifier();
+});
 
 /// Convenience provider for ThemeMode.
 final themeModeProvider = Provider<ThemeMode>((ref) {

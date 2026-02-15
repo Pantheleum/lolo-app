@@ -1,13 +1,12 @@
 // FILE: lib/features/ai/presentation/providers/action_card_provider.dart
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/ai/domain/entities/ai_response.dart';
 import 'package:lolo/features/ai/domain/enums/ai_enums.dart';
 import 'package:lolo/features/ai/presentation/providers/ai_providers.dart';
 
 part 'action_card_provider.freezed.dart';
-part 'action_card_provider.g.dart';
 
 @freezed
 class ActionCardsState with _$ActionCardsState {
@@ -19,8 +18,7 @@ class ActionCardsState with _$ActionCardsState {
   const factory ActionCardsState.error(String message) = _CardsError;
 }
 
-@riverpod
-class ActionCardsNotifier extends _$ActionCardsNotifier {
+class ActionCardsNotifier extends Notifier<ActionCardsState> {
   @override
   ActionCardsState build() {
     _loadCards();
@@ -71,7 +69,10 @@ class ActionCardsNotifier extends _$ActionCardsNotifier {
           if (replacement != null) {
             updatedCards.add(replacement);
           }
-          state = current.copyWith(cards: updatedCards);
+          state = ActionCardsState.loaded(
+            cards: updatedCards,
+            summary: current.summary,
+          );
         }
         return replacement;
       },
@@ -95,10 +96,15 @@ class ActionCardsNotifier extends _$ActionCardsNotifier {
         return c;
       }).toList();
       final completedCount = updatedCards.where((c) => c.status == CardStatus.completed).length;
-      state = current.copyWith(
+      state = ActionCardsState.loaded(
         cards: updatedCards,
         summary: current.summary.copyWith(completedToday: completedCount),
       );
     }
   }
 }
+
+final actionCardsNotifierProvider =
+    NotifierProvider<ActionCardsNotifier, ActionCardsState>(
+  ActionCardsNotifier.new,
+);

@@ -1,13 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:lolo/features/sos_mode/domain/entities/coaching_step.dart';
 import 'package:lolo/features/sos_mode/domain/entities/sos_assessment.dart';
 import 'package:lolo/features/sos_mode/domain/entities/sos_session.dart';
 import 'package:lolo/features/sos_mode/domain/repositories/sos_repository.dart';
-
-part 'sos_provider.g.dart';
 
 /// Active SOS session state.
 class SosState {
@@ -50,8 +47,7 @@ class SosState {
 }
 
 /// Manages the entire SOS Mode flow: activation, assessment, coaching, completion.
-@riverpod
-class SosNotifier extends _$SosNotifier {
+class SosNotifier extends Notifier<SosState> {
   StreamSubscription<CoachingStep>? _coachingSub;
 
   @override
@@ -164,16 +160,14 @@ class SosNotifier extends _$SosNotifier {
     _coachingSub?.cancel();
     state = const SosState();
   }
-
-  @override
-  void dispose() {
-    _coachingSub?.cancel();
-  }
 }
+
+final sosNotifierProvider = NotifierProvider<SosNotifier, SosState>(
+  SosNotifier.new,
+);
 
 /// Placeholder provider for SosRepository injection.
 /// Override this in the provider scope with the actual implementation.
-@riverpod
-SosRepository sosRepository(Ref ref) {
+final sosRepositoryProvider = Provider<SosRepository>((ref) {
   throw UnimplementedError('sosRepositoryProvider must be overridden');
-}
+});

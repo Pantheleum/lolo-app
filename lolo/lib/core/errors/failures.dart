@@ -1,7 +1,7 @@
 /// Failure types for Clean Architecture error handling.
 ///
 /// Use cases return `Result<T>` which wraps either a [Failure] or success data.
-sealed class Failure {
+abstract class Failure {
   final String message;
   final String? code;
 

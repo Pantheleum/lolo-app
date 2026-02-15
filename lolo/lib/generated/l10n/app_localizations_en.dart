@@ -669,4 +669,96 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get badges => 'Badges';
+
+  @override
+  String get sosTitle => 'SOS Mode';
+
+  @override
+  String get sosSubtitle => 'Emergency help when she\'s upset';
+
+  @override
+  String get getHelp => 'Get Help Now';
+
+  @override
+  String get assessment => 'Assessment';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get coaching => 'Coaching';
+
+  @override
+  String stepProgress(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get sayThis => 'Say This';
+
+  @override
+  String get dontSay => 'Don\'t Say This';
+
+  @override
+  String get whatHappened => 'What happened?';
+
+  @override
+  String get nextStep => 'Next Step';
+
+  @override
+  String get viewRecoveryPlan => 'View Recovery Plan';
+
+  @override
+  String get recoveryPlan => 'Recovery Plan';
+
+  @override
+  String get immediate => 'Immediate';
+
+  @override
+  String get immediateStep1 => 'Apologize sincerely';
+
+  @override
+  String get immediateStep2 => 'Give her space if needed';
+
+  @override
+  String get immediateStep3 => 'Listen without defending';
+
+  @override
+  String get shortTerm => 'Short Term';
+
+  @override
+  String get shortTermStep1 => 'Plan a thoughtful gesture';
+
+  @override
+  String get shortTermStep2 => 'Follow through on promises';
+
+  @override
+  String get longTerm => 'Long Term';
+
+  @override
+  String get longTermStep1 => 'Address the root cause';
+
+  @override
+  String get longTermStep2 => 'Build new habits together';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get upgradePlan => 'Upgrade Plan';
+
+  @override
+  String get noPlansAvailable => 'No plans available at this time';
+
+  @override
+  String get restorePurchases => 'Restore Purchases';
+
+  @override
+  String get subscriptionTerms => 'Terms & Conditions apply';
+
+  @override
+  String get unlockFullPotential => 'Unlock Full Potential';
+
+  @override
+  String get paywallSubtitle => 'Get unlimited access to all features';
 }

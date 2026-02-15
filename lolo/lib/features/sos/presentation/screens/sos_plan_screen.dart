@@ -20,7 +20,7 @@ class SosPlanScreen extends ConsumerWidget {
     return Scaffold(
       appBar: LoloAppBar(title: l10n.recoveryPlan),
       body: SingleChildScrollView(
-        padding: const EdgeInsetsDirectional.all(LoloSpacing.lg),
+        padding: const EdgeInsetsDirectional.all(LoloSpacing.spaceLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,7 +44,7 @@ class SosPlanScreen extends ConsumerWidget {
               title: l10n.longTerm,
               items: [l10n.longTermStep1, l10n.longTermStep2],
             ),
-            const SizedBox(height: LoloSpacing.xl),
+            const SizedBox(height: LoloSpacing.spaceXl),
             _OutcomeSelector(
               onSelect: (outcome, rating) {
                 ref.read(sosSessionNotifierProvider.notifier)
@@ -88,10 +88,10 @@ class _TimelineSection extends StatelessWidget {
             ),
             child: Icon(icon, color: color, size: 20),
           ),
-          const SizedBox(width: LoloSpacing.sm),
+          const SizedBox(width: LoloSpacing.spaceSm),
           Text(title, style: theme.textTheme.titleMedium),
         ]),
-        const SizedBox(height: LoloSpacing.sm),
+        const SizedBox(height: LoloSpacing.spaceSm),
         ...items.map((item) => Padding(
           padding: const EdgeInsetsDirectional.only(start: 44, bottom: 8),
           child: Row(
@@ -138,7 +138,7 @@ class _OutcomeSelectorState extends State<_OutcomeSelector> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.howDidItGo, style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: LoloSpacing.sm),
+        const SizedBox(height: LoloSpacing.spaceSm),
         Wrap(
           spacing: 8,
           children: ['resolved_well', 'partially_resolved', 'still_ongoing', 'got_worse']
@@ -149,7 +149,7 @@ class _OutcomeSelectorState extends State<_OutcomeSelector> {
                   ))
               .toList(),
         ),
-        const SizedBox(height: LoloSpacing.md),
+        const SizedBox(height: LoloSpacing.spaceMd),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(5, (i) => IconButton(
@@ -160,7 +160,7 @@ class _OutcomeSelectorState extends State<_OutcomeSelector> {
             onPressed: () => setState(() => _rating = i + 1),
           )),
         ),
-        const SizedBox(height: LoloSpacing.md),
+        const SizedBox(height: LoloSpacing.spaceMd),
         LoloPrimaryButton(
           label: l10n.done,
           onPressed: () => widget.onSelect(_outcome, _rating),

@@ -1,11 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/sos/data/repositories/sos_repository.dart';
 import 'package:lolo/features/sos/domain/entities/sos_session.dart';
 import 'package:lolo/features/sos/domain/entities/sos_assessment.dart';
 import 'package:lolo/features/sos/domain/entities/coaching_step.dart';
 
-part 'sos_providers.g.dart';
 part 'sos_providers.freezed.dart';
 
 @freezed
@@ -19,8 +18,7 @@ class SosFlowState with _$SosFlowState {
   const factory SosFlowState.error(String message) = _Error;
 }
 
-@riverpod
-class SosSessionNotifier extends _$SosSessionNotifier {
+class SosSessionNotifier extends Notifier<SosFlowState> {
   @override
   SosFlowState build() => const SosFlowState.idle();
 
@@ -88,3 +86,8 @@ class SosSessionNotifier extends _$SosSessionNotifier {
     state = const SosFlowState.resolved();
   }
 }
+
+final sosSessionNotifierProvider =
+    NotifierProvider<SosSessionNotifier, SosFlowState>(
+  SosSessionNotifier.new,
+);

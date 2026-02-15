@@ -53,8 +53,10 @@ abstract final class RouteNames {
 
   // SOS
   static const String sos = 'sos';
+  static const String sosAssessment = 'sos-assessment';
   static const String sosScenario = 'sos-scenario';
   static const String sosCoaching = 'sos-coaching';
+  static const String sosPlan = 'sos-plan';
   static const String sosFollowup = 'sos-followup';
 
   // Reminders

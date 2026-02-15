@@ -1,10 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:lolo/features/memory_vault/domain/entities/memory.dart';
 import 'package:lolo/features/memory_vault/domain/entities/memory_category.dart';
 import 'package:lolo/features/memory_vault/domain/repositories/memory_repository.dart';
-
-part 'memory_provider.g.dart';
 
 /// State for the memories list screen.
 class MemoriesState {
@@ -45,8 +42,7 @@ class MemoriesState {
 }
 
 /// Manages Memory Vault list state, filtering, and CRUD.
-@riverpod
-class MemoriesNotifier extends _$MemoriesNotifier {
+class MemoriesNotifier extends Notifier<MemoriesState> {
   @override
   MemoriesState build() {
     _loadMemories();
@@ -129,20 +125,24 @@ class MemoriesNotifier extends _$MemoriesNotifier {
   Future<void> refresh() => _loadMemories();
 }
 
+final memoriesNotifierProvider =
+    NotifierProvider<MemoriesNotifier, MemoriesState>(
+  MemoriesNotifier.new,
+);
+
 /// Provides a single memory by ID.
-@riverpod
-Future<Memory> memoryDetail(Ref ref, String memoryId) async {
+final memoryDetailProvider =
+    FutureProvider.family<Memory, String>((ref, memoryId) async {
   final repository = ref.watch(memoryRepositoryProvider);
   final result = await repository.getMemory(memoryId);
   return result.fold(
     (failure) => throw Exception(failure.message),
     (memory) => memory,
   );
-}
+});
 
 /// Placeholder provider for MemoryRepository injection.
 /// Override this in the provider scope with the actual implementation.
-@riverpod
-MemoryRepository memoryRepository(Ref ref) {
+final memoryRepositoryProvider = Provider<MemoryRepository>((ref) {
   throw UnimplementedError('memoryRepositoryProvider must be overridden');
-}
+});

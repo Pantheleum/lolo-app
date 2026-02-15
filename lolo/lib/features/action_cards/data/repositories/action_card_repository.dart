@@ -27,7 +27,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
       final query = date != null ? {'date': date} : null;
       final res = await _dio.get('/action-cards', queryParameters: query);
       final data = res.data['data'] as Map<String, dynamic>;
-      final cards = (data['cards'] as List).map((c) => _mapCard(c)).toList();
+      final cards = (data['cards'] as List).map((c) => _mapCard(c as Map<String, dynamic>)).toList();
       final summary = data['summary'] as Map<String, dynamic>;
       return Right(DailyCardsSummary(
         cards: cards,
@@ -44,7 +44,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   Future<Either<Failure, ActionCardEntity>> completeCard(String id, {String? notes}) async {
     try {
       final res = await _dio.post('/action-cards/$id/complete', data: {'notes': notes});
-      return Right(_mapCard(res.data['data']));
+      return Right(_mapCard(res.data['data'] as Map<String, dynamic>));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
@@ -54,7 +54,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   Future<Either<Failure, ActionCardEntity>> skipCard(String id, {String? reason}) async {
     try {
       final res = await _dio.post('/action-cards/$id/skip', data: {'reason': reason});
-      return Right(_mapCard(res.data['data']));
+      return Right(_mapCard(res.data['data'] as Map<String, dynamic>));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
@@ -74,7 +74,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   Future<Either<Failure, List<ActionCardEntity>>> getSavedCards() async {
     try {
       final res = await _dio.get('/action-cards/saved');
-      final list = (res.data['data'] as List).map((c) => _mapCard(c)).toList();
+      final list = (res.data['data'] as List).map((c) => _mapCard(c as Map<String, dynamic>)).toList();
       return Right(list);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -91,7 +91,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
         if (status != null) 'status': status,
         'limit': limit,
       });
-      final list = (res.data['data'] as List).map((c) => _mapCard(c)).toList();
+      final list = (res.data['data'] as List).map((c) => _mapCard(c as Map<String, dynamic>)).toList();
       return Right(list);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));

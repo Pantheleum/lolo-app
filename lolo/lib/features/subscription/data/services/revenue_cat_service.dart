@@ -1,10 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'revenue_cat_service.g.dart';
-
-@riverpod
-RevenueCatService revenueCatService(RevenueCatServiceRef ref) => RevenueCatService();
+final revenueCatServiceProvider = Provider<RevenueCatService>((ref) => RevenueCatService());
 
 class RevenueCatService {
   static const _apiKey = String.fromEnvironment('REVENUECAT_API_KEY');

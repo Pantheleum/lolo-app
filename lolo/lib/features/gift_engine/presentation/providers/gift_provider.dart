@@ -1,14 +1,11 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 import 'package:lolo/features/gift_engine/domain/repositories/gift_repository.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_state.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_filter_provider.dart';
 
-part 'gift_provider.g.dart';
-
 /// Manages the gift browse screen state with pagination and filters.
-@riverpod
-class GiftBrowseNotifier extends _$GiftBrowseNotifier {
+class GiftBrowseNotifier extends Notifier<GiftBrowseState> {
   static const int _pageSize = 20;
 
   @override
@@ -42,58 +39,77 @@ class GiftBrowseNotifier extends _$GiftBrowseNotifier {
   }
 
   Future<void> loadNextPage() async {
-    final current = state;
-    if (current is! _BrowseLoaded ||
-        !current.hasMore ||
-        current.isLoadingMore) {
-      return;
-    }
+    state.whenOrNull(
+      loaded: (gifts, hasMore, currentPage, isLoadingMore) async {
+        if (!hasMore || isLoadingMore) return;
 
-    state = current.copyWith(isLoadingMore: true);
+        state = GiftBrowseState.loaded(
+          gifts: gifts,
+          hasMore: hasMore,
+          currentPage: currentPage,
+          isLoadingMore: true,
+        );
 
-    final filter = ref.read(giftBrowseFilterProvider);
-    final repository = ref.read(giftRepositoryProvider);
-    final nextPage = current.currentPage + 1;
+        final filter = ref.read(giftBrowseFilterProvider);
+        final repository = ref.read(giftRepositoryProvider);
+        final nextPage = currentPage + 1;
 
-    final result = await repository.browseGifts(
-      page: nextPage,
-      pageSize: _pageSize,
-      category: filter.category,
-      searchQuery: filter.search,
-      lowBudgetOnly: filter.lowBudget ? true : null,
-    );
+        final result = await repository.browseGifts(
+          page: nextPage,
+          pageSize: _pageSize,
+          category: filter.category,
+          searchQuery: filter.search,
+          lowBudgetOnly: filter.lowBudget ? true : null,
+        );
 
-    state = result.fold(
-      (_) => current.copyWith(isLoadingMore: false),
-      (gifts) => current.copyWith(
-        gifts: [...current.gifts, ...gifts],
-        hasMore: gifts.length >= _pageSize,
-        currentPage: nextPage,
-        isLoadingMore: false,
-      ),
+        state = result.fold(
+          (_) => GiftBrowseState.loaded(
+            gifts: gifts,
+            hasMore: hasMore,
+            currentPage: currentPage,
+            isLoadingMore: false,
+          ),
+          (newGifts) => GiftBrowseState.loaded(
+            gifts: [...gifts, ...newGifts],
+            hasMore: newGifts.length >= _pageSize,
+            currentPage: nextPage,
+            isLoadingMore: false,
+          ),
+        );
+      },
     );
   }
 
   /// Toggle the saved status locally and remotely.
   Future<void> toggleSave(String giftId) async {
-    final current = state;
-    if (current is! _BrowseLoaded) return;
+    state.whenOrNull(
+      loaded: (gifts, hasMore, currentPage, isLoadingMore) async {
+        // Optimistic update
+        final updatedGifts = gifts.map((g) {
+          if (g.id == giftId) return g.copyWith(isSaved: !g.isSaved);
+          return g;
+        }).toList();
+        state = GiftBrowseState.loaded(
+          gifts: updatedGifts,
+          hasMore: hasMore,
+          currentPage: currentPage,
+          isLoadingMore: isLoadingMore,
+        );
 
-    // Optimistic update
-    final updatedGifts = current.gifts.map((g) {
-      if (g.id == giftId) return g.copyWith(isSaved: !g.isSaved);
-      return g;
-    }).toList();
-    state = current.copyWith(gifts: updatedGifts);
-
-    final repository = ref.read(giftRepositoryProvider);
-    await repository.toggleSave(giftId);
+        final repository = ref.read(giftRepositoryProvider);
+        await repository.toggleSave(giftId);
+      },
+    );
   }
 }
 
+final giftBrowseNotifierProvider =
+    NotifierProvider<GiftBrowseNotifier, GiftBrowseState>(
+  GiftBrowseNotifier.new,
+);
+
 /// Manages the gift detail screen state.
-@riverpod
-class GiftDetailNotifier extends _$GiftDetailNotifier {
+class GiftDetailNotifier extends FamilyNotifier<GiftDetailState, String> {
   @override
   GiftDetailState build(String giftId) {
     Future.microtask(() => _load(giftId));
@@ -117,36 +133,44 @@ class GiftDetailNotifier extends _$GiftDetailNotifier {
   }
 
   Future<void> toggleSave() async {
-    final current = state;
-    if (current is! _DetailLoaded) return;
+    state.whenOrNull(
+      loaded: (gift, relatedGifts) async {
+        state = GiftDetailState.loaded(
+          gift: gift.copyWith(isSaved: !gift.isSaved),
+          relatedGifts: relatedGifts,
+        );
 
-    state = current.copyWith(
-      gift: current.gift.copyWith(isSaved: !current.gift.isSaved),
+        final repository = ref.read(giftRepositoryProvider);
+        await repository.toggleSave(gift.id);
+      },
     );
-
-    final repository = ref.read(giftRepositoryProvider);
-    await repository.toggleSave(current.gift.id);
   }
 
   Future<void> submitFeedback(bool liked) async {
-    final current = state;
-    if (current is! _DetailLoaded) return;
+    state.whenOrNull(
+      loaded: (gift, relatedGifts) async {
+        state = GiftDetailState.loaded(
+          gift: gift.copyWith(feedback: liked),
+          relatedGifts: relatedGifts,
+        );
 
-    state = current.copyWith(
-      gift: current.gift.copyWith(feedback: liked),
-    );
-
-    final repository = ref.read(giftRepositoryProvider);
-    await repository.submitFeedback(
-      giftId: current.gift.id,
-      liked: liked,
+        final repository = ref.read(giftRepositoryProvider);
+        await repository.submitFeedback(
+          giftId: gift.id,
+          liked: liked,
+        );
+      },
     );
   }
 }
 
+final giftDetailNotifierProvider =
+    NotifierProvider.family<GiftDetailNotifier, GiftDetailState, String>(
+  GiftDetailNotifier.new,
+);
+
 /// Manages gift history with pagination.
-@riverpod
-class GiftHistoryNotifier extends _$GiftHistoryNotifier {
+class GiftHistoryNotifier extends Notifier<GiftHistoryState> {
   static const int _pageSize = 20;
 
   @override
@@ -179,34 +203,48 @@ class GiftHistoryNotifier extends _$GiftHistoryNotifier {
   }
 
   Future<void> loadNextPage() async {
-    final current = state;
-    if (current is! _HistLoaded ||
-        !current.hasMore ||
-        current.isLoadingMore) {
-      return;
-    }
+    state.whenOrNull(
+      loaded: (gifts, hasMore, currentPage, isLoadingMore) async {
+        if (!hasMore || isLoadingMore) return;
 
-    state = current.copyWith(isLoadingMore: true);
+        state = GiftHistoryState.loaded(
+          gifts: gifts,
+          hasMore: hasMore,
+          currentPage: currentPage,
+          isLoadingMore: true,
+        );
 
-    final filter = ref.read(giftHistoryFilterProvider);
-    final repository = ref.read(giftRepositoryProvider);
-    final nextPage = current.currentPage + 1;
+        final filter = ref.read(giftHistoryFilterProvider);
+        final repository = ref.read(giftRepositoryProvider);
+        final nextPage = currentPage + 1;
 
-    final result = await repository.getGiftHistory(
-      page: nextPage,
-      pageSize: _pageSize,
-      likedOnly: filter.likedOnly,
-      dislikedOnly: filter.dislikedOnly,
-    );
+        final result = await repository.getGiftHistory(
+          page: nextPage,
+          pageSize: _pageSize,
+          likedOnly: filter.likedOnly,
+          dislikedOnly: filter.dislikedOnly,
+        );
 
-    state = result.fold(
-      (_) => current.copyWith(isLoadingMore: false),
-      (gifts) => current.copyWith(
-        gifts: [...current.gifts, ...gifts],
-        hasMore: gifts.length >= _pageSize,
-        currentPage: nextPage,
-        isLoadingMore: false,
-      ),
+        state = result.fold(
+          (_) => GiftHistoryState.loaded(
+            gifts: gifts,
+            hasMore: hasMore,
+            currentPage: currentPage,
+            isLoadingMore: false,
+          ),
+          (newGifts) => GiftHistoryState.loaded(
+            gifts: [...gifts, ...newGifts],
+            hasMore: newGifts.length >= _pageSize,
+            currentPage: nextPage,
+            isLoadingMore: false,
+          ),
+        );
+      },
     );
   }
 }
+
+final giftHistoryNotifierProvider =
+    NotifierProvider<GiftHistoryNotifier, GiftHistoryState>(
+  GiftHistoryNotifier.new,
+);

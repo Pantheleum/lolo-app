@@ -1,17 +1,62 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lolo/core/di/providers.dart';
+import 'package:lolo/core/network/dio_client.dart';
+import 'package:lolo/features/her_profile/data/datasources/her_profile_remote_datasource.dart';
+import 'package:lolo/features/her_profile/data/datasources/her_profile_local_datasource.dart';
+import 'package:lolo/features/her_profile/data/repositories/her_profile_repository_impl.dart';
 import 'package:lolo/features/her_profile/domain/entities/partner_profile_entity.dart';
 import 'package:lolo/features/her_profile/domain/entities/partner_preferences_entity.dart';
 import 'package:lolo/features/her_profile/domain/entities/cultural_context_entity.dart';
 import 'package:lolo/features/her_profile/domain/entities/zodiac_profile_entity.dart';
+import 'package:lolo/features/her_profile/domain/repositories/her_profile_repository.dart';
 import 'package:lolo/features/her_profile/domain/usecases/get_partner_profile_usecase.dart';
 import 'package:lolo/features/her_profile/domain/usecases/update_partner_profile_usecase.dart';
 import 'package:lolo/features/her_profile/domain/usecases/get_zodiac_defaults_usecase.dart';
 
-part 'her_profile_provider.g.dart';
+// ---------------------------------------------------------------------------
+// Data source, repository, and use case providers
+// ---------------------------------------------------------------------------
+
+final herProfileRemoteDataSourceProvider =
+    Provider<HerProfileRemoteDataSource>((ref) {
+  return HerProfileRemoteDataSource(ref.watch(dioProvider));
+});
+
+final herProfileLocalDataSourceProvider =
+    Provider<HerProfileLocalDataSource>((ref) {
+  return HerProfileLocalDataSource();
+});
+
+final herProfileRepositoryProvider = Provider<HerProfileRepository>((ref) {
+  return HerProfileRepositoryImpl(
+    remote: ref.watch(herProfileRemoteDataSourceProvider),
+    local: ref.watch(herProfileLocalDataSourceProvider),
+    networkInfo: ref.watch(networkInfoProvider),
+  );
+});
+
+final getPartnerProfileUseCaseProvider =
+    Provider<GetPartnerProfileUseCase>((ref) {
+  return GetPartnerProfileUseCase(ref.watch(herProfileRepositoryProvider));
+});
+
+final updatePartnerProfileUseCaseProvider =
+    Provider<UpdatePartnerProfileUseCase>((ref) {
+  return UpdatePartnerProfileUseCase(ref.watch(herProfileRepositoryProvider));
+});
+
+final getZodiacDefaultsUseCaseProvider =
+    Provider<GetZodiacDefaultsUseCase>((ref) {
+  return GetZodiacDefaultsUseCase(ref.watch(herProfileRepositoryProvider));
+});
+
+// ---------------------------------------------------------------------------
+// Presentation providers
+// ---------------------------------------------------------------------------
 
 /// Provides the partner profile with caching and refresh support.
-@riverpod
-class HerProfileNotifier extends _$HerProfileNotifier {
+class HerProfileNotifier
+    extends FamilyAsyncNotifier<PartnerProfileEntity, String> {
   @override
   Future<PartnerProfileEntity> build(String profileId) async {
     final getProfile = ref.watch(getPartnerProfileUseCaseProvider);
@@ -51,16 +96,18 @@ class HerProfileNotifier extends _$HerProfileNotifier {
   }
 }
 
+final herProfileNotifierProvider = AsyncNotifierProvider.family<
+    HerProfileNotifier, PartnerProfileEntity, String>(
+  HerProfileNotifier.new,
+);
+
 /// Provides zodiac defaults for a given sign.
-@riverpod
-Future<ZodiacProfileEntity> zodiacDefaults(
-  ZodiacDefaultsRef ref,
-  String sign,
-) async {
+final zodiacDefaultsProvider =
+    FutureProvider.family<ZodiacProfileEntity, String>((ref, sign) async {
   final useCase = ref.watch(getZodiacDefaultsUseCaseProvider);
   final result = await useCase(sign);
   return result.fold(
     (failure) => throw Exception(failure.message),
     (defaults) => defaults,
   );
-}
+});

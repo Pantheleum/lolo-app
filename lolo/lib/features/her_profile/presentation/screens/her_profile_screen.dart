@@ -42,8 +42,8 @@ class HerProfileScreen extends ConsumerWidget {
                 percent: profile.profileCompletionPercent / 100.0,
                 child: LoloAvatar(
                   name: profile.name,
-                  photoUrl: profile.photoUrl,
-                  size: LoloSpacing.avatarSizeLarge,
+                  imageUrl: profile.photoUrl,
+                  size: AvatarSize.large,
                 ),
               ),
               const SizedBox(height: LoloSpacing.spaceMd),
