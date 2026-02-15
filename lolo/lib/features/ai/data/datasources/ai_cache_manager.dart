@@ -2,18 +2,10 @@
 
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
-import 'package:isar/isar.dart';
 import 'package:lolo/features/ai/domain/enums/ai_enums.dart';
 
-part 'ai_cache_manager.g.dart';
-
-@collection
 class AiCacheEntry {
-  Id id = Isar.autoIncrement;
-
-  @Index(unique: true, replace: true)
   late String key;
-
   late String jsonValue;
   late DateTime expiresAt;
   late DateTime createdAt;
@@ -22,10 +14,10 @@ class AiCacheEntry {
 }
 
 class AiCacheManager {
-  Isar? _isar;
+  final Map<String, AiCacheEntry> _store = {};
 
-  Future<void> init(Isar isar) async {
-    _isar = isar;
+  Future<void> init() async {
+    // No-op: in-memory cache needs no initialisation.
   }
 
   // --- Cache Keys ---
@@ -71,12 +63,10 @@ class AiCacheManager {
   // --- CRUD ---
 
   Future<T?> get<T>(String key) async {
-    if (_isar == null) return null;
-
-    final entry = await _isar!.aiCacheEntrys.where().keyEqualTo(key).findFirst();
+    final entry = _store[key];
     if (entry == null || entry.isExpired) {
       if (entry != null) {
-        await _isar!.writeTxn(() => _isar!.aiCacheEntrys.delete(entry.id));
+        _store.remove(key);
       }
       return null;
     }
@@ -90,7 +80,7 @@ class AiCacheManager {
   }
 
   Future<void> put<T>(String key, T value, {required Duration ttl}) async {
-    if (_isar == null || ttl == Duration.zero) return;
+    if (ttl == Duration.zero) return;
 
     final entry = AiCacheEntry()
       ..key = key
@@ -98,47 +88,22 @@ class AiCacheManager {
       ..expiresAt = DateTime.now().add(ttl)
       ..createdAt = DateTime.now();
 
-    await _isar!.writeTxn(() => _isar!.aiCacheEntrys.put(entry));
+    _store[key] = entry;
   }
 
   Future<void> invalidatePattern(String prefix) async {
-    if (_isar == null) return;
-
-    final entries = await _isar!.aiCacheEntrys
-        .where()
-        .filter()
-        .keyStartsWith(prefix)
-        .findAll();
-
-    if (entries.isNotEmpty) {
-      final ids = entries.map((e) => e.id).toList();
-      await _isar!.writeTxn(() => _isar!.aiCacheEntrys.deleteAll(ids));
-    }
+    _store.removeWhere((key, _) => key.startsWith(prefix));
   }
 
   Future<void> invalidateAll() async {
-    if (_isar == null) return;
-    await _isar!.writeTxn(() => _isar!.aiCacheEntrys.clear());
+    _store.clear();
   }
 
   Future<void> purgeExpired() async {
-    if (_isar == null) return;
-
-    final now = DateTime.now();
-    final expired = await _isar!.aiCacheEntrys
-        .where()
-        .filter()
-        .expiresAtLessThan(now)
-        .findAll();
-
-    if (expired.isNotEmpty) {
-      final ids = expired.map((e) => e.id).toList();
-      await _isar!.writeTxn(() => _isar!.aiCacheEntrys.deleteAll(ids));
-    }
+    _store.removeWhere((_, entry) => entry.isExpired);
   }
 
   Future<int> cacheSize() async {
-    if (_isar == null) return 0;
-    return _isar!.aiCacheEntrys.count();
+    return _store.length;
   }
 }
