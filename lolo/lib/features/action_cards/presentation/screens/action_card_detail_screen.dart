@@ -53,18 +53,18 @@ class _State extends ConsumerState<ActionCardDetailScreen> {
         return Scaffold(
           appBar: LoloAppBar(title: card.type.name.toUpperCase()),
           body: SingleChildScrollView(
-            padding: const EdgeInsetsDirectional.all(LoloSpacing.lg),
+            padding: const EdgeInsets.all(LoloSpacing.spaceLg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsetsDirectional.all(LoloSpacing.md),
+                  padding: const EdgeInsets.all(LoloSpacing.spaceMd),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [typeColor.withValues(alpha: 0.2), Colors.transparent],
-                      begin: AlignmentDirectional.topStart,
-                      end: AlignmentDirectional.bottomEnd,
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -72,27 +72,27 @@ class _State extends ConsumerState<ActionCardDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(card.title, style: theme.textTheme.headlineSmall),
-                      const SizedBox(height: LoloSpacing.xs),
+                      const SizedBox(height: LoloSpacing.spaceXs),
                       Row(children: [
                         Icon(Icons.timer_outlined, size: 16, color: theme.colorScheme.onSurfaceVariant),
                         const SizedBox(width: 4),
                         Text('${card.estimatedMinutes} min', style: theme.textTheme.bodySmall),
-                        const SizedBox(width: LoloSpacing.md),
-                        Icon(Icons.bolt, size: 16, color: LoloColors.colorAccent),
+                        const SizedBox(width: LoloSpacing.spaceMd),
+                        const Icon(Icons.bolt, size: 16, color: LoloColors.colorAccent),
                         const SizedBox(width: 4),
                         Text('+${card.xpReward} XP', style: theme.textTheme.bodySmall?.copyWith(color: LoloColors.colorAccent)),
                       ]),
                     ],
                   ),
                 ),
-                const SizedBox(height: LoloSpacing.lg),
+                const SizedBox(height: LoloSpacing.spaceLg),
                 Text(l10n.whatToDo, style: theme.textTheme.titleMedium),
-                const SizedBox(height: LoloSpacing.sm),
+                const SizedBox(height: LoloSpacing.spaceSm),
                 Text(card.description, style: theme.textTheme.bodyLarge),
                 if (card.personalizedDetail != null) ...[
-                  const SizedBox(height: LoloSpacing.lg),
+                  const SizedBox(height: LoloSpacing.spaceLg),
                   Container(
-                    padding: const EdgeInsetsDirectional.all(LoloSpacing.md),
+                    padding: const EdgeInsets.all(LoloSpacing.spaceMd),
                     decoration: BoxDecoration(
                       color: LoloColors.colorPrimary.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(8),
@@ -101,15 +101,15 @@ class _State extends ConsumerState<ActionCardDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Icon(Icons.auto_awesome, size: 18, color: LoloColors.colorPrimary),
-                        const SizedBox(width: LoloSpacing.sm),
+                        const SizedBox(width: LoloSpacing.spaceSm),
                         Expanded(child: Text(card.personalizedDetail!, style: theme.textTheme.bodyMedium)),
                       ],
                     ),
                   ),
                 ],
-                const SizedBox(height: LoloSpacing.xl),
+                const SizedBox(height: LoloSpacing.spaceXl),
                 Text(l10n.howDidItGo, style: theme.textTheme.titleMedium),
-                const SizedBox(height: LoloSpacing.sm),
+                const SizedBox(height: LoloSpacing.spaceSm),
                 TextField(
                   controller: _notesController,
                   maxLines: 3,
@@ -119,7 +119,7 @@ class _State extends ConsumerState<ActionCardDetailScreen> {
                     border: const OutlineInputBorder(),
                   ),
                 ),
-                const SizedBox(height: LoloSpacing.lg),
+                const SizedBox(height: LoloSpacing.spaceLg),
                 LoloPrimaryButton(
                   label: l10n.markComplete,
                   onPressed: () {

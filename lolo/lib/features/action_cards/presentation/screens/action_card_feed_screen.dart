@@ -6,7 +6,6 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/router/route_names.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_empty_state.dart';
-import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/core/widgets/lolo_skeleton.dart';
 import 'package:lolo/features/action_cards/domain/entities/action_card_entity.dart';
 import 'package:lolo/features/action_cards/presentation/providers/action_card_providers.dart';
@@ -30,7 +29,7 @@ class _ActionCardFeedScreenState extends ConsumerState<ActionCardFeedScreen> {
     return Scaffold(
       appBar: LoloAppBar(title: l10n.actionCardsTitle),
       body: asyncCards.when(
-        loading: () => const Center(child: LoloSkeleton(type: SkeletonType.card)),
+        loading: () => const Center(child: LoloSkeleton.card()),
         error: (e, _) => Center(child: Text('$e')),
         data: (summary) {
           final pending = summary.cards
@@ -97,7 +96,7 @@ class _ProgressHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final progress = total > 0 ? completed / total : 0.0;
     return Padding(
-      padding: const EdgeInsetsDirectional.all(LoloSpacing.md),
+      padding: const EdgeInsets.all(LoloSpacing.spaceMd),
       child: Column(
         children: [
           Row(
@@ -109,11 +108,11 @@ class _ProgressHeader extends StatelessWidget {
                 const Icon(Icons.bolt, color: LoloColors.colorAccent, size: 18),
                 const SizedBox(width: 4),
                 Text('$xp XP',
-                    style: TextStyle(color: LoloColors.colorAccent)),
+                    style: const TextStyle(color: LoloColors.colorAccent)),
               ]),
             ],
           ),
-          const SizedBox(height: LoloSpacing.xs),
+          const SizedBox(height: LoloSpacing.spaceXs),
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
@@ -164,9 +163,9 @@ class _SwipeableCardStack extends StatelessWidget {
   Widget build(BuildContext context) {
     if (cards.isEmpty) return const SizedBox.shrink();
     return Padding(
-      padding: const EdgeInsetsDirectional.symmetric(horizontal: LoloSpacing.md),
+      padding: const EdgeInsets.symmetric(horizontal: LoloSpacing.spaceMd),
       child: Stack(
-        alignment: AlignmentDirectional.center,
+        alignment: Alignment.center,
         children: [
           for (var i = (cards.length - 1).clamp(0, 2); i >= 0; i--)
             Transform.translate(
@@ -229,10 +228,8 @@ class _SwipeBg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        alignment: alignEnd
-            ? AlignmentDirectional.centerEnd
-            : AlignmentDirectional.centerStart,
-        padding: const EdgeInsetsDirectional.symmetric(horizontal: 24),
+        alignment: alignEnd ? Alignment.centerRight : Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(16),
@@ -268,7 +265,7 @@ class _CardContent extends StatelessWidget {
         label: '${card.type.name} card: ${card.title}',
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsetsDirectional.all(LoloSpacing.lg),
+          padding: const EdgeInsets.all(LoloSpacing.spaceLg),
           decoration: BoxDecoration(
             color: LoloColors.darkBgSecondary,
             borderRadius: BorderRadius.circular(16),
@@ -281,14 +278,14 @@ class _CardContent extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsetsDirectional.all(8),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: typeColor.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(typeIcon, color: typeColor, size: 20),
                   ),
-                  const SizedBox(width: LoloSpacing.sm),
+                  const SizedBox(width: LoloSpacing.spaceSm),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,14 +305,14 @@ class _CardContent extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: LoloSpacing.md),
+              const SizedBox(height: LoloSpacing.spaceMd),
               Text(card.title, style: theme.textTheme.titleLarge),
-              const SizedBox(height: LoloSpacing.xs),
+              const SizedBox(height: LoloSpacing.spaceXs),
               Text(card.description,
                   style: theme.textTheme.bodyMedium,
                   maxLines: 3, overflow: TextOverflow.ellipsis),
               if (card.contextTags.isNotEmpty) ...[
-                const SizedBox(height: LoloSpacing.sm),
+                const SizedBox(height: LoloSpacing.spaceSm),
                 Wrap(
                   spacing: 6,
                   children: card.contextTags.map((t) => Chip(
@@ -325,7 +322,7 @@ class _CardContent extends StatelessWidget {
                   )).toList(),
                 ),
               ],
-              const SizedBox(height: LoloSpacing.lg),
+              const SizedBox(height: LoloSpacing.spaceLg),
               Row(
                 children: [
                   Expanded(
@@ -335,7 +332,7 @@ class _CardContent extends StatelessWidget {
                       label: const Text('Skip'),
                     ),
                   ),
-                  const SizedBox(width: LoloSpacing.sm),
+                  const SizedBox(width: LoloSpacing.spaceSm),
                   Expanded(
                     child: FilledButton.icon(
                       onPressed: onComplete,
@@ -350,7 +347,7 @@ class _CardContent extends StatelessWidget {
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.only(top: LoloSpacing.xs),
+                  padding: const EdgeInsets.only(top: LoloSpacing.spaceXs),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

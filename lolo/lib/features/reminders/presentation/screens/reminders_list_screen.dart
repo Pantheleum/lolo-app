@@ -10,22 +10,36 @@ import 'package:lolo/core/widgets/reminder_tile.dart';
 import 'package:lolo/features/reminders/presentation/providers/reminders_provider.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
-/// Main reminders screen with calendar/list toggle and overdue highlighting.
+/// Alternative reminders list screen (flat list, no calendar toggle).
 class RemindersListScreen extends ConsumerWidget {
   const RemindersListScreen({super.key});
+
+  static ReminderCategory _mapCategory(String type) => switch (type) {
+        'birthday' => ReminderCategory.birthday,
+        'anniversary' => ReminderCategory.anniversary,
+        'islamic_holiday' || 'cultural' => ReminderCategory.holiday,
+        _ => ReminderCategory.custom,
+      };
+
+  static IconData _iconForType(String type) => switch (type) {
+        'birthday' => Icons.cake_outlined,
+        'anniversary' => Icons.favorite_outline,
+        'islamic_holiday' => Icons.mosque_outlined,
+        'cultural' => Icons.public_outlined,
+        'promise' => Icons.handshake_outlined,
+        _ => Icons.event_outlined,
+      };
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final remindersAsync = ref.watch(remindersNotifierProvider);
     final isCalendarView = ref.watch(reminderViewModeProvider);
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: LoloAppBar(
         title: l10n.reminders_title,
         actions: [
-          // Calendar/List toggle
           IconButton(
             icon: Icon(
               isCalendarView
@@ -58,10 +72,8 @@ class RemindersListScreen extends ConsumerWidget {
           }
 
           // Separate overdue from upcoming
-          final overdue =
-              reminders.where((r) => r.isOverdue).toList();
-          final upcoming =
-              reminders.where((r) => !r.isOverdue).toList();
+          final overdue = reminders.where((r) => r.isOverdue).toList();
+          final upcoming = reminders.where((r) => !r.isOverdue).toList();
 
           return RefreshIndicator(
             onRefresh: () => ref.refresh(remindersNotifierProvider.future),
@@ -85,9 +97,9 @@ class RemindersListScreen extends ConsumerWidget {
                       ),
                       child: ReminderTile(
                         title: r.title,
-                        subtitle: r.typeLabel,
-                        daysUntil: r.daysUntil,
-                        isOverdue: true,
+                        date: r.date,
+                        category: _mapCategory(r.type),
+                        icon: _iconForType(r.type),
                         onTap: () => context.push('/reminders/${r.id}'),
                       ),
                     ),
@@ -107,8 +119,9 @@ class RemindersListScreen extends ConsumerWidget {
                     ),
                     child: ReminderTile(
                       title: r.title,
-                      subtitle: r.typeLabel,
-                      daysUntil: r.daysUntil,
+                      date: r.date,
+                      category: _mapCategory(r.type),
+                      icon: _iconForType(r.type),
                       onTap: () => context.push('/reminders/${r.id}'),
                     ),
                   ),
