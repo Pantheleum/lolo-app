@@ -1,0 +1,206 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================
+    // HELPER FUNCTIONS
+    // ============================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    function isNotRateLimited() {
+      return !('rateLimited' in request.auth.token) || request.auth.token.rateLimited != true;
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function isValidString(field, minLen, maxLen) {
+      return request.resource.data[field] is string
+        && request.resource.data[field].size() >= minLen
+        && request.resource.data[field].size() <= maxLen;
+    }
+
+    function isValidEnum(field, values) {
+      return request.resource.data[field] is string
+        && request.resource.data[field] in values;
+    }
+
+    function isValidTimestamp(field) {
+      return request.resource.data[field] is timestamp;
+    }
+
+    // ============================
+    // USER DOCUMENT
+    // ============================
+
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid)
+        && hasRequiredFields(['uid', 'email', 'displayName', 'language', 'tier', 'onboardingComplete', 'settings', 'createdAt', 'lastActiveAt'])
+        && isValidEnum('language', ['en', 'ar', 'ms'])
+        && isValidEnum('tier', ['free', 'pro', 'legend'])
+        && isValidString('displayName', 2, 50)
+        && request.resource.data.uid == uid;
+      allow update: if isOwner(uid)
+        && isNotRateLimited()
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['uid', 'email', 'createdAt']))
+        && (request.resource.data.language == resource.data.language || isValidEnum('language', ['en', 'ar', 'ms']))
+        && (request.resource.data.tier == resource.data.tier || isValidEnum('tier', ['free', 'pro', 'legend']));
+      allow delete: if false; // deletion handled by Cloud Functions
+
+      // ============================
+      // PARTNER PROFILES
+      // ============================
+
+      match /partnerProfiles/{profileId} {
+        allow read: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && isNotRateLimited()
+          && hasRequiredFields(['name', 'relationshipStatus', 'completionPercent', 'createdAt', 'updatedAt'])
+          && isValidString('name', 1, 50)
+          && isValidEnum('relationshipStatus', ['dating', 'engaged', 'married', 'complicated', 'new']);
+        allow update: if isOwner(uid)
+          && isNotRateLimited()
+          && isValidString('name', 1, 50);
+        allow delete: if isOwner(uid);
+      }
+
+      // ============================
+      // REMINDERS
+      // ============================
+
+      match /reminders/{reminderId} {
+        allow read: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && isNotRateLimited()
+          && hasRequiredFields(['title', 'date', 'recurrence', 'category', 'completed', 'escalationSent', 'giftSuggest', 'createdAt', 'updatedAt'])
+          && isValidString('title', 1, 100)
+          && isValidEnum('recurrence', ['none', 'daily', 'weekly', 'monthly', 'yearly'])
+          && isValidEnum('category', ['birthday', 'anniversary', 'promise', 'custom']);
+        allow update: if isOwner(uid) && isNotRateLimited();
+        allow delete: if isOwner(uid);
+      }
+
+      // ============================
+      // MESSAGES
+      // ============================
+
+      match /messages/{messageId} {
+        allow read: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && isNotRateLimited()
+          && hasRequiredFields(['mode', 'tone', 'humor', 'length', 'language', 'generatedText', 'modelUsed', 'favorited', 'createdAt'])
+          && isValidEnum('mode', ['apology', 'romance', 'flirt', 'comfort', 'gratitude', 'custom'])
+          && isValidEnum('language', ['en', 'ar', 'ms']);
+        allow update: if isOwner(uid)
+          && isNotRateLimited()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['rating', 'favorited']);
+        allow delete: if isOwner(uid);
+      }
+
+      // ============================
+      // GIFTS
+      // ============================
+
+      match /gifts/{giftId} {
+        allow read: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && isNotRateLimited()
+          && hasRequiredFields(['name', 'category', 'priceRange', 'reasoning', 'partnerProfileId', 'createdAt']);
+        allow update: if isOwner(uid)
+          && isNotRateLimited()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['feedback']);
+        allow delete: if isOwner(uid);
+      }
+
+      // ============================
+      // SOS SESSIONS
+      // ============================
+
+      match /sosSessions/{sessionId} {
+        allow read: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && isNotRateLimited()
+          && hasRequiredFields(['scenario', 'severity', 'coachingMessages', 'duration', 'modelUsed', 'createdAt'])
+          && isValidEnum('severity', ['low', 'medium', 'high', 'critical']);
+        allow update: if isOwner(uid)
+          && isNotRateLimited();
+        allow delete: if false; // SOS sessions are permanent
+      }
+
+      // ============================
+      // GAMIFICATION
+      // ============================
+
+      match /gamification/{docId} {
+        allow read: if isOwner(uid);
+        allow write: if false; // only Cloud Functions update gamification
+      }
+
+      // ============================
+      // ACTION CARDS
+      // ============================
+
+      match /actionCards/{cardId} {
+        allow read: if isOwner(uid);
+        allow create: if false; // only Cloud Functions create cards
+        allow update: if isOwner(uid)
+          && isNotRateLimited()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'completedAt']);
+        allow delete: if false;
+      }
+
+      // ============================
+      // MEMORIES
+      // ============================
+
+      match /memories/{memoryId} {
+        allow read: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && isNotRateLimited()
+          && hasRequiredFields(['title', 'content', 'category', 'sheSaid', 'createdAt', 'updatedAt'])
+          && isValidString('title', 1, 100)
+          && isValidEnum('category', ['story', 'joke', 'wish', 'milestone']);
+        allow update: if isOwner(uid) && isNotRateLimited();
+        allow delete: if isOwner(uid);
+      }
+
+      // ============================
+      // NOTIFICATIONS
+      // ============================
+
+      match /notifications/{notifId} {
+        allow read: if isOwner(uid);
+        allow create: if false; // only Cloud Functions create notifications
+        allow update: if isOwner(uid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+        allow delete: if isOwner(uid);
+      }
+    }
+
+    // ============================
+    // METADATA (READ-ONLY)
+    // ============================
+
+    match /metadata/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if false; // admin SDK only
+    }
+
+    // ============================
+    // CATCH-ALL DENY
+    // ============================
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
