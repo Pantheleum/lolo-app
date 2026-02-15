@@ -50,14 +50,14 @@ class HerProfileRepositoryImpl implements HerProfileRepository {
           return Right(cached.toEntity());
         }
         return const Left(
-          NetworkFailure('No internet and no cached profile available.'),
+          NetworkFailure(message: 'No internet and no cached profile available.'),
         );
       }
     } on ServerException catch (e) {
       // Fall back to cache on server error
       final cached = await _local.getCachedProfile(profileId);
       if (cached != null) return Right(cached.toEntity());
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 
@@ -71,9 +71,9 @@ class HerProfileRepositoryImpl implements HerProfileRepository {
       await _local.cacheProfile(model);
       return Right(model.toEntity());
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     } on NetworkException {
-      return const Left(NetworkFailure('No internet connection.'));
+      return const Left(NetworkFailure(message: 'No internet connection.'));
     }
   }
 
@@ -94,7 +94,7 @@ class HerProfileRepositoryImpl implements HerProfileRepository {
       await _remote.updatePreferences(profileId, payload);
       return Right(preferences);
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 
@@ -113,7 +113,7 @@ class HerProfileRepositoryImpl implements HerProfileRepository {
       await _remote.updateCulturalContext(profileId, payload);
       return Right(context);
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 
@@ -132,7 +132,7 @@ class HerProfileRepositoryImpl implements HerProfileRepository {
       await _local.cacheZodiacDefaults(sign, data);
       return Right(_mapZodiacDefaults(data));
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 

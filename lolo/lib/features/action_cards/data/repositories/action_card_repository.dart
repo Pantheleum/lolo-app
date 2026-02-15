@@ -1,10 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/errors/failures.dart';
 import 'package:lolo/core/network/dio_client.dart';
 import 'package:lolo/features/action_cards/domain/entities/action_card_entity.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'action_card_repository.g.dart';
 
 abstract class ActionCardRepository {
   Future<Either<Failure, DailyCardsSummary>> getDailyCards({String? date});
@@ -15,9 +13,8 @@ abstract class ActionCardRepository {
   Future<Either<Failure, List<ActionCardEntity>>> getHistory({String? status, int limit = 20});
 }
 
-@riverpod
-ActionCardRepository actionCardRepository(ActionCardRepositoryRef ref) =>
-    ActionCardRepositoryImpl(ref.watch(dioClientProvider));
+final actionCardRepositoryProvider = Provider<ActionCardRepository>((ref) =>
+    ActionCardRepositoryImpl(ref.watch(dioClientProvider)));
 
 class ActionCardRepositoryImpl implements ActionCardRepository {
   ActionCardRepositoryImpl(this._dio);
@@ -38,7 +35,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
         totalXpAvailable: summary['totalXpAvailable'] as int,
       ));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -48,7 +45,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
       final res = await _dio.post('/action-cards/$id/complete', data: {'notes': notes});
       return Right(_mapCard(res.data['data']));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -58,7 +55,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
       final res = await _dio.post('/action-cards/$id/skip', data: {'reason': reason});
       return Right(_mapCard(res.data['data']));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -68,7 +65,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
       await _dio.post('/action-cards/$id/save');
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -79,7 +76,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
       final list = (res.data['data'] as List).map((c) => _mapCard(c)).toList();
       return Right(list);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -96,7 +93,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
       final list = (res.data['data'] as List).map((c) => _mapCard(c)).toList();
       return Right(list);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 

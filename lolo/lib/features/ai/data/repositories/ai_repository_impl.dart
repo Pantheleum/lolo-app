@@ -9,6 +9,7 @@ import 'package:lolo/core/errors/exceptions.dart';
 import 'package:lolo/core/network/api_client.dart';
 import 'package:lolo/features/ai/data/datasources/ai_cache_manager.dart';
 import 'package:lolo/features/ai/data/services/content_safety_filter.dart';
+import 'package:lolo/features/ai/domain/failures/ai_failures.dart';
 import 'package:lolo/features/ai/domain/entities/ai_request.dart';
 import 'package:lolo/features/ai/domain/entities/ai_response.dart';
 import 'package:lolo/features/ai/domain/enums/ai_enums.dart';
@@ -35,7 +36,7 @@ class AiRepositoryImpl implements AiRepository {
     try {
       final validation = _safety.validateInput(request.additionalContext);
       if (!validation.isValid) {
-        return Left(ContentSafetyFailure(validation.reason ?? 'Content blocked'));
+        return Left(ContentSafetyFailure(message: validation.reason ?? 'Content blocked'));
       }
 
       final cacheKey = _cache.messageKey(
@@ -64,7 +65,7 @@ class AiRepositoryImpl implements AiRepository {
 
       final postValidation = _safety.validateOutput(result.content);
       if (!postValidation.isValid) {
-        return Left(ContentSafetyFailure(postValidation.reason ?? 'Response blocked'));
+        return Left(ContentSafetyFailure(message: postValidation.reason ?? 'Response blocked'));
       }
 
       final ttl = _cache.ttlForMode(request.mode);
@@ -74,13 +75,13 @@ class AiRepositoryImpl implements AiRepository {
 
       return Right(result);
     } on TierLimitException catch (e) {
-      return Left(TierLimitFailure(e.message));
+      return Left(AiTierLimitFailure(message: e.message));
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     } on DioException catch (e) {
       return Left(_mapDioError(e));
     } catch (e) {
-      return Left(UnexpectedFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -105,7 +106,7 @@ class AiRepositoryImpl implements AiRepository {
     } on DioException catch (e) {
       return Left(_mapDioError(e));
     } catch (e) {
-      return Left(UnexpectedFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -164,11 +165,11 @@ class AiRepositoryImpl implements AiRepository {
       await _cache.put(cacheKey, result, ttl: const Duration(hours: 24));
       return Right(result);
     } on TierLimitException catch (e) {
-      return Left(TierLimitFailure(e.message));
+      return Left(AiTierLimitFailure(message: e.message));
     } on DioException catch (e) {
       return Left(_mapDioError(e));
     } catch (e) {
-      return Left(UnexpectedFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -200,7 +201,7 @@ class AiRepositoryImpl implements AiRepository {
       });
       return Right(SosActivateResponse.fromJson(response.data['data']));
     } on TierLimitException catch (e) {
-      return Left(TierLimitFailure(e.message));
+      return Left(AiTierLimitFailure(message: e.message));
     } on DioException catch (e) {
       return Left(_mapDioError(e));
     }
@@ -308,7 +309,7 @@ class AiRepositoryImpl implements AiRepository {
           ttl: const Duration(hours: 12));
       return Right(result);
     } on TierLimitException catch (e) {
-      return Left(TierLimitFailure(e.message));
+      return Left(AiTierLimitFailure(message: e.message));
     } on DioException catch (e) {
       return Left(_mapDioError(e));
     }
@@ -379,16 +380,16 @@ class AiRepositoryImpl implements AiRepository {
         e.response?.data?['error']?['message'] as String? ?? e.message ?? 'Unknown error';
 
     return switch (statusCode) {
-      400 => ValidationFailure(errorMsg),
-      401 => AuthFailure(errorMsg),
-      403 when errorCode == 'TIER_LIMIT_EXCEEDED' => TierLimitFailure(errorMsg),
-      403 => PermissionFailure(errorMsg),
-      404 => NotFoundFailure(errorMsg),
-      429 => RateLimitFailure(errorMsg,
+      400 => AiValidationFailure(message: errorMsg),
+      401 => AiAuthFailure(message: errorMsg),
+      403 when errorCode == 'TIER_LIMIT_EXCEEDED' => AiTierLimitFailure(message: errorMsg),
+      403 => PermissionFailure(message: errorMsg),
+      404 => NotFoundFailure(message: errorMsg),
+      429 => RateLimitFailure(message: errorMsg,
           retryAfter: int.tryParse(
               e.response?.headers.value('retry-after') ?? '')),
-      503 => AiServiceUnavailableFailure(errorMsg),
-      _ => ServerFailure(errorMsg),
+      503 => AiServiceUnavailableFailure(message: errorMsg),
+      _ => ServerFailure(message: errorMsg),
     };
   }
 }

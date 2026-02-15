@@ -14,7 +14,7 @@ class CreateReminderUseCase {
     // Validate date is not in the past for non-recurring reminders
     if (!reminder.isRecurring && reminder.daysUntil < 0) {
       return const Left(
-        ValidationFailure('Reminder date cannot be in the past.'),
+        ValidationFailure(message: 'Reminder date cannot be in the past.'),
       );
     }
     return _repository.createReminder(reminder);

@@ -17,7 +17,7 @@ class SnoozeReminderUseCase {
     String duration,
   ) async {
     if (!validDurations.contains(duration)) {
-      return const Left(ValidationFailure('Invalid snooze duration.'));
+      return const Left(ValidationFailure(message: 'Invalid snooze duration.'));
     }
     return _repository.snoozeReminder(id, duration);
   }

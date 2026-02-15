@@ -37,7 +37,7 @@ class RemindersRepositoryImpl implements RemindersRepository {
       );
       return Right(models.map((m) => m.toEntity()).toList());
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 
@@ -49,7 +49,7 @@ class RemindersRepositoryImpl implements RemindersRepository {
       final models = await _remote.getUpcomingReminders(days: days);
       return Right(models.map((m) => m.toEntity()).toList());
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 
@@ -67,7 +67,7 @@ class RemindersRepositoryImpl implements RemindersRepository {
 
       return Right(entity);
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 
@@ -86,7 +86,7 @@ class RemindersRepositoryImpl implements RemindersRepository {
 
       return Right(entity);
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 
@@ -97,7 +97,7 @@ class RemindersRepositoryImpl implements RemindersRepository {
       await _notificationService.cancelReminder(id);
       return const Right(null);
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 
@@ -111,7 +111,7 @@ class RemindersRepositoryImpl implements RemindersRepository {
       await _notificationService.cancelReminder(id);
       return Right(completed.toEntity());
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 
@@ -124,7 +124,7 @@ class RemindersRepositoryImpl implements RemindersRepository {
       final snoozed = await _remote.snoozeReminder(id, duration);
       return Right(snoozed.toEntity());
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 

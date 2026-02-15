@@ -16,7 +16,7 @@ class CompleteOnboardingUseCase {
   Future<Either<Failure, void>> call(OnboardingDataEntity data) async {
     if (!data.canComplete) {
       return const Left(
-        ValidationFailure('Onboarding data is incomplete'),
+        ValidationFailure(message: 'Onboarding data is incomplete'),
       );
     }
 

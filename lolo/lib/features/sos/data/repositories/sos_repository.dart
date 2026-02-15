@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/errors/failures.dart';
 import 'package:lolo/core/network/dio_client.dart';
 import 'package:lolo/features/sos/domain/entities/sos_session.dart';
 import 'package:lolo/features/sos/domain/entities/sos_assessment.dart';
 import 'package:lolo/features/sos/domain/entities/coaching_step.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'sos_repository.g.dart';
 
 abstract class SosRepository {
   Future<Either<Failure, SosSession>> activate({
@@ -33,9 +31,8 @@ abstract class SosRepository {
   });
 }
 
-@riverpod
-SosRepository sosRepository(SosRepositoryRef ref) =>
-    SosRepositoryImpl(ref.watch(dioClientProvider));
+final sosRepositoryProvider = Provider<SosRepository>((ref) =>
+    SosRepositoryImpl(ref.watch(dioClientProvider)));
 
 class SosRepositoryImpl implements SosRepository {
   SosRepositoryImpl(this._dio);
@@ -75,7 +72,7 @@ class SosRepositoryImpl implements SosRepository {
         createdAt: DateTime.parse(d['createdAt'] as String),
       ));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -103,7 +100,7 @@ class SosRepositoryImpl implements SosRepository {
         ),
       ));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -179,7 +176,7 @@ class SosRepositoryImpl implements SosRepository {
       });
       return const Right(null);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 

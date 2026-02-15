@@ -29,7 +29,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
       await _localDataSource.saveDraft(model);
       return const Right(null);
     } on CacheException catch (e) {
-      return Left(CacheFailure(e.message));
+      return Left(CacheFailure(message: e.message));
     }
   }
 
@@ -39,7 +39,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
       final model = await _localDataSource.loadDraft();
       return Right(model?.toEntity());
     } on CacheException catch (e) {
-      return Left(CacheFailure(e.message));
+      return Left(CacheFailure(message: e.message));
     }
   }
 
@@ -49,7 +49,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
       await _localDataSource.clearDraft();
       return const Right(null);
     } on CacheException catch (e) {
-      return Left(CacheFailure(e.message));
+      return Left(CacheFailure(message: e.message));
     }
   }
 
@@ -67,10 +67,10 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
 
       return const Right(null);
     } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
+      return Left(ServerFailure(message: e.message));
     } on NetworkException {
       return const Left(
-        NetworkFailure('No internet connection. Please try again.'),
+        NetworkFailure(message: 'No internet connection. Please try again.'),
       );
     }
   }

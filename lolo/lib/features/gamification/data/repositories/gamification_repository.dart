@@ -1,12 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/errors/failures.dart';
 import 'package:lolo/core/network/dio_client.dart';
 import 'package:lolo/features/gamification/domain/entities/gamification_profile.dart';
 import 'package:lolo/features/gamification/domain/entities/badge_entity.dart';
 import 'package:lolo/features/gamification/domain/entities/streak_entity.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'gamification_repository.g.dart';
 
 abstract class GamificationRepository {
   Future<Either<Failure, GamificationProfile>> getProfile();
@@ -14,9 +12,8 @@ abstract class GamificationRepository {
   Future<Either<Failure, StreakEntity>> getStreak();
 }
 
-@riverpod
-GamificationRepository gamificationRepository(GamificationRepositoryRef ref) =>
-    GamificationRepositoryImpl(ref.watch(dioClientProvider));
+final gamificationRepositoryProvider = Provider<GamificationRepository>((ref) =>
+    GamificationRepositoryImpl(ref.watch(dioClientProvider)));
 
 class GamificationRepositoryImpl implements GamificationRepository {
   GamificationRepositoryImpl(this._dio);
@@ -48,7 +45,7 @@ class GamificationRepositoryImpl implements GamificationRepository {
         weeklyXp: weekly,
       ));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -61,7 +58,7 @@ class GamificationRepositoryImpl implements GamificationRepository {
       final unearned = (d['unearned'] as List).map((b) => _mapBadge(b)).toList();
       return Right((earned: earned, unearned: unearned));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -85,7 +82,7 @@ class GamificationRepositoryImpl implements GamificationRepository {
         milestones: milestones,
       ));
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
