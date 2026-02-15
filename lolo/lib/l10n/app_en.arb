@@ -1,0 +1,83 @@
+{
+  "@@locale": "en",
+
+  "appName": "LOLO",
+  "@appName": { "description": "Application name" },
+
+  "onboarding_language_title": "Choose Your Language",
+  "onboarding_language_english": "English",
+  "onboarding_language_arabic": "\u0627\u0644\u0639\u0631\u0628\u064a\u0629",
+  "onboarding_language_malay": "Bahasa Melayu",
+
+  "onboarding_welcome_tagline": "She won't know why you got so thoughtful.\nWe won't tell.",
+  "onboarding_welcome_benefit1_title": "Smart Reminders",
+  "onboarding_welcome_benefit1_subtitle": "Never forget what matters to her",
+  "onboarding_welcome_benefit2_title": "AI Messages",
+  "onboarding_welcome_benefit2_subtitle": "Say the right thing, every time",
+  "onboarding_welcome_benefit3_title": "SOS Mode",
+  "onboarding_welcome_benefit3_subtitle": "Emergency help when she's upset",
+  "onboarding_welcome_button_start": "Get Started",
+  "onboarding_welcome_link_login": "Already have an account? Log in",
+
+  "onboarding_signup_title": "Sign Up",
+  "onboarding_signup_heading": "Create your account",
+  "onboarding_signup_button_google": "Continue with Google",
+  "onboarding_signup_button_apple": "Continue with Apple",
+  "onboarding_signup_divider": "or",
+  "onboarding_signup_label_email": "Email",
+  "onboarding_signup_hint_email": "you@example.com",
+  "onboarding_signup_label_password": "Password",
+  "onboarding_signup_label_confirmPassword": "Confirm Password",
+  "onboarding_signup_button_create": "Create Account",
+  "onboarding_signup_legal": "By signing up you agree to our {terms} and {privacy}",
+  "@onboarding_signup_legal": {
+    "placeholders": {
+      "terms": { "type": "String" },
+      "privacy": { "type": "String" }
+    }
+  },
+  "onboarding_signup_legal_terms": "Terms of Service",
+  "onboarding_signup_legal_privacy": "Privacy Policy",
+
+  "onboarding_login_title": "Log In",
+  "onboarding_login_heading": "Welcome back",
+  "onboarding_login_button_login": "Log In",
+  "onboarding_login_link_forgot": "Forgot password?",
+  "onboarding_login_link_signup": "Don't have an account? Sign up",
+
+  "onboarding_profile_title": "Your Profile",
+  "onboarding_profile_heading": "Tell us about you",
+  "onboarding_profile_label_name": "Your Name",
+
+  "common_button_continue": "Continue",
+  "common_button_back": "Back",
+  "common_button_skip": "Skip",
+  "common_button_save": "Save",
+  "common_button_cancel": "Cancel",
+  "common_button_delete": "Delete",
+  "common_button_done": "Done",
+  "common_button_retry": "Retry",
+  "common_button_close": "Close",
+  "common_button_confirm": "Confirm",
+
+  "nav_home": "Home",
+  "nav_reminders": "Reminders",
+  "nav_messages": "Messages",
+  "nav_gifts": "Gifts",
+  "nav_more": "More",
+
+  "error_generic": "Something went wrong. Please try again.",
+  "error_network": "No internet connection. Check your network.",
+  "error_timeout": "Request timed out. Please try again.",
+  "error_server": "Server error. We're working on it.",
+  "error_unauthorized": "Session expired. Please log in again.",
+  "error_rate_limited": "Too many requests. Please wait a moment.",
+  "error_tier_exceeded": "Upgrade your plan to unlock this feature.",
+
+  "empty_reminders_title": "No reminders yet",
+  "empty_reminders_subtitle": "Add important dates so you never forget",
+  "empty_messages_title": "No messages yet",
+  "empty_messages_subtitle": "Generate your first AI message",
+  "empty_memories_title": "No memories yet",
+  "empty_memories_subtitle": "Start saving moments that matter"
+}

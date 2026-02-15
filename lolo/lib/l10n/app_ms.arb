@@ -1,0 +1,82 @@
+{
+  "@@locale": "ms",
+
+  "appName": "LOLO",
+
+  "onboarding_language_title": "Pilih Bahasa Anda",
+  "onboarding_language_english": "English",
+  "onboarding_language_arabic": "\u0627\u0644\u0639\u0631\u0628\u064a\u0629",
+  "onboarding_language_malay": "Bahasa Melayu",
+
+  "onboarding_welcome_tagline": "Dia tak akan tahu kenapa kamu jadi lebih perhatian.\nKami tak akan bagitahu.",
+  "onboarding_welcome_benefit1_title": "Peringatan Pintar",
+  "onboarding_welcome_benefit1_subtitle": "Jangan lupa apa yang penting baginya",
+  "onboarding_welcome_benefit2_title": "Mesej AI",
+  "onboarding_welcome_benefit2_subtitle": "Cakap benda yang betul, setiap masa",
+  "onboarding_welcome_benefit3_title": "Mod SOS",
+  "onboarding_welcome_benefit3_subtitle": "Bantuan kecemasan bila dia sedih",
+  "onboarding_welcome_button_start": "Mula",
+  "onboarding_welcome_link_login": "Sudah ada akaun? Log masuk",
+
+  "onboarding_signup_title": "Daftar",
+  "onboarding_signup_heading": "Cipta akaun anda",
+  "onboarding_signup_button_google": "Teruskan dengan Google",
+  "onboarding_signup_button_apple": "Teruskan dengan Apple",
+  "onboarding_signup_divider": "atau",
+  "onboarding_signup_label_email": "Emel",
+  "onboarding_signup_hint_email": "you@example.com",
+  "onboarding_signup_label_password": "Kata Laluan",
+  "onboarding_signup_label_confirmPassword": "Sahkan Kata Laluan",
+  "onboarding_signup_button_create": "Cipta Akaun",
+  "onboarding_signup_legal": "Dengan mendaftar anda bersetuju dengan {terms} dan {privacy} kami",
+  "@onboarding_signup_legal": {
+    "placeholders": {
+      "terms": { "type": "String" },
+      "privacy": { "type": "String" }
+    }
+  },
+  "onboarding_signup_legal_terms": "Terma Perkhidmatan",
+  "onboarding_signup_legal_privacy": "Dasar Privasi",
+
+  "onboarding_login_title": "Log Masuk",
+  "onboarding_login_heading": "Selamat kembali",
+  "onboarding_login_button_login": "Log Masuk",
+  "onboarding_login_link_forgot": "Lupa kata laluan?",
+  "onboarding_login_link_signup": "Belum ada akaun? Daftar",
+
+  "onboarding_profile_title": "Profil Anda",
+  "onboarding_profile_heading": "Beritahu kami tentang anda",
+  "onboarding_profile_label_name": "Nama Anda",
+
+  "common_button_continue": "Teruskan",
+  "common_button_back": "Kembali",
+  "common_button_skip": "Langkau",
+  "common_button_save": "Simpan",
+  "common_button_cancel": "Batal",
+  "common_button_delete": "Padam",
+  "common_button_done": "Selesai",
+  "common_button_retry": "Cuba Semula",
+  "common_button_close": "Tutup",
+  "common_button_confirm": "Sahkan",
+
+  "nav_home": "Utama",
+  "nav_reminders": "Peringatan",
+  "nav_messages": "Mesej",
+  "nav_gifts": "Hadiah",
+  "nav_more": "Lagi",
+
+  "error_generic": "Sesuatu tidak kena. Sila cuba lagi.",
+  "error_network": "Tiada sambungan internet. Semak rangkaian anda.",
+  "error_timeout": "Permintaan tamat masa. Sila cuba lagi.",
+  "error_server": "Ralat pelayan. Kami sedang menyelesaikannya.",
+  "error_unauthorized": "Sesi tamat. Sila log masuk semula.",
+  "error_rate_limited": "Terlalu banyak permintaan. Sila tunggu sebentar.",
+  "error_tier_exceeded": "Naik taraf pelan anda untuk membuka ciri ini.",
+
+  "empty_reminders_title": "Tiada peringatan lagi",
+  "empty_reminders_subtitle": "Tambah tarikh penting supaya tidak lupa",
+  "empty_messages_title": "Tiada mesej lagi",
+  "empty_messages_subtitle": "Jana mesej AI pertama anda",
+  "empty_memories_title": "Tiada kenangan lagi",
+  "empty_memories_subtitle": "Mula simpan detik yang bermakna"
+}
