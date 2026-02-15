@@ -1,14 +1,510 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lolo/core/theme/lolo_colors.dart';
+import 'package:lolo/core/theme/lolo_spacing.dart';
+import 'package:lolo/core/widgets/lolo_app_bar.dart';
+import 'package:lolo/core/widgets/lolo_avatar.dart';
+import 'package:lolo/core/widgets/lolo_toggle.dart';
+import 'package:lolo/core/widgets/lolo_dialog.dart';
+import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
+import 'package:lolo/features/settings/presentation/providers/settings_provider.dart';
 
-/// Settings screen stub.
-class SettingsScreen extends StatelessWidget {
+/// Settings screen with profile, language, theme, notifications,
+/// subscription, and account management sections.
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settingsAsync = ref.watch(settingsNotifierProvider);
+    final currentUser = ref.watch(currentUserProvider);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
-      body: const Center(child: Text('Settings Screen')),
+      appBar: LoloAppBar(
+        title: 'Settings',
+        showBackButton: false,
+        showLogo: true,
+      ),
+      body: settingsAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('Error: $e')),
+        data: (settings) => SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: LoloSpacing.screenHorizontalPadding,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: LoloSpacing.spaceXl),
+
+              // === PROFILE SECTION ===
+              _SectionHeader(title: 'Profile'),
+              const SizedBox(height: LoloSpacing.spaceSm),
+              _ProfileCard(
+                name: currentUser?.displayName ?? 'User',
+                email: currentUser?.email ?? '',
+                photoUrl: currentUser?.photoUrl,
+                onTap: () => context.pushNamed('her-profile'),
+              ),
+              const SizedBox(height: LoloSpacing.spaceXl),
+
+              // === LANGUAGE ===
+              _SectionHeader(title: 'Language'),
+              const SizedBox(height: LoloSpacing.spaceSm),
+              _SegmentedSelector<String>(
+                value: settings.locale,
+                options: const {
+                  'en': 'English',
+                  'ar': 'Arabic',
+                  'ms': 'Malay',
+                },
+                onChanged: (locale) => ref
+                    .read(settingsNotifierProvider.notifier)
+                    .setLocale(locale),
+              ),
+              const SizedBox(height: LoloSpacing.spaceXl),
+
+              // === THEME ===
+              _SectionHeader(title: 'Appearance'),
+              const SizedBox(height: LoloSpacing.spaceSm),
+              _SegmentedSelector<String>(
+                value: settings.themeMode,
+                options: const {
+                  'light': 'Light',
+                  'dark': 'Dark',
+                  'system': 'System',
+                },
+                onChanged: (mode) => ref
+                    .read(settingsNotifierProvider.notifier)
+                    .setThemeMode(mode),
+              ),
+              const SizedBox(height: LoloSpacing.spaceXl),
+
+              // === NOTIFICATIONS ===
+              _SectionHeader(title: 'Notifications'),
+              const SizedBox(height: LoloSpacing.spaceSm),
+              LoloToggle(
+                label: 'Push Notifications',
+                description: 'Receive push notifications',
+                value: settings.notificationsEnabled,
+                onChanged: (v) => ref
+                    .read(settingsNotifierProvider.notifier)
+                    .setNotificationsEnabled(v),
+              ),
+              LoloToggle(
+                label: 'Reminder Alerts',
+                description: 'Get notified about upcoming dates',
+                value: settings.reminderNotifications,
+                onChanged: settings.notificationsEnabled
+                    ? (v) => ref
+                        .read(settingsNotifierProvider.notifier)
+                        .setReminderNotifications(v)
+                    : null,
+                enabled: settings.notificationsEnabled,
+              ),
+              LoloToggle(
+                label: 'Daily Action Cards',
+                description: 'Daily relationship tips and actions',
+                value: settings.dailyCardNotifications,
+                onChanged: settings.notificationsEnabled
+                    ? (v) => ref
+                        .read(settingsNotifierProvider.notifier)
+                        .setDailyCardNotifications(v)
+                    : null,
+                enabled: settings.notificationsEnabled,
+              ),
+              LoloToggle(
+                label: 'Weekly Digest',
+                description: 'Weekly relationship summary',
+                value: settings.weeklyDigest,
+                onChanged: settings.notificationsEnabled
+                    ? (v) => ref
+                        .read(settingsNotifierProvider.notifier)
+                        .setWeeklyDigest(v)
+                    : null,
+                enabled: settings.notificationsEnabled,
+              ),
+              const SizedBox(height: LoloSpacing.spaceXl),
+
+              // === SUBSCRIPTION ===
+              _SectionHeader(title: 'Subscription'),
+              const SizedBox(height: LoloSpacing.spaceSm),
+              _SettingsTile(
+                icon: Icons.workspace_premium,
+                label: currentUser?.isPremium == true
+                    ? 'Premium Active'
+                    : 'Upgrade to Premium',
+                subtitle: currentUser?.isPremium == true
+                    ? 'Manage your subscription'
+                    : 'Unlock all features',
+                trailing: currentUser?.isPremium == true
+                    ? const Icon(Icons.check_circle,
+                        color: LoloColors.colorSuccess)
+                    : Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: LoloColors.colorAccent,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Text(
+                          'PRO',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                onTap: () => context.pushNamed('paywall', extra: 'settings'),
+              ),
+              const SizedBox(height: LoloSpacing.spaceXl),
+
+              // === ABOUT ===
+              _SectionHeader(title: 'About'),
+              const SizedBox(height: LoloSpacing.spaceSm),
+              _SettingsTile(
+                icon: Icons.info_outline,
+                label: 'About LOLO',
+                onTap: () => _showAboutDialog(context),
+              ),
+              _SettingsTile(
+                icon: Icons.description_outlined,
+                label: 'Terms of Service',
+                onTap: () {/* Navigate to terms */},
+              ),
+              _SettingsTile(
+                icon: Icons.privacy_tip_outlined,
+                label: 'Privacy Policy',
+                onTap: () {/* Navigate to privacy */},
+              ),
+              const SizedBox(height: LoloSpacing.spaceXl),
+
+              // === ACCOUNT ACTIONS ===
+              _SectionHeader(title: 'Account'),
+              const SizedBox(height: LoloSpacing.spaceSm),
+              _SettingsTile(
+                icon: Icons.logout,
+                label: 'Log Out',
+                iconColor: LoloColors.colorWarning,
+                onTap: () => _handleLogout(context, ref),
+              ),
+              _SettingsTile(
+                icon: Icons.delete_forever,
+                label: 'Delete Account',
+                iconColor: LoloColors.colorError,
+                labelColor: LoloColors.colorError,
+                onTap: () => _handleDeleteAccount(context, ref),
+              ),
+
+              const SizedBox(height: LoloSpacing.space3xl),
+
+              // App version
+              Center(
+                child: Text(
+                  'LOLO v1.0.0',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: isDark
+                        ? LoloColors.darkTextTertiary
+                        : LoloColors.lightTextTertiary,
+                  ),
+                ),
+              ),
+              const SizedBox(height: LoloSpacing.screenBottomPadding),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showAboutDialog(BuildContext context) {
+    showAboutDialog(
+      context: context,
+      applicationName: 'LOLO',
+      applicationVersion: '1.0.0',
+      applicationLegalese: '2024 LOLO. All rights reserved.',
+    );
+  }
+
+  void _handleLogout(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Log Out'),
+        content: const Text('Are you sure you want to log out?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ref.read(authNotifierProvider.notifier).signOut();
+              context.go('/welcome');
+            },
+            child: const Text('Log Out'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _handleDeleteAccount(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Delete Account'),
+        content: const Text(
+          'This action is permanent and cannot be undone. '
+          'All your data will be deleted.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              ref.read(authRepositoryProvider).deleteAccount();
+              context.go('/welcome');
+            },
+            style: TextButton.styleFrom(
+                foregroundColor: LoloColors.colorError),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// === Private Widgets ===
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({required this.title});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Text(
+      title.toUpperCase(),
+      style: theme.textTheme.labelMedium?.copyWith(
+        color: isDark
+            ? LoloColors.darkTextTertiary
+            : LoloColors.lightTextTertiary,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 1.2,
+      ),
+    );
+  }
+}
+
+class _ProfileCard extends StatelessWidget {
+  const _ProfileCard({
+    required this.name,
+    required this.email,
+    this.photoUrl,
+    required this.onTap,
+  });
+
+  final String name;
+  final String email;
+  final String? photoUrl;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Material(
+      color: isDark
+          ? LoloColors.darkSurfaceElevated1
+          : LoloColors.lightSurfaceElevated1,
+      borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+        child: Padding(
+          padding: const EdgeInsets.all(LoloSpacing.spaceMd),
+          child: Row(
+            children: [
+              LoloAvatar(
+                name: name,
+                photoUrl: photoUrl,
+                size: LoloSpacing.avatarSizeMedium,
+              ),
+              const SizedBox(width: LoloSpacing.spaceMd),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(name, style: theme.textTheme.titleMedium),
+                    Text(
+                      email,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: isDark
+                            ? LoloColors.darkTextSecondary
+                            : LoloColors.lightTextSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: isDark
+                    ? LoloColors.darkTextTertiary
+                    : LoloColors.lightTextTertiary,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SegmentedSelector<T> extends StatelessWidget {
+  const _SegmentedSelector({
+    required this.value,
+    required this.options,
+    required this.onChanged,
+  });
+
+  final T value;
+  final Map<T, String> options;
+  final ValueChanged<T> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: isDark ? LoloColors.darkBgTertiary : LoloColors.lightBgTertiary,
+        borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+      ),
+      padding: const EdgeInsets.all(4),
+      child: Row(
+        children: options.entries.map((entry) {
+          final isSelected = entry.key == value;
+          return Expanded(
+            child: GestureDetector(
+              onTap: () => onChanged(entry.key),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: isSelected ? LoloColors.colorPrimary : null,
+                  borderRadius:
+                      BorderRadius.circular(LoloSpacing.cardBorderRadius - 2),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  entry.value,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: isSelected
+                        ? Colors.white
+                        : (isDark
+                            ? LoloColors.darkTextSecondary
+                            : LoloColors.lightTextSecondary),
+                    fontWeight:
+                        isSelected ? FontWeight.w600 : FontWeight.w400,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class _SettingsTile extends StatelessWidget {
+  const _SettingsTile({
+    required this.icon,
+    required this.label,
+    this.subtitle,
+    this.trailing,
+    this.iconColor,
+    this.labelColor,
+    this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final String? subtitle;
+  final Widget? trailing;
+  final Color? iconColor;
+  final Color? labelColor;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: LoloSpacing.spaceSm,
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: iconColor ?? LoloColors.colorPrimary,
+              size: LoloSpacing.iconSizeMedium,
+            ),
+            const SizedBox(width: LoloSpacing.spaceMd),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: labelColor,
+                    ),
+                  ),
+                  if (subtitle != null)
+                    Text(
+                      subtitle!,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: isDark
+                            ? LoloColors.darkTextSecondary
+                            : LoloColors.lightTextSecondary,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            if (trailing != null)
+              trailing!
+            else
+              Icon(
+                Icons.chevron_right,
+                color: isDark
+                    ? LoloColors.darkTextTertiary
+                    : LoloColors.lightTextTertiary,
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
