@@ -1,5 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/errors/failures.dart';
+import 'package:lolo/core/network/dio_client.dart';
+import 'package:lolo/features/gift_engine/data/datasources/gift_remote_datasource.dart';
+import 'package:lolo/features/gift_engine/data/repositories/gift_repository_impl.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_category.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 
@@ -43,3 +47,15 @@ abstract class GiftRepository {
     bool? dislikedOnly,
   });
 }
+
+/// Provider for the remote data source used by the gift repository.
+final giftRemoteDataSourceProvider = Provider<GiftRemoteDataSource>((ref) {
+  return GiftRemoteDataSource(ref.watch(dioProvider));
+});
+
+/// Provider for [GiftRepository], backed by the remote data source.
+final giftRepositoryProvider = Provider<GiftRepository>((ref) {
+  return GiftRepositoryImpl(
+    remote: ref.watch(giftRemoteDataSourceProvider),
+  );
+});

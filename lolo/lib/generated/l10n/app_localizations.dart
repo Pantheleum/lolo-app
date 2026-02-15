@@ -1272,6 +1272,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{Today} =1{Tomorrow} other{In {count} days}}'**
   String days_remaining(int count);
+
+  /// Title for the action cards screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Actions'**
+  String get actionCardsTitle;
+
+  /// Title shown when all daily action cards are completed.
+  ///
+  /// In en, this message translates to:
+  /// **'All done for today!'**
+  String get allCardsDone;
+
+  /// Subtitle shown when all daily action cards are completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Come back tomorrow for fresh ideas'**
+  String get allCardsDoneSubtitle;
+
+  /// Section header for action card instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'What to do'**
+  String get whatToDo;
+
+  /// Section header for post-action feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'How did it go?'**
+  String get howDidItGo;
+
+  /// Hint text for optional notes input.
+  ///
+  /// In en, this message translates to:
+  /// **'Add notes (optional)'**
+  String get optionalNotes;
+
+  /// Button label to mark an action card as complete.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark Complete'**
+  String get markComplete;
+
+  /// Title for the gamification hub screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get gamification;
+
+  /// Section title for achievement badges.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges'**
+  String get badges;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

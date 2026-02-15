@@ -98,7 +98,7 @@ class BadgeCard extends StatelessWidget {
                     ),
                   ),
                   if (!isEarned)
-                    Positioned(
+                    PositionedDirectional(
                       bottom: 0,
                       end: 0,
                       child: Container(

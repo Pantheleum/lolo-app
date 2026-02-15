@@ -642,4 +642,31 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get actionCardsTitle => 'Daily Actions';
+
+  @override
+  String get allCardsDone => 'All done for today!';
+
+  @override
+  String get allCardsDoneSubtitle => 'Come back tomorrow for fresh ideas';
+
+  @override
+  String get whatToDo => 'What to do';
+
+  @override
+  String get howDidItGo => 'How did it go?';
+
+  @override
+  String get optionalNotes => 'Add notes (optional)';
+
+  @override
+  String get markComplete => 'Mark Complete';
+
+  @override
+  String get gamification => 'Progress';
+
+  @override
+  String get badges => 'Badges';
 }

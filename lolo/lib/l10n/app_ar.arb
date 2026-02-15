@@ -196,5 +196,14 @@
   "reminders_notification_daysUntil": "باقي {days} يوم على {title}",
   "reminders_count": "{count, plural, =0{لا تذكيرات} =1{تذكير واحد} =2{تذكيران} few{{count} تذكيرات} many{{count} تذكيرًا} other{{count} تذكير}}",
   "profile_items_count": "{count, plural, =0{لا عناصر} =1{عنصر واحد} =2{عنصران} few{{count} عناصر} many{{count} عنصرًا} other{{count} عنصر}}",
-  "days_remaining": "{count, plural, =0{اليوم} =1{غدًا} =2{بعد يومين} few{بعد {count} أيام} many{بعد {count} يومًا} other{بعد {count} يوم}}"
+  "days_remaining": "{count, plural, =0{اليوم} =1{غدًا} =2{بعد يومين} few{بعد {count} أيام} many{بعد {count} يومًا} other{بعد {count} يوم}}",
+  "actionCardsTitle": "المهام اليومية",
+  "allCardsDone": "أنجزت كل شيء اليوم!",
+  "allCardsDoneSubtitle": "عد غدًا لأفكار جديدة",
+  "whatToDo": "ماذا تفعل",
+  "howDidItGo": "كيف سارت الأمور؟",
+  "optionalNotes": "أضف ملاحظات (اختياري)",
+  "markComplete": "تم الإنجاز",
+  "gamification": "التقدم",
+  "badges": "الشارات"
 }

@@ -32,11 +32,11 @@ abstract class SosRepository {
 }
 
 final sosRepositoryProvider = Provider<SosRepository>((ref) =>
-    SosRepositoryImpl(ref.watch(dioClientProvider)));
+    SosRepositoryImpl(ref.watch(dioProvider)));
 
 class SosRepositoryImpl implements SosRepository {
   SosRepositoryImpl(this._dio);
-  final DioClient _dio;
+  final Dio _dio;
 
   @override
   Future<Either<Failure, SosSession>> activate({

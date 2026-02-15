@@ -651,4 +651,31 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get actionCardsTitle => 'المهام اليومية';
+
+  @override
+  String get allCardsDone => 'أنجزت كل شيء اليوم!';
+
+  @override
+  String get allCardsDoneSubtitle => 'عد غدًا لأفكار جديدة';
+
+  @override
+  String get whatToDo => 'ماذا تفعل';
+
+  @override
+  String get howDidItGo => 'كيف سارت الأمور؟';
+
+  @override
+  String get optionalNotes => 'أضف ملاحظات (اختياري)';
+
+  @override
+  String get markComplete => 'تم الإنجاز';
+
+  @override
+  String get gamification => 'التقدم';
+
+  @override
+  String get badges => 'الشارات';
 }

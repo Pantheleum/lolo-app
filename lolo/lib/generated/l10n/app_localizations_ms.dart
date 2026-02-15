@@ -642,4 +642,31 @@ class AppLocalizationsMs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get actionCardsTitle => 'Tindakan Harian';
+
+  @override
+  String get allCardsDone => 'Semua selesai hari ini!';
+
+  @override
+  String get allCardsDoneSubtitle => 'Kembali esok untuk idea baharu';
+
+  @override
+  String get whatToDo => 'Apa yang perlu dilakukan';
+
+  @override
+  String get howDidItGo => 'Bagaimana hasilnya?';
+
+  @override
+  String get optionalNotes => 'Tambah nota (pilihan)';
+
+  @override
+  String get markComplete => 'Tandakan Selesai';
+
+  @override
+  String get gamification => 'Kemajuan';
+
+  @override
+  String get badges => 'Lencana';
 }

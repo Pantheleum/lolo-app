@@ -306,5 +306,41 @@
         "type": "int"
       }
     }
+  },
+  "actionCardsTitle": "Daily Actions",
+  "@actionCardsTitle": {
+    "description": "Title for the action cards screen"
+  },
+  "allCardsDone": "All done for today!",
+  "@allCardsDone": {
+    "description": "Title shown when all daily action cards are completed"
+  },
+  "allCardsDoneSubtitle": "Come back tomorrow for fresh ideas",
+  "@allCardsDoneSubtitle": {
+    "description": "Subtitle shown when all daily action cards are completed"
+  },
+  "whatToDo": "What to do",
+  "@whatToDo": {
+    "description": "Section header for action card instructions"
+  },
+  "howDidItGo": "How did it go?",
+  "@howDidItGo": {
+    "description": "Section header for post-action feedback"
+  },
+  "optionalNotes": "Add notes (optional)",
+  "@optionalNotes": {
+    "description": "Hint text for optional notes input"
+  },
+  "markComplete": "Mark Complete",
+  "@markComplete": {
+    "description": "Button label to mark an action card as complete"
+  },
+  "gamification": "Progress",
+  "@gamification": {
+    "description": "Title for the gamification hub screen"
+  },
+  "badges": "Badges",
+  "@badges": {
+    "description": "Section title for achievement badges"
   }
 }

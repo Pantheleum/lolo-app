@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/errors/failures.dart';
 import 'package:lolo/core/network/dio_client.dart';
@@ -13,11 +14,11 @@ abstract class GamificationRepository {
 }
 
 final gamificationRepositoryProvider = Provider<GamificationRepository>((ref) =>
-    GamificationRepositoryImpl(ref.watch(dioClientProvider)));
+    GamificationRepositoryImpl(ref.watch(dioProvider)));
 
 class GamificationRepositoryImpl implements GamificationRepository {
   GamificationRepositoryImpl(this._dio);
-  final DioClient _dio;
+  final Dio _dio;
 
   @override
   Future<Either<Failure, GamificationProfile>> getProfile() async {

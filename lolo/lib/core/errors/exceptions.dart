@@ -55,3 +55,13 @@ class ValidationException implements Exception {
   @override
   String toString() => 'ValidationException: $message';
 }
+
+class TierLimitException implements Exception {
+  final String message;
+  final String? requiredTier;
+
+  const TierLimitException({required this.message, this.requiredTier});
+
+  @override
+  String toString() => 'TierLimitException: $message';
+}

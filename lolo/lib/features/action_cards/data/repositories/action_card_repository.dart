@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/errors/failures.dart';
 import 'package:lolo/core/network/dio_client.dart';
@@ -14,11 +15,11 @@ abstract class ActionCardRepository {
 }
 
 final actionCardRepositoryProvider = Provider<ActionCardRepository>((ref) =>
-    ActionCardRepositoryImpl(ref.watch(dioClientProvider)));
+    ActionCardRepositoryImpl(ref.watch(dioProvider)));
 
 class ActionCardRepositoryImpl implements ActionCardRepository {
   ActionCardRepositoryImpl(this._dio);
-  final DioClient _dio;
+  final Dio _dio;
 
   @override
   Future<Either<Failure, DailyCardsSummary>> getDailyCards({String? date}) async {
