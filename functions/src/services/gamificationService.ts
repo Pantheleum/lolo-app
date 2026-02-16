@@ -42,7 +42,10 @@ const BADGE_DEFINITIONS = [
   { id: "level_10", name: "Legend Status", category: "milestone", condition: (s: any) => s.level >= 10 },
 ];
 
-function getLevelForXp(totalXp: number): { level: number; name: string; xpForNextLevel: number } {
+export const LEVELS = LEVEL_THRESHOLDS;
+export const BADGES = BADGE_DEFINITIONS;
+
+export function getLevelForXp(totalXp: number): { level: number; name: string; xpForNextLevel: number; xpRequired: number } {
   let current = LEVEL_THRESHOLDS[0];
   for (const t of LEVEL_THRESHOLDS) {
     if (totalXp >= t.xp) current = t;
@@ -50,7 +53,62 @@ function getLevelForXp(totalXp: number): { level: number; name: string; xpForNex
   }
   const nextIdx = LEVEL_THRESHOLDS.findIndex((t) => t.level === current.level + 1);
   const xpForNext = nextIdx >= 0 ? LEVEL_THRESHOLDS[nextIdx].xp : current.xp + 2000;
-  return { level: current.level, name: current.name, xpForNextLevel: xpForNext };
+  return { level: current.level, name: current.name, xpForNextLevel: xpForNext, xpRequired: current.xp };
+}
+
+
+export function getNextLevel(currentLevel: number): { level: number; name: string; xpRequired: number } | null {
+  const nextIdx = LEVEL_THRESHOLDS.findIndex((t) => t.level === currentLevel + 1);
+  if (nextIdx < 0) return null;
+  const next = LEVEL_THRESHOLDS[nextIdx];
+  return { level: next.level, name: next.name, xpRequired: next.xp };
+}
+
+export async function updateStreak(userId: string): Promise<{ currentStreak: number; longestStreak: number; isNewRecord: boolean }> {
+  const gamRef = db.collection("gamification").doc(userId);
+  const gamDoc = await gamRef.get();
+
+  if (!gamDoc.exists) {
+    await gamRef.set({
+      userId, totalXp: 0, level: 1, levelName: "Newbie",
+      currentStreak: 1, longestStreak: 1, lastActiveDate: new Date().toISOString().split("T")[0],
+      freezesAvailable: 1, freezesUsedThisMonth: 0, badges: [],
+      messagesGenerated: 0, actionCardsCompleted: 0, sosResolved: 0,
+      createdAt: new Date().toISOString(),
+    });
+    return { currentStreak: 1, longestStreak: 1, isNewRecord: true };
+  }
+
+  const data = gamDoc.data()!;
+  const today = new Date().toISOString().split("T")[0];
+  const lastActive = data.lastActiveDate;
+  let currentStreak = data.currentStreak || 0;
+  let longestStreak = data.longestStreak || 0;
+
+  if (lastActive !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+    if (lastActive === yesterday) {
+      currentStreak += 1;
+    } else if (lastActive) {
+      currentStreak = 1;
+    } else {
+      currentStreak = 1;
+    }
+  }
+
+  const isNewRecord = currentStreak > longestStreak;
+  if (isNewRecord) longestStreak = currentStreak;
+
+  await gamRef.update({
+    currentStreak,
+    longestStreak,
+    lastActiveDate: today,
+    updatedAt: new Date().toISOString(),
+  });
+
+  await redis.del(`gamification:profile:${userId}`);
+
+  return { currentStreak, longestStreak, isNewRecord };
 }
 
 export async function awardXp(

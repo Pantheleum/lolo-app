@@ -41,9 +41,9 @@ router.get("/profile", async (req: AuthenticatedRequest, res: Response, next: Ne
     };
 
     await redis.setex(cacheKey, 120, JSON.stringify(profile));
-    res.json(profile);
+    return res.json(profile);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -104,9 +104,9 @@ router.get("/leaderboard", async (req: AuthenticatedRequest, res: Response, next
 
     const response = { period, leaderboard, myRank, totalParticipants: entries.length };
     await redis.setex(cacheKey, 300, JSON.stringify(response));
-    res.json(response);
+    return res.json(response);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
@@ -118,7 +118,7 @@ router.get("/badges", async (req: AuthenticatedRequest, res: Response, next: Nex
     const earnedBadges: { id: string; earnedAt: any }[] = statsDoc.exists ? (statsDoc.data()!.badges || []) : [];
     const earnedIds = new Set(earnedBadges.map((b) => b.id));
 
-    const allBadges = BADGES.map((badge) => {
+    const allBadges = BADGES.map((badge: { id: string; name: string; category: string; earnedAt?: any; earned?: boolean }) => {
       const earned = earnedBadges.find((b) => b.id === badge.id);
       return {
         ...badge,
@@ -133,14 +133,14 @@ router.get("/badges", async (req: AuthenticatedRequest, res: Response, next: Nex
       byCategory[b.category].push(b);
     });
 
-    res.json({
+    return res.json({
       totalEarned: earnedBadges.length,
       totalAvailable: BADGES.length,
       badges: allBadges,
       byCategory,
     });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 

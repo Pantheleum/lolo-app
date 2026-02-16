@@ -10,11 +10,19 @@ export interface AuthUser {
   tier: SubscriptionTier;
 }
 
-export interface AuthenticatedRequest extends Request {
-  user: AuthUser;
-  locale: SupportedLocale;
-  requestId: string;
+// Augment Express Request with auth properties (set by middleware)
+declare global {
+  namespace Express {
+    interface Request {
+      user: AuthUser;
+      locale: SupportedLocale;
+      requestId: string;
+    }
+  }
 }
+
+// Convenience type alias for routes that require auth middleware
+export type AuthenticatedRequest = Request;
 
 // --- Enums ---
 export type SupportedLocale = "en" | "ar" | "ms";
