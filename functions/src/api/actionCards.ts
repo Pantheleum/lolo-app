@@ -37,7 +37,7 @@ router.get("/daily", async (req: AuthenticatedRequest, res: Response, next: Next
     const response = { tier, maxCards, count: cards.length, date: today, cards };
 
     await redis.setex(cacheKey, 300, JSON.stringify(response));
-    res.json(response);
+    return res.json(response);
   } catch (err) {
     next(err);
   }
@@ -76,9 +76,9 @@ router.post("/:id/complete", async (req: AuthenticatedRequest, res: Response, ne
       cardId,
       status: "completed",
       xpAwarded: xpAmount,
-      totalXp: xpResult.totalXp,
+      totalXp: xpResult.newTotalXp,
       levelUp: xpResult.levelUp,
-      newBadges: xpResult.newBadges,
+      newBadges: xpResult.badgeEarned,
     });
   } catch (err) {
     next(err);

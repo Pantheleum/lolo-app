@@ -263,9 +263,9 @@ router.post("/complete", async (req: AuthenticatedRequest, res: Response, next: 
       status: "completed",
       durationSec,
       xpAwarded: 25,
-      totalXp: xpResult.totalXp,
+      totalXp: xpResult.newTotalXp,
       levelUp: xpResult.levelUp,
-      newBadges: xpResult.newBadges,
+      newBadges: xpResult.badgeEarned,
       memoryId,
     });
   } catch (err) {
