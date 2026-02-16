@@ -1,5 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
+
+/// Provider that checks whether the user has completed onboarding.
+final onboardingCompleteProvider = FutureProvider<bool>((ref) async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getBool('onboarding_complete') ?? false;
+});
 
 /// Route guard that handles authentication and onboarding redirects.
 ///
@@ -9,14 +18,11 @@ import 'package:go_router/go_router.dart';
 /// 3. If user IS authenticated and IS onboarded and on an auth route -> redirect to /
 /// 4. Otherwise -> no redirect (return null)
 String? routeGuard(Ref ref, GoRouterState state) {
-  // TODO: Replace with actual auth state provider reads
-  // final authState = ref.read(authProvider);
-  // final isAuthenticated = authState.isAuthenticated;
-  // final isOnboarded = authState.user?.onboardingComplete ?? false;
+  final authState = ref.read(authStateProvider);
+  final isAuthenticated = authState.valueOrNull != null;
 
-  // Placeholder: allow all routes during initial scaffold
-  const isAuthenticated = false;
-  const isOnboarded = false;
+  final isOnboarded =
+      ref.read(onboardingCompleteProvider).valueOrNull ?? false;
 
   final location = state.matchedLocation;
   final isAuthRoute =
