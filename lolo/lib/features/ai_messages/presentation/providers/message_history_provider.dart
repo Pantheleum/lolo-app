@@ -74,12 +74,6 @@ class MessageHistoryNotifier extends Notifier<MessageHistoryState> {
 
   /// Load the next page (infinite scroll).
   Future<void> loadNextPage() async {
-    final current = state;
-    if (current is! MessageHistoryState ||
-        current != state) {
-      return;
-    }
-
     // Check if current state is loaded with hasMore
     state.whenOrNull(
       loaded: (messages, hasMore, currentPage, isLoadingMore) async {

@@ -22,7 +22,7 @@ class HerProfileRemoteDataSource {
     String profileId,
     Map<String, dynamic> updates,
   ) async {
-    final response = await _dio.put(
+    await _dio.put(
       '${ApiEndpoints.profiles}/$profileId',
       data: updates,
     );

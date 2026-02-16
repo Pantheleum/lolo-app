@@ -25,7 +25,6 @@ class GiftsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final browseState = ref.watch(giftBrowseNotifierProvider);
     final filter = ref.watch(giftBrowseFilterProvider);
-    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: LoloAppBar(

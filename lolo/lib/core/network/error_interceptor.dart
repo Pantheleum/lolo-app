@@ -35,24 +35,24 @@ class ErrorInterceptor extends Interceptor {
 
     return switch (statusCode) {
       400 => NetworkException.badRequest(
-          message: errorMessage as String? ?? 'Invalid request',
-          code: errorCode as String?,
+          message: errorMessage ?? 'Invalid request',
+          code: errorCode,
         ),
       401 => const NetworkException.unauthorized(),
       403 => NetworkException.forbidden(
-          code: errorCode as String? ?? 'PERMISSION_DENIED',
-          message: errorMessage as String? ?? 'Access denied',
+          code: errorCode ?? 'PERMISSION_DENIED',
+          message: errorMessage ?? 'Access denied',
         ),
       404 => NetworkException.notFound(
-          message: errorMessage as String? ?? 'Not found',
+          message: errorMessage ?? 'Not found',
         ),
       409 => NetworkException.conflict(
-          message: errorMessage as String? ?? 'Conflict',
-          code: errorCode as String?,
+          message: errorMessage ?? 'Conflict',
+          code: errorCode,
         ),
       429 => const NetworkException.rateLimited(),
       500 || 502 || 503 => NetworkException.serverError(
-          message: errorMessage as String? ?? 'Server error',
+          message: errorMessage ?? 'Server error',
         ),
       _ => NetworkException.unknown(
           message: err.message ?? 'Unknown error',

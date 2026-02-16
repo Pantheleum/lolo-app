@@ -14,8 +14,6 @@ class SosPlanScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    final sosState = ref.watch(sosSessionNotifierProvider);
 
     return Scaffold(
       appBar: LoloAppBar(title: l10n.recoveryPlan),

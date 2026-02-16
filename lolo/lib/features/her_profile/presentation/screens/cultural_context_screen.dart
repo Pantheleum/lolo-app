@@ -192,7 +192,7 @@ class _CulturalContextScreenState
   }
 
   void _save() {
-    final culturalContext = CulturalContextEntity(
+    final _ = CulturalContextEntity(
       background: _background,
       religiousObservance: _religiousObservance,
       dialect: _dialect,

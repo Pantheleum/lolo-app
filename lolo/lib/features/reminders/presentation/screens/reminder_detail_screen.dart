@@ -19,7 +19,6 @@ class ReminderDetailScreen extends ConsumerWidget {
     final remindersAsync = ref.watch(remindersNotifierProvider);
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: LoloAppBar(

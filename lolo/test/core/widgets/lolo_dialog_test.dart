@@ -36,7 +36,8 @@ void main() {
     );
   }
 
-  Widget buildAppForShow() {
+  // ignore: unused_element
+  Widget _buildAppForShow() {
     return MaterialApp(
       home: const Scaffold(),
     );
