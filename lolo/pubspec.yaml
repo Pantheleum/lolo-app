@@ -103,6 +103,10 @@ dev_dependencies:
   mocktail: ^1.0.4
   golden_toolkit: ^0.15.0
 
+  # === Launcher Icons & Splash ===
+  flutter_launcher_icons: ^0.14.1
+  flutter_native_splash: ^2.4.0
+
 flutter:
   uses-material-design: true
   generate: true

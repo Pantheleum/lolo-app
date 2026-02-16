@@ -1,18 +1,10 @@
 /// Isar local database initialization.
 ///
-/// Used for structured data that needs querying:
-/// - Reminders (filter by date, type, status)
-/// - Memories (search, timeline, tags)
-/// - Wish list items
-///
-/// Fallback: If Isar proves unmaintained, migrate to Drift (SQLite).
+/// Currently a no-op. Structured local storage will use Hive for now.
+/// Isar/Drift integration deferred until offline-first features are prioritized.
 abstract final class IsarSetup {
   static Future<void> init() async {
-    // TODO: Initialize Isar with schemas once entity models are defined
-    // final dir = await getApplicationDocumentsDirectory();
-    // await Isar.open(
-    //   [ReminderSchema, MemorySchema, WishListItemSchema],
-    //   directory: dir.path,
-    // );
+    // No-op: Using Hive for local storage in MVP.
+    // Will initialize Isar/Drift when offline query features are needed.
   }
 }
