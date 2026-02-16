@@ -230,7 +230,7 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   void _handleLogout(BuildContext context, WidgetRef ref) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('Log Out'),
@@ -254,7 +254,7 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   void _handleDeleteAccount(BuildContext context, WidgetRef ref) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('Delete Account'),

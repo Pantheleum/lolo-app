@@ -45,7 +45,7 @@ class SosRepositoryImpl implements SosRepository {
     String? briefContext,
   }) async {
     try {
-      final res = await _dio.post('/sos/activate', data: {
+      final res = await _dio.post<dynamic>('/sos/activate', data: {
         'scenario': scenario,
         'urgency': urgency,
         if (briefContext != null) 'briefContext': briefContext,
@@ -82,7 +82,7 @@ class SosRepositoryImpl implements SosRepository {
     required Map<String, dynamic> answers,
   }) async {
     try {
-      final res = await _dio.post('/sos/assess', data: {
+      final res = await _dio.post<dynamic>('/sos/assess', data: {
         'sessionId': sessionId,
         'answers': answers,
       });
@@ -110,7 +110,7 @@ class SosRepositoryImpl implements SosRepository {
     required int stepNumber,
     String? userUpdate,
   }) async* {
-    final res = await _dio.post(
+    final res = await _dio.post<dynamic>(
       '/sos/coach',
       data: {
         'sessionId': sessionId,
@@ -169,7 +169,7 @@ class SosRepositoryImpl implements SosRepository {
     int? rating,
   }) async {
     try {
-      await _dio.post('/sos/resolve', data: {
+      await _dio.post<dynamic>('/sos/resolve', data: {
         'sessionId': sessionId,
         'outcome': outcome,
         if (rating != null) 'rating': rating,

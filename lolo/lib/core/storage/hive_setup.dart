@@ -7,18 +7,18 @@ import 'package:lolo/core/constants/hive_box_names.dart';
 abstract final class HiveSetup {
   static Future<void> init() async {
     // Settings (locale, theme, notification preferences)
-    await Hive.openBox(HiveBoxNames.settings);
+    await Hive.openBox<dynamic>(HiveBoxNames.settings);
 
     // Onboarding draft (partial progress persistence)
-    await Hive.openBox(HiveBoxNames.onboardingDraft);
+    await Hive.openBox<dynamic>(HiveBoxNames.onboardingDraft);
 
     // Message history cache
-    await Hive.openBox(HiveBoxNames.messageCache);
+    await Hive.openBox<dynamic>(HiveBoxNames.messageCache);
 
     // Action cards cache (today's cards for offline)
-    await Hive.openBox(HiveBoxNames.actionCardsCache);
+    await Hive.openBox<dynamic>(HiveBoxNames.actionCardsCache);
 
     // General API response cache
-    await Hive.openBox(HiveBoxNames.apiCache);
+    await Hive.openBox<dynamic>(HiveBoxNames.apiCache);
   }
 }

@@ -21,7 +21,7 @@ class LocaleNotifier extends StateNotifier<Locale> {
   LocaleNotifier() : super(_initialLocale());
 
   static Locale _initialLocale() {
-    final box = Hive.box(_kSettingsBox);
+    final box = Hive.box<dynamic>(_kSettingsBox);
     final stored = box.get(_kLocaleKey, defaultValue: 'en') as String;
     return Locale(stored);
   }
@@ -31,7 +31,7 @@ class LocaleNotifier extends StateNotifier<Locale> {
   /// Persists to Hive and triggers a full widget tree rebuild
   /// via MaterialApp.locale.
   void setLocale(Locale locale) {
-    final box = Hive.box(_kSettingsBox);
+    final box = Hive.box<dynamic>(_kSettingsBox);
     box.put(_kLocaleKey, locale.languageCode);
     state = locale;
   }
@@ -58,13 +58,13 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
   ThemeModeNotifier() : super(_initialThemeMode());
 
   static ThemeMode _initialThemeMode() {
-    final box = Hive.box(_kSettingsBox);
+    final box = Hive.box<dynamic>(_kSettingsBox);
     final stored = box.get(_kThemeKey, defaultValue: 'dark') as String;
     return stored == 'light' ? ThemeMode.light : ThemeMode.dark;
   }
 
   void setThemeMode(ThemeMode mode) {
-    final box = Hive.box(_kSettingsBox);
+    final box = Hive.box<dynamic>(_kSettingsBox);
     box.put(_kThemeKey, mode == ThemeMode.light ? 'light' : 'dark');
     state = mode;
   }

@@ -15,7 +15,7 @@ class MemoryRemoteDataSource {
     int page = 1,
     int pageSize = 20,
   }) async {
-    final response = await _dio.get(
+    final response = await _dio.get<dynamic>(
       ApiEndpoints.memories,
       queryParameters: {
         'page': page,
@@ -30,7 +30,7 @@ class MemoryRemoteDataSource {
 
   /// GET /memories/:id
   Future<Map<String, dynamic>> getMemory(String id) async {
-    final response = await _dio.get(ApiEndpoints.memoryById(id));
+    final response = await _dio.get<dynamic>(ApiEndpoints.memoryById(id));
     return response.data['data'] as Map<String, dynamic>;
   }
 
@@ -38,7 +38,7 @@ class MemoryRemoteDataSource {
   Future<Map<String, dynamic>> createMemory(
     Map<String, dynamic> memoryData,
   ) async {
-    final response = await _dio.post(
+    final response = await _dio.post<dynamic>(
       ApiEndpoints.memories,
       data: memoryData,
     );
@@ -50,7 +50,7 @@ class MemoryRemoteDataSource {
     String id,
     Map<String, dynamic> memoryData,
   ) async {
-    final response = await _dio.put(
+    final response = await _dio.put<dynamic>(
       ApiEndpoints.memoryById(id),
       data: memoryData,
     );
@@ -59,12 +59,12 @@ class MemoryRemoteDataSource {
 
   /// DELETE /memories/:id
   Future<void> deleteMemory(String id) async {
-    await _dio.delete(ApiEndpoints.memoryById(id));
+    await _dio.delete<dynamic>(ApiEndpoints.memoryById(id));
   }
 
   /// GET /memories/search
   Future<List<Map<String, dynamic>>> searchMemories(String query) async {
-    final response = await _dio.get(
+    final response = await _dio.get<dynamic>(
       ApiEndpoints.memoriesSearch,
       queryParameters: {'q': query},
     );
@@ -74,7 +74,7 @@ class MemoryRemoteDataSource {
 
   /// GET /memories/timeline
   Future<List<Map<String, dynamic>>> getTimeline() async {
-    final response = await _dio.get(ApiEndpoints.memoriesTimeline);
+    final response = await _dio.get<dynamic>(ApiEndpoints.memoriesTimeline);
     return (response.data['data'] as List)
         .cast<Map<String, dynamic>>();
   }

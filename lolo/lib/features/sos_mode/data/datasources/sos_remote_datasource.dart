@@ -17,7 +17,7 @@ class SosRemoteDataSource {
     required String scenario,
     required String urgency,
   }) async {
-    final response = await _dio.post(
+    final response = await _dio.post<dynamic>(
       ApiEndpoints.sosActivate,
       data: {'scenario': scenario, 'urgency': urgency},
     );
@@ -29,7 +29,7 @@ class SosRemoteDataSource {
     required String sessionId,
     required Map<String, dynamic> answers,
   }) async {
-    final response = await _dio.post(
+    final response = await _dio.post<dynamic>(
       ApiEndpoints.sosAssess,
       data: {'sessionId': sessionId, ...answers},
     );
@@ -77,7 +77,7 @@ class SosRemoteDataSource {
     String? resolution,
     bool saveToMemoryVault = false,
   }) async {
-    await _dio.put(
+    await _dio.put<dynamic>(
       ApiEndpoints.sosSession(sessionId),
       data: {
         'rating': rating,
@@ -89,7 +89,7 @@ class SosRemoteDataSource {
 
   /// GET /sos/:id
   Future<Map<String, dynamic>> getSession(String sessionId) async {
-    final response = await _dio.get(ApiEndpoints.sosSession(sessionId));
+    final response = await _dio.get<dynamic>(ApiEndpoints.sosSession(sessionId));
     return response.data['data'] as Map<String, dynamic>;
   }
 }

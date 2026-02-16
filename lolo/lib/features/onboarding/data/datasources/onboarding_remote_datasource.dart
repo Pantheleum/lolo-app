@@ -21,7 +21,7 @@ class OnboardingRemoteDataSource {
     required String displayName,
     required String language,
   }) async {
-    final response = await _dio.post(
+    final response = await _dio.post<dynamic>(
       ApiEndpoints.authRegister,
       data: {
         'email': email,
@@ -37,7 +37,7 @@ class OnboardingRemoteDataSource {
   Future<Map<String, dynamic>> createProfile(
     OnboardingDataModel model,
   ) async {
-    final response = await _dio.post(
+    final response = await _dio.post<dynamic>(
       ApiEndpoints.profiles,
       data: model.toProfilePayload(),
     );
@@ -46,7 +46,7 @@ class OnboardingRemoteDataSource {
 
   /// Mark onboarding as complete on the user's auth profile.
   Future<void> markOnboardingComplete() async {
-    await _dio.put(
+    await _dio.put<dynamic>(
       ApiEndpoints.authProfile,
       data: {'onboardingComplete': true},
     );

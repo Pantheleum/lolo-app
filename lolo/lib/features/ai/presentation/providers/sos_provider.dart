@@ -156,7 +156,7 @@ class SosSession extends Notifier<SosSessionState> {
             );
         }
       },
-      onError: (e) {
+      onError: (Object e) {
         state = SosSessionState.error(e.toString());
       },
     );

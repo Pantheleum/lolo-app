@@ -23,7 +23,7 @@ class GamificationRepositoryImpl implements GamificationRepository {
   @override
   Future<Either<Failure, GamificationProfile>> getProfile() async {
     try {
-      final res = await _dio.get('/gamification/profile');
+      final res = await _dio.get<dynamic>('/gamification/profile');
       final d = res.data['data'] as Map<String, dynamic>;
       final level = d['level'] as Map<String, dynamic>;
       final streak = d['streak'] as Map<String, dynamic>;
@@ -53,7 +53,7 @@ class GamificationRepositoryImpl implements GamificationRepository {
   @override
   Future<Either<Failure, ({List<BadgeEntity> earned, List<BadgeEntity> unearned})>> getBadges() async {
     try {
-      final res = await _dio.get('/gamification/badges');
+      final res = await _dio.get<dynamic>('/gamification/badges');
       final d = res.data['data'] as Map<String, dynamic>;
       final earned = (d['earned'] as List).map((b) => _mapBadge(b as Map<String, dynamic>)).toList();
       final unearned = (d['unearned'] as List).map((b) => _mapBadge(b as Map<String, dynamic>)).toList();
@@ -66,7 +66,7 @@ class GamificationRepositoryImpl implements GamificationRepository {
   @override
   Future<Either<Failure, StreakEntity>> getStreak() async {
     try {
-      final res = await _dio.get('/gamification/streak');
+      final res = await _dio.get<dynamic>('/gamification/streak');
       final d = res.data['data'] as Map<String, dynamic>;
       final f = d['freezes'] as Map<String, dynamic>;
       final milestones = (d['milestones'] as List).map((m) => StreakMilestone(

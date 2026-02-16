@@ -172,7 +172,7 @@ class ReminderDetailScreen extends ConsumerWidget {
   void _showSnoozeSheet(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       builder: (ctx) => Padding(
         padding: const EdgeInsets.all(LoloSpacing.spaceXl),

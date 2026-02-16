@@ -25,7 +25,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   Future<Either<Failure, DailyCardsSummary>> getDailyCards({String? date}) async {
     try {
       final query = date != null ? {'date': date} : null;
-      final res = await _dio.get('/action-cards', queryParameters: query);
+      final res = await _dio.get<dynamic>('/action-cards', queryParameters: query);
       final data = res.data['data'] as Map<String, dynamic>;
       final cards = (data['cards'] as List).map((c) => _mapCard(c as Map<String, dynamic>)).toList();
       final summary = data['summary'] as Map<String, dynamic>;
@@ -43,7 +43,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   @override
   Future<Either<Failure, ActionCardEntity>> completeCard(String id, {String? notes}) async {
     try {
-      final res = await _dio.post('/action-cards/$id/complete', data: {'notes': notes});
+      final res = await _dio.post<dynamic>('/action-cards/$id/complete', data: {'notes': notes});
       return Right(_mapCard(res.data['data'] as Map<String, dynamic>));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -53,7 +53,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   @override
   Future<Either<Failure, ActionCardEntity>> skipCard(String id, {String? reason}) async {
     try {
-      final res = await _dio.post('/action-cards/$id/skip', data: {'reason': reason});
+      final res = await _dio.post<dynamic>('/action-cards/$id/skip', data: {'reason': reason});
       return Right(_mapCard(res.data['data'] as Map<String, dynamic>));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -63,7 +63,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   @override
   Future<Either<Failure, void>> saveCard(String id) async {
     try {
-      await _dio.post('/action-cards/$id/save');
+      await _dio.post<dynamic>('/action-cards/$id/save');
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -73,7 +73,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   @override
   Future<Either<Failure, List<ActionCardEntity>>> getSavedCards() async {
     try {
-      final res = await _dio.get('/action-cards/saved');
+      final res = await _dio.get<dynamic>('/action-cards/saved');
       final list = (res.data['data'] as List).map((c) => _mapCard(c as Map<String, dynamic>)).toList();
       return Right(list);
     } catch (e) {
@@ -87,7 +87,7 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
     int limit = 20,
   }) async {
     try {
-      final res = await _dio.get('/action-cards/history', queryParameters: {
+      final res = await _dio.get<dynamic>('/action-cards/history', queryParameters: {
         if (status != null) 'status': status,
         'limit': limit,
       });

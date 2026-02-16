@@ -185,7 +185,7 @@ class _StreakCard extends StatelessWidget {
   }
 
   void _showFreezeDialog(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Use Streak Freeze?'),

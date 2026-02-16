@@ -53,7 +53,7 @@ class ApiInterceptor extends Interceptor {
         final token = await SecureStorageService.getAuthToken();
         err.requestOptions.headers['Authorization'] = 'Bearer $token';
         try {
-          final response = await Dio().fetch(err.requestOptions);
+          final response = await Dio().fetch<dynamic>(err.requestOptions);
           return handler.resolve(response);
         } on DioException catch (retryError) {
           return handler.next(retryError);
@@ -68,7 +68,7 @@ class ApiInterceptor extends Interceptor {
       final refreshToken = await SecureStorageService.getRefreshToken();
       if (refreshToken == null) return false;
 
-      final response = await Dio().post(
+      final response = await Dio().post<dynamic>(
         '${AppConstants.baseUrl}/auth/refresh-token',
         data: {'refreshToken': refreshToken},
       );

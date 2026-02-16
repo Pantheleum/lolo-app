@@ -113,7 +113,7 @@ class BadgeGrid extends StatelessWidget {
   }
 
   void _showBadgeDetail(BuildContext context, BadgeEntity badge, Color color) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       builder: (ctx) {
         final theme = Theme.of(ctx);

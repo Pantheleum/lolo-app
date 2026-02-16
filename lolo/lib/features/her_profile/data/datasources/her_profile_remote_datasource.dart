@@ -11,7 +11,7 @@ class HerProfileRemoteDataSource {
 
   /// GET /profiles/:id
   Future<PartnerProfileModel> getProfile(String profileId) async {
-    final response = await _dio.get('${ApiEndpoints.profiles}/$profileId');
+    final response = await _dio.get<dynamic>('${ApiEndpoints.profiles}/$profileId');
     return PartnerProfileModel.fromJson(
       response.data['data'] as Map<String, dynamic>,
     );
@@ -22,7 +22,7 @@ class HerProfileRemoteDataSource {
     String profileId,
     Map<String, dynamic> updates,
   ) async {
-    await _dio.put(
+    await _dio.put<dynamic>(
       '${ApiEndpoints.profiles}/$profileId',
       data: updates,
     );
@@ -35,7 +35,7 @@ class HerProfileRemoteDataSource {
     String profileId,
     Map<String, dynamic> preferences,
   ) async {
-    final response = await _dio.put(
+    final response = await _dio.put<dynamic>(
       '${ApiEndpoints.profiles}/$profileId/preferences',
       data: preferences,
     );
@@ -47,7 +47,7 @@ class HerProfileRemoteDataSource {
     String profileId,
     Map<String, dynamic> context,
   ) async {
-    final response = await _dio.put(
+    final response = await _dio.put<dynamic>(
       '${ApiEndpoints.profiles}/$profileId/cultural-context',
       data: context,
     );
@@ -56,7 +56,7 @@ class HerProfileRemoteDataSource {
 
   /// GET /profiles/:id/zodiac-defaults?sign=scorpio
   Future<Map<String, dynamic>> getZodiacDefaults(String sign) async {
-    final response = await _dio.get(
+    final response = await _dio.get<dynamic>(
       '${ApiEndpoints.profiles}/zodiac-defaults',
       queryParameters: {'sign': sign},
     );

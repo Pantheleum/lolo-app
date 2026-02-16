@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 /// Use this for caching API responses and storing app preferences.
 /// For structured data (queries, indexes), use Isar instead.
 class LocalStorageService {
-  final Box _box;
+  final Box<dynamic> _box;
 
   LocalStorageService(this._box);
 

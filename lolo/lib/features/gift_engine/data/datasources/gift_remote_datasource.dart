@@ -17,7 +17,7 @@ class GiftRemoteDataSource {
     String? searchQuery,
     bool? lowBudgetOnly,
   }) async {
-    final response = await _dio.get(
+    final response = await _dio.get<dynamic>(
       ApiEndpoints.giftsCategories,
       queryParameters: {
         'page': page,
@@ -36,7 +36,7 @@ class GiftRemoteDataSource {
 
   /// GET /gifts/categories/:id — get a single gift by ID.
   Future<GiftRecommendationModel> getGiftById(String id) async {
-    final response = await _dio.get('${ApiEndpoints.giftsCategories}/$id');
+    final response = await _dio.get<dynamic>('${ApiEndpoints.giftsCategories}/$id');
     return GiftRecommendationModel.fromJson(
       response.data['data'] as Map<String, dynamic>,
     );
@@ -44,7 +44,7 @@ class GiftRemoteDataSource {
 
   /// POST /gifts/recommend — get AI-powered recommendations.
   Future<List<GiftRecommendationModel>> getAiRecommendations() async {
-    final response = await _dio.post(ApiEndpoints.giftsRecommend);
+    final response = await _dio.post<dynamic>(ApiEndpoints.giftsRecommend);
     final dataList = response.data['data'] as List;
     return dataList
         .map((e) =>
@@ -54,7 +54,7 @@ class GiftRemoteDataSource {
 
   /// POST /gifts/wishlist — toggle save/favorite on a gift.
   Future<void> toggleSave(String giftId) async {
-    await _dio.post(
+    await _dio.post<dynamic>(
       ApiEndpoints.giftsWishlist,
       data: {'giftId': giftId},
     );
@@ -65,7 +65,7 @@ class GiftRemoteDataSource {
     required String giftId,
     required bool liked,
   }) async {
-    await _dio.post(
+    await _dio.post<dynamic>(
       ApiEndpoints.giftFeedback(giftId),
       data: {'liked': liked},
     );
@@ -74,7 +74,7 @@ class GiftRemoteDataSource {
   /// GET /gifts/categories/:id/related — get related gifts.
   Future<List<GiftRecommendationModel>> getRelatedGifts(String giftId) async {
     final response =
-        await _dio.get('${ApiEndpoints.giftsCategories}/$giftId/related');
+        await _dio.get<dynamic>('${ApiEndpoints.giftsCategories}/$giftId/related');
     final dataList = response.data['data'] as List;
     return dataList
         .map((e) =>
@@ -89,7 +89,7 @@ class GiftRemoteDataSource {
     bool? likedOnly,
     bool? dislikedOnly,
   }) async {
-    final response = await _dio.get(
+    final response = await _dio.get<dynamic>(
       ApiEndpoints.giftsHistory,
       queryParameters: {
         'page': page,

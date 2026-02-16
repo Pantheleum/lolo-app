@@ -14,7 +14,7 @@ class RemindersRemoteDataSource {
     int limit = 20,
     String? lastDocId,
   }) async {
-    final response = await _dio.get(
+    final response = await _dio.get<dynamic>(
       ApiEndpoints.reminders,
       queryParameters: {
         if (type != null) 'type': type,
@@ -31,7 +31,7 @@ class RemindersRemoteDataSource {
 
   /// GET /reminders/upcoming
   Future<List<ReminderModel>> getUpcomingReminders({int days = 7}) async {
-    final response = await _dio.get(
+    final response = await _dio.get<dynamic>(
       '${ApiEndpoints.reminders}/upcoming',
       queryParameters: {'days': days},
     );
@@ -43,7 +43,7 @@ class RemindersRemoteDataSource {
 
   /// POST /reminders
   Future<ReminderModel> createReminder(ReminderModel model) async {
-    final response = await _dio.post(
+    final response = await _dio.post<dynamic>(
       ApiEndpoints.reminders,
       data: model.toCreatePayload(),
     );
@@ -57,7 +57,7 @@ class RemindersRemoteDataSource {
     String id,
     Map<String, dynamic> updates,
   ) async {
-    final response = await _dio.put(
+    final response = await _dio.put<dynamic>(
       '${ApiEndpoints.reminders}/$id',
       data: updates,
     );
@@ -68,12 +68,12 @@ class RemindersRemoteDataSource {
 
   /// DELETE /reminders/:id
   Future<void> deleteReminder(String id) async {
-    await _dio.delete('${ApiEndpoints.reminders}/$id');
+    await _dio.delete<dynamic>('${ApiEndpoints.reminders}/$id');
   }
 
   /// POST /reminders/:id/complete
   Future<ReminderModel> completeReminder(String id, {String? notes}) async {
-    final response = await _dio.post(
+    final response = await _dio.post<dynamic>(
       '${ApiEndpoints.reminders}/$id/complete',
       data: {if (notes != null) 'notes': notes},
     );
@@ -84,7 +84,7 @@ class RemindersRemoteDataSource {
 
   /// POST /reminders/:id/snooze
   Future<ReminderModel> snoozeReminder(String id, String duration) async {
-    final response = await _dio.post(
+    final response = await _dio.post<dynamic>(
       '${ApiEndpoints.reminders}/$id/snooze',
       data: {'duration': duration},
     );
