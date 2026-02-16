@@ -1,20 +1,5 @@
 {
   "projects": {
-    "default": "lolo-app-dev",
-    "dev": "lolo-app-dev",
-    "staging": "lolo-app-staging",
-    "prod": "lolo-app-prod"
-  },
-  "targets": {
-    "lolo-app-prod": {
-      "hosting": {
-        "admin": ["lolo-admin-prod"]
-      }
-    },
-    "lolo-app-staging": {
-      "hosting": {
-        "admin": ["lolo-admin-staging"]
-      }
-    }
+    "default": "lolo-3228d"
   }
 }

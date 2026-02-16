@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "584207462164",
+    "project_id": "lolo-3228d",
+    "storage_bucket": "lolo-3228d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584207462164:android:26e27745d2e2ce69331c01",
+        "android_client_info": {
+          "package_name": "com.lolo.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584207462164-k08tqk6hlbj0cvkaugqkhh0u1mjvaidn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAMFqMPg8790Ubj7X1Icqlq63AAwKR8OI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584207462164-k08tqk6hlbj0cvkaugqkhh0u1mjvaidn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
