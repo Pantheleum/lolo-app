@@ -1,0 +1,2 @@
+RIVE_PLACEHOLDER - This is not a valid .rive file.
+Replace with actual .rive animation file.
