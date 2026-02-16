@@ -240,21 +240,44 @@ Launch campaign, deployment runbook, and go/no-go assessment complete. CONDITION
 
 ### Backend (`functions/`)
 - **TypeScript files:** 36
-- **API routes:** 11 modules + webhook
+- **TypeScript errors:** 0
+- **Backend build:** Compiles cleanly
+- **API routes:** 15 modules + webhook (account, profiles, reminders, messages, gifts, sos, gamification, actionCards, memories, settings, notifications, subscriptions)
 - **AI providers:** 4 (Claude, Grok, Gemini, GPT)
 - **Scheduled jobs:** 4 (dailyCards, reminderCheck, streakUpdate, subscriptionExpiry)
 - **Services:** 7 (gamification, notification, encryption, subscription, calendar, recurrence, notification scheduler)
+- **Dependencies:** Installed (377 packages, 0 vulnerabilities)
+
+### Tests
+- **Flutter tests:** 288 tests, all passing
+- **CI/CD:** GitHub Actions (flutter analyze + test + backend lint + build)
 
 ### Infrastructure
+- Firebase project: `lolo-3228d` (configured)
 - Firebase config files: 5 (.firebaserc, firebase.json, firestore.rules, firestore.indexes.json, storage.rules)
+- Android: google-services.json (com.lolo.app)
+- iOS: GoogleService-Info.plist (com.lolo.app)
+- Package/Bundle ID: com.lolo.app (aligned across Android, iOS, Firebase)
+- Google Services Gradle plugin: v4.4.2
 - PostgreSQL analytics schema: sql/schema.sql
 - Asset directories: 9 (with .gitkeep)
-- CI/CD: GitHub Actions (in progress)
+- Old Android/Kotlin boilerplate: Removed
+
+### Completed Setup Tasks
+- [x] Create Firebase project and add google-services.json / GoogleService-Info.plist
+- [x] Align Android applicationId + iOS bundle ID with Firebase (com.lolo.app)
+- [x] Add Google Services Gradle plugin
+- [x] Run `cd functions && npm install`
+- [x] Build backend TypeScript (0 errors)
+- [x] Create .env.example template
+- [x] Remove old Android/Kotlin boilerplate
 
 ### Remaining Setup Tasks
-- [ ] Create Firebase project and add google-services.json / GoogleService-Info.plist
-- [ ] Run `cd functions && npm install`
 - [ ] Download fonts (Inter, Cairo, Noto Naskh Arabic, Noto Sans) to assets/fonts/
 - [ ] Set up Firebase emulators for local development
 - [ ] Configure RevenueCat project
 - [ ] Set up AI provider API keys in functions/.env
+- [ ] Set up Firebase Authentication providers (Google, Apple) in Firebase Console
+- [ ] Deploy Firestore rules + indexes (`firebase deploy --only firestore`)
+- [ ] Deploy Storage rules (`firebase deploy --only storage`)
+- [ ] Deploy Cloud Functions (`firebase deploy --only functions`)
