@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -42,7 +41,6 @@ import 'package:lolo/features/memory_vault/presentation/screens/memories_screen.
 import 'package:lolo/features/her_profile/presentation/screens/her_profile_screen.dart';
 import 'package:lolo/features/her_profile/presentation/screens/profile_edit_screen.dart';
 import 'package:lolo/features/her_profile/presentation/screens/preferences_screen.dart';
-import 'package:lolo/features/her_profile/presentation/screens/cultural_context_screen.dart';
 
 // Settings
 import 'package:lolo/features/settings/presentation/screens/settings_screen.dart';

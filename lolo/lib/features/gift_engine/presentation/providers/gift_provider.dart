@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 import 'package:lolo/features/gift_engine/domain/repositories/gift_repository.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_state.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_filter_provider.dart';

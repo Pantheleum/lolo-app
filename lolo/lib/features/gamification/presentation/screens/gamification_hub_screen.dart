@@ -5,7 +5,6 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_skeleton.dart';
 import 'package:lolo/features/gamification/domain/entities/gamification_profile.dart';
-import 'package:lolo/features/gamification/domain/entities/badge_entity.dart';
 import 'package:lolo/features/gamification/presentation/providers/gamification_providers.dart';
 import 'package:lolo/features/gamification/presentation/widgets/xp_progress_bar.dart';
 import 'package:lolo/features/gamification/presentation/widgets/badge_grid.dart';

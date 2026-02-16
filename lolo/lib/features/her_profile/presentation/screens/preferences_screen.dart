@@ -6,7 +6,6 @@ import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_chip_group.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/core/widgets/lolo_text_field.dart';
-import 'package:lolo/features/her_profile/presentation/providers/her_profile_provider.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Preferences screen: love language chips, interests, triggers.

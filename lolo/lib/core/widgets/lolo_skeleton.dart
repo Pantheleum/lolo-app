@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_gradients.dart';
 
 /// Skeleton shimmer variant templates.

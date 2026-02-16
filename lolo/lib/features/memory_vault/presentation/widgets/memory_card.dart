@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/features/memory_vault/domain/entities/memory.dart';
-import 'package:lolo/features/memory_vault/domain/entities/memory_category.dart';
 import 'package:lolo/features/memory_vault/presentation/widgets/mood_selector.dart';
 
 /// Card for displaying a memory in grid or list view.

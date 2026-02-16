@@ -6,7 +6,6 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_avatar.dart';
 import 'package:lolo/core/widgets/lolo_toggle.dart';
-import 'package:lolo/core/widgets/lolo_dialog.dart';
 import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
 import 'package:lolo/features/settings/presentation/providers/settings_provider.dart';
 

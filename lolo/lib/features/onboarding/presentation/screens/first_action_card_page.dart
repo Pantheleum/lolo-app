@@ -6,7 +6,6 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/theme/lolo_gradients.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/features/onboarding/presentation/providers/onboarding_provider.dart';
-import 'package:lolo/features/onboarding/presentation/providers/onboarding_state.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Step 7: First AI-generated action card with typewriter animation.

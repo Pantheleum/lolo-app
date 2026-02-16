@@ -10,7 +10,6 @@ import 'package:lolo/core/widgets/paginated_list_view.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_filter_provider.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_provider.dart';
-import 'package:lolo/features/gift_engine/presentation/providers/gift_state.dart';
 
 /// Screen 25: Gift History.
 ///

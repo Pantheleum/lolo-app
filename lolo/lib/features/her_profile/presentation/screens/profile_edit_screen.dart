@@ -4,7 +4,6 @@ import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
-import 'package:lolo/core/widgets/lolo_slider.dart';
 import 'package:lolo/features/her_profile/presentation/providers/her_profile_provider.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 

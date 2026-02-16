@@ -3,9 +3,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:lolo/core/constants/api_endpoints.dart';
-import 'package:lolo/features/sos_mode/domain/entities/sos_session.dart';
-import 'package:lolo/features/sos_mode/domain/entities/sos_assessment.dart';
-import 'package:lolo/features/sos_mode/domain/entities/coaching_step.dart';
 
 /// Remote data source for SOS Mode.
 ///

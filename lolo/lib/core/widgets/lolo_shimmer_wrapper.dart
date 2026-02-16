@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_gradients.dart';
 
 /// A shimmer effect wrapper that applies a sweeping gradient animation

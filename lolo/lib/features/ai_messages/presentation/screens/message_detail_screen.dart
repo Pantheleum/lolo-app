@@ -6,7 +6,6 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/features/ai_messages/domain/entities/generated_message_entity.dart';
 import 'package:lolo/features/ai_messages/presentation/providers/message_provider.dart';
-import 'package:lolo/features/ai_messages/presentation/providers/message_state.dart';
 import 'package:lolo/features/ai_messages/presentation/widgets/message_result_card.dart';
 import 'package:lolo/features/ai_messages/presentation/widgets/copy_share_bar.dart';
 import 'package:lolo/features/ai_messages/presentation/widgets/message_feedback_widget.dart';

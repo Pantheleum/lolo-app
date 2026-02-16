@@ -7,7 +7,6 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/gift_card.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_provider.dart';
-import 'package:lolo/features/gift_engine/presentation/providers/gift_state.dart';
 
 /// Screen 24: Gift Detail.
 ///
@@ -69,7 +68,6 @@ class _GiftDetailBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return CustomScrollView(
       slivers: [
@@ -350,8 +348,7 @@ class _ActionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Row(
       children: [

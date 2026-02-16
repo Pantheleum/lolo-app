@@ -10,7 +10,6 @@ import 'package:lolo/core/widgets/paginated_list_view.dart';
 import 'package:lolo/features/ai_messages/domain/entities/generated_message_entity.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
 import 'package:lolo/features/ai_messages/presentation/providers/message_history_provider.dart';
-import 'package:lolo/features/ai_messages/presentation/providers/message_state.dart';
 import 'package:share_plus/share_plus.dart';
 
 /// Screen 22: Message History.

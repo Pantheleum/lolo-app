@@ -5,7 +5,6 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/features/her_profile/domain/entities/cultural_context_entity.dart';
-import 'package:lolo/features/her_profile/presentation/providers/her_profile_provider.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Cultural context screen: religion dropdown, holidays, dietary chips.
@@ -58,7 +57,6 @@ class _CulturalContextScreenState
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: LoloAppBar(
@@ -194,7 +192,7 @@ class _CulturalContextScreenState
   }
 
   void _save() {
-    final context = CulturalContextEntity(
+    final culturalContext = CulturalContextEntity(
       background: _background,
       religiousObservance: _religiousObservance,
       dialect: _dialect,

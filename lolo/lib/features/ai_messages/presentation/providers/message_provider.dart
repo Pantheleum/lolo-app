@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lolo/features/ai_messages/domain/entities/generated_message_entity.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_request_entity.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_tone.dart';

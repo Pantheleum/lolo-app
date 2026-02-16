@@ -4,8 +4,6 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
-import 'package:lolo/core/widgets/lolo_primary_button.dart';
-import 'package:lolo/features/subscription/domain/entities/subscription_entity.dart';
 import 'package:lolo/features/subscription/presentation/providers/subscription_providers.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
@@ -102,7 +100,6 @@ class _TierComparison extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context);
 
     const features = [
       ('AI Messages', '5/mo', '100/mo', 'Unlimited'),

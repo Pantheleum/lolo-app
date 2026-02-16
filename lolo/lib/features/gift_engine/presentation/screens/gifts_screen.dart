@@ -12,7 +12,6 @@ import 'package:lolo/features/gift_engine/domain/entities/gift_category.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_filter_provider.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_provider.dart';
-import 'package:lolo/features/gift_engine/presentation/providers/gift_state.dart';
 
 /// Screen 23: Gift Browse.
 ///
@@ -27,7 +26,6 @@ class GiftsScreen extends ConsumerWidget {
     final browseState = ref.watch(giftBrowseNotifierProvider);
     final filter = ref.watch(giftBrowseFilterProvider);
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: LoloAppBar(
