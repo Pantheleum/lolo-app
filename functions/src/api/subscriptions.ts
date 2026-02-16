@@ -40,7 +40,7 @@ router.get("/status", async (req: AuthenticatedRequest, res: Response, next: Nex
     };
 
     await redis.setex(cacheKey, 120, JSON.stringify(response));
-    res.json(response);
+    return res.json(response);
   } catch (err) {
     next(err);
   }
@@ -161,7 +161,7 @@ router.get("/offerings", async (req: AuthenticatedRequest, res: Response, next: 
     };
 
     await redis.setex(cacheKey, 3600, JSON.stringify(offerings));
-    res.json(offerings);
+    return res.json(offerings);
   } catch (err) {
     next(err);
   }

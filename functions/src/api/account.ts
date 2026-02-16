@@ -232,7 +232,7 @@ router.get("/profile", authMiddleware, async (req: AuthenticatedRequest, res: Re
     };
 
     await redis.setex(cacheKey, 300, JSON.stringify(profile));
-    res.json({ data: profile });
+    return res.json({ data: profile });
   } catch (err) {
     next(err);
   }

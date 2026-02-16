@@ -200,7 +200,7 @@ router.get("/", async (req: AuthenticatedRequest, res: Response, next: NextFunct
     if (cacheKey) {
       await redis.setex(cacheKey, 120, JSON.stringify(response));
     }
-    res.json(response);
+    return res.json(response);
   } catch (err) {
     next(err);
   }
@@ -671,7 +671,7 @@ router.get("/timeline", async (req: AuthenticatedRequest, res: Response, next: N
     };
 
     await redis.setex(cacheKey, 300, JSON.stringify(response));
-    res.json(response);
+    return res.json(response);
   } catch (err) {
     next(err);
   }
@@ -756,7 +756,7 @@ router.get("/wishlist", async (req: AuthenticatedRequest, res: Response, next: N
     if (!lastDocId) {
       await redis.setex(cacheKey, 300, JSON.stringify(response));
     }
-    res.json(response);
+    return res.json(response);
   } catch (err) {
     next(err);
   }

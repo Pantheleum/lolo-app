@@ -185,7 +185,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     }
 
     await markProcessed(eventId);
-    res.status(200).json({ status: "ok", eventId });
+    return res.status(200).json({ status: "ok", eventId });
   } catch (err) {
     next(err);
   }

@@ -152,7 +152,7 @@ router.get("/", async (req: AuthenticatedRequest, res: Response, next: NextFunct
     };
 
     await redis.setex(cacheKey, 120, JSON.stringify(response));
-    res.json(response);
+    return res.json(response);
   } catch (err) {
     next(err);
   }
@@ -609,7 +609,7 @@ router.get("/upcoming", async (req: AuthenticatedRequest, res: Response, next: N
     };
 
     await redis.setex(cacheKey, 60, JSON.stringify(response));
-    res.json(response);
+    return res.json(response);
   } catch (err) {
     if (err instanceof AppError) return next(err);
     next(err);
