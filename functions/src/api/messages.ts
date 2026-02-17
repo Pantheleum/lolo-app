@@ -50,8 +50,12 @@ router.post("/generate", async (req: AuthenticatedRequest, res: Response, next: 
     const msgLanguage = language || req.locale || "en";
     const humor = humorLevel || 50;
 
-    const lengthGuide = msgLength === "short" ? "1-2 sentences" :
-      msgLength === "long" ? "4-6 sentences" : "2-3 sentences";
+    // Explicit length constraints with word counts + token limits
+    const lengthConfig = msgLength === "short"
+      ? { guide: "MAXIMUM 1-2 short sentences. Keep it under 25 words total. Think text message — punchy, brief, impactful. Do NOT write more than 2 sentences.", maxTokens: 80 }
+      : msgLength === "long"
+        ? { guide: "Write 5-8 sentences, a full heartfelt paragraph. Aim for 80-150 words. Take your time, build emotion, let the feelings breathe. This should feel like a love letter.", maxTokens: 500 }
+        : { guide: "Write 2-4 sentences. Aim for 30-60 words. Enough to express the feeling fully but still concise.", maxTokens: 200 };
 
     // Build rich cultural context based on language + nationality
     const culturalContext = buildCulturalContext(msgLanguage, nationality);
@@ -70,9 +74,11 @@ Profile Context:
 - The man's name is "${userName}" and his partner is "${partnerName}"
 - Relationship status: ${relationshipStatus}${zodiacContext}${ageContext}
 
-Rules:
+CRITICAL LENGTH RULE:
+- ${lengthConfig.guide}
+
+Other Rules:
 - Write ONLY the message text, no quotes, no labels, no explanations
-- ${lengthGuide}
 - Humor level: ${humor}/100 (0=serious, 100=very funny)
 - ${includePartnerName !== false ? `Use the partner's name "${partnerName}" naturally in the message` : "Do NOT include any name"}
 ${culturalContext}
@@ -86,7 +92,7 @@ ${relationshipContext}
       : `Generate a ${mode} message for my partner.`;
 
     const startTime = Date.now();
-    const result = await callGpt("gpt-4o-mini", systemPrompt, userPrompt, 500);
+    const result = await callGpt("gpt-4o-mini", systemPrompt, userPrompt, lengthConfig.maxTokens);
     const latencyMs = Date.now() - startTime;
 
     const messageId = uuidv4();
