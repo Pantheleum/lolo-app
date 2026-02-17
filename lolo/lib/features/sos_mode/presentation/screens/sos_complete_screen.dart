@@ -42,7 +42,7 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
     });
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'How Did It Go?', showBackButton: true),
+      appBar: LoloAppBar(title: 'How Did It Go?', showBackButton: false),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: LoloSpacing.screenHorizontalPadding,

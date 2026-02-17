@@ -287,34 +287,33 @@ GoRouter appRouter(Ref ref) {
               ),
             ],
           ),
-        ],
-      ),
-
-      // === OVERLAY ROUTES (outside shell) ===
-      GoRoute(
-        path: '/sos',
-        name: RouteNames.sos,
-        builder: (_, __) => const SosScreen(),
-        routes: [
+          // === SOS ROUTES (inside shell to keep bottom nav) ===
           GoRoute(
-            path: 'scenario',
-            name: RouteNames.sosScenario,
-            builder: (_, __) => const SosActivationScreen(),
-          ),
-          GoRoute(
-            path: 'assessment',
-            name: RouteNames.sosAssessment,
-            builder: (_, __) => const SosAssessmentScreen(),
-          ),
-          GoRoute(
-            path: 'coaching',
-            name: RouteNames.sosCoaching,
-            builder: (_, __) => const SosCoachingScreen(),
-          ),
-          GoRoute(
-            path: 'complete',
-            name: RouteNames.sosFollowup,
-            builder: (_, __) => const SosCompleteScreen(),
+            path: '/sos',
+            name: RouteNames.sos,
+            builder: (_, __) => const SosScreen(),
+            routes: [
+              GoRoute(
+                path: 'scenario',
+                name: RouteNames.sosScenario,
+                builder: (_, __) => const SosActivationScreen(),
+              ),
+              GoRoute(
+                path: 'assessment',
+                name: RouteNames.sosAssessment,
+                builder: (_, __) => const SosAssessmentScreen(),
+              ),
+              GoRoute(
+                path: 'coaching',
+                name: RouteNames.sosCoaching,
+                builder: (_, __) => const SosCoachingScreen(),
+              ),
+              GoRoute(
+                path: 'complete',
+                name: RouteNames.sosFollowup,
+                builder: (_, __) => const SosCompleteScreen(),
+              ),
+            ],
           ),
         ],
       ),

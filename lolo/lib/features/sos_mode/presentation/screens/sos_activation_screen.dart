@@ -45,7 +45,7 @@ class _SosActivationScreenState extends ConsumerState<SosActivationScreen> {
 
     ref.listen<SosState>(sosNotifierProvider, (prev, next) {
       if (next.session != null && prev?.session == null) {
-        context.push('/sos/assessment');
+        context.go('/sos/assessment');
       }
     });
 

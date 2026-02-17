@@ -65,7 +65,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
     });
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'Live Coaching', showBackButton: true),
+      appBar: LoloAppBar(title: 'Live Coaching', showBackButton: false),
       body: Column(
         children: [
           // Severity header
@@ -233,7 +233,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
                 child: LoloPrimaryButton(
                   label: 'Finish Coaching',
                   icon: Icons.check_circle_outline,
-                  onPressed: () => context.push('/sos/complete'),
+                  onPressed: () => context.go('/sos/complete'),
                 ),
               ),
             ),

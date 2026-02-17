@@ -64,7 +64,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
 
     ref.listen<SosState>(sosNotifierProvider, (prev, next) {
       if (next.assessment != null && prev?.assessment == null) {
-        context.push('/sos/coaching');
+        context.go('/sos/coaching');
       }
     });
 

@@ -148,10 +148,14 @@ router.get("/coach", async (req: AuthenticatedRequest, res: Response, next: Next
     const userData = userDoc.data() || {};
     const partnerName = userData.partnerNickname || userData.partnerName || "her";
     const nationality = userData.partnerNationality || userData.nationality || "";
+    const language = userData.language || "en";
 
     // Generate structured coaching steps using GPT
     const coachingPlan = session.coachingPlan || { totalSteps: 3 };
     const totalSteps = coachingPlan.totalSteps || 3;
+
+    // Build language instruction for "sayThis" field
+    const sayThisLanguageInstruction = buildSayThisLanguageInstruction(language, nationality);
 
     const systemPrompt = `You are LOLO, an expert relationship crisis coach. You help men navigate difficult situations with their partners in real-time.
 
@@ -177,7 +181,8 @@ Rules:
 - The partner's name is "${partnerName}" — use it naturally in suggestions
 - Each step should build on the previous one
 - Include specific body language tips (eye contact, posture, touch)
-- The tone advice should match the emotional state`;
+- The tone advice should match the emotional state
+${sayThisLanguageInstruction}`;
 
     const userPrompt = `Crisis situation:
 - Scenario: ${session.scenario}
@@ -461,6 +466,41 @@ function buildCoachingPlan(severity: string, scenario: string, whatHappened: str
     ...plan,
     keyInsight: insights[scenario] || "Every crisis is an opportunity to show how much you care.",
   };
+}
+
+// ============================================================
+// Helper: Build language instruction for "sayThis" field
+// ============================================================
+function buildSayThisLanguageInstruction(language: string, nationality: string): string {
+  if (language === "ar") {
+    // Determine Arabic dialect from nationality
+    const gulfCountries = ["saudi", "saudi arabia", "uae", "emirates", "qatar", "bahrain", "kuwait", "oman"];
+    const levantCountries = ["jordan", "lebanon", "syria", "palestine", "palestinian"];
+    const northAfrica = ["egypt", "egyptian", "morocco", "moroccan", "tunisia", "tunisian", "algeria", "algerian", "libya", "libyan"];
+
+    const nat = (nationality || "").toLowerCase();
+    let dialect = "Modern Standard Arabic";
+
+    if (gulfCountries.some(c => nat.includes(c))) {
+      dialect = "Gulf Arabic (Khaleeji)";
+    } else if (levantCountries.some(c => nat.includes(c))) {
+      dialect = "Levantine Arabic (Shami)";
+    } else if (northAfrica.some(c => nat.includes(c))) {
+      if (nat.includes("egypt")) dialect = "Egyptian Arabic (Masri)";
+      else dialect = "North African Arabic (Darija)";
+    }
+
+    return `- CRITICAL: The "sayThis" field MUST be written in ARABIC SCRIPT using ${dialect}. The "sayThis" is what the user will say to his partner, so it must be in her language. All other fields (whyItWorks, doNotSay, bodyLanguageTip, toneAdvice, etc.) should remain in English.`;
+  }
+
+  if (language === "ms") {
+    const isIndonesian = (nationality || "").toLowerCase().includes("indonesia");
+    const dialect = isIndonesian ? "Bahasa Indonesia" : "Bahasa Melayu";
+    return `- CRITICAL: The "sayThis" field MUST be written in ${dialect}. The "sayThis" is what the user will say to his partner, so it must be in her language. All other fields (whyItWorks, doNotSay, bodyLanguageTip, toneAdvice, etc.) should remain in English.`;
+  }
+
+  // English — no special instruction needed
+  return "";
 }
 
 export default router;
