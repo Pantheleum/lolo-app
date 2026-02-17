@@ -6,11 +6,13 @@ import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
 import 'package:lolo/features/ai_messages/presentation/providers/message_mode_provider.dart';
 import 'package:lolo/features/ai_messages/presentation/widgets/message_mode_card.dart';
+import 'package:lolo/features/subscription/presentation/providers/subscription_providers.dart';
 
 /// Screen 19: AI Message Mode Picker.
 ///
 /// Displays a 2-column grid of 10 mode cards. Free tier users
 /// see modes 0-2 unlocked; modes 3-9 show a lock overlay.
+/// Premium/free-pass users see all modes unlocked.
 /// Tapping an unlocked mode navigates to the configuration screen.
 /// Tapping a locked mode navigates to the paywall.
 class MessagesScreen extends ConsumerWidget {
@@ -18,6 +20,8 @@ class MessagesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isPremium = ref.watch(isPremiumProvider).valueOrNull ?? false;
+
     return Scaffold(
       appBar: LoloAppBar(
         title: 'AI Messages',
@@ -63,9 +67,11 @@ class MessagesScreen extends ConsumerWidget {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final mode = MessageMode.values[index];
+                    final isLocked = !isPremium && mode.isLocked;
                     return MessageModeCard(
                       mode: mode,
-                      onTap: () => _onModeTapped(context, ref, mode),
+                      isLocked: isLocked,
+                      onTap: () => _onModeTapped(context, ref, mode, isLocked),
                     );
                   },
                   childCount: MessageMode.values.length,
@@ -83,8 +89,9 @@ class MessagesScreen extends ConsumerWidget {
     );
   }
 
-  void _onModeTapped(BuildContext context, WidgetRef ref, MessageMode mode) {
-    if (mode.isLocked) {
+  void _onModeTapped(
+      BuildContext context, WidgetRef ref, MessageMode mode, bool isLocked) {
+    if (isLocked) {
       context.pushNamed('paywall', extra: 'ai_messages');
       return;
     }

@@ -11,10 +11,12 @@ class MessageModeCard extends StatelessWidget {
   const MessageModeCard({
     required this.mode,
     required this.onTap,
+    this.isLocked = false,
     super.key,
   });
 
   final MessageMode mode;
+  final bool isLocked;
   final VoidCallback onTap;
 
   /// Mode display names. In production these would come from
@@ -61,7 +63,7 @@ class MessageModeCard extends StatelessWidget {
         : LoloColors.lightTextSecondary;
 
     return Semantics(
-      label: '$_modeName. $_modeDescription. ${mode.isLocked ? "Premium feature." : ""}',
+      label: '$_modeName. $_modeDescription. ${isLocked ? "Premium feature." : ""}',
       button: true,
       child: GestureDetector(
         onTap: onTap,
@@ -121,7 +123,7 @@ class MessageModeCard extends StatelessWidget {
               ),
 
               // Lock overlay for premium modes
-              if (mode.isLocked)
+              if (isLocked)
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
