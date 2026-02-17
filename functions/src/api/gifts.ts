@@ -88,42 +88,73 @@ router.post("/recommend", async (req: AuthenticatedRequest, res: Response, next:
     const city = reqCity || userData.city || "";
     const language = userData.language || "en";
 
-    // Build location context for culturally & locally relevant gifts
+    // Load partner profile for personalized suggestions
+    let partnerProfile: any = {};
+    const profilesSnap = await db.collection("users").doc(uid).collection("profiles").limit(1).get();
+    if (!profilesSnap.empty) {
+      partnerProfile = profilesSnap.docs[0].data() || {};
+    }
+
+    const zodiacSign = partnerProfile.zodiacSign || "";
+    const loveLanguage = partnerProfile.loveLanguage || "";
+    const hobbies = (partnerProfile.preferences?.hobbies || []).join(", ");
+    const favorites = partnerProfile.preferences?.favorites || {};
+    const dislikes = (partnerProfile.preferences?.dislikes || []).join(", ");
+    const favoriteColors = favorites.colors ? (Array.isArray(favorites.colors) ? favorites.colors.join(", ") : favorites.colors) : "";
+    const favoriteCuisines = favorites.cuisines ? (Array.isArray(favorites.cuisines) ? favorites.cuisines.join(", ") : favorites.cuisines) : "";
+    const favoriteFlowers = favorites.flowers ? (Array.isArray(favorites.flowers) ? favorites.flowers.join(", ") : favorites.flowers) : "";
+    const favoriteBrands = favorites.brands ? (Array.isArray(favorites.brands) ? favorites.brands.join(", ") : favorites.brands) : "";
+
+    // Build rich partner context
+    let partnerContext = `\n\nPARTNER PROFILE:`;
+    partnerContext += `\n- Name: ${partnerName}`;
+    if (nationality) partnerContext += `\n- Nationality: ${nationality}`;
+    if (zodiacSign) partnerContext += `\n- Zodiac sign: ${zodiacSign}`;
+    if (loveLanguage) partnerContext += `\n- Love language: ${loveLanguage}`;
+    if (hobbies) partnerContext += `\n- Hobbies/Interests: ${hobbies}`;
+    if (favoriteColors) partnerContext += `\n- Favorite colors: ${favoriteColors}`;
+    if (favoriteCuisines) partnerContext += `\n- Favorite cuisines: ${favoriteCuisines}`;
+    if (favoriteFlowers) partnerContext += `\n- Favorite flowers: ${favoriteFlowers}`;
+    if (favoriteBrands) partnerContext += `\n- Favorite brands: ${favoriteBrands}`;
+    if (dislikes) partnerContext += `\n- Dislikes/Avoid: ${dislikes}`;
+
+    // Build location context
     let locationContext = "";
     if (country || city) {
       const loc = [city, country].filter(Boolean).join(", ");
-      locationContext = `\n- The user is located in ${loc}. Suggest gifts that are available and relevant in this location. Consider local shops, experiences, and culturally appropriate options for this region.`;
+      locationContext = `\n\nLOCATION: ${loc}`;
     }
 
-    const systemPrompt = `You are LOLO, an AI gift recommendation expert for men who want to surprise their partners.
+    const systemPrompt = `You are LOLO, an elite personal gift concierge. You give SPECIFIC, real-world gift recommendations — not generic ideas.
 
-Generate exactly 5 thoughtful, creative gift suggestions. Respond with ONLY a JSON array (no other text).
+Generate exactly 5 gift suggestions. Respond with ONLY a JSON array (no other text).
 
 Each gift must have this structure:
 {
-  "name": "<gift name>",
-  "description": "<2-3 sentences explaining what it is and why it's special>",
-  "whySheLoveIt": "<1 sentence from her perspective — why she'd love this>",
-  "priceRange": "<e.g. '$20-50' or '$100-200'>",
+  "name": "<SPECIFIC gift — include brand, restaurant name, or exact product>",
+  "description": "<2-3 sentences with specific details — name the actual brand, place, or product. Explain why it matches her personality>",
+  "whySheLoveIt": "<1 sentence from her perspective, referencing her specific traits/interests>",
+  "priceRange": "<actual price range in local currency if location known, e.g. 'RM 50-100' or '$20-50'>",
   "category": "<one of: flowers, jewelry, experience, fashion, beauty, food, tech, home, books, handmade, subscription, other>",
-  "isLowBudget": <true if under $30, false otherwise>,
-  "matchedTraits": ["<trait1>", "<trait2>"]
+  "isLowBudget": <true if under $30 equivalent, false otherwise>,
+  "matchedTraits": ["<specific trait from her profile that this matches>", "<another trait>"]
 }
 
-Rules:
-- Be specific — "Personalized star map of the night you met" not just "a poster"
-- Mix price ranges from affordable to premium
-- Include at least one low-budget heartfelt option
-- Include at least one experience (not physical item)
-- Be culturally appropriate${nationality ? ` for ${nationality} women` : ""}${locationContext}
-- Her name is "${partnerName}"
-${budget ? `- Stay within budget: ${budget} ${currency || "USD"}` : ""}`;
+CRITICAL RULES:
+- Be EXTREMELY SPECIFIC. Never say "local restaurant" — name the actual restaurant. Never say "a nice perfume" — name the exact perfume (e.g. "Jo Malone Peony & Blush Suede").
+- If location is provided, recommend REAL places, shops, and experiences in that city (e.g. "Dinner at Marini's on 57, KL" not "a fancy dinner").
+- Match gifts to her specific personality traits, hobbies, and preferences from her profile.
+- Use LOCAL CURRENCY for the location (RM for Malaysia, SAR for Saudi Arabia, etc.)
+- Mix categories: include at least one experience, one physical item, and one heartfelt/handmade option.
+- Avoid anything in her "dislikes" list.
+- If she loves specific brands/cuisines/flowers, incorporate those.
+${budget ? `- Stay within budget: ${budget} ${currency || "USD"}` : "- Mix price ranges from affordable to premium"}${partnerContext}${locationContext}`;
 
     const userPrompt = occasion
-      ? `Suggest 5 gifts for this occasion: ${occasion}`
-      : "Suggest 5 thoughtful gifts to surprise her — no special occasion, just because.";
+      ? `Suggest 5 specific, personalized gifts for: ${occasion}`
+      : "Suggest 5 specific, personalized gifts to surprise her — no special occasion, just because.";
 
-    const result = await callGpt("gpt-4o-mini", systemPrompt, userPrompt, 1500);
+    const result = await callGpt("gpt-4o-mini", systemPrompt, userPrompt, 2000);
 
     let suggestions: any[];
     try {
