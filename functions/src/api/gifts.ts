@@ -49,7 +49,7 @@ router.get("/categories", async (req: AuthenticatedRequest, res: Response, next:
     if (category) {
       const cat = (category as string).toLowerCase();
       gifts = gifts.filter((g: any) =>
-        g.category.toLowerCase() === cat || g.occasion.toLowerCase() === cat
+        (g.category || "").toLowerCase() === cat || (g.occasion || "").toLowerCase() === cat
       );
     }
 
@@ -57,7 +57,7 @@ router.get("/categories", async (req: AuthenticatedRequest, res: Response, next:
     if (search) {
       const q = (search as string).toLowerCase();
       gifts = gifts.filter((g: any) =>
-        g.title.toLowerCase().includes(q) || g.description.toLowerCase().includes(q)
+        (g.name || "").toLowerCase().includes(q) || (g.description || "").toLowerCase().includes(q)
       );
     }
 
