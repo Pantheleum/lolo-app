@@ -10,6 +10,7 @@ import 'package:lolo/core/widgets/paginated_list_view.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_filter_provider.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Screen 25: Gift History.
 ///
@@ -22,10 +23,11 @@ class GiftHistoryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final historyState = ref.watch(giftHistoryNotifierProvider);
     final filter = ref.watch(giftHistoryFilterProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'Gift History',
+        title: l10n.giftHistory_title,
         showBackButton: true,
       ),
       body: Column(
@@ -37,10 +39,10 @@ class GiftHistoryScreen extends ConsumerWidget {
               bottom: LoloSpacing.spaceXs,
             ),
             child: LoloChipGroup(
-              items: const [
-                ChipItem(label: 'All'),
-                ChipItem(label: 'Liked', icon: Icons.thumb_up),
-                ChipItem(label: "Didn't Like", icon: Icons.thumb_down),
+              items: [
+                ChipItem(label: l10n.giftHistory_all),
+                ChipItem(label: l10n.giftHistory_liked, icon: Icons.thumb_up),
+                ChipItem(label: l10n.giftHistory_didntLike, icon: Icons.thumb_down),
               ],
               selectedIndices: {
                 if (filter.likedOnly == true)
@@ -96,9 +98,9 @@ class GiftHistoryScreen extends ConsumerWidget {
                     size: 64,
                     color: LoloColors.gray4,
                   ),
-                  title: 'No gift history yet',
+                  title: l10n.giftHistory_noHistory,
                   description:
-                      'Browse gifts and get recommendations to build your history.',
+                      l10n.giftHistory_noHistoryDesc,
                 ),
                 separatorBuilder: (_, __) => const Divider(height: 1),
                 itemBuilder: (context, index) {

@@ -7,6 +7,7 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/gift_card.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Screen 24: Gift Detail.
 ///
@@ -153,7 +154,7 @@ class _GiftDetailBody extends StatelessWidget {
                 // "Why She'll Love It" card
                 if (gift.whySheLoveIt != null)
                   _ReasoningCard(
-                    title: "Why She'll Love It",
+                    title: AppLocalizations.of(context).giftDetail_whySheLoveIt,
                     content: gift.whySheLoveIt!,
                     icon: Icons.auto_awesome,
                   ),
@@ -163,7 +164,7 @@ class _GiftDetailBody extends StatelessWidget {
                 // "Based on Her Profile" trait tags
                 if (gift.matchedTraits.isNotEmpty) ...[
                   Text(
-                    'Based on Her Profile',
+                    AppLocalizations.of(context).giftDetail_basedOnProfile,
                     style: theme.textTheme.titleMedium,
                   ),
                   const SizedBox(height: LoloSpacing.spaceXs),
@@ -216,7 +217,7 @@ class _GiftDetailBody extends StatelessWidget {
                 // Related gifts
                 if (relatedGifts.isNotEmpty) ...[
                   Text(
-                    'Related Gifts',
+                    AppLocalizations.of(context).giftDetail_relatedGifts,
                     style: theme.textTheme.titleMedium,
                   ),
                   const SizedBox(height: LoloSpacing.spaceSm),
@@ -377,7 +378,7 @@ class _ActionRow extends StatelessWidget {
                 }
               },
               icon: const Icon(Icons.shopping_cart_outlined, size: 18),
-              label: const Text('Buy Now'),
+              label: Text(AppLocalizations.of(context).giftDetail_buyNow),
               style: ElevatedButton.styleFrom(
                 backgroundColor: LoloColors.colorPrimary,
                 foregroundColor: Colors.white,
@@ -394,7 +395,7 @@ class _ActionRow extends StatelessWidget {
         _CircleAction(
           icon: gift.isSaved ? Icons.favorite : Icons.favorite_border,
           color: gift.isSaved ? LoloColors.colorError : null,
-          tooltip: gift.isSaved ? 'Unsave' : 'Save',
+          tooltip: gift.isSaved ? AppLocalizations.of(context).giftDetail_unsave : AppLocalizations.of(context).giftDetail_save,
           onTap: onToggleSave,
         ),
         const SizedBox(width: 8),
@@ -405,7 +406,7 @@ class _ActionRow extends StatelessWidget {
               ? Icons.thumb_down
               : Icons.thumb_down_outlined,
           color: gift.feedback == false ? LoloColors.colorWarning : null,
-          tooltip: 'Not right for her',
+          tooltip: AppLocalizations.of(context).giftDetail_notRight,
           onTap: () => onFeedback(false),
         ),
       ],

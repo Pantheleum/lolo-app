@@ -15,6 +15,7 @@ import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_en
 import 'package:lolo/features/gift_engine/domain/repositories/gift_repository.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_filter_provider.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 void _showSuggestDialog(BuildContext context, WidgetRef ref) {
   final occasions = [
@@ -39,7 +40,7 @@ void _showSuggestDialog(BuildContext context, WidgetRef ref) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "What's the occasion?",
+            AppLocalizations.of(context).gifts_whatsOccasion,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
@@ -66,10 +67,10 @@ void _showSuggestDialog(BuildContext context, WidgetRef ref) {
 Future<void> _generateSuggestions(
     BuildContext context, WidgetRef ref, String occasion) async {
   ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
+    SnackBar(
       content: Row(
         children: [
-          SizedBox(
+          const SizedBox(
             width: 16,
             height: 16,
             child: CircularProgressIndicator(
@@ -77,11 +78,11 @@ Future<void> _generateSuggestions(
               color: Colors.white,
             ),
           ),
-          SizedBox(width: 12),
-          Text('Generating AI gift ideas...'),
+          const SizedBox(width: 12),
+          Text(AppLocalizations.of(context).gifts_generatingIdeas),
         ],
       ),
-      duration: Duration(seconds: 20),
+      duration: const Duration(seconds: 20),
     ),
   );
 
@@ -135,14 +136,15 @@ class GiftsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final browseState = ref.watch(giftBrowseNotifierProvider);
     final filter = ref.watch(giftBrowseFilterProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'Gifts',
+        title: l10n.gifts_screenTitle,
         showBackButton: false,
         showLogo: true,
         showSearch: true,
-        searchHint: 'Search gifts...',
+        searchHint: l10n.gifts_searchHint,
         onSearchChanged: (query) {
           ref.read(giftBrowseFilterProvider.notifier).setSearch(query);
           ref.read(giftBrowseNotifierProvider.notifier).loadFirstPage();
@@ -151,7 +153,7 @@ class GiftsScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.history),
             onPressed: () => context.pushNamed('gift-history'),
-            tooltip: 'Gift History',
+            tooltip: l10n.giftHistory_title,
           ),
         ],
       ),
@@ -289,7 +291,7 @@ class _LowBudgetToggle extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             Text(
-              'Low Budget High Impact',
+              AppLocalizations.of(context).gifts_lowBudget,
               style: theme.textTheme.labelMedium?.copyWith(
                 color: isOn
                     ? LoloColors.colorAccent
@@ -368,8 +370,8 @@ class _GiftGridState extends State<_GiftGrid> {
           size: 64,
           color: LoloColors.gray4,
         ),
-        title: 'No gifts found',
-        description: 'Try adjusting your filters or search.',
+        title: AppLocalizations.of(context).gifts_noGiftsFound,
+        description: AppLocalizations.of(context).gifts_adjustFilters,
       );
     }
 
@@ -441,15 +443,15 @@ class _AiRecommendFab extends StatelessWidget {
         child: InkWell(
           onTap: onPressed,
           borderRadius: BorderRadius.circular(28),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.auto_awesome, color: Colors.white, size: 20),
-                SizedBox(width: 8),
+                const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
                 Text(
-                  'Get AI Recommendations',
+                  AppLocalizations.of(context).gifts_getAiRecommendations,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
