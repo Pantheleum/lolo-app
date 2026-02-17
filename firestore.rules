@@ -47,7 +47,7 @@ service cloud.firestore {
         && hasRequiredFields(['uid', 'email', 'displayName', 'language', 'tier', 'onboardingComplete'])
         && request.resource.data.uid == uid;
       allow update: if isOwner(uid)
-        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['uid', 'createdAt']));
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['uid', 'createdAt', 'freePass']));
       allow delete: if false; // deletion handled by Cloud Functions
 
       // ============================
