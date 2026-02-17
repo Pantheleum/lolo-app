@@ -41,6 +41,7 @@ router.get("/categories", async (req: AuthenticatedRequest, res: Response, next:
         matchedTraits: s.matchedTraits || [],
         isLowBudget: s.isLowBudget || false,
         isSaved: s.isSaved || false,
+        imageUrl: s.imageUrl || null,
         createdAt: d.createdAt,
       }));
     });
@@ -148,17 +149,40 @@ ${budget ? `- Stay within budget: ${budget} ${currency || "USD"}` : ""}`;
     const suggestionId = uuidv4();
     const now = new Date().toISOString();
 
-    const formattedSuggestions = suggestions.map((s: any) => ({
-      id: uuidv4(),
-      name: s.name || s.title || "Gift idea",
-      description: s.description || "",
-      whySheLoveIt: s.whySheLoveIt || "",
-      priceRange: s.priceRange || "$10-50",
-      category: s.category || "other",
-      isLowBudget: s.isLowBudget || false,
-      matchedTraits: s.matchedTraits || [],
-      isSaved: false,
-    }));
+    // Map category to image search term for Unsplash
+    const categoryImageMap: Record<string, string> = {
+      flowers: "flowers+bouquet",
+      jewelry: "jewelry+gift",
+      experience: "travel+adventure",
+      fashion: "fashion+accessories",
+      beauty: "beauty+skincare",
+      food: "gourmet+food",
+      tech: "gadget+technology",
+      home: "home+decor",
+      books: "books+reading",
+      handmade: "handmade+craft",
+      subscription: "gift+box",
+      other: "gift+present",
+    };
+
+    const formattedSuggestions = suggestions.map((s: any, index: number) => {
+      const cat = (s.category || "other").toLowerCase();
+      const searchTerm = categoryImageMap[cat] || "gift+present";
+      // Use picsum with a unique seed per suggestion for variety
+      const imageUrl = `https://source.unsplash.com/400x300/?${searchTerm}&sig=${Date.now()}-${index}`;
+      return {
+        id: uuidv4(),
+        name: s.name || s.title || "Gift idea",
+        description: s.description || "",
+        whySheLoveIt: s.whySheLoveIt || "",
+        priceRange: s.priceRange || "$10-50",
+        category: cat,
+        isLowBudget: s.isLowBudget || false,
+        matchedTraits: s.matchedTraits || [],
+        isSaved: false,
+        imageUrl,
+      };
+    });
 
     await db
       .collection("users")

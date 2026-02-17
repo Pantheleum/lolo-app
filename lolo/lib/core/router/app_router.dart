@@ -30,6 +30,7 @@ import 'package:lolo/features/ai_messages/presentation/screens/message_history_s
 import 'package:lolo/features/ai_messages/presentation/screens/message_detail_screen.dart';
 
 // Gift Engine
+import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
 import 'package:lolo/features/gift_engine/presentation/screens/gifts_screen.dart';
 import 'package:lolo/features/gift_engine/presentation/screens/gift_detail_screen.dart';
 import 'package:lolo/features/gift_engine/presentation/screens/gift_history_screen.dart';
@@ -187,6 +188,7 @@ GoRouter appRouter(Ref ref) {
                 name: RouteNames.giftDetail,
                 builder: (_, state) => GiftDetailScreen(
                   giftId: state.pathParameters['id']!,
+                  gift: state.extra as GiftRecommendationEntity?,
                 ),
               ),
               GoRoute(

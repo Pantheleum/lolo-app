@@ -16,13 +16,28 @@ import 'package:lolo/features/gift_engine/presentation/providers/gift_provider.d
 class GiftDetailScreen extends ConsumerWidget {
   const GiftDetailScreen({
     required this.giftId,
+    this.gift,
     super.key,
   });
 
   final String giftId;
+  final GiftRecommendationEntity? gift;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // If gift data was passed directly, show it without fetching
+    if (gift != null) {
+      return Scaffold(
+        body: _GiftDetailBody(
+          gift: gift!,
+          relatedGifts: const [],
+          onToggleSave: () {},
+          onFeedback: (_) {},
+          onRelatedTap: (_) {},
+        ),
+      );
+    }
+
     final detailState = ref.watch(giftDetailNotifierProvider(giftId));
 
     return Scaffold(

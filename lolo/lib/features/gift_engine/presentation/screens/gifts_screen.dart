@@ -225,8 +225,8 @@ class GiftsScreen extends ConsumerWidget {
                 onRefresh: () => ref
                     .read(giftBrowseNotifierProvider.notifier)
                     .loadFirstPage(),
-                onGiftTap: (id) =>
-                    context.pushNamed('gift-detail', pathParameters: {'id': id}),
+                onGiftTap: (gift) =>
+                    context.pushNamed('gift-detail', pathParameters: {'id': gift.id}, extra: gift),
                 onSaveTap: (id) => ref
                     .read(giftBrowseNotifierProvider.notifier)
                     .toggleSave(id),
@@ -323,7 +323,7 @@ class _GiftGrid extends StatefulWidget {
   final bool isLoadingMore;
   final Future<void> Function() onLoadMore;
   final Future<void> Function() onRefresh;
-  final ValueChanged<String> onGiftTap;
+  final ValueChanged<GiftRecommendationEntity> onGiftTap;
   final ValueChanged<String> onSaveTap;
 
   @override
@@ -409,7 +409,7 @@ class _GiftGridState extends State<_GiftGrid> {
             reasoning: gift.whySheLoveIt,
             isSaved: gift.isSaved,
             onSave: () => widget.onSaveTap(gift.id),
-            onTap: () => widget.onGiftTap(gift.id),
+            onTap: () => widget.onGiftTap(gift),
           );
         },
       ),
