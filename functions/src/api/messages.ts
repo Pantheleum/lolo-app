@@ -23,6 +23,8 @@ router.post("/generate", async (req: AuthenticatedRequest, res: Response, next: 
       humorLevel,
     } = req.body;
 
+    console.log("[MSG] Request body:", JSON.stringify(req.body));
+
     if (!mode || !tone) {
       throw new AppError(400, "MISSING_FIELDS", "mode and tone are required");
     }
@@ -48,7 +50,7 @@ router.post("/generate", async (req: AuthenticatedRequest, res: Response, next: 
 
     const msgLength = length || "medium";
     const msgLanguage = language || req.locale || "en";
-    const humor = humorLevel || 50;
+    const humor = humorLevel !== undefined && humorLevel !== null ? humorLevel : 50;
 
     // Explicit length constraints with word counts + token limits
     const lengthConfig = msgLength === "short"
@@ -104,6 +106,12 @@ ${relationshipContext}
       ? `Generate a ${mode} message. Additional context: ${contextText}`
       : `Generate a ${mode} message for my partner.`;
 
+    console.log("[MSG] Parameters => tone:", tone, "| humor:", humor, "| language:", msgLanguage, "| length:", msgLength, "| mode:", mode);
+    console.log("[MSG] Profile => nationality:", nationality, "| zodiac:", partnerZodiac, "| age:", partnerAge, "| relationship:", relationshipStatus);
+    console.log("[MSG] System prompt (first 500 chars):", systemPrompt.substring(0, 500));
+    console.log("[MSG] Language instruction:", buildLanguageInstruction(msgLanguage, nationality));
+    console.log("[MSG] Tone guide:", buildToneGuide(tone, humor));
+
     const startTime = Date.now();
     const result = await callGpt("gpt-4o-mini", systemPrompt, userPrompt, lengthConfig.maxTokens);
     const latencyMs = Date.now() - startTime;
@@ -136,6 +144,9 @@ ${relationshipContext}
       .collection("messages")
       .doc(messageId)
       .set(messageData);
+
+    console.log("[MSG] GPT response (first 200 chars):", result.content.substring(0, 200));
+    console.log("[MSG] Tokens used:", result.tokensUsed, "| Latency:", latencyMs, "ms");
 
     res.status(201).json({
       data: {
