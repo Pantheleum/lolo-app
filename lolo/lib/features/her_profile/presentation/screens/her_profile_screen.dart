@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +11,108 @@ import 'package:lolo/core/widgets/lolo_skeleton.dart';
 import 'package:lolo/features/her_profile/presentation/providers/her_profile_provider.dart';
 import 'package:lolo/features/her_profile/presentation/widgets/profile_completion_ring.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
+
+/// Provider for the partner's nationality from Firestore.
+final partnerNationalityProvider = StreamProvider<String>((ref) {
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+  if (uid == null) return Stream.value('');
+  return FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .snapshots()
+      .map((doc) => doc.data()?['partnerNationality'] as String? ?? '');
+});
+
+/// Provider for partner's birthday from Firestore.
+final partnerBirthdayProvider = StreamProvider<DateTime?>((ref) {
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+  if (uid == null) return Stream.value(null);
+  return FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .snapshots()
+      .map((doc) {
+    final data = doc.data();
+    if (data == null || data['partnerBirthday'] == null) return null;
+    final val = data['partnerBirthday'];
+    if (val is Timestamp) return val.toDate();
+    if (val is String) return DateTime.tryParse(val);
+    return null;
+  });
+});
+
+/// All supported nationalities grouped by region.
+const _nationalities = <String, List<String>>{
+  'Middle East': [
+    'Saudi Arabian',
+    'Emirati (UAE)',
+    'Qatari',
+    'Kuwaiti',
+    'Bahraini',
+    'Omani',
+    'Yemeni',
+    'Iraqi',
+    'Jordanian',
+    'Lebanese',
+    'Palestinian',
+    'Syrian',
+    'Egyptian',
+    'Moroccan',
+    'Algerian',
+    'Tunisian',
+    'Libyan',
+    'Sudanese',
+    'Turkish',
+  ],
+  'Southeast Asia': [
+    'Malaysian',
+    'Indonesian',
+    'Bruneian',
+    'Singaporean',
+    'Filipino',
+    'Thai',
+    'Vietnamese',
+  ],
+  'South Asia': [
+    'Indian',
+    'Pakistani',
+    'Bangladeshi',
+    'Sri Lankan',
+  ],
+  'Europe': [
+    'British (UK)',
+    'French',
+    'German',
+    'Spanish',
+    'Italian',
+    'Dutch',
+    'Swedish',
+    'Norwegian',
+  ],
+  'Americas': [
+    'American (USA)',
+    'Canadian',
+    'Mexican',
+    'Brazilian',
+    'Colombian',
+    'Argentinian',
+  ],
+  'Africa': [
+    'Nigerian',
+    'Ghanaian',
+    'Kenyan',
+    'South African',
+    'Ethiopian',
+    'Tanzanian',
+  ],
+  'East Asia & Pacific': [
+    'Australian',
+    'New Zealander',
+    'Chinese',
+    'Japanese',
+    'Korean',
+  ],
+};
 
 /// Profile overview screen showing avatar, zodiac badge, completion %,
 /// and navigation tiles to sub-screens.
@@ -108,6 +212,8 @@ class HerProfileScreen extends ConsumerWidget {
                 subtitle: profile.culturalContext?.background ?? l10n.profile_nav_cultural_empty,
                 onTap: () => context.push('/her/cultural'),
               ),
+              _PartnerBirthdayTile(),
+              _PartnerNationalitySelector(),
             ],
           ),
         ),
@@ -195,7 +301,7 @@ class _ProfileSkeleton extends StatelessWidget {
             const LoloSkeleton(width: 120, height: 24),
             const SizedBox(height: LoloSpacing.space2xl),
             ...List.generate(
-              3,
+              5,
               (_) => const Padding(
                 padding: EdgeInsets.only(bottom: LoloSpacing.spaceXs),
                 child: LoloSkeleton(width: double.infinity, height: 72),
@@ -204,4 +310,254 @@ class _ProfileSkeleton extends StatelessWidget {
           ],
         ),
       );
+}
+
+class _PartnerBirthdayTile extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final birthdayAsync = ref.watch(partnerBirthdayProvider);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final birthday = birthdayAsync.valueOrNull;
+
+    String subtitle;
+    if (birthday != null) {
+      final age = _calculateAge(birthday);
+      final month = _monthName(birthday.month);
+      subtitle = '$month ${birthday.day}, ${birthday.year} ($age years old)';
+    } else {
+      subtitle = "Set her birthday for age-aware messages";
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: LoloSpacing.spaceXs),
+      child: Material(
+        color: isDark
+            ? LoloColors.darkSurfaceElevated1
+            : LoloColors.lightSurfaceElevated1,
+        borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+        child: InkWell(
+          onTap: () => _pickBirthday(context, birthday),
+          borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+          child: Padding(
+            padding: const EdgeInsets.all(LoloSpacing.spaceMd),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.cake_outlined,
+                  color: LoloColors.colorPrimary,
+                  size: LoloSpacing.iconSizeMedium,
+                ),
+                const SizedBox(width: LoloSpacing.spaceMd),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Her Birthday', style: theme.textTheme.titleMedium),
+                      Text(
+                        subtitle,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: isDark
+                              ? LoloColors.darkTextSecondary
+                              : LoloColors.lightTextSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: isDark
+                      ? LoloColors.darkTextTertiary
+                      : LoloColors.lightTextTertiary,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  int _calculateAge(DateTime birthday) {
+    final now = DateTime.now();
+    var age = now.year - birthday.year;
+    if (now.month < birthday.month ||
+        (now.month == birthday.month && now.day < birthday.day)) {
+      age--;
+    }
+    return age;
+  }
+
+  String _monthName(int month) => const [
+        '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      ][month];
+
+  Future<void> _pickBirthday(BuildContext context, DateTime? current) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: current ?? DateTime(1995, 1, 1),
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now(),
+      helpText: "Select her birthday",
+    );
+    if (picked != null) {
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      if (uid != null) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uid)
+            .update({'partnerBirthday': Timestamp.fromDate(picked)});
+      }
+    }
+  }
+}
+
+class _PartnerNationalitySelector extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nationalityAsync = ref.watch(partnerNationalityProvider);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final currentNationality = nationalityAsync.valueOrNull ?? '';
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: LoloSpacing.spaceXs),
+      child: Material(
+        color: isDark
+            ? LoloColors.darkSurfaceElevated1
+            : LoloColors.lightSurfaceElevated1,
+        borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+        child: InkWell(
+          onTap: () => _showNationalityPicker(context, ref, currentNationality),
+          borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+          child: Padding(
+            padding: const EdgeInsets.all(LoloSpacing.spaceMd),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.public,
+                  color: LoloColors.colorPrimary,
+                  size: LoloSpacing.iconSizeMedium,
+                ),
+                const SizedBox(width: LoloSpacing.spaceMd),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Her Nationality', style: theme.textTheme.titleMedium),
+                      Text(
+                        currentNationality.isEmpty
+                            ? 'Set her nationality for culturally personalized messages'
+                            : currentNationality,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: isDark
+                              ? LoloColors.darkTextSecondary
+                              : LoloColors.lightTextSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: isDark
+                      ? LoloColors.darkTextTertiary
+                      : LoloColors.lightTextTertiary,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showNationalityPicker(
+      BuildContext context, WidgetRef ref, String current) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor:
+          isDark ? LoloColors.darkBgSecondary : LoloColors.lightBgSecondary,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.7,
+        maxChildSize: 0.9,
+        minChildSize: 0.4,
+        expand: false,
+        builder: (_, scrollController) => Column(
+          children: [
+            // Handle bar
+            Padding(
+              padding: const EdgeInsets.only(top: 12, bottom: 8),
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? LoloColors.darkBorderDefault
+                      : LoloColors.lightBorderDefault,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: LoloSpacing.screenHorizontalPadding, vertical: 8),
+              child: Text('Her Nationality',
+                  style: theme.textTheme.titleLarge),
+            ),
+            Expanded(
+              child: ListView(
+                controller: scrollController,
+                children: _nationalities.entries.expand((region) {
+                  return [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16, top: 16, bottom: 4),
+                      child: Text(
+                        region.key.toUpperCase(),
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: isDark
+                              ? LoloColors.darkTextTertiary
+                              : LoloColors.lightTextTertiary,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ),
+                    ...region.value.map((nat) => ListTile(
+                          title: Text(nat),
+                          trailing: nat == current
+                              ? const Icon(Icons.check,
+                                  color: LoloColors.colorPrimary)
+                              : null,
+                          onTap: () async {
+                            final uid =
+                                FirebaseAuth.instance.currentUser?.uid;
+                            if (uid != null) {
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(uid)
+                                  .update({'partnerNationality': nat});
+                            }
+                            if (ctx.mounted) Navigator.pop(ctx);
+                          },
+                        )),
+                  ];
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
