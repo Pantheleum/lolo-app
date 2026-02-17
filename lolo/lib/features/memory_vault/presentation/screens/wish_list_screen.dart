@@ -8,6 +8,7 @@ import 'package:lolo/core/widgets/lolo_empty_state.dart';
 import 'package:lolo/features/memory_vault/domain/entities/memory.dart';
 import 'package:lolo/features/memory_vault/domain/entities/memory_category.dart';
 import 'package:lolo/features/memory_vault/presentation/providers/memory_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Wish List screen (Screen 38) — filtered view of memories tagged as wishes.
 /// Shows status chips, "Send to Gift Engine" CTA, and sort controls.
@@ -26,6 +27,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen> {
     final memoriesState = ref.watch(memoriesNotifierProvider);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     // Filter to wishlist items only
     final wishes = memoriesState.memories
@@ -43,24 +45,24 @@ class _WishListScreenState extends ConsumerState<WishListScreen> {
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'Wish List',
+        title: l10n.wishlist_title,
         actions: [
           IconButton(
             icon: const Icon(Icons.sort),
             onPressed: () => _showSortSheet(context),
-            tooltip: 'Sort',
+            tooltip: l10n.wishlist_sort,
           ),
         ],
       ),
       body: memoriesState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : wishes.isEmpty
-              ? const Center(
+              ? Center(
                   child: LoloEmptyState(
                     icon: Icons.star_outline,
-                    title: 'No wishes captured yet',
+                    title: l10n.wishlist_noWishes,
                     description:
-                        "When she mentions something she wants, save it with the 'She Said' toggle.",
+                        l10n.wishlist_noWishesDesc,
                   ),
                 )
               : RefreshIndicator(
@@ -108,7 +110,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen> {
               ),
             ),
             ListTile(
-              title: const Text('Newest First'),
+              title: Text(AppLocalizations.of(context).wishlist_sortNewest),
               trailing: _sortMode == _SortMode.newest
                   ? const Icon(Icons.check, color: LoloColors.colorPrimary)
                   : null,
@@ -118,7 +120,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen> {
               },
             ),
             ListTile(
-              title: const Text('By Occasion Proximity'),
+              title: Text(AppLocalizations.of(context).wishlist_sortOccasion),
               trailing: _sortMode == _SortMode.occasion
                   ? const Icon(Icons.check, color: LoloColors.colorPrimary)
                   : null,
@@ -138,7 +140,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen> {
     // Show snackbar first (before navigation which may invalidate context)
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Sent "${wish.title}" to Gift Engine'),
+        content: Text(AppLocalizations.of(context).wishlist_sentToGiftEngine(wish.title)),
         backgroundColor: LoloColors.colorSuccess,
       ),
     );
@@ -232,7 +234,7 @@ class _WishCard extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   textStyle: theme.textTheme.labelMedium,
                 ),
-                child: const Text('Send to Gift Engine'),
+                child: Text(AppLocalizations.of(context).wishlist_sendToGiftEngine),
               ),
             ),
           ],
@@ -266,10 +268,11 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final (label, color) = switch (status) {
-      _WishStatus.newWish => ('New', LoloColors.colorPrimary),
-      _WishStatus.sentToGifts => ('Sent to Gifts', LoloColors.colorWarning),
-      _WishStatus.fulfilled => ('Fulfilled', LoloColors.colorSuccess),
+      _WishStatus.newWish => (l10n.wishlist_statusNew, LoloColors.colorPrimary),
+      _WishStatus.sentToGifts => (l10n.wishlist_statusSentToGifts, LoloColors.colorWarning),
+      _WishStatus.fulfilled => (l10n.wishlist_statusFulfilled, LoloColors.colorSuccess),
     };
 
     return Container(

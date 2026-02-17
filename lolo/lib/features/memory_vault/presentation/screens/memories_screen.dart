@@ -10,6 +10,7 @@ import 'package:lolo/core/widgets/lolo_loading_widget.dart';
 import 'package:lolo/features/memory_vault/domain/entities/memory_category.dart';
 import 'package:lolo/features/memory_vault/presentation/providers/memory_provider.dart';
 import 'package:lolo/features/memory_vault/presentation/widgets/memory_card.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Full memories list with filter chips, search, and grid/list toggle.
 class MemoriesScreen extends ConsumerWidget {
@@ -34,6 +35,7 @@ class MemoriesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final memoriesState = ref.watch(memoriesNotifierProvider);
+    final l10n = AppLocalizations.of(context);
 
     // Determine selected chip index from category.
     final selectedIdx = _chipToCategory.entries
@@ -45,10 +47,10 @@ class MemoriesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'Memory Vault',
+        title: l10n.memories_title,
         showBackButton: true,
         showSearch: true,
-        searchHint: 'Search memories...',
+        searchHint: l10n.memories_searchHint,
         onSearchChanged: (query) {
           ref.read(memoriesNotifierProvider.notifier).setSearchQuery(query);
         },
@@ -60,7 +62,7 @@ class MemoriesScreen extends ConsumerWidget {
             onPressed: () {
               ref.read(memoriesNotifierProvider.notifier).toggleViewMode();
             },
-            tooltip: memoriesState.isGridView ? 'List view' : 'Grid view',
+            tooltip: memoriesState.isGridView ? l10n.memories_listView : l10n.memories_gridView,
           ),
         ],
       ),
@@ -94,11 +96,11 @@ class MemoriesScreen extends ConsumerWidget {
             child: memoriesState.isLoading
                 ? const Center(child: LoloLoadingWidget())
                 : memoriesState.memories.isEmpty
-                    ? const LoloEmptyState(
+                    ? LoloEmptyState(
                         icon: Icons.photo_album_outlined,
-                        title: 'No memories yet',
+                        title: l10n.memories_noMemories,
                         subtitle:
-                            'Start capturing your special moments together',
+                            l10n.memories_noMemoriesDesc,
                       )
                     : RefreshIndicator(
                         onRefresh: () => ref

@@ -6,6 +6,7 @@ import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_skeleton.dart';
 import 'package:lolo/features/memory_vault/presentation/providers/memory_provider.dart';
 import 'package:lolo/features/memory_vault/presentation/widgets/mood_selector.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// View a single memory with date, mood, tags, media, and full description.
 class MemoryDetailScreen extends ConsumerWidget {
@@ -18,9 +19,10 @@ class MemoryDetailScreen extends ConsumerWidget {
     final memoryAsync = ref.watch(memoryDetailProvider(memoryId));
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'Memory', showBackButton: true),
+      appBar: LoloAppBar(title: l10n.memoryDetail_title, showBackButton: true),
       body: memoryAsync.when(
         loading: () => const _DetailSkeleton(),
         error: (error, _) => Center(child: Text('$error')),
@@ -110,7 +112,7 @@ class MemoryDetailScreen extends ConsumerWidget {
 
                 // Media gallery
                 if (memory.mediaUrls.isNotEmpty) ...[
-                  Text('Photos',
+                  Text(l10n.memoryDetail_photos,
                       style: theme.textTheme.titleSmall
                           ?.copyWith(fontWeight: FontWeight.w600)),
                   const SizedBox(height: LoloSpacing.spaceXs),
@@ -148,7 +150,7 @@ class MemoryDetailScreen extends ConsumerWidget {
 
                 // Tags
                 if (memory.tags.isNotEmpty) ...[
-                  Text('Tags',
+                  Text(l10n.memoryDetail_tags,
                       style: theme.textTheme.titleSmall
                           ?.copyWith(fontWeight: FontWeight.w600)),
                   const SizedBox(height: LoloSpacing.spaceXs),
