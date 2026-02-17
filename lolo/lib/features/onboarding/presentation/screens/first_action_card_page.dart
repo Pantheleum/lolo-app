@@ -9,6 +9,7 @@ import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/theme/lolo_gradients.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
+import 'package:lolo/core/router/route_guards.dart';
 import 'package:lolo/features/onboarding/presentation/providers/onboarding_provider.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
@@ -92,6 +93,8 @@ class _FirstActionCardPageState extends ConsumerState<FirstActionCardPage> {
       // Mark onboarding complete locally
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('onboarding_complete', true);
+      // Invalidate the cached provider so route guard picks up the new value
+      ref.invalidate(onboardingCompleteProvider);
 
       // Try backend completion (non-blocking -- will sync later)
       ref

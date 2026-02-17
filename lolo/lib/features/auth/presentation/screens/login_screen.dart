@@ -8,6 +8,7 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/core/widgets/lolo_text_field.dart';
+import 'package:lolo/core/router/route_guards.dart';
 import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
 
 /// Login screen with email/password, social auth, and forgot password.
@@ -35,6 +36,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     // Returning users already completed onboarding -- mark it so route guard allows home
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('onboarding_complete', true);
+    // Invalidate the cached provider so route guard picks up the new value
+    ref.invalidate(onboardingCompleteProvider);
     if (mounted) {
       context.go('/');
     }
