@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_spacing.dart';
-import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_empty_state.dart';
 import 'package:lolo/features/gamification/domain/entities/badge_entity.dart';
 import 'package:lolo/features/gamification/presentation/providers/gamification_providers.dart';
@@ -17,18 +16,20 @@ class BadgeGalleryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncBadges = ref.watch(badgesProvider);
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return DefaultTabController(
       length: _categories.length,
       child: Scaffold(
-        appBar: LoloAppBar(
-          title: 'Badges',
+        appBar: AppBar(
+          title: const Text('Badges'),
           bottom: TabBar(
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             indicatorColor: LoloColors.colorPrimary,
             indicatorWeight: 3,
             labelColor: Theme.of(context).textTheme.bodyLarge?.color,
-            unselectedLabelColor: Theme.of(context).brightness == Brightness.dark
+            unselectedLabelColor: isDark
                 ? LoloColors.darkTextTertiary
                 : LoloColors.lightTextTertiary,
             tabs: _categories.map((c) => Tab(text: c)).toList(),
