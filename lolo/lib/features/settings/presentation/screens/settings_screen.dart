@@ -11,15 +11,33 @@ import 'package:lolo/core/widgets/lolo_toggle.dart';
 import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
 import 'package:lolo/features/settings/presentation/providers/settings_provider.dart';
 
-/// Provider for the user's nationality from Firestore.
-final nationalityProvider = StreamProvider<String>((ref) {
+/// Provider for the partner's nationality from Firestore.
+final partnerNationalityProvider = StreamProvider<String>((ref) {
   final uid = FirebaseAuth.instance.currentUser?.uid;
   if (uid == null) return Stream.value('');
   return FirebaseFirestore.instance
       .collection('users')
       .doc(uid)
       .snapshots()
-      .map((doc) => doc.data()?['nationality'] as String? ?? '');
+      .map((doc) => doc.data()?['partnerNationality'] as String? ?? '');
+});
+
+/// Provider for partner's birthday from Firestore.
+final partnerBirthdayProvider = StreamProvider<DateTime?>((ref) {
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+  if (uid == null) return Stream.value(null);
+  return FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .snapshots()
+      .map((doc) {
+    final data = doc.data();
+    if (data == null || data['partnerBirthday'] == null) return null;
+    final val = data['partnerBirthday'];
+    if (val is Timestamp) return val.toDate();
+    if (val is String) return DateTime.tryParse(val);
+    return null;
+  });
 });
 
 /// All supported nationalities grouped by region.
@@ -136,10 +154,12 @@ class SettingsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: LoloSpacing.spaceXl),
 
-              // === NATIONALITY / CULTURE ===
-              _SectionHeader(title: 'Culture'),
+              // === HER PROFILE DETAILS ===
+              _SectionHeader(title: 'Her Details'),
               const SizedBox(height: LoloSpacing.spaceSm),
-              _NationalitySelector(),
+              _PartnerNationalitySelector(),
+              const SizedBox(height: LoloSpacing.spaceSm),
+              _PartnerBirthdayTile(),
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // === LANGUAGE ===
@@ -523,10 +543,109 @@ class _SegmentedSelector<T> extends StatelessWidget {
   }
 }
 
-class _NationalitySelector extends ConsumerWidget {
+class _PartnerBirthdayTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final nationalityAsync = ref.watch(nationalityProvider);
+    final birthdayAsync = ref.watch(partnerBirthdayProvider);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final birthday = birthdayAsync.valueOrNull;
+
+    String subtitle;
+    if (birthday != null) {
+      final age = _calculateAge(birthday);
+      final month = _monthName(birthday.month);
+      subtitle = '$month ${birthday.day}, ${birthday.year} ($age years old)';
+    } else {
+      subtitle = "Set her birthday for age-aware messages";
+    }
+
+    return Material(
+      color: isDark
+          ? LoloColors.darkSurfaceElevated1
+          : LoloColors.lightSurfaceElevated1,
+      borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+      child: InkWell(
+        onTap: () => _pickBirthday(context, birthday),
+        borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+        child: Padding(
+          padding: const EdgeInsets.all(LoloSpacing.spaceMd),
+          child: Row(
+            children: [
+              Icon(
+                Icons.cake_outlined,
+                color: LoloColors.colorPrimary,
+                size: LoloSpacing.iconSizeMedium,
+              ),
+              const SizedBox(width: LoloSpacing.spaceMd),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Her Birthday', style: theme.textTheme.titleMedium),
+                    Text(
+                      subtitle,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: isDark
+                            ? LoloColors.darkTextSecondary
+                            : LoloColors.lightTextSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: isDark
+                    ? LoloColors.darkTextTertiary
+                    : LoloColors.lightTextTertiary,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  int _calculateAge(DateTime birthday) {
+    final now = DateTime.now();
+    var age = now.year - birthday.year;
+    if (now.month < birthday.month ||
+        (now.month == birthday.month && now.day < birthday.day)) {
+      age--;
+    }
+    return age;
+  }
+
+  String _monthName(int month) => const [
+        '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      ][month];
+
+  Future<void> _pickBirthday(BuildContext context, DateTime? current) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: current ?? DateTime(1995, 1, 1),
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now(),
+      helpText: "Select her birthday",
+    );
+    if (picked != null) {
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      if (uid != null) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uid)
+            .update({'partnerBirthday': Timestamp.fromDate(picked)});
+      }
+    }
+  }
+}
+
+class _PartnerNationalitySelector extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nationalityAsync = ref.watch(partnerNationalityProvider);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final currentNationality = nationalityAsync.valueOrNull ?? '';
@@ -553,10 +672,10 @@ class _NationalitySelector extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Nationality', style: theme.textTheme.titleMedium),
+                    Text('Her Nationality', style: theme.textTheme.titleMedium),
                     Text(
                       currentNationality.isEmpty
-                          ? 'Set your nationality for culturally personalized messages'
+                          ? 'Set her nationality for culturally personalized messages'
                           : currentNationality,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: isDark
@@ -617,7 +736,7 @@ class _NationalitySelector extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: LoloSpacing.screenHorizontalPadding, vertical: 8),
-              child: Text('Select Nationality',
+              child: Text('Her Nationality',
                   style: theme.textTheme.titleLarge),
             ),
             Expanded(
@@ -652,7 +771,7 @@ class _NationalitySelector extends ConsumerWidget {
                               await FirebaseFirestore.instance
                                   .collection('users')
                                   .doc(uid)
-                                  .update({'nationality': nat});
+                                  .update({'partnerNationality': nat});
                             }
                             if (ctx.mounted) Navigator.pop(ctx);
                           },

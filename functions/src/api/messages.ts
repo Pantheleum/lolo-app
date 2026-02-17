@@ -32,9 +32,19 @@ router.post("/generate", async (req: AuthenticatedRequest, res: Response, next: 
     const userData = userDoc.data() || {};
     const partnerName = userData.partnerNickname || userData.partnerName || "her";
     const userName = userData.displayName || "King";
-    const nationality = userData.nationality || "";
+    const nationality = userData.partnerNationality || userData.nationality || "";
     const partnerZodiac = userData.partnerZodiac || "";
     const relationshipStatus = userData.relationshipStatus || "dating";
+
+    // Calculate partner age from birthday
+    let partnerAge = 0;
+    if (userData.partnerBirthday) {
+      const bday = userData.partnerBirthday.toDate ? userData.partnerBirthday.toDate() : new Date(userData.partnerBirthday);
+      const today = new Date();
+      partnerAge = today.getFullYear() - bday.getFullYear();
+      const m = today.getMonth() - bday.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < bday.getDate())) partnerAge--;
+    }
 
     const msgLength = length || "medium";
     const msgLanguage = language || req.locale || "en";
@@ -50,11 +60,15 @@ router.post("/generate", async (req: AuthenticatedRequest, res: Response, next: 
       ? `\n- The partner's zodiac sign is ${partnerZodiac}. Subtly reflect traits they'd appreciate (e.g., Scorpio values depth, Leo loves being admired, Pisces craves emotional vulnerability).`
       : "";
 
+    const ageContext = partnerAge > 0
+      ? `\n- The partner is ${partnerAge} years old. Tailor the language, references, and cultural touchpoints to her generation (e.g., a 22-year-old uses different slang than a 35-year-old). Match her vibe.`
+      : "";
+
     const systemPrompt = `You are LOLO, an AI relationship coach who truly understands how real men talk to their partners across different cultures. Generate a ${mode} message with a ${tone} tone.
 
 Profile Context:
 - The man's name is "${userName}" and his partner is "${partnerName}"
-- Relationship status: ${relationshipStatus}${zodiacContext}
+- Relationship status: ${relationshipStatus}${zodiacContext}${ageContext}
 
 Rules:
 - Write ONLY the message text, no quotes, no labels, no explanations
