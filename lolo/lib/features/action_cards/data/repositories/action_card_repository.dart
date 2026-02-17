@@ -25,15 +25,18 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   Future<Either<Failure, DailyCardsSummary>> getDailyCards({String? date}) async {
     try {
       final query = date != null ? {'date': date} : null;
-      final res = await _dio.get<dynamic>('/action-cards', queryParameters: query);
-      final data = res.data['data'] as Map<String, dynamic>;
-      final cards = (data['cards'] as List).map((c) => _mapCard(c as Map<String, dynamic>)).toList();
-      final summary = data['summary'] as Map<String, dynamic>;
+      final res = await _dio.get<dynamic>('/action-cards/daily', queryParameters: query);
+      final data = (res.data is Map && res.data['data'] != null)
+          ? res.data['data'] as Map<String, dynamic>
+          : res.data as Map<String, dynamic>;
+      final rawCards = (data['cards'] as List?) ?? [];
+      final cards = rawCards.map((c) => _mapCard(c as Map<String, dynamic>)).toList();
+      final totalXp = cards.fold<int>(0, (sum, c) => sum + c.xpReward);
       return Right(DailyCardsSummary(
         cards: cards,
-        totalCards: summary['totalCards'] as int,
-        completedToday: summary['completedToday'] as int,
-        totalXpAvailable: summary['totalXpAvailable'] as int,
+        totalCards: data['maxCards'] as int? ?? cards.length,
+        completedToday: 0,
+        totalXpAvailable: totalXp,
       ));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -44,7 +47,18 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   Future<Either<Failure, ActionCardEntity>> completeCard(String id, {String? notes}) async {
     try {
       final res = await _dio.post<dynamic>('/action-cards/$id/complete', data: {'notes': notes});
-      return Right(_mapCard(res.data['data'] as Map<String, dynamic>));
+      final data = res.data as Map<String, dynamic>;
+      return Right(ActionCardEntity(
+        id: data['cardId'] as String? ?? id,
+        type: ActionCardType.say,
+        title: '',
+        description: '',
+        difficulty: ActionCardDifficulty.easy,
+        estimatedMinutes: 0,
+        xpReward: data['xpAwarded'] as int? ?? 0,
+        status: ActionCardStatus.completed,
+        contextTags: const [],
+      ));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
@@ -53,8 +67,18 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   @override
   Future<Either<Failure, ActionCardEntity>> skipCard(String id, {String? reason}) async {
     try {
-      final res = await _dio.post<dynamic>('/action-cards/$id/skip', data: {'reason': reason});
-      return Right(_mapCard(res.data['data'] as Map<String, dynamic>));
+      await _dio.post<dynamic>('/action-cards/$id/skip', data: {'reason': reason});
+      return Right(ActionCardEntity(
+        id: id,
+        type: ActionCardType.say,
+        title: '',
+        description: '',
+        difficulty: ActionCardDifficulty.easy,
+        estimatedMinutes: 0,
+        xpReward: 0,
+        status: ActionCardStatus.skipped,
+        contextTags: const [],
+      ));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
@@ -73,8 +97,12 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
   @override
   Future<Either<Failure, List<ActionCardEntity>>> getSavedCards() async {
     try {
-      final res = await _dio.get<dynamic>('/action-cards/saved');
-      final list = (res.data['data'] as List).map((c) => _mapCard(c as Map<String, dynamic>)).toList();
+      final res = await _dio.get<dynamic>('/action-cards/history', queryParameters: {
+        'status': 'saved',
+      });
+      final data = res.data as Map<String, dynamic>;
+      final rawCards = (data['cards'] as List?) ?? [];
+      final list = rawCards.map((c) => _mapCard(c as Map<String, dynamic>)).toList();
       return Right(list);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -91,7 +119,9 @@ class ActionCardRepositoryImpl implements ActionCardRepository {
         if (status != null) 'status': status,
         'limit': limit,
       });
-      final list = (res.data['data'] as List).map((c) => _mapCard(c as Map<String, dynamic>)).toList();
+      final data = res.data as Map<String, dynamic>;
+      final rawCards = (data['cards'] as List?) ?? [];
+      final list = rawCards.map((c) => _mapCard(c as Map<String, dynamic>)).toList();
       return Right(list);
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
