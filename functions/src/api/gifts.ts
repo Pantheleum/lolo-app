@@ -17,19 +17,16 @@ router.get("/categories", async (req: AuthenticatedRequest, res: Response, next:
 
     console.log("[GIFTS] Browse request:", { category, page, pageSize, search });
 
-    let query: FirebaseFirestore.Query = db
+    // Query all suggestions, filter in memory to avoid composite index issues
+    const snapshot = await db
       .collection("users")
       .doc(uid)
       .collection("giftSuggestions")
-      .orderBy("createdAt", "desc");
+      .orderBy("createdAt", "desc")
+      .limit(100)
+      .get();
 
-    if (category) {
-      query = query.where("category", "==", category);
-    }
-
-    const snapshot = await query.limit(limit).get();
-
-    const gifts = snapshot.docs.flatMap((doc) => {
+    let gifts = snapshot.docs.flatMap((doc) => {
       const d = doc.data();
       const suggestions = d.suggestions || [];
       return suggestions.map((s: any) => ({
@@ -45,7 +42,23 @@ router.get("/categories", async (req: AuthenticatedRequest, res: Response, next:
       }));
     });
 
-    res.json({ data: gifts });
+    // Filter by category in memory
+    if (category) {
+      const cat = (category as string).toLowerCase();
+      gifts = gifts.filter((g: any) =>
+        g.category.toLowerCase() === cat || g.occasion.toLowerCase() === cat
+      );
+    }
+
+    // Filter by search in memory
+    if (search) {
+      const q = (search as string).toLowerCase();
+      gifts = gifts.filter((g: any) =>
+        g.title.toLowerCase().includes(q) || g.description.toLowerCase().includes(q)
+      );
+    }
+
+    res.json({ data: gifts.slice(0, limit) });
   } catch (err) {
     next(err);
   }
