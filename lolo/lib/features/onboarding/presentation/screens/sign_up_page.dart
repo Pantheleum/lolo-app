@@ -63,7 +63,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
           // Google Sign-In
           _SocialSignInButton(
             label: l10n.onboarding_signup_button_google,
-            iconAsset: 'assets/icons/custom/google_logo.svg',
+            icon: Icons.g_mobiledata,
             onPressed: isLoading
                 ? null
                 : () => ref
@@ -75,7 +75,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
           // Apple Sign-In
           _SocialSignInButton(
             label: l10n.onboarding_signup_button_apple,
-            iconAsset: 'assets/icons/custom/apple_logo.svg',
+            icon: Icons.apple,
             onPressed: isLoading
                 ? null
                 : () => ref
@@ -208,12 +208,12 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 class _SocialSignInButton extends StatelessWidget {
   const _SocialSignInButton({
     required this.label,
-    required this.iconAsset,
+    required this.icon,
     required this.onPressed,
   });
 
   final String label;
-  final String iconAsset;
+  final IconData icon;
   final VoidCallback? onPressed;
 
   @override
@@ -225,11 +225,7 @@ class _SocialSignInButton extends StatelessWidget {
       height: 52,
       child: OutlinedButton.icon(
         onPressed: onPressed,
-        icon: Image.asset(
-          iconAsset.replaceAll('.svg', '.png'),
-          width: 24,
-          height: 24,
-        ),
+        icon: Icon(icon, size: 24),
         label: Text(label),
         style: OutlinedButton.styleFrom(
           side: BorderSide(
