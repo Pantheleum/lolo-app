@@ -266,7 +266,7 @@ class MessageRepositoryImpl implements MessageRepository {
             (e) => e.name == d['length'],
             orElse: () => MessageLength.medium,
           ),
-          createdAt: (d['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          createdAt: _parseDateTime(d['createdAt']),
           rating: d['rating'] as int? ?? 0,
           isFavorite: d['isFavorite'] as bool? ?? false,
           languageCode: d['languageCode'] as String?,
@@ -282,6 +282,13 @@ class MessageRepositoryImpl implements MessageRepository {
   @override
   Future<Either<Failure, ({int used, int limit})>> getUsageCount() async {
     return const Right((used: 0, limit: -1));
+  }
+
+  /// Parse a Firestore date value that may be a [Timestamp] or ISO 8601 string.
+  DateTime _parseDateTime(dynamic value) {
+    if (value is Timestamp) return value.toDate();
+    if (value is String) return DateTime.tryParse(value) ?? DateTime.now();
+    return DateTime.now();
   }
 
   // ---------------------------------------------------------------------------
