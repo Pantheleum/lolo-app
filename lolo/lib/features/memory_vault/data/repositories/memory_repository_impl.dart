@@ -33,6 +33,8 @@ class MemoryRepositoryImpl implements MemoryRepository {
       return Right(data.map(_mapMemory).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -43,6 +45,8 @@ class MemoryRepositoryImpl implements MemoryRepository {
       return Right(_mapMemory(data));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -53,6 +57,8 @@ class MemoryRepositoryImpl implements MemoryRepository {
       return Right(_mapMemory(data));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -63,6 +69,8 @@ class MemoryRepositoryImpl implements MemoryRepository {
       return Right(_mapMemory(data));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -73,6 +81,8 @@ class MemoryRepositoryImpl implements MemoryRepository {
       return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -86,6 +96,8 @@ class MemoryRepositoryImpl implements MemoryRepository {
       return Right(_mapMemory(updated));
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -96,6 +108,8 @@ class MemoryRepositoryImpl implements MemoryRepository {
       return Right(data.map(_mapMemory).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -106,6 +120,8 @@ class MemoryRepositoryImpl implements MemoryRepository {
       return Right(data.map(_mapMemory).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 

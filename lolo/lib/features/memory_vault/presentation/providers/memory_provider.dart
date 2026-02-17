@@ -56,23 +56,30 @@ class MemoriesNotifier extends Notifier<MemoriesState> {
 
   Future<void> _loadMemories() async {
     state = state.copyWith(isLoading: true, error: null);
-    final result = await _repository.getMemories(
-      category: state.selectedCategory,
-      searchQuery:
-          state.searchQuery.isNotEmpty ? state.searchQuery : null,
-      page: 1,
-      pageSize: 50,
-    );
-    result.fold(
-      (failure) => state = state.copyWith(
+    try {
+      final result = await _repository.getMemories(
+        category: state.selectedCategory,
+        searchQuery:
+            state.searchQuery.isNotEmpty ? state.searchQuery : null,
+        page: 1,
+        pageSize: 50,
+      );
+      result.fold(
+        (failure) => state = state.copyWith(
+          isLoading: false,
+          error: failure.message,
+        ),
+        (memories) => state = state.copyWith(
+          isLoading: false,
+          memories: memories,
+        ),
+      );
+    } catch (e) {
+      state = state.copyWith(
         isLoading: false,
-        error: failure.message,
-      ),
-      (memories) => state = state.copyWith(
-        isLoading: false,
-        memories: memories,
-      ),
-    );
+        error: e.toString(),
+      );
+    }
   }
 
   /// Filter by category (null = all).

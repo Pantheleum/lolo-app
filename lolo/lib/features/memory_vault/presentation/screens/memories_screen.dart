@@ -95,14 +95,34 @@ class MemoriesScreen extends ConsumerWidget {
           Expanded(
             child: memoriesState.isLoading
                 ? const Center(child: LoloLoadingWidget())
-                : memoriesState.memories.isEmpty
-                    ? LoloEmptyState(
-                        icon: Icons.photo_album_outlined,
-                        title: l10n.memories_noMemories,
-                        subtitle:
-                            l10n.memories_noMemoriesDesc,
+                : memoriesState.error != null
+                    ? Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.error_outline,
+                                size: 48, color: LoloColors.colorError),
+                            const SizedBox(height: LoloSpacing.spaceMd),
+                            Text(memoriesState.error!,
+                                textAlign: TextAlign.center),
+                            const SizedBox(height: LoloSpacing.spaceMd),
+                            TextButton(
+                              onPressed: () => ref
+                                  .read(memoriesNotifierProvider.notifier)
+                                  .refresh(),
+                              child: Text(l10n.common_button_retry),
+                            ),
+                          ],
+                        ),
                       )
-                    : RefreshIndicator(
+                    : memoriesState.memories.isEmpty
+                        ? LoloEmptyState(
+                            icon: Icons.photo_album_outlined,
+                            title: l10n.memories_noMemories,
+                            subtitle:
+                                l10n.memories_noMemoriesDesc,
+                          )
+                        : RefreshIndicator(
                         onRefresh: () => ref
                             .read(memoriesNotifierProvider.notifier)
                             .refresh(),
