@@ -54,6 +54,8 @@ abstract final class RouteNames {
   static const String settings = 'settings';
   static const String subscription = 'subscription';
   static const String gamification = 'gamification';
+  static const String gamificationBadges = 'gamification-badges';
+  static const String gamificationStats = 'gamification-stats';
   static const String privacySettings = 'privacy-settings';
   static const String dataExport = 'data-export';
 

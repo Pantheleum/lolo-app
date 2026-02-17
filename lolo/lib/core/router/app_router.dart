@@ -37,6 +37,7 @@ import 'package:lolo/features/gift_engine/presentation/screens/gift_history_scre
 
 // Memory Vault
 import 'package:lolo/features/memory_vault/presentation/screens/memories_screen.dart';
+import 'package:lolo/features/memory_vault/presentation/screens/wish_list_screen.dart';
 
 // Her Profile
 import 'package:lolo/features/her_profile/presentation/screens/her_profile_screen.dart';
@@ -63,6 +64,8 @@ import 'package:lolo/features/sos_mode/presentation/screens/sos_complete_screen.
 
 // Gamification
 import 'package:lolo/features/gamification/presentation/screens/gamification_hub_screen.dart';
+import 'package:lolo/features/gamification/presentation/screens/badge_gallery_screen.dart';
+import 'package:lolo/features/gamification/presentation/screens/stats_trends_screen.dart';
 
 // Notifications
 import 'package:lolo/features/notifications/presentation/screens/notification_center_screen.dart';
@@ -222,7 +225,7 @@ GoRouter appRouter(Ref ref) {
               GoRoute(
                 path: 'wishlist',
                 name: RouteNames.wishlist,
-                builder: (_, __) => const MemoriesScreen(),
+                builder: (_, __) => const WishListScreen(),
               ),
               GoRoute(
                 path: 'wishlist/add',
@@ -282,6 +285,18 @@ GoRouter appRouter(Ref ref) {
                 path: 'gamification',
                 name: RouteNames.gamification,
                 builder: (_, __) => const GamificationHubScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'badges',
+                    name: RouteNames.gamificationBadges,
+                    builder: (_, __) => const BadgeGalleryScreen(),
+                  ),
+                  GoRoute(
+                    path: 'stats',
+                    name: RouteNames.gamificationStats,
+                    builder: (_, __) => const StatsTrendsScreen(),
+                  ),
+                ],
               ),
               GoRoute(
                 path: 'privacy-settings',

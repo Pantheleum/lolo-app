@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
@@ -49,11 +50,33 @@ class GamificationHubScreen extends ConsumerWidget {
                 StreakCalendar(weeklyXp: profile.weeklyXp),
                 const SizedBox(height: LoloSpacing.spaceLg),
 
-                // Weekly stats chart
+                // Weekly stats chart + "View Stats" link
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox.shrink(),
+                    TextButton(
+                      onPressed: () => context.push('/profile/gamification/stats'),
+                      child: Text('View Stats',
+                          style: TextStyle(color: LoloColors.colorPrimary)),
+                    ),
+                  ],
+                ),
                 _XpChart(weeklyXp: profile.weeklyXp),
                 const SizedBox(height: LoloSpacing.spaceLg),
 
-                // Badge collection grid
+                // Badge collection grid + "See All" link
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Badges', style: Theme.of(context).textTheme.titleMedium),
+                    TextButton(
+                      onPressed: () => context.push('/profile/gamification/badges'),
+                      child: Text('See All',
+                          style: TextStyle(color: LoloColors.colorPrimary)),
+                    ),
+                  ],
+                ),
                 asyncBadges.when(
                   loading: () => const LoloSkeleton(
                       width: double.infinity, height: 120),
