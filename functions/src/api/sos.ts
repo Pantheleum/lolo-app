@@ -85,7 +85,10 @@ router.post("/assess", async (req: AuthenticatedRequest, res: Response, next: Ne
     if (!sessionDoc.exists) throw new AppError(404, "SESSION_NOT_FOUND", "SOS session not found");
     if (sessionDoc.data()!.status !== "active") throw new AppError(409, "SESSION_INACTIVE", "Session is no longer active");
 
-    const answers = { howLongAgo, herCurrentState, isYourFault, whatHappened, additionalContext };
+    const answers: Record<string, any> = { howLongAgo, herCurrentState, isYourFault, whatHappened };
+    if (additionalContext !== undefined && additionalContext !== null) {
+      answers.additionalContext = additionalContext;
+    }
 
     // Score severity from answers
     const severityScore = calculateSeverity(answers);
