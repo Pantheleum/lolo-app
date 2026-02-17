@@ -48,7 +48,7 @@ class MemoriesState {
 class MemoriesNotifier extends Notifier<MemoriesState> {
   @override
   MemoriesState build() {
-    _loadMemories();
+    Future.microtask(_loadMemories);
     return const MemoriesState(isLoading: true);
   }
 
