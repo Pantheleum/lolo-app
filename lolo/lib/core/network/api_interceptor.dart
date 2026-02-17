@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/localization/locale_provider.dart';
-import 'package:lolo/core/storage/secure_storage_service.dart';
 import 'package:lolo/core/constants/app_constants.dart';
 
-/// Injects authentication token and standard headers into every request.
+/// Injects Firebase Auth ID token and standard headers into every request.
 ///
 /// Headers added:
-/// - Authorization: Bearer <token>
+/// - Authorization: Bearer <Firebase ID token>
 /// - Accept-Language: en|ar|ms
 /// - X-Client-Version: app version
 /// - X-Platform: ios|android
@@ -22,10 +22,13 @@ class ApiInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // Auth token
-    final token = await SecureStorageService.getAuthToken();
-    if (token != null) {
-      options.headers['Authorization'] = 'Bearer $token';
+    // Get Firebase Auth ID token (auto-refreshes when expired)
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final token = await user.getIdToken();
+      if (token != null) {
+        options.headers['Authorization'] = 'Bearer $token';
+      }
     }
 
     // Locale
@@ -45,50 +48,26 @@ class ApiInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    // Handle 401: attempt token refresh
+    // Handle 401: force-refresh the token and retry once
     if (err.response?.statusCode == 401) {
-      final refreshed = await _attemptTokenRefresh();
-      if (refreshed) {
-        // Retry the original request with new token
-        final token = await SecureStorageService.getAuthToken();
-        err.requestOptions.headers['Authorization'] = 'Bearer $token';
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
         try {
+          final freshToken = await user.getIdToken(true);
+          err.requestOptions.headers['Authorization'] = 'Bearer $freshToken';
           final response = await Dio().fetch<dynamic>(err.requestOptions);
           return handler.resolve(response);
         } on DioException catch (retryError) {
           return handler.next(retryError);
+        } catch (_) {
+          // Force refresh failed
         }
       }
     }
     handler.next(err);
   }
 
-  Future<bool> _attemptTokenRefresh() async {
-    try {
-      final refreshToken = await SecureStorageService.getRefreshToken();
-      if (refreshToken == null) return false;
-
-      final response = await Dio().post<dynamic>(
-        '${AppConstants.baseUrl}/auth/refresh-token',
-        data: {'refreshToken': refreshToken},
-      );
-
-      if (response.statusCode == 200) {
-        final data = response.data['data'];
-        await SecureStorageService.saveAuthToken(data['idToken'] as String);
-        await SecureStorageService.saveRefreshToken(
-          data['refreshToken'] as String,
-        );
-        return true;
-      }
-    } catch (_) {
-      // Refresh failed -- user will need to re-authenticate
-    }
-    return false;
-  }
-
   String _generateRequestId() {
-    // Simple UUID v4 approximation
     final now = DateTime.now().microsecondsSinceEpoch;
     return '$now-${now.hashCode.toRadixString(16)}';
   }

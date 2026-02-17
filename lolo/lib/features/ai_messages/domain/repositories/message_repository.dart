@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lolo/core/errors/failures.dart';
+import 'package:lolo/core/network/dio_client.dart';
 import 'package:lolo/features/ai_messages/domain/entities/generated_message_entity.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_length.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
@@ -39,17 +41,20 @@ abstract class MessageRepository {
   Future<Either<Failure, ({int used, int limit})>> getUsageCount();
 }
 
-/// Local implementation that generates messages from curated templates.
-///
-/// TODO: Switch to API-backed implementation when backend AI keys are configured.
+/// API-backed implementation that calls the Cloud Functions backend
+/// to generate messages with GPT-4o-mini. Falls back to local
+/// templates if the API call fails.
 class MessageRepositoryImpl implements MessageRepository {
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
+  final Dio _dio;
 
   MessageRepositoryImpl({
+    required Dio dio,
     FirebaseFirestore? firestore,
     FirebaseAuth? auth,
-  })  : _firestore = firestore ?? FirebaseFirestore.instance,
+  })  : _dio = dio,
+        _firestore = firestore ?? FirebaseFirestore.instance,
         _auth = auth ?? FirebaseAuth.instance;
 
   final _random = Random();
@@ -72,13 +77,51 @@ class MessageRepositoryImpl implements MessageRepository {
     MessageRequestEntity request,
   ) async {
     try {
-      // Simulate a short generation delay
-      await Future<void>.delayed(const Duration(milliseconds: 800));
+      // Try API call first
+      final response = await _dio.post<Map<String, dynamic>>(
+        '/messages/generate',
+        data: {
+          'mode': request.mode.name,
+          'tone': request.tone.name,
+          'length': request.length.name,
+          'language': request.languageCode,
+          'includePartnerName': request.includePartnerName,
+          'humorLevel': request.humorLevel,
+          if (request.contextText != null) 'contextText': request.contextText,
+        },
+      );
 
+      final data = response.data?['data'] as Map<String, dynamic>?;
+      if (data == null) throw Exception('Empty response from API');
+
+      final msg = GeneratedMessageEntity(
+        id: data['id'] as String? ?? 'api_${DateTime.now().millisecondsSinceEpoch}',
+        content: data['content'] as String? ?? '',
+        mode: request.mode,
+        tone: request.tone,
+        length: request.length,
+        createdAt: DateTime.now(),
+        modelBadge: data['modelBadge'] as String? ?? 'GPT-4o mini',
+        languageCode: request.languageCode,
+        includePartnerName: request.includePartnerName,
+      );
+
+      return Right(msg);
+    } catch (e) {
+      // Fallback to local templates if API fails
+      return _generateLocally(request);
+    }
+  }
+
+  /// Local fallback when API is unavailable.
+  Future<Either<Failure, GeneratedMessageEntity>> _generateLocally(
+    MessageRequestEntity request,
+  ) async {
+    try {
       final partnerName =
           request.includePartnerName ? await _getPartnerName() : null;
       final content =
-          _generateLocal(request.mode, request.tone, request.length, partnerName);
+          _pickTemplate(request.mode, request.tone, request.length, partnerName);
 
       final msg = GeneratedMessageEntity(
         id: 'local_${DateTime.now().millisecondsSinceEpoch}',
@@ -122,7 +165,6 @@ class MessageRepositoryImpl implements MessageRepository {
   Future<Either<Failure, GeneratedMessageEntity>> regenerateMessage(
     String originalMessageId,
   ) async {
-    // Just generate a new romantic message as fallback
     return generateMessage(const MessageRequestEntity(
       mode: MessageMode.romantic,
       tone: MessageTone.heartfelt,
@@ -136,14 +178,23 @@ class MessageRepositoryImpl implements MessageRepository {
     required int rating,
   }) async {
     try {
-      final uid = _auth.currentUser?.uid;
-      if (uid != null) {
-        await _firestore
-            .collection('users')
-            .doc(uid)
-            .collection('messages')
-            .doc(messageId)
-            .update({'rating': rating});
+      // Try API first
+      try {
+        await _dio.post<dynamic>(
+          '/messages/$messageId/feedback',
+          data: {'rating': rating},
+        );
+      } catch (_) {
+        // Fallback to direct Firestore write
+        final uid = _auth.currentUser?.uid;
+        if (uid != null) {
+          await _firestore
+              .collection('users')
+              .doc(uid)
+              .collection('messages')
+              .doc(messageId)
+              .update({'rating': rating});
+        }
       }
       return const Right(null);
     } catch (e) {
@@ -230,14 +281,14 @@ class MessageRepositoryImpl implements MessageRepository {
 
   @override
   Future<Either<Failure, ({int used, int limit})>> getUsageCount() async {
-    return const Right((used: 0, limit: -1)); // Unlimited locally
+    return const Right((used: 0, limit: -1));
   }
 
   // ---------------------------------------------------------------------------
-  // Local message templates
+  // Local message templates (fallback)
   // ---------------------------------------------------------------------------
 
-  String _generateLocal(
+  String _pickTemplate(
     MessageMode mode,
     MessageTone tone,
     MessageLength length,
@@ -247,10 +298,11 @@ class MessageRepositoryImpl implements MessageRepository {
     final toneTemplates = templates[tone] ?? templates[MessageTone.heartfelt]!;
     final picked = toneTemplates[_random.nextInt(toneTemplates.length)];
 
-    var msg = name != null ? picked.replaceAll('{name}', name) : picked.replaceAll('{name}', 'babe');
+    var msg = name != null
+        ? picked.replaceAll('{name}', name)
+        : picked.replaceAll('{name}', 'babe');
 
     if (length == MessageLength.short && msg.length > 120) {
-      // Trim to first sentence
       final dot = msg.indexOf('. ');
       if (dot > 0) msg = '${msg.substring(0, dot + 1)}';
     } else if (length == MessageLength.long) {
@@ -486,5 +538,5 @@ class MessageRepositoryImpl implements MessageRepository {
 
 /// Provider for [MessageRepository].
 final messageRepositoryProvider = Provider<MessageRepository>((ref) {
-  return MessageRepositoryImpl();
+  return MessageRepositoryImpl(dio: ref.watch(dioProvider));
 });
