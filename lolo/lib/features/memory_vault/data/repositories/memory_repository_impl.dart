@@ -149,11 +149,8 @@ class MemoryRepositoryImpl implements MemoryRepository {
         'title': m.title,
         'description': m.description,
         'date': m.date.toIso8601String(),
-        'category': m.category.name,
-        'mood': m.mood,
-        'mediaUrls': m.mediaUrls,
+        'type': m.category.name,
         'tags': m.tags,
-        'isFavorite': m.isFavorite,
         'isPrivate': m.isPrivate,
       };
 }
