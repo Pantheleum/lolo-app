@@ -35,28 +35,10 @@ class CostTracker extends Notifier<Map<AiRequestType, UsageSnapshot>> {
 
   AiUsageInfo? get currentUsage => _lastQueried;
 
+  // TODO: Re-enable usage limit checks before production launch
   Future<bool> checkLimit(AiRequestType type) async {
-    if (_usageCache.containsKey(type)) {
-      final cached = _usageCache[type]!;
-      _lastQueried = cached;
-      if (cached.limit == -1) return true; // unlimited
-      if (cached.used >= cached.limit) return false;
-      return true;
-    }
-
-    final repo = ref.read(aiRepositoryProvider);
-    final result = await repo.getUsage(type);
-
-    return result.fold(
-      (_) => true, // on error, allow and let server enforce
-      (usage) {
-        _usageCache[type] = usage;
-        _lastQueried = usage;
-        _updateState(type, usage);
-        if (usage.limit == -1) return true;
-        return usage.used < usage.limit;
-      },
-    );
+    // All features unlocked during development — skip limit checks
+    return true;
   }
 
   void recordUsage(AiRequestType type, AiUsageInfo usage) {

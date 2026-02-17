@@ -3,18 +3,15 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:lolo/features/subscription/data/services/revenue_cat_service.dart';
 import 'package:lolo/features/subscription/domain/entities/subscription_entity.dart';
 
+// TODO: Re-enable RevenueCat tier checks before production launch
 final currentTierProvider = FutureProvider<SubscriptionTier>((ref) async {
-  final svc = ref.watch(revenueCatServiceProvider);
-  final isPro = await svc.checkEntitlement('pro');
-  if (isPro) return SubscriptionTier.pro;
-  final isLegend = await svc.checkEntitlement('legend');
-  if (isLegend) return SubscriptionTier.legend;
-  return SubscriptionTier.free;
+  // All features unlocked during development
+  return SubscriptionTier.legend;
 });
 
 final isPremiumProvider = FutureProvider<bool>((ref) async {
-  final tier = await ref.watch(currentTierProvider.future);
-  return tier != SubscriptionTier.free;
+  // All features unlocked during development
+  return true;
 });
 
 final offeringsProvider = FutureProvider<Offerings>((ref) async {
