@@ -29,8 +29,8 @@ String? routeGuard(Ref ref, GoRouterState state) {
       location.startsWith('/welcome') || location.startsWith('/login');
   final isOnboardingRoute = location.startsWith('/onboarding');
 
-  // 1. Not authenticated -> send to welcome
-  if (!isAuthenticated && !isAuthRoute) {
+  // 1. Not authenticated -> send to welcome (but allow onboarding)
+  if (!isAuthenticated && !isAuthRoute && !isOnboardingRoute) {
     return '/welcome';
   }
 
