@@ -1,6 +1,5 @@
 // functions/src/config.ts
 import * as admin from "firebase-admin";
-import Redis from "ioredis";
 
 admin.initializeApp();
 
@@ -8,31 +7,21 @@ export const db = admin.firestore();
 export const auth = admin.auth();
 export const messaging = admin.messaging();
 
-// --- Redis: disabled when no real REDIS_URL is configured ---
-const redisUrl = process.env.REDIS_URL || "";
-const redisEnabled = redisUrl.length > 0 && !redisUrl.includes("localhost");
-
-let _redis: Redis | null = null;
-
-function getRedis(): Redis | null {
-  if (!redisEnabled) return null;
-  if (!_redis) {
-    _redis = new Redis(redisUrl, {
-      maxRetriesPerRequest: 3,
-      retryStrategy: (times) => {
-        if (times > 3) return null; // stop retrying
-        return Math.min(times * 200, 2000);
-      },
-      lazyConnect: true,
-    });
-    // Prevent unhandled error events from crashing the process
-    _redis.on("error", () => {});
-  }
-  return _redis;
+// --- Redis: completely disabled (no Redis server on Cloud Run) ---
+// All redis calls silently no-op so callers don't need try/catch.
+interface RedisStub {
+  get(...args: any[]): Promise<string | null>;
+  set(...args: any[]): Promise<string>;
+  setex(...args: any[]): Promise<string>;
+  del(...args: any[]): Promise<number>;
+  incr(...args: any[]): Promise<number>;
+  expire(...args: any[]): Promise<number>;
+  ttl(...args: any[]): Promise<number>;
+  keys(...args: any[]): Promise<string[]>;
+  [key: string]: any;
 }
 
-// No-op Redis stub — all calls silently return null/0
-const noopRedis = {
+export const redis: RedisStub = {
   get: async () => null,
   set: async () => "OK",
   setex: async () => "OK",
@@ -40,16 +29,8 @@ const noopRedis = {
   incr: async () => 1,
   expire: async () => 1,
   ttl: async () => -1,
-} as unknown as Redis;
-
-// Proxy that uses real Redis when available, no-op otherwise
-export const redis = new Proxy({} as Redis, {
-  get(_target, prop) {
-    const client = getRedis();
-    if (!client) return (noopRedis as any)[prop];
-    return (client as any)[prop];
-  },
-});
+  keys: async () => [],
+};
 
 export const CONFIG = {
   AI_COST_BUDGET_DAILY_USD: 50,
