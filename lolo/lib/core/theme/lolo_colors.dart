@@ -66,4 +66,9 @@ abstract final class LoloColors {
   static const Color cardTypeDo = Color(0xFF3FB950);
   static const Color cardTypeBuy = Color(0xFFC9A96E);
   static const Color cardTypeGo = Color(0xFF8957E5);
+
+  // === Gamification Colors ===
+  static const Color colorEpicPurple = Color(0xFFA371F7);
+  static const Color colorBronze = Color(0xFFCD7F32);
+  static const Color colorPrimaryDark = Color(0xFF2D5A8E);
 }

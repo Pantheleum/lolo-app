@@ -42,8 +42,12 @@ class _WishListScreenState extends ConsumerState<WishListScreen> {
         .toList();
 
     // Sort
-    if (_sortMode == _SortMode.newest) {
-      wishes.sort((a, b) => b.date.compareTo(a.date));
+    switch (_sortMode) {
+      case _SortMode.newest:
+        wishes.sort((a, b) => b.date.compareTo(a.date));
+      case _SortMode.occasion:
+        // Sort by date ascending (oldest first = closest upcoming occasion)
+        wishes.sort((a, b) => a.date.compareTo(b.date));
     }
 
     return Scaffold(
@@ -141,14 +145,14 @@ class _WishListScreenState extends ConsumerState<WishListScreen> {
   }
 
   void _sendToGiftEngine(BuildContext context, Memory wish) {
-    // Navigate to gift engine with wish context
-    context.pushNamed('gifts');
+    // Show snackbar first (before navigation which may invalidate context)
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Sent "${wish.title}" to Gift Engine'),
         backgroundColor: LoloColors.colorSuccess,
       ),
     );
+    context.pushNamed('gifts');
   }
 }
 
@@ -274,9 +278,9 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (label, color) = switch (status) {
-      _WishStatus.newWish => ('New', const Color(0xFF4A90D9)),
-      _WishStatus.sentToGifts => ('Sent to Gifts', const Color(0xFFD29922)),
-      _WishStatus.fulfilled => ('Fulfilled', const Color(0xFF3FB950)),
+      _WishStatus.newWish => ('New', LoloColors.colorPrimary),
+      _WishStatus.sentToGifts => ('Sent to Gifts', LoloColors.colorWarning),
+      _WishStatus.fulfilled => ('Fulfilled', LoloColors.colorSuccess),
     };
 
     return Container(

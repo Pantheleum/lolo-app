@@ -42,6 +42,12 @@ final partnerBirthdayProvider = StreamProvider<DateTime?>((ref) {
   });
 });
 
+/// Shared month name helper.
+String _monthName(int month) => const [
+      '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ][month];
+
 /// All supported nationalities grouped by region.
 const _nationalities = <String, List<String>>{
   'Middle East': [
@@ -471,11 +477,6 @@ class _PartnerBirthdayTile extends ConsumerWidget {
     return age;
   }
 
-  String _monthName(int month) => const [
-        '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-      ][month];
-
   Future<void> _pickBirthday(BuildContext context, DateTime? current) async {
     final picked = await showDatePicker(
       context: context,
@@ -484,7 +485,7 @@ class _PartnerBirthdayTile extends ConsumerWidget {
       lastDate: DateTime.now(),
       helpText: "Select her birthday",
     );
-    if (picked != null) {
+    if (picked != null && context.mounted) {
       final uid = FirebaseAuth.instance.currentUser?.uid;
       if (uid != null) {
         await FirebaseFirestore.instance
@@ -716,11 +717,6 @@ class _AnniversaryTile extends ConsumerWidget {
     );
   }
 
-  String _monthName(int month) => const [
-        '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-      ][month];
-
   Future<void> _pickAnniversary(BuildContext context, WidgetRef ref) async {
     final picked = await showDatePicker(
       context: context,
@@ -729,7 +725,7 @@ class _AnniversaryTile extends ConsumerWidget {
       lastDate: DateTime(2100),
       helpText: 'Select your anniversary',
     );
-    if (picked != null) {
+    if (picked != null && context.mounted) {
       await ref
           .read(herProfileNotifierProvider(profileId).notifier)
           .updateProfile({'anniversaryDate': picked.toIso8601String()});
@@ -823,8 +819,8 @@ class _QuickFactsCard extends StatelessWidget {
 
   Widget _buildFact(BuildContext context, _QuickFact fact, bool isDark) {
     final theme = Theme.of(context);
-    return SizedBox(
-      width: 140,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minWidth: 120, maxWidth: 160),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

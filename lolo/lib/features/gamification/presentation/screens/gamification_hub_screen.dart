@@ -54,7 +54,7 @@ class GamificationHubScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox.shrink(),
+                    Text('Weekly Activity', style: Theme.of(context).textTheme.titleMedium),
                     TextButton(
                       onPressed: () => context.push('/profile/gamification/stats'),
                       child: Text('View Stats',
@@ -109,7 +109,7 @@ class _LevelCard extends StatelessWidget {
       padding: const EdgeInsets.all(LoloSpacing.spaceLg),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF4A90D9), Color(0xFF2D5A8E)],
+          colors: [LoloColors.colorPrimary, LoloColors.colorPrimaryDark],
         ),
         borderRadius: BorderRadius.circular(16),
       ),
@@ -160,11 +160,12 @@ class _StreakCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(LoloSpacing.spaceMd),
       decoration: BoxDecoration(
-        color: LoloColors.darkBgSecondary,
+        color: isDark ? LoloColors.darkBgSecondary : LoloColors.lightBgSecondary,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -192,13 +193,13 @@ class _StreakCard extends StatelessWidget {
                 Icon(Icons.ac_unit,
                     color: profile.freezesAvailable > 0
                         ? LoloColors.colorPrimary
-                        : Colors.white24,
+                        : (isDark ? Colors.white24 : Colors.black26),
                     size: 20),
                 Text('${profile.freezesAvailable}',
                     style: theme.textTheme.labelSmall),
                 Text('freezes', style: theme.textTheme.labelSmall?.copyWith(
                     fontSize: 9,
-                    color: LoloColors.darkTextSecondary)),
+                    color: isDark ? LoloColors.darkTextSecondary : LoloColors.lightTextSecondary)),
               ],
             ),
           ),
@@ -241,8 +242,6 @@ class _XpChart extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Weekly Activity', style: theme.textTheme.titleMedium),
-        const SizedBox(height: LoloSpacing.spaceMd),
         SizedBox(
           height: 120,
           child: Row(
@@ -290,6 +289,7 @@ class _LeaderboardPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -298,9 +298,9 @@ class _LeaderboardPreview extends StatelessWidget {
         ...List.generate(_mockLeaders.length, (i) {
           final (name, xp, rank) = _mockLeaders[i];
           final medalColor = switch (rank) {
-            1 => const Color(0xFFC9A96E),
+            1 => LoloColors.colorAccent,
             2 => Colors.grey.shade400,
-            3 => const Color(0xFFCD7F32),
+            3 => LoloColors.colorBronze,
             _ => Colors.transparent,
           };
           return Padding(
@@ -311,7 +311,7 @@ class _LeaderboardPreview extends StatelessWidget {
                 vertical: LoloSpacing.spaceSm,
               ),
               decoration: BoxDecoration(
-                color: LoloColors.darkBgSecondary,
+                color: isDark ? LoloColors.darkBgSecondary : LoloColors.lightBgSecondary,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(

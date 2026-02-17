@@ -68,16 +68,19 @@ class NotificationCenterScreen extends ConsumerWidget {
                       ),
                       child: Align(
                         alignment: AlignmentDirectional.centerEnd,
-                        child: GestureDetector(
-                          onTap: () => markAllNotificationsRead(),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              'Mark all as read',
-                              style: theme.textTheme.labelMedium?.copyWith(
-                                color: LoloColors.colorPrimary,
-                                fontWeight: FontWeight.w500,
-                              ),
+                        child: TextButton(
+                          onPressed: () async {
+                            try {
+                              await markAllNotificationsRead();
+                            } catch (_) {
+                              // Silently fail — next sync will catch up
+                            }
+                          },
+                          child: Text(
+                            'Mark all as read',
+                            style: theme.textTheme.labelMedium?.copyWith(
+                              color: LoloColors.colorPrimary,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
@@ -120,7 +123,7 @@ class NotificationCenterScreen extends ConsumerWidget {
   void _handleTap(
       BuildContext context, WidgetRef ref, NotificationItemEntity item) {
     if (!item.isRead) {
-      markNotificationRead(item.id);
+      markNotificationRead(item.id).catchError((_) {});
     }
     if (item.actionType == 'route' && item.actionTarget != null) {
       context.push(item.actionTarget!);
@@ -315,19 +318,19 @@ class _NotificationTile extends StatelessWidget {
         NotificationType.message => const _TypeStyle(
             Icons.chat_bubble_outline, LoloColors.colorSuccess),
         NotificationType.streak =>
-            const _TypeStyle(Icons.local_fire_department, Color(0xFFD29922)),
+            const _TypeStyle(Icons.local_fire_department, LoloColors.colorWarning),
         NotificationType.gift =>
             const _TypeStyle(Icons.card_giftcard, LoloColors.colorAccent),
         NotificationType.sos =>
             const _TypeStyle(Icons.warning_amber, LoloColors.colorError),
         NotificationType.gamification =>
-            const _TypeStyle(Icons.emoji_events, Color(0xFFD29922)),
+            const _TypeStyle(Icons.emoji_events, LoloColors.colorWarning),
         NotificationType.actionCard =>
             const _TypeStyle(Icons.task_alt, LoloColors.colorPrimary),
         NotificationType.subscription =>
             const _TypeStyle(Icons.workspace_premium, LoloColors.colorAccent),
         NotificationType.system =>
-            const _TypeStyle(Icons.settings_outlined, Color(0xFF8B949E)),
+            const _TypeStyle(Icons.settings_outlined, LoloColors.gray3),
       };
 
   String _relativeTime(DateTime dateTime) {

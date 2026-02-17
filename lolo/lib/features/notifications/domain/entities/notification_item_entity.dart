@@ -79,7 +79,7 @@ class NotificationItemEntity {
 
   static DateTime _parseDate(dynamic val) {
     if (val is Timestamp) return val.toDate();
-    if (val is String) return DateTime.tryParse(val) ?? DateTime.now();
-    return DateTime.now();
+    if (val is String) return DateTime.tryParse(val) ?? DateTime(1970);
+    return DateTime(1970);
   }
 }

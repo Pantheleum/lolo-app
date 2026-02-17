@@ -207,12 +207,12 @@ class BadgeGalleryScreen extends ConsumerWidget {
   }
 
   Color _rarityColor(String rarity) => switch (rarity.toLowerCase()) {
-        'common' => const Color(0xFF8B949E),
-        'uncommon' => const Color(0xFF3FB950),
-        'rare' => const Color(0xFF4A90D9),
-        'epic' => const Color(0xFFA371F7),
-        'legendary' => const Color(0xFFC9A96E),
-        _ => const Color(0xFF8B949E),
+        'common' => LoloColors.gray3,
+        'uncommon' => LoloColors.colorSuccess,
+        'rare' => LoloColors.colorPrimary,
+        'epic' => LoloColors.colorEpicPurple,
+        'legendary' => LoloColors.colorAccent,
+        _ => LoloColors.gray3,
       };
 
   IconData _badgeIcon(String icon) => switch (icon) {
@@ -246,12 +246,12 @@ class _BadgeCell extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final rarityColor = switch (badge.rarity.toLowerCase()) {
-      'common' => const Color(0xFF8B949E),
-      'uncommon' => const Color(0xFF3FB950),
-      'rare' => const Color(0xFF4A90D9),
-      'epic' => const Color(0xFFA371F7),
-      'legendary' => const Color(0xFFC9A96E),
-      _ => const Color(0xFF8B949E),
+      'common' => LoloColors.gray3,
+      'uncommon' => LoloColors.colorSuccess,
+      'rare' => LoloColors.colorPrimary,
+      'epic' => LoloColors.colorEpicPurple,
+      'legendary' => LoloColors.colorAccent,
+      _ => LoloColors.gray3,
     };
 
     final iconData = switch (badge.icon) {

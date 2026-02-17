@@ -228,7 +228,8 @@ class _LineChartPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _LineChartPainter old) => true;
+  bool shouldRepaint(covariant _LineChartPainter old) =>
+      data != old.data || maxXp != old.maxXp || lineColor != old.lineColor;
 }
 
 class _ActionBreakdown extends StatelessWidget {
@@ -237,10 +238,10 @@ class _ActionBreakdown extends StatelessWidget {
 
   // Placeholder data — would come from a provider in production
   static const _actions = [
-    ('SAY', 0.45, Color(0xFF4A90D9)),
-    ('DO', 0.28, Color(0xFF3FB950)),
-    ('BUY', 0.17, Color(0xFFC9A96E)),
-    ('GO', 0.10, Color(0xFFA371F7)),
+    ('SAY', 0.45, LoloColors.cardTypeSay),
+    ('DO', 0.28, LoloColors.cardTypeDo),
+    ('BUY', 0.17, LoloColors.cardTypeBuy),
+    ('GO', 0.10, LoloColors.colorEpicPurple),
   ];
 
   @override

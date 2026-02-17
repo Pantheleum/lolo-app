@@ -39,19 +39,25 @@ Future<void> markNotificationRead(String notificationId) async {
       .update({'isRead': true});
 }
 
-/// Mark all notifications as read.
+/// Mark all notifications as read (handles >500 doc Firestore batch limit).
 Future<void> markAllNotificationsRead() async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
   if (uid == null) return;
-  final batch = FirebaseFirestore.instance.batch();
   final snap = await FirebaseFirestore.instance
       .collection('users')
       .doc(uid)
       .collection('notifications')
       .where('isRead', isEqualTo: false)
       .get();
-  for (final doc in snap.docs) {
-    batch.update(doc.reference, {'isRead': true});
+  final docs = snap.docs;
+  // Firestore batch limit is 500 writes
+  const batchSize = 500;
+  for (var i = 0; i < docs.length; i += batchSize) {
+    final batch = FirebaseFirestore.instance.batch();
+    final end = (i + batchSize).clamp(0, docs.length);
+    for (var j = i; j < end; j++) {
+      batch.update(docs[j].reference, {'isRead': true});
+    }
+    await batch.commit();
   }
-  await batch.commit();
 }
