@@ -20,6 +20,7 @@ class HerNameZodiacPage extends ConsumerStatefulWidget {
 
 class _HerNameZodiacPageState extends ConsumerState<HerNameZodiacPage> {
   final _nameController = TextEditingController();
+  final _nicknameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String? _selectedZodiac;
 
@@ -41,6 +42,7 @@ class _HerNameZodiacPageState extends ConsumerState<HerNameZodiacPage> {
   @override
   void dispose() {
     _nameController.dispose();
+    _nicknameController.dispose();
     super.dispose();
   }
 
@@ -74,13 +76,23 @@ class _HerNameZodiacPageState extends ConsumerState<HerNameZodiacPage> {
               controller: _nameController,
               hint: l10n.onboarding_partner_hint,
               textCapitalization: TextCapitalization.words,
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.next,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return 'Please enter her name';
                 }
                 return null;
               },
+            ),
+            const SizedBox(height: LoloSpacing.spaceMd),
+
+            // Partner nickname input (optional)
+            LoloTextField(
+              label: 'What do you call her?',
+              controller: _nicknameController,
+              hint: 'e.g., Babe, Habibi, Baby',
+              textCapitalization: TextCapitalization.words,
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(height: LoloSpacing.spaceXl),
 
@@ -179,8 +191,10 @@ class _HerNameZodiacPageState extends ConsumerState<HerNameZodiacPage> {
 
   void _submit() {
     if (_formKey.currentState?.validate() ?? false) {
+      final nickname = _nicknameController.text.trim();
       ref.read(onboardingNotifierProvider.notifier).setPartnerInfo(
             name: _nameController.text.trim(),
+            nickname: nickname.isNotEmpty ? nickname : null,
             zodiacSign: _selectedZodiac,
           );
     }

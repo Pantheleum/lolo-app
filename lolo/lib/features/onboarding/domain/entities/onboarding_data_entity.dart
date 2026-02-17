@@ -19,6 +19,9 @@ class OnboardingDataEntity with _$OnboardingDataEntity {
     /// Partner's name (step 5).
     String? partnerName,
 
+    /// Partner's nickname for casual/flirty messages, e.g. 'Habibi', 'Babe'.
+    String? partnerNickname,
+
     /// Partner's zodiac sign key, e.g. 'scorpio' (step 5).
     String? partnerZodiac,
 

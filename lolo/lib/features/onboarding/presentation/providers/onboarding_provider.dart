@@ -220,13 +220,15 @@ class OnboardingNotifier extends Notifier<OnboardingState> {
     await _persistAndAdvance(4);
   }
 
-  /// Step 4: Set partner name and optional zodiac.
+  /// Step 4: Set partner name, optional nickname, and optional zodiac.
   Future<void> setPartnerInfo({
     required String name,
+    String? nickname,
     String? zodiacSign,
   }) async {
     _data = _data.copyWith(
       partnerName: name,
+      partnerNickname: nickname,
       partnerZodiac: zodiacSign,
       currentStep: 5,
     );

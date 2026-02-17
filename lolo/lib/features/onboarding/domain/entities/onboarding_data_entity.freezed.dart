@@ -25,6 +25,9 @@ mixin _$OnboardingDataEntity {
   /// Partner's name (step 5).
   String? get partnerName => throw _privateConstructorUsedError;
 
+  /// Partner's nickname for casual/flirty messages, e.g. 'Habibi', 'Babe'.
+  String? get partnerNickname => throw _privateConstructorUsedError;
+
   /// Partner's zodiac sign key, e.g. 'scorpio' (step 5).
   String? get partnerZodiac => throw _privateConstructorUsedError;
 
@@ -69,6 +72,7 @@ abstract class $OnboardingDataEntityCopyWith<$Res> {
       {String language,
       String? userName,
       String? partnerName,
+      String? partnerNickname,
       String? partnerZodiac,
       String? relationshipStatus,
       DateTime? keyDate,
@@ -99,6 +103,7 @@ class _$OnboardingDataEntityCopyWithImpl<$Res,
     Object? language = null,
     Object? userName = freezed,
     Object? partnerName = freezed,
+    Object? partnerNickname = freezed,
     Object? partnerZodiac = freezed,
     Object? relationshipStatus = freezed,
     Object? keyDate = freezed,
@@ -121,6 +126,10 @@ class _$OnboardingDataEntityCopyWithImpl<$Res,
       partnerName: freezed == partnerName
           ? _value.partnerName
           : partnerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      partnerNickname: freezed == partnerNickname
+          ? _value.partnerNickname
+          : partnerNickname // ignore: cast_nullable_to_non_nullable
               as String?,
       partnerZodiac: freezed == partnerZodiac
           ? _value.partnerZodiac
@@ -174,6 +183,7 @@ abstract class _$$OnboardingDataEntityImplCopyWith<$Res>
       {String language,
       String? userName,
       String? partnerName,
+      String? partnerNickname,
       String? partnerZodiac,
       String? relationshipStatus,
       DateTime? keyDate,
@@ -201,6 +211,7 @@ class __$$OnboardingDataEntityImplCopyWithImpl<$Res>
     Object? language = null,
     Object? userName = freezed,
     Object? partnerName = freezed,
+    Object? partnerNickname = freezed,
     Object? partnerZodiac = freezed,
     Object? relationshipStatus = freezed,
     Object? keyDate = freezed,
@@ -223,6 +234,10 @@ class __$$OnboardingDataEntityImplCopyWithImpl<$Res>
       partnerName: freezed == partnerName
           ? _value.partnerName
           : partnerName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      partnerNickname: freezed == partnerNickname
+          ? _value.partnerNickname
+          : partnerNickname // ignore: cast_nullable_to_non_nullable
               as String?,
       partnerZodiac: freezed == partnerZodiac
           ? _value.partnerZodiac
@@ -271,6 +286,7 @@ class _$OnboardingDataEntityImpl extends _OnboardingDataEntity {
       {this.language = 'en',
       this.userName,
       this.partnerName,
+      this.partnerNickname,
       this.partnerZodiac,
       this.relationshipStatus,
       this.keyDate,
@@ -294,6 +310,10 @@ class _$OnboardingDataEntityImpl extends _OnboardingDataEntity {
   /// Partner's name (step 5).
   @override
   final String? partnerName;
+
+  /// Partner's nickname for casual/flirty messages, e.g. 'Habibi', 'Babe'.
+  @override
+  final String? partnerNickname;
 
   /// Partner's zodiac sign key, e.g. 'scorpio' (step 5).
   @override
@@ -335,7 +355,7 @@ class _$OnboardingDataEntityImpl extends _OnboardingDataEntity {
 
   @override
   String toString() {
-    return 'OnboardingDataEntity(language: $language, userName: $userName, partnerName: $partnerName, partnerZodiac: $partnerZodiac, relationshipStatus: $relationshipStatus, keyDate: $keyDate, keyDateType: $keyDateType, email: $email, authProvider: $authProvider, firebaseUid: $firebaseUid, currentStep: $currentStep, isComplete: $isComplete)';
+    return 'OnboardingDataEntity(language: $language, userName: $userName, partnerName: $partnerName, partnerNickname: $partnerNickname, partnerZodiac: $partnerZodiac, relationshipStatus: $relationshipStatus, keyDate: $keyDate, keyDateType: $keyDateType, email: $email, authProvider: $authProvider, firebaseUid: $firebaseUid, currentStep: $currentStep, isComplete: $isComplete)';
   }
 
   @override
@@ -349,6 +369,8 @@ class _$OnboardingDataEntityImpl extends _OnboardingDataEntity {
                 other.userName == userName) &&
             (identical(other.partnerName, partnerName) ||
                 other.partnerName == partnerName) &&
+            (identical(other.partnerNickname, partnerNickname) ||
+                other.partnerNickname == partnerNickname) &&
             (identical(other.partnerZodiac, partnerZodiac) ||
                 other.partnerZodiac == partnerZodiac) &&
             (identical(other.relationshipStatus, relationshipStatus) ||
@@ -373,6 +395,7 @@ class _$OnboardingDataEntityImpl extends _OnboardingDataEntity {
       language,
       userName,
       partnerName,
+      partnerNickname,
       partnerZodiac,
       relationshipStatus,
       keyDate,
@@ -399,6 +422,7 @@ abstract class _OnboardingDataEntity extends OnboardingDataEntity {
       {final String language,
       final String? userName,
       final String? partnerName,
+      final String? partnerNickname,
       final String? partnerZodiac,
       final String? relationshipStatus,
       final DateTime? keyDate,
@@ -421,6 +445,10 @@ abstract class _OnboardingDataEntity extends OnboardingDataEntity {
   /// Partner's name (step 5).
   @override
   String? get partnerName;
+
+  /// Partner's nickname for casual/flirty messages, e.g. 'Habibi', 'Babe'.
+  @override
+  String? get partnerNickname;
 
   /// Partner's zodiac sign key, e.g. 'scorpio' (step 5).
   @override
