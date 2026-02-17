@@ -31,6 +31,13 @@ class _SosActivationScreenState extends ConsumerState<SosActivationScreen> {
   };
 
   @override
+  void initState() {
+    super.initState();
+    // Reset SOS state so a new session can be started
+    Future.microtask(() => ref.read(sosNotifierProvider.notifier).reset());
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
