@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
@@ -30,6 +31,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     super.dispose();
   }
 
+  Future<void> _markOnboardedAndNavigate() async {
+    // Returning users already completed onboarding -- mark it so route guard allows home
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding_complete', true);
+    if (mounted) {
+      context.go('/');
+    }
+  }
+
   Future<void> _handleEmailLogin() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
@@ -37,24 +47,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
-    if (success && mounted) {
-      context.go('/');
+    if (success) {
+      await _markOnboardedAndNavigate();
     }
   }
 
   Future<void> _handleGoogleLogin() async {
     final success =
         await ref.read(authNotifierProvider.notifier).signInWithGoogle();
-    if (success && mounted) {
-      context.go('/');
+    if (success) {
+      await _markOnboardedAndNavigate();
     }
   }
 
   Future<void> _handleAppleLogin() async {
     final success =
         await ref.read(authNotifierProvider.notifier).signInWithApple();
-    if (success && mounted) {
-      context.go('/');
+    if (success) {
+      await _markOnboardedAndNavigate();
     }
   }
 
