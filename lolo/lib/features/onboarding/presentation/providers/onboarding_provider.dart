@@ -175,9 +175,11 @@ class OnboardingNotifier extends Notifier<OnboardingState> {
         currentStep: 3,
       );
       await _persistAndAdvance(3);
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       state = OnboardingState.error(
-        message: _mapAuthError(e.code),
+        message: e is FirebaseAuthException
+            ? _mapAuthError(e.code)
+            : 'Google sign-in failed. Please try email sign-up or check your connection.',
         lastData: _data,
       );
     }
@@ -202,9 +204,11 @@ class OnboardingNotifier extends Notifier<OnboardingState> {
         currentStep: 3,
       );
       await _persistAndAdvance(3);
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       state = OnboardingState.error(
-        message: _mapAuthError(e.code),
+        message: e is FirebaseAuthException
+            ? _mapAuthError(e.code)
+            : 'Apple sign-in failed. Please try email sign-up.',
         lastData: _data,
       );
     }
