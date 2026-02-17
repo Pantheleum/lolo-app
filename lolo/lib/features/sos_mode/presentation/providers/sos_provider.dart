@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lolo/core/network/dio_client.dart';
+import 'package:lolo/features/sos_mode/data/datasources/sos_remote_datasource.dart';
+import 'package:lolo/features/sos_mode/data/repositories/sos_repository_impl.dart';
 import 'package:lolo/features/sos_mode/domain/entities/coaching_step.dart';
 import 'package:lolo/features/sos_mode/domain/entities/sos_assessment.dart';
 import 'package:lolo/features/sos_mode/domain/entities/sos_session.dart';
@@ -166,8 +169,9 @@ final sosNotifierProvider = NotifierProvider<SosNotifier, SosState>(
   SosNotifier.new,
 );
 
-/// Placeholder provider for SosRepository injection.
-/// Override this in the provider scope with the actual implementation.
+/// Provider for SosRepository backed by remote data source.
 final sosRepositoryProvider = Provider<SosRepository>((ref) {
-  throw UnimplementedError('sosRepositoryProvider must be overridden');
+  final dio = ref.watch(dioProvider);
+  final remote = SosRemoteDataSource(dio);
+  return SosRepositoryImpl(remote: remote);
 });

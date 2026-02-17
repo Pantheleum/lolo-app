@@ -28,14 +28,16 @@ type FeatureKey = typeof TIER_CONFIG[SubscriptionTier]["features"][number];
 type LimitKey = keyof typeof TIER_CONFIG.free.limits;
 
 export async function getTierFromFirestore(uid: string): Promise<SubscriptionTier> {
-  const cached = await redis.get(`sub:tier:${uid}`);
-  if (cached) return cached as SubscriptionTier;
+  try {
+    const cached = await redis.get(`sub:tier:${uid}`);
+    if (cached) return cached as SubscriptionTier;
+  } catch { /* Redis unavailable, skip cache */ }
 
   const userDoc = await db.collection("users").doc(uid).get();
   if (!userDoc.exists) throw new AppError(404, "USER_NOT_FOUND", "User not found");
 
   const tier = (userDoc.data()?.tier || "free") as SubscriptionTier;
-  await redis.setex(`sub:tier:${uid}`, 300, tier);
+  try { await redis.setex(`sub:tier:${uid}`, 300, tier); } catch { /* skip */ }
   return tier;
 }
 
@@ -50,12 +52,14 @@ export async function getUsageCounts(uid: string, period: "daily" | "monthly" = 
     : `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
   const cacheKey = `usage:${uid}:${startKey}`;
-  const cached = await redis.get(cacheKey);
-  if (cached) return JSON.parse(cached);
+  try {
+    const cached = await redis.get(cacheKey);
+    if (cached) return JSON.parse(cached);
+  } catch { /* Redis unavailable, skip cache */ }
 
   const usageDoc = await db.collection("users").doc(uid).collection("usage").doc(startKey).get();
   const data = usageDoc.exists ? usageDoc.data()! : { aiMessages: 0, sosSessions: 0, actionCards: 0, memories: 0, giftSuggestions: 0 };
-  await redis.setex(cacheKey, 60, JSON.stringify(data));
+  try { await redis.setex(cacheKey, 60, JSON.stringify(data)); } catch { /* skip */ }
   return data as Record<string, number>;
 }
 
@@ -70,7 +74,7 @@ export async function incrementUsage(uid: string, key: LimitKey, amount = 1): Pr
     tx.set(ref, { [key]: current + amount, updatedAt: new Date() }, { merge: true });
   });
 
-  await redis.del(`usage:${uid}:${monthKey}`);
+  try { await redis.del(`usage:${uid}:${monthKey}`); } catch { /* skip */ }
 }
 
 export async function checkLimit(uid: string, key: LimitKey): Promise<{ allowed: boolean; current: number; limit: number }> {

@@ -106,7 +106,7 @@ export async function updateStreak(userId: string): Promise<{ currentStreak: num
     updatedAt: new Date().toISOString(),
   });
 
-  await redis.del(`gamification:profile:${userId}`);
+  try { await redis.del(`gamification:profile:${userId}`); } catch { /* skip */ }
 
   return { currentStreak, longestStreak, isNewRecord };
 }
@@ -195,8 +195,8 @@ export async function awardXp(
   }
 
   await gamRef.update(updates);
-  await redis.del(`gamification:profile:${userId}`);
-  await redis.del(`gamification:badges:${userId}`);
+  try { await redis.del(`gamification:profile:${userId}`); } catch { /* skip */ }
+  try { await redis.del(`gamification:badges:${userId}`); } catch { /* skip */ }
 
   // Log action
   await db.collection("xp_log").add({

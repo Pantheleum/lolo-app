@@ -54,9 +54,10 @@ import 'package:lolo/features/reminders/presentation/screens/create_reminder_scr
 
 // SOS
 import 'package:lolo/features/sos_mode/presentation/screens/sos_screen.dart';
-import 'package:lolo/features/sos/presentation/screens/sos_activation_screen.dart';
-import 'package:lolo/features/sos/presentation/screens/sos_coaching_screen.dart';
-import 'package:lolo/features/sos/presentation/screens/sos_plan_screen.dart';
+import 'package:lolo/features/sos_mode/presentation/screens/sos_activation_screen.dart';
+import 'package:lolo/features/sos_mode/presentation/screens/sos_assessment_screen.dart';
+import 'package:lolo/features/sos_mode/presentation/screens/sos_coaching_screen.dart';
+import 'package:lolo/features/sos_mode/presentation/screens/sos_complete_screen.dart';
 
 // Gamification
 import 'package:lolo/features/gamification/presentation/screens/gamification_hub_screen.dart';
@@ -301,14 +302,19 @@ GoRouter appRouter(Ref ref) {
             builder: (_, __) => const SosActivationScreen(),
           ),
           GoRoute(
+            path: 'assessment',
+            name: RouteNames.sosAssessment,
+            builder: (_, __) => const SosAssessmentScreen(),
+          ),
+          GoRoute(
             path: 'coaching',
             name: RouteNames.sosCoaching,
             builder: (_, __) => const SosCoachingScreen(),
           ),
           GoRoute(
-            path: 'followup',
+            path: 'complete',
             name: RouteNames.sosFollowup,
-            builder: (_, __) => const SosPlanScreen(),
+            builder: (_, __) => const SosCompleteScreen(),
           ),
         ],
       ),

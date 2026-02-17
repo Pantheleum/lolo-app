@@ -68,24 +68,37 @@ router.post("/generate", async (req: AuthenticatedRequest, res: Response, next: 
       ? `\n- The partner is ${partnerAge} years old. Tailor the language, references, and cultural touchpoints to her generation (e.g., a 22-year-old uses different slang than a 35-year-old). Match her vibe.`
       : "";
 
-    const systemPrompt = `You are LOLO, an AI relationship coach who truly understands how real men talk to their partners across different cultures. Generate a ${mode} message with a ${tone} tone.
+    // Build tone guide with explicit descriptions
+    const toneGuide = buildToneGuide(tone, humor);
 
-Profile Context:
+    const systemPrompt = `You are LOLO, an AI relationship coach who truly understands how real men talk to their partners across different cultures.
+
+TASK: Generate a ${mode} message.
+
+=== CRITICAL RULES (MUST FOLLOW) ===
+
+1. TONE — ${toneGuide}
+
+2. HUMOR — Level ${humor}/100:
+${humor <= 15 ? "- Zero humor. Completely serious, deep, and emotionally raw. No jokes, no playfulness, no wit." : humor <= 35 ? "- Mostly serious with warm sincerity. Very subtle warmth at most — no actual jokes or puns." : humor <= 65 ? "- Balanced. Mix sincerity with light playfulness. A gentle tease or warm joke is fine, but don't overdo it." : humor <= 85 ? "- Noticeably funny. Use wit, playful teasing, inside-joke energy, or clever wordplay. Make her laugh AND feel loved." : "- Maximum humor. Be hilarious — bold jokes, funny exaggeration, meme-worthy lines, playful sarcasm. Still loving, but entertainment first."}
+
+3. LENGTH — ${lengthConfig.guide}
+
+4. LANGUAGE — ${buildLanguageInstruction(msgLanguage, nationality)}
+
+=== PROFILE CONTEXT ===
 - The man's name is "${userName}" and his partner is "${partnerName}"
 - Relationship status: ${relationshipStatus}${zodiacContext}${ageContext}
+- ${includePartnerName !== false ? `Use the partner's name "${partnerName}" naturally` : "Do NOT include any name"}
 
-CRITICAL LENGTH RULE:
-- ${lengthConfig.guide}
-
-Other Rules:
-- Write ONLY the message text, no quotes, no labels, no explanations
-- Humor level: ${humor}/100 (0=serious, 100=very funny)
-- ${includePartnerName !== false ? `Use the partner's name "${partnerName}" naturally in the message` : "Do NOT include any name"}
 ${culturalContext}
 ${relationshipContext}
-- Never sound like a greeting card or generic AI — sound like a real person who genuinely loves their partner
-- Vary sentence structure, use natural pauses, and match how real people text
-- Make it feel like something he'd actually send, not something he'd read in a book`;
+
+=== OUTPUT RULES ===
+- Write ONLY the message text — no quotes, no labels, no explanations, no "Here's a message:"
+- Never sound like a greeting card or generic AI
+- Sound like a real person who genuinely loves their partner
+- Vary sentence structure, use natural pauses, match how real people text`;
 
     const userPrompt = contextText
       ? `Generate a ${mode} message. Additional context: ${contextText}`
@@ -256,80 +269,136 @@ router.post("/:id/feedback", async (req: AuthenticatedRequest, res: Response, ne
 });
 
 // ============================================================
-// Cultural context builders
+// Tone guide builder
 // ============================================================
+function buildToneGuide(tone: string, humor: number): string {
+  const toneDescriptions: Record<string, string> = {
+    heartfelt: "Deeply sincere and emotionally vulnerable. Speak from the heart — let her feel how much she means to you. Use intimate language, emotional depth, and genuine warmth.",
+    playful: "Fun, flirty, and lighthearted. Tease her gently, use inside-joke vibes, be cheeky. Think texting her with a grin on your face.",
+    direct: "Straightforward and confident. Say exactly what you mean — no metaphors, no beating around the bush. Bold, honest, and clear. Think 'I want you to know this' energy.",
+    poetic: "Beautifully expressive and lyrical. Use vivid imagery, metaphors, and elegant language. Think love letters, moonlight comparisons, deep emotional symbolism. Make her feel like she's in a poem.",
+    romantic: "Passionately romantic. Think stolen glances, 'you take my breath away' energy. Make her heart skip a beat.",
+    apologetic: "Genuinely sorry and humble. Take full responsibility. No excuses — sincere remorse and commitment to do better.",
+    supportive: "Encouraging and comforting. Be her rock. Lift her up with words that make her feel safe and empowered.",
+    seductive: "Subtly alluring and magnetic. Build tension with carefully chosen words. Confident, suggestive but tasteful.",
+    grateful: "Full of appreciation. Tell her specifically what she does that matters. Acknowledge things others might overlook.",
+    missing: "Longing and missing her deeply. Express how incomplete things feel without her. Make her feel present in your thoughts.",
+  };
 
+  return toneDescriptions[tone] || `The tone should be ${tone}. Make every word reflect this mood clearly.`;
+}
+
+// ============================================================
+// Language instruction builder (separate from cultural context)
+// ============================================================
+function buildLanguageInstruction(language: string, nationality: string): string {
+  const nat = nationality.toLowerCase();
+
+  if (language === "ar") {
+    // Arabic language selected — determine dialect from nationality
+    const isGulf = nat.includes("saudi") || nat.includes("emirati") || nat.includes("uae") || nat.includes("qatar") || nat.includes("kuwait") || nat.includes("bahrain") || nat.includes("oman");
+    const isEgyptian = nat.includes("egypt");
+    const isLevantine = nat.includes("lebane") || nat.includes("jordan") || nat.includes("palestin") || nat.includes("syria");
+    const isNorthAfrican = nat.includes("morocc") || nat.includes("algeri") || nat.includes("tunis") || nat.includes("libya");
+
+    let dialect = "Modern Standard Arabic";
+    if (isGulf) dialect = "Gulf Arabic (Khaleeji) dialect";
+    else if (isEgyptian) dialect = "Egyptian Arabic dialect";
+    else if (isLevantine) dialect = "Levantine Arabic dialect";
+    else if (isNorthAfrican) dialect = "North African Arabic dialect";
+
+    return `WRITE THE ENTIRE MESSAGE IN ARABIC SCRIPT. Use ${dialect}. Do NOT write in English or any other language.`;
+  }
+
+  if (language === "ms") {
+    const isIndonesian = nat.includes("indonesia");
+    const dialect = isIndonesian ? "Bahasa Indonesia" : "Bahasa Melayu";
+    return `WRITE THE ENTIRE MESSAGE IN ${dialect.toUpperCase()}. Do NOT write in English or any other language.`;
+  }
+
+  // English (default) — MUST be in English regardless of nationality
+  return "WRITE THE ENTIRE MESSAGE IN ENGLISH. Even if the partner is from a non-English speaking country, the message MUST be in English. You may sprinkle 1-2 foreign endearments if culturally relevant, but the core message must be in English.";
+}
+
+// ============================================================
+// Cultural context builder (provides cultural flavor, NOT language)
+// ============================================================
 function buildCulturalContext(language: string, nationality: string): string {
   const nat = nationality.toLowerCase();
 
-  if (language === "ar" || nat.includes("arab") || nat.includes("saudi") || nat.includes("emirati") || nat.includes("uae") || nat.includes("qatar") || nat.includes("kuwait") || nat.includes("bahrain") || nat.includes("oman") || nat.includes("iraqi") || nat.includes("jordan") || nat.includes("egypt") || nat.includes("lebane") || nat.includes("palestin") || nat.includes("morocc") || nat.includes("algeri") || nat.includes("tunis") || nat.includes("libya") || nat.includes("sudan") || nat.includes("yemen") || nat.includes("syria")) {
+  // Arabic cultural context
+  const isArabNat = nat.includes("arab") || nat.includes("saudi") || nat.includes("emirati") || nat.includes("uae") || nat.includes("qatar") || nat.includes("kuwait") || nat.includes("bahrain") || nat.includes("oman") || nat.includes("iraqi") || nat.includes("jordan") || nat.includes("egypt") || nat.includes("lebane") || nat.includes("palestin") || nat.includes("morocc") || nat.includes("algeri") || nat.includes("tunis") || nat.includes("libya") || nat.includes("sudan") || nat.includes("yemen") || nat.includes("syria");
+
+  if (isArabNat) {
     const isGulf = nat.includes("saudi") || nat.includes("emirati") || nat.includes("uae") || nat.includes("qatar") || nat.includes("kuwait") || nat.includes("bahrain") || nat.includes("oman");
-    const isLevantine = nat.includes("lebane") || nat.includes("jordan") || nat.includes("palestin") || nat.includes("syria");
     const isEgyptian = nat.includes("egypt");
+    const isLevantine = nat.includes("lebane") || nat.includes("jordan") || nat.includes("palestin") || nat.includes("syria");
     const isNorthAfrican = nat.includes("morocc") || nat.includes("algeri") || nat.includes("tunis") || nat.includes("libya");
 
-    let dialectNote = "";
-    if (isGulf) dialectNote = "Use Gulf Arabic dialect and expressions (e.g., عمري، حياتي، روحي). Reflect Khaleeji romantic culture — reserved but deeply passionate.";
-    else if (isEgyptian) dialectNote = "Use Egyptian Arabic dialect and slang (e.g., يا قمر، يا عيوني، يا حبيبتي). Egyptian humor is warm, witty, and self-deprecating.";
-    else if (isLevantine) dialectNote = "Use Levantine Arabic dialect (e.g., حياتي، قلبي، يا عمري). Levantine romance is poetic and expressive.";
-    else if (isNorthAfrican) dialectNote = "Use North African Arabic dialect naturally. Blend French-Arabic expressions where culturally natural (e.g., mon amour mixed with حبيبتي).";
-    else dialectNote = "Use Modern Standard Arabic with natural romantic terms (حبيبتي، يا قلبي، يا عمري).";
+    let flavorNote = "";
+    if (isGulf) flavorNote = "Khaleeji romantic culture — reserved but deeply passionate. Endearments: عمري، حياتي، روحي.";
+    else if (isEgyptian) flavorNote = "Egyptian humor is warm, witty, and self-deprecating. Endearments: يا قمر، يا عيوني، يا حبيبتي.";
+    else if (isLevantine) flavorNote = "Levantine romance is poetic and deeply expressive. Endearments: حياتي، قلبي، يا عمري.";
+    else if (isNorthAfrican) flavorNote = "North African culture blends Arabic and French naturally. Mon amour mixed with حبيبتي is natural.";
+    else flavorNote = "Arab romance values dignity, devotion, and family honor.";
 
-    return `Cultural & Language Guide (Arabic):
-- Write the message in Arabic script
-- ${dialectNote}
+    return `=== CULTURAL CONTEXT (Arab) ===
+- ${flavorNote}
 - Respect Islamic cultural values — express love passionately but with dignity
-- Use terms of endearment naturally: حبيبتي، يا روحي، يا عمري، يا قلبي، نور عيني
-- Reference shared cultural touchpoints (family, faith, honor, togetherness)
-- Avoid anything that would feel culturally inappropriate or too Western
-- The tone should feel like a real Arab man expressing love — not a translation from English`;
+- Reference shared cultural touchpoints (family, faith, togetherness)
+- Avoid anything culturally inappropriate or too Western
+- The message should feel authentic to Arab culture, not a translation`;
   }
 
-  if (language === "ms" || nat.includes("malay") || nat.includes("malaysia") || nat.includes("indonesia") || nat.includes("brunei") || nat.includes("singapor")) {
-    const isMalay = nat.includes("malay") || nat.includes("malaysia") || nat.includes("brunei");
+  // Malay/Indonesian cultural context
+  const isMalayNat = nat.includes("malay") || nat.includes("malaysia") || nat.includes("indonesia") || nat.includes("brunei") || nat.includes("singapor");
+  if (isMalayNat) {
     const isIndonesian = nat.includes("indonesia");
 
-    let dialectNote = "";
-    if (isIndonesian) dialectNote = "Use Bahasa Indonesia with natural Indonesian romantic expressions (sayang, cinta, sayangku).";
-    else if (isMalay) dialectNote = "Use Bahasa Melayu with Malaysian expressions (sayang, abang-adik dynamic, manja culture).";
-    else dialectNote = "Use Bahasa Melayu/Malaysia naturally.";
-
-    return `Cultural & Language Guide (Malay):
-- Write the message in Malay (Bahasa Melayu)
-- ${dialectNote}
-- Understand 'manja' culture — the playful, affectionate clinginess that's valued in Malay relationships
-- Use natural terms of endearment: sayang, sayangku, cinta, bby, dear
-- Respect Malay Muslim cultural values — loving but appropriate
-- Reference cultural touchpoints (family bonds, balik kampung, makan together, jalan-jalan)
-- Include natural Malay texting style (short forms like 'sy', 'awk', 'sygku' for casual tones)
-- The tone should feel authentically Malay — not translated English`;
+    return `=== CULTURAL CONTEXT (${isIndonesian ? "Indonesian" : "Malay"}) ===
+- Understand 'manja' culture — playful, affectionate clinginess valued in relationships
+- Natural endearments: sayang, sayangku, cinta${isIndonesian ? "" : ", abang-adik dynamic"}
+- Respect Muslim cultural values — loving but appropriate
+- Reference cultural touchpoints (family bonds, makan together, jalan-jalan)
+- ${language === "ms" ? "Use natural texting style (short forms like 'sy', 'awk', 'sygku' for casual)" : "Sprinkle Malay endearments naturally into English"}`;
   }
 
-  // English with nationality context
-  let englishCulturalNote = "Write the message in English.";
-
-  if (nat.includes("american") || nat.includes("usa") || nat.includes("us")) {
-    englishCulturalNote = `Write in English with an American conversational style. Use casual, confident language. Terms like 'babe', 'baby', 'boo' are natural. Keep it real and direct.`;
-  } else if (nat.includes("british") || nat.includes("uk") || nat.includes("english")) {
-    englishCulturalNote = `Write in English with a British tone — warm but slightly understated. Dry humor works well. 'Darling', 'love', 'gorgeous' are natural terms.`;
-  } else if (nat.includes("australian") || nat.includes("aussie")) {
-    englishCulturalNote = `Write in English with an Australian vibe — laid-back, warm, and genuine. 'Babe', 'gorgeous', casual slang is natural. Keep it relaxed.`;
-  } else if (nat.includes("indian") || nat.includes("india")) {
-    englishCulturalNote = `Write in English but reflect Indian cultural warmth. Reference shared family values, festivals, food memories. 'Jaanu', 'baby', 'sweetheart' work naturally. Mix in a Hindi/Urdu endearment if it feels natural.`;
-  } else if (nat.includes("filipin") || nat.includes("philippin")) {
-    englishCulturalNote = `Write in English with Filipino warmth. 'Mahal ko', 'babe', 'love' are natural. Filipino romance is expressive and family-oriented. Taglish (Tagalog-English mix) is welcome for casual tones.`;
-  } else if (nat.includes("african") || nat.includes("nigeria") || nat.includes("ghana") || nat.includes("kenya") || nat.includes("south africa")) {
-    englishCulturalNote = `Write in English with warmth and directness. African romance values respect, commitment, and deep emotional bonds. Be genuine and heartfelt.`;
-  } else if (nat.includes("pakist")) {
-    englishCulturalNote = `Write in English but reflect Pakistani cultural values. Respect, family, and deep devotion are central. 'Jaanu', 'meri jaan' work as natural endearments.`;
-  } else if (nat.includes("turk")) {
-    englishCulturalNote = `Write in English but reflect Turkish romantic culture — passionate, protective, deeply devoted. 'Aşkım', 'canım', 'hayatım' can be sprinkled naturally.`;
+  // English-speaking nationality context
+  if (nat.includes("american") || nat.includes("usa")) {
+    return `=== CULTURAL CONTEXT (American) ===
+- Casual, confident language. 'Babe', 'baby', 'boo' are natural terms.
+- Keep it real and direct — Americans value authenticity over formality.`;
+  }
+  if (nat.includes("british") || nat.includes("uk")) {
+    return `=== CULTURAL CONTEXT (British) ===
+- Warm but slightly understated. Dry humor works well.
+- 'Darling', 'love', 'gorgeous' are natural terms.`;
+  }
+  if (nat.includes("indian") || nat.includes("india")) {
+    return `=== CULTURAL CONTEXT (Indian) ===
+- Reflect Indian cultural warmth — family values, festivals, food memories.
+- 'Jaanu', 'baby', 'sweetheart' work naturally. Mix in Hindi/Urdu endearments.`;
+  }
+  if (nat.includes("pakist")) {
+    return `=== CULTURAL CONTEXT (Pakistani) ===
+- Reflect Pakistani cultural values — respect, family, deep devotion.
+- 'Jaanu', 'meri jaan' are natural endearments.`;
+  }
+  if (nat.includes("turk")) {
+    return `=== CULTURAL CONTEXT (Turkish) ===
+- Turkish romance is passionate, protective, deeply devoted.
+- 'Aşkım', 'canım', 'hayatım' can be sprinkled naturally.`;
+  }
+  if (nat.includes("filipin") || nat.includes("philippin")) {
+    return `=== CULTURAL CONTEXT (Filipino) ===
+- Filipino romance is expressive and family-oriented.
+- 'Mahal ko', 'babe', 'love' are natural. Taglish welcome for casual tones.`;
   }
 
-  return `Cultural & Language Guide:
-- ${englishCulturalNote}
-- Sound like a real person texting their partner, not a formal letter
-- Match modern texting patterns — natural flow, occasional emphasis, authentic emotion
+  // Generic
+  return `=== CULTURAL CONTEXT ===
+- Sound like a real person texting their partner
+- Match modern texting patterns — natural flow, authentic emotion
 - Avoid clichés that sound AI-generated`;
 }
 

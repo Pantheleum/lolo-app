@@ -2,7 +2,7 @@
 import crypto from "crypto";
 
 const ALGORITHM = "aes-256-gcm";
-const KEY = Buffer.from(process.env.VAULT_ENCRYPTION_KEY || crypto.randomBytes(32).toString("hex"), "hex");
+const KEY = Buffer.from(process.env.ENCRYPTION_KEY || crypto.randomBytes(32).toString("hex"), "hex");
 const IV_LENGTH = 12;
 const TAG_LENGTH = 16;
 
