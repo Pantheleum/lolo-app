@@ -73,17 +73,18 @@ router.get("/categories", async (req: AuthenticatedRequest, res: Response, next:
 router.post("/recommend", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
     const uid = req.user.uid;
-    const { occasion, budget, currency } = req.body;
+    const { occasion, budget, currency, city: reqCity, country: reqCountry } = req.body;
 
-    console.log("[GIFTS] Recommend request:", { occasion, budget, currency });
+    console.log("[GIFTS] Recommend request:", { occasion, budget, currency, city: reqCity, country: reqCountry });
 
     // Get user profile for partner context
     const userDoc = await db.collection("users").doc(uid).get();
     const userData = userDoc.data() || {};
     const partnerName = userData.partnerNickname || userData.partnerName || "her";
     const nationality = userData.partnerNationality || userData.nationality || "";
-    const country = userData.country || userData.partnerCountry || "";
-    const city = userData.city || "";
+    // Prefer location from request (GPS), fall back to profile
+    const country = reqCountry || userData.country || userData.partnerCountry || "";
+    const city = reqCity || userData.city || "";
     const language = userData.language || "en";
 
     // Build location context for culturally & locally relevant gifts

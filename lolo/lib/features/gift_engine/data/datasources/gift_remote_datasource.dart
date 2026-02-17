@@ -45,11 +45,15 @@ class GiftRemoteDataSource {
   /// POST /gifts/recommend — get AI-powered recommendations.
   Future<List<GiftRecommendationModel>> getAiRecommendations({
     String? occasion,
+    String? city,
+    String? country,
   }) async {
     final response = await _dio.post<dynamic>(
       ApiEndpoints.giftsRecommend,
       data: {
         if (occasion != null) 'occasion': occasion,
+        if (city != null) 'city': city,
+        if (country != null) 'country': country,
       },
     );
     final dataList = response.data['data'] as List;

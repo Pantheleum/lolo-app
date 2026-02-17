@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_gradients.dart';
@@ -61,8 +63,8 @@ void _showSuggestDialog(BuildContext context, WidgetRef ref) {
   );
 }
 
-void _generateSuggestions(
-    BuildContext context, WidgetRef ref, String occasion) {
+Future<void> _generateSuggestions(
+    BuildContext context, WidgetRef ref, String occasion) async {
   ScaffoldMessenger.of(context).showSnackBar(
     const SnackBar(
       content: Row(
@@ -79,19 +81,46 @@ void _generateSuggestions(
           Text('Generating AI gift ideas...'),
         ],
       ),
-      duration: Duration(seconds: 15),
+      duration: Duration(seconds: 20),
     ),
   );
 
-  ref
-      .read(giftRepositoryProvider)
-      .getAiRecommendations(occasion: occasion)
-      .then((_) {
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  // Try to get device location for locally relevant suggestions
+  String? city;
+  String? country;
+  try {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
     }
-    ref.read(giftBrowseNotifierProvider.notifier).loadFirstPage();
-  });
+    if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low,
+      ).timeout(const Duration(seconds: 5));
+      final placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+      if (placemarks.isNotEmpty) {
+        city = placemarks.first.locality;
+        country = placemarks.first.country;
+      }
+    }
+  } catch (_) {
+    // Location not available — continue without it
+  }
+
+  await ref.read(giftRepositoryProvider).getAiRecommendations(
+        occasion: occasion,
+        city: city,
+        country: country,
+      );
+
+  if (context.mounted) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  }
+  ref.read(giftBrowseNotifierProvider.notifier).loadFirstPage();
 }
 
 /// Screen 23: Gift Browse.

@@ -56,9 +56,13 @@ class GiftRepositoryImpl implements GiftRepository {
 
   @override
   Future<Either<Failure, List<GiftRecommendationEntity>>>
-      getAiRecommendations({String? occasion}) async {
+      getAiRecommendations({String? occasion, String? city, String? country}) async {
     try {
-      final models = await _remote.getAiRecommendations(occasion: occasion);
+      final models = await _remote.getAiRecommendations(
+        occasion: occasion,
+        city: city,
+        country: country,
+      );
       return Right(models.map((m) => m.toEntity()).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));
