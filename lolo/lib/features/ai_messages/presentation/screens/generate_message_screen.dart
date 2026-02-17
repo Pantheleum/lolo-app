@@ -65,7 +65,10 @@ class _GenerateMessageScreenState
       messageGenerationNotifierProvider,
       (previous, next) {
         next.whenOrNull(
-          success: (_) => context.pushNamed('message-detail'),
+          success: (msg) => context.pushNamed(
+            'message-detail',
+            pathParameters: {'id': msg.id},
+          ),
         );
       },
     );
