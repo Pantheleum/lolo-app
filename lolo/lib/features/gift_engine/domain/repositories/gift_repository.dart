@@ -23,7 +23,7 @@ abstract class GiftRepository {
 
   /// Get AI-powered gift recommendations based on partner profile.
   Future<Either<Failure, List<GiftRecommendationEntity>>>
-      getAiRecommendations();
+      getAiRecommendations({String? occasion});
 
   /// Toggle the saved/favorite status of a gift.
   Future<Either<Failure, void>> toggleSave(String giftId);

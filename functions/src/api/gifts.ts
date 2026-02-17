@@ -3,6 +3,8 @@ import { Router, Response, NextFunction } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { db, redis } from "../config";
 import { AuthenticatedRequest, AppError } from "../types";
+import { callGpt } from "../ai/providers/gpt";
+import * as functions from "firebase-functions";
 
 const router = Router();
 
@@ -31,13 +33,14 @@ router.get("/categories", async (req: AuthenticatedRequest, res: Response, next:
       const suggestions = d.suggestions || [];
       return suggestions.map((s: any) => ({
         id: s.id || doc.id,
-        title: s.title || "Gift suggestion",
+        name: s.name || s.title || "Gift suggestion",
         description: s.description || "",
-        estimatedPrice: s.estimatedPrice || d.budget || null,
-        category: s.category || d.occasion || "general",
-        matchScore: s.matchScore || 0,
-        occasion: d.occasion || "",
-        currency: d.currency || "USD",
+        priceRange: s.priceRange || s.estimatedPrice || "$10-50",
+        category: s.category || d.occasion || "other",
+        whySheLoveIt: s.whySheLoveIt || "",
+        matchedTraits: s.matchedTraits || [],
+        isLowBudget: s.isLowBudget || false,
+        isSaved: s.isSaved || false,
         createdAt: d.createdAt,
       }));
     });
@@ -65,75 +68,117 @@ router.get("/categories", async (req: AuthenticatedRequest, res: Response, next:
 });
 
 // ============================================================
-// POST /gifts/suggest — suggest gifts (placeholder for AI)
+// POST /gifts/recommend — AI-powered gift suggestions
 // ============================================================
-router.post("/suggest", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+router.post("/recommend", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
     const uid = req.user.uid;
-    const {
-      occasion,
-      budget,
-      currency,
-      partnerProfileId,
-      interests,
-      preferences,
-    } = req.body;
+    const { occasion, budget, currency } = req.body;
 
-    if (!occasion) {
-      throw new AppError(400, "MISSING_FIELDS", "occasion is required");
+    console.log("[GIFTS] Recommend request:", { occasion, budget, currency });
+
+    // Get user profile for partner context
+    const userDoc = await db.collection("users").doc(uid).get();
+    const userData = userDoc.data() || {};
+    const partnerName = userData.partnerNickname || userData.partnerName || "her";
+    const nationality = userData.partnerNationality || userData.nationality || "";
+    const country = userData.country || userData.partnerCountry || "";
+    const city = userData.city || "";
+    const language = userData.language || "en";
+
+    // Build location context for culturally & locally relevant gifts
+    let locationContext = "";
+    if (country || city) {
+      const loc = [city, country].filter(Boolean).join(", ");
+      locationContext = `\n- The user is located in ${loc}. Suggest gifts that are available and relevant in this location. Consider local shops, experiences, and culturally appropriate options for this region.`;
     }
 
+    const systemPrompt = `You are LOLO, an AI gift recommendation expert for men who want to surprise their partners.
+
+Generate exactly 5 thoughtful, creative gift suggestions. Respond with ONLY a JSON array (no other text).
+
+Each gift must have this structure:
+{
+  "name": "<gift name>",
+  "description": "<2-3 sentences explaining what it is and why it's special>",
+  "whySheLoveIt": "<1 sentence from her perspective — why she'd love this>",
+  "priceRange": "<e.g. '$20-50' or '$100-200'>",
+  "category": "<one of: flowers, jewelry, experience, fashion, beauty, food, tech, home, books, handmade, subscription, other>",
+  "isLowBudget": <true if under $30, false otherwise>,
+  "matchedTraits": ["<trait1>", "<trait2>"]
+}
+
+Rules:
+- Be specific — "Personalized star map of the night you met" not just "a poster"
+- Mix price ranges from affordable to premium
+- Include at least one low-budget heartfelt option
+- Include at least one experience (not physical item)
+- Be culturally appropriate${nationality ? ` for ${nationality} women` : ""}${locationContext}
+- Her name is "${partnerName}"
+${budget ? `- Stay within budget: ${budget} ${currency || "USD"}` : ""}`;
+
+    const userPrompt = occasion
+      ? `Suggest 5 gifts for this occasion: ${occasion}`
+      : "Suggest 5 thoughtful gifts to surprise her — no special occasion, just because.";
+
+    const result = await callGpt("gpt-4o-mini", systemPrompt, userPrompt, 1500);
+
+    let suggestions: any[];
+    try {
+      let jsonStr = result.content.trim();
+      if (jsonStr.startsWith("```")) {
+        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
+      }
+      suggestions = JSON.parse(jsonStr);
+    } catch (parseErr) {
+      functions.logger.error("Failed to parse gift suggestions", parseErr);
+      suggestions = [{
+        name: "Handwritten Love Letter",
+        description: "Write a heartfelt letter expressing what she means to you. Put it in a beautiful envelope with dried flowers.",
+        whySheLoveIt: "Nothing beats knowing someone took time to pour their heart out on paper.",
+        priceRange: "$5-10",
+        category: "handmade",
+        isLowBudget: true,
+        matchedTraits: ["romantic", "thoughtful"],
+      }];
+    }
+
+    // Store in Firestore
     const suggestionId = uuidv4();
     const now = new Date().toISOString();
 
-    // TODO: Call AI router for real gift suggestions
-    // For now, store the request and return placeholder suggestions
-    const suggestionData = {
-      occasion,
-      budget: budget || null,
-      currency: currency || "USD",
-      partnerProfileId: partnerProfileId || null,
-      interests: interests || [],
-      preferences: preferences || null,
-      suggestions: [
-        {
-          id: uuidv4(),
-          title: `[Placeholder gift for ${occasion}]`,
-          description: "AI-generated gift suggestion placeholder",
-          estimatedPrice: budget || null,
-          category: "general",
-          matchScore: 0.85,
-        },
-      ],
-      feedbackRating: null,
-      feedbackComment: null,
-      metadata: {
-        modelUsed: "placeholder",
-        latencyMs: 0,
-      },
-      createdAt: now,
-      updatedAt: now,
-    };
+    const formattedSuggestions = suggestions.map((s: any) => ({
+      id: uuidv4(),
+      name: s.name || s.title || "Gift idea",
+      description: s.description || "",
+      whySheLoveIt: s.whySheLoveIt || "",
+      priceRange: s.priceRange || "$10-50",
+      category: s.category || "other",
+      isLowBudget: s.isLowBudget || false,
+      matchedTraits: s.matchedTraits || [],
+      isSaved: false,
+    }));
 
     await db
       .collection("users")
       .doc(uid)
       .collection("giftSuggestions")
       .doc(suggestionId)
-      .set(suggestionData);
+      .set({
+        occasion: occasion || "just because",
+        budget: budget || null,
+        currency: currency || "USD",
+        suggestions: formattedSuggestions,
+        category: occasion || "other",
+        modelUsed: "gpt-4o-mini",
+        createdAt: now,
+        updatedAt: now,
+      });
 
-    // Invalidate history cache
-    const cacheKeys = await redis.keys(`gifts:history:${uid}:*`);
-    if (cacheKeys.length > 0) await redis.del(...cacheKeys);
+    console.log("[GIFTS] Generated", formattedSuggestions.length, "suggestions");
 
     res.status(201).json({
-      data: {
-        id: suggestionId,
-        occasion,
-        suggestions: suggestionData.suggestions,
-        metadata: suggestionData.metadata,
-        createdAt: now,
-      },
+      data: formattedSuggestions,
     });
   } catch (err) {
     if (err instanceof AppError) return next(err);

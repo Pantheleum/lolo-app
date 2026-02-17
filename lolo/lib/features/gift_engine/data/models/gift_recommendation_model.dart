@@ -37,8 +37,8 @@ class GiftRecommendationModel {
 
   factory GiftRecommendationModel.fromJson(Map<String, dynamic> json) {
     return GiftRecommendationModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? json['title'] as String? ?? 'Gift idea',
       priceRange: json['priceRange'] as String? ?? '',
       category: json['category'] as String? ?? 'all',
       imageUrl: json['imageUrl'] as String?,

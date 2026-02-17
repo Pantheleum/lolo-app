@@ -10,8 +10,89 @@ import 'package:lolo/core/widgets/lolo_empty_state.dart';
 import 'package:lolo/core/widgets/gift_card.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_category.dart';
 import 'package:lolo/features/gift_engine/domain/entities/gift_recommendation_entity.dart';
+import 'package:lolo/features/gift_engine/domain/repositories/gift_repository.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_filter_provider.dart';
 import 'package:lolo/features/gift_engine/presentation/providers/gift_provider.dart';
+
+void _showSuggestDialog(BuildContext context, WidgetRef ref) {
+  final occasions = [
+    ('Just Because', Icons.favorite),
+    ('Birthday', Icons.cake),
+    ('Anniversary', Icons.celebration),
+    ('Apology', Icons.sentiment_dissatisfied),
+    ("Valentine's Day", Icons.favorite_border),
+    ('Eid / Holiday', Icons.mosque),
+  ];
+
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (ctx) => Padding(
+      padding: const EdgeInsets.all(LoloSpacing.spaceLg),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "What's the occasion?",
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+          const SizedBox(height: LoloSpacing.spaceMd),
+          ...occasions.map((o) => ListTile(
+                leading: Icon(o.$2, color: LoloColors.colorPrimary),
+                title: Text(o.$1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _generateSuggestions(context, ref, o.$1);
+                },
+              )),
+          const SizedBox(height: LoloSpacing.spaceMd),
+        ],
+      ),
+    ),
+  );
+}
+
+void _generateSuggestions(
+    BuildContext context, WidgetRef ref, String occasion) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Row(
+        children: [
+          SizedBox(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(width: 12),
+          Text('Generating AI gift ideas...'),
+        ],
+      ),
+      duration: Duration(seconds: 15),
+    ),
+  );
+
+  ref
+      .read(giftRepositoryProvider)
+      .getAiRecommendations(occasion: occasion)
+      .then((_) {
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    }
+    ref.read(giftBrowseNotifierProvider.notifier).loadFirstPage();
+  });
+}
 
 /// Screen 23: Gift Browse.
 ///
@@ -46,8 +127,7 @@ class GiftsScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: _AiRecommendFab(
-        onPressed: () =>
-            context.pushNamed('gift-recommend'),
+        onPressed: () => _showSuggestDialog(context, ref),
       ),
       body: Column(
         children: [
