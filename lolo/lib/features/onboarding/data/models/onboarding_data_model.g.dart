@@ -11,6 +11,7 @@ OnboardingDataModel _$OnboardingDataModelFromJson(Map<String, dynamic> json) =>
       language: json['language'] as String,
       userName: json['userName'] as String?,
       partnerName: json['partnerName'] as String?,
+      partnerNickname: json['partnerNickname'] as String?,
       partnerZodiac: json['partnerZodiac'] as String?,
       relationshipStatus: json['relationshipStatus'] as String?,
       keyDate: json['keyDate'] == null
@@ -30,6 +31,7 @@ Map<String, dynamic> _$OnboardingDataModelToJson(
       'language': instance.language,
       'userName': instance.userName,
       'partnerName': instance.partnerName,
+      'partnerNickname': instance.partnerNickname,
       'partnerZodiac': instance.partnerZodiac,
       'relationshipStatus': instance.relationshipStatus,
       'keyDate': instance.keyDate?.toIso8601String(),

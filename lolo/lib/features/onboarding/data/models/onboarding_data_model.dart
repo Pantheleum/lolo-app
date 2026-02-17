@@ -13,6 +13,7 @@ class OnboardingDataModel {
   final String language;
   final String? userName;
   final String? partnerName;
+  final String? partnerNickname;
   final String? partnerZodiac;
   final String? relationshipStatus;
   final DateTime? keyDate;
@@ -27,6 +28,7 @@ class OnboardingDataModel {
     required this.language,
     this.userName,
     this.partnerName,
+    this.partnerNickname,
     this.partnerZodiac,
     this.relationshipStatus,
     this.keyDate,
@@ -49,6 +51,7 @@ class OnboardingDataModel {
         language: entity.language,
         userName: entity.userName,
         partnerName: entity.partnerName,
+        partnerNickname: entity.partnerNickname,
         partnerZodiac: entity.partnerZodiac,
         relationshipStatus: entity.relationshipStatus,
         keyDate: entity.keyDate,
@@ -65,6 +68,7 @@ class OnboardingDataModel {
         language: language,
         userName: userName,
         partnerName: partnerName,
+        partnerNickname: partnerNickname,
         partnerZodiac: partnerZodiac,
         relationshipStatus: relationshipStatus,
         keyDate: keyDate,

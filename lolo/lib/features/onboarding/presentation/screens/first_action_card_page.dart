@@ -90,14 +90,16 @@ class _FirstActionCardPageState extends ConsumerState<FirstActionCardPage> {
     setState(() => _isCompleting = true);
 
     try {
-      // Mark onboarding complete locally
+      // Set synchronous override IMMEDIATELY to prevent route guard race condition
+      ref.read(onboardingCompleteOverrideProvider.notifier).state = true;
+
+      // Persist to SharedPreferences for next app launch
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('onboarding_complete', true);
-      // Invalidate the cached provider so route guard picks up the new value
       ref.invalidate(onboardingCompleteProvider);
 
-      // Try backend completion (non-blocking -- will sync later)
-      ref
+      // Save profile data to Firestore (awaited so data persists)
+      await ref
           .read(onboardingNotifierProvider.notifier)
           .completeAndShowFirstCard();
 
@@ -105,7 +107,7 @@ class _FirstActionCardPageState extends ConsumerState<FirstActionCardPage> {
         context.go('/');
       }
     } catch (_) {
-      // Even if backend fails, navigate to home
+      // Even if Firestore save fails, navigate to home
       if (mounted) {
         context.go('/');
       }

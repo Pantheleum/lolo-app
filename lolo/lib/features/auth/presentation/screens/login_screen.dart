@@ -1,4 +1,6 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -33,11 +35,35 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _markOnboardedAndNavigate() async {
-    // Returning users already completed onboarding -- mark it so route guard allows home
+    // Set synchronous override IMMEDIATELY to prevent route guard race condition
+    ref.read(onboardingCompleteOverrideProvider.notifier).state = true;
+
+    // Check Firestore for user profile (returning user after reinstall)
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      try {
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uid)
+            .get();
+        if (!userDoc.exists || userDoc.data()?['onboardingComplete'] != true) {
+          // No profile in Firestore — redirect to onboarding to create one
+          ref.read(onboardingCompleteOverrideProvider.notifier).state = false;
+          if (mounted) {
+            context.go('/onboarding');
+          }
+          return;
+        }
+      } catch (_) {
+        // Firestore check failed — allow navigation anyway
+      }
+    }
+
+    // Persist to SharedPreferences for this session
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('onboarding_complete', true);
-    // Invalidate the cached provider so route guard picks up the new value
     ref.invalidate(onboardingCompleteProvider);
+
     if (mounted) {
       context.go('/');
     }

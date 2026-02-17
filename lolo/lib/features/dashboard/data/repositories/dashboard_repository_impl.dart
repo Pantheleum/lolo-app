@@ -27,47 +27,61 @@ class DashboardRepositoryImpl implements DashboardRepository {
       final userDoc = await _firestore.collection('users').doc(uid).get();
       final userData = userDoc.data() ?? {};
 
-      final remindersSnap = await _firestore
-          .collection('users')
-          .doc(uid)
-          .collection('reminders')
-          .where('date', isGreaterThanOrEqualTo: Timestamp.now())
-          .orderBy('date')
-          .limit(3)
-          .get();
+      // Fetch reminders (graceful fallback if subcollection doesn't exist)
+      List<DashboardReminder> reminders = [];
+      try {
+        final remindersSnap = await _firestore
+            .collection('users')
+            .doc(uid)
+            .collection('reminders')
+            .where('date', isGreaterThanOrEqualTo: Timestamp.now())
+            .orderBy('date')
+            .limit(3)
+            .get();
 
-      final reminders = remindersSnap.docs.map((doc) {
-        final d = doc.data();
-        return DashboardReminder(
-          id: doc.id,
-          title: d['title'] as String? ?? '',
-          date: (d['date'] as Timestamp).toDate(),
-          category: d['category'] as String? ?? 'custom',
-        );
-      }).toList();
+        reminders = remindersSnap.docs.map((doc) {
+          final d = doc.data();
+          return DashboardReminder(
+            id: doc.id,
+            title: d['title'] as String? ?? '',
+            date: (d['date'] as Timestamp).toDate(),
+            category: d['category'] as String? ?? 'custom',
+          );
+        }).toList();
+      } catch (_) {
+        // Index may not exist yet or no data — use empty list
+      }
 
-      final cardsSnap = await _firestore
-          .collection('users')
-          .doc(uid)
-          .collection('dailyCards')
-          .where('status', isEqualTo: 'pending')
-          .limit(5)
-          .get();
+      // Fetch daily action cards (graceful fallback)
+      List<DashboardActionCard> cards = [];
+      try {
+        final cardsSnap = await _firestore
+            .collection('users')
+            .doc(uid)
+            .collection('dailyCards')
+            .where('status', isEqualTo: 'pending')
+            .limit(5)
+            .get();
 
-      final cards = cardsSnap.docs.map((doc) {
-        final d = doc.data();
-        return DashboardActionCard(
-          id: doc.id,
-          type: d['type'] as String? ?? 'say',
-          title: d['title'] as String? ?? '',
-          body: d['body'] as String? ?? '',
-          difficulty: d['difficulty'] as int? ?? 1,
-          xpValue: d['xpValue'] as int? ?? 10,
-        );
-      }).toList();
+        cards = cardsSnap.docs.map((doc) {
+          final d = doc.data();
+          return DashboardActionCard(
+            id: doc.id,
+            type: d['type'] as String? ?? 'say',
+            title: d['title'] as String? ?? '',
+            body: d['body'] as String? ?? '',
+            difficulty: d['difficulty'] as int? ?? 1,
+            xpValue: d['xpValue'] as int? ?? 10,
+          );
+        }).toList();
+      } catch (_) {
+        // Index may not exist yet or no data — use empty list
+      }
 
       return Right(DashboardData(
-        userName: userData['displayName'] as String? ?? 'King',
+        userName: userData['displayName'] as String? ??
+            _auth.currentUser?.displayName ??
+            'King',
         partnerName: userData['partnerName'] as String? ?? 'Her',
         streak: userData['streak'] as int? ?? 0,
         level: userData['level'] as int? ?? 1,

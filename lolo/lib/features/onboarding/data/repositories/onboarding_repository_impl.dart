@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lolo/core/errors/failures.dart';
 import 'package:lolo/core/errors/exceptions.dart';
 import 'package:lolo/features/onboarding/data/datasources/onboarding_local_datasource.dart';
@@ -9,18 +11,24 @@ import 'package:lolo/features/onboarding/domain/repositories/onboarding_reposito
 
 /// Concrete implementation of [OnboardingRepository].
 ///
-/// Strategy: save locally after every step, sync to backend on complete.
+/// Strategy: save locally after every step, write directly to Firestore on complete.
 /// Local draft uses Hive (fast, no schema needed).
-/// Backend sync uses Dio via [OnboardingRemoteDataSource].
+/// Completion writes user profile to Firestore `users/{uid}` document.
 class OnboardingRepositoryImpl implements OnboardingRepository {
   final OnboardingLocalDataSource _localDataSource;
   final OnboardingRemoteDataSource _remoteDataSource;
+  final FirebaseFirestore _firestore;
+  final FirebaseAuth _auth;
 
-  const OnboardingRepositoryImpl({
+  OnboardingRepositoryImpl({
     required OnboardingLocalDataSource localDataSource,
     required OnboardingRemoteDataSource remoteDataSource,
+    FirebaseFirestore? firestore,
+    FirebaseAuth? auth,
   })  : _localDataSource = localDataSource,
-        _remoteDataSource = remoteDataSource;
+        _remoteDataSource = remoteDataSource,
+        _firestore = firestore ?? FirebaseFirestore.instance,
+        _auth = auth ?? FirebaseAuth.instance;
 
   @override
   Future<Either<Failure, void>> saveDraft(OnboardingDataEntity data) async {
@@ -58,20 +66,49 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     OnboardingDataEntity data,
   ) async {
     try {
-      // Step 1: Create partner profile (auth already done in step 3)
-      final model = OnboardingDataModel.fromEntity(data);
-      await _remoteDataSource.createProfile(model);
+      final uid = _auth.currentUser?.uid;
+      if (uid == null) {
+        return const Left(AuthFailure(message: 'User not authenticated'));
+      }
 
-      // Step 2: Mark onboarding as complete
-      await _remoteDataSource.markOnboardingComplete();
+      // Write user profile directly to Firestore
+      // Fields match the Firestore rules requirements for users/{uid}
+      await _firestore.collection('users').doc(uid).set({
+        'uid': uid,
+        'email': data.email ?? _auth.currentUser?.email ?? '',
+        'displayName': data.userName ?? _auth.currentUser?.displayName ?? '',
+        'language': data.language,
+        'tier': 'free',
+        'onboardingComplete': true,
+        'settings': {
+          'notificationsEnabled': true,
+          'dailyCardTime': '09:00',
+          'theme': 'system',
+        },
+        'createdAt': FieldValue.serverTimestamp(),
+        'lastActiveAt': FieldValue.serverTimestamp(),
+        // Additional profile fields
+        'partnerName': data.partnerName ?? '',
+        if (data.partnerNickname != null && data.partnerNickname!.isNotEmpty)
+          'partnerNickname': data.partnerNickname,
+        if (data.partnerZodiac != null) 'partnerZodiac': data.partnerZodiac,
+        'relationshipStatus': data.relationshipStatus ?? 'dating',
+        if (data.keyDate != null)
+          'keyDate': Timestamp.fromDate(data.keyDate!),
+        if (data.keyDateType != null) 'keyDateType': data.keyDateType,
+        'authProvider': data.authProvider ?? 'email',
+        'streak': 0,
+        'level': 1,
+        'xp': 0,
+        'xpToNextLevel': 100,
+        'activeDays': <bool>[],
+      }, SetOptions(merge: true));
 
       return const Right(null);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
-    } on NetworkException {
-      return const Left(
-        NetworkFailure(message: 'No internet connection. Please try again.'),
-      );
+    } on FirebaseException catch (e) {
+      return Left(ServerFailure(message: e.message ?? 'Failed to save profile'));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }

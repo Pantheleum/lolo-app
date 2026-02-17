@@ -44,16 +44,10 @@ service cloud.firestore {
     match /users/{uid} {
       allow read: if isOwner(uid);
       allow create: if isOwner(uid)
-        && hasRequiredFields(['uid', 'email', 'displayName', 'language', 'tier', 'onboardingComplete', 'settings', 'createdAt', 'lastActiveAt'])
-        && isValidEnum('language', ['en', 'ar', 'ms'])
-        && isValidEnum('tier', ['free', 'pro', 'legend'])
-        && isValidString('displayName', 2, 50)
+        && hasRequiredFields(['uid', 'email', 'displayName', 'language', 'tier', 'onboardingComplete'])
         && request.resource.data.uid == uid;
       allow update: if isOwner(uid)
-        && isNotRateLimited()
-        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['uid', 'email', 'createdAt']))
-        && (request.resource.data.language == resource.data.language || isValidEnum('language', ['en', 'ar', 'ms']))
-        && (request.resource.data.tier == resource.data.tier || isValidEnum('tier', ['free', 'pro', 'legend']));
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['uid', 'createdAt']));
       allow delete: if false; // deletion handled by Cloud Functions
 
       // ============================

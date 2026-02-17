@@ -2,7 +2,7 @@
 abstract final class AppConstants {
   // API
   static const String baseUrl =
-      'https://us-central1-lolo-app.cloudfunctions.net/api/v1';
+      'https://us-central1-lolo-3228d.cloudfunctions.net/api/api/v1';
   static const String appVersion = '1.0.0';
   static const String platform = 'android'; // Resolved at runtime
 
