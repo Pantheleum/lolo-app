@@ -25,8 +25,8 @@ class SosRepositoryImpl implements SosRepository {
         urgency: urgency.name,
       );
       return Right(_mapSession(data));
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -48,8 +48,8 @@ class SosRepositoryImpl implements SosRepository {
         },
       );
       return Right(_mapAssessment(data));
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -73,8 +73,8 @@ class SosRepositoryImpl implements SosRepository {
         saveToMemoryVault: saveToMemoryVault,
       );
       return const Right(null);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -83,8 +83,8 @@ class SosRepositoryImpl implements SosRepository {
     try {
       final data = await _remote.getSession(sessionId);
       return Right(_mapSession(data));
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 

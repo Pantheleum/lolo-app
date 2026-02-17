@@ -19,6 +19,8 @@ router.post(
       const uid = req.user.uid;
       const { scenario, urgency } = req.body;
 
+      console.log("[SOS] Activate request:", JSON.stringify(req.body));
+
       if (!scenario || !urgency) {
         throw new AppError(400, "MISSING_FIELDS", "scenario and urgency are required");
       }
@@ -47,6 +49,8 @@ router.post(
       });
 
       const now = new Date().toISOString();
+
+      console.log("[SOS] Session created:", sessionId, "| Advice:", JSON.stringify(immediateAdvice).substring(0, 200));
 
       res.status(201).json({
         data: {
