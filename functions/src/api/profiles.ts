@@ -55,15 +55,49 @@ function calculateCompletionPercent(profile: Record<string, any>): number {
 // ============================================================
 // Helper: resolve "default" profile ID to real document ID
 // ============================================================
-async function resolveProfileId(uid: string, id: string): Promise<string> {
-  if (id !== "default") return id;
-  const snap = await db.collection("users").doc(uid)
-    .collection("partnerProfiles")
-    .where("deletedAt", "==", null).limit(1).get();
-  if (snap.empty) {
-    throw new AppError(404, "NOT_FOUND", "No partner profile found");
+async function resolveProfileId(uid: string, id: string): Promise<{ id: string; collection: string }> {
+  if (id !== "default") return { id, collection: "partnerProfiles" };
+
+  // Try partnerProfiles first (canonical collection)
+  let snap = await db.collection("users").doc(uid)
+    .collection("partnerProfiles").limit(1).get();
+  if (!snap.empty) return { id: snap.docs[0].id, collection: "partnerProfiles" };
+
+  // Fallback: some older accounts may have profiles in "profiles" subcollection
+  snap = await db.collection("users").doc(uid)
+    .collection("profiles").limit(1).get();
+  if (!snap.empty) return { id: snap.docs[0].id, collection: "profiles" };
+
+  // Auto-create: seed partner profile from user document data
+  const userDoc = await db.collection("users").doc(uid).get();
+  if (userDoc.exists) {
+    const userData = userDoc.data()!;
+    const profileId = uuidv4();
+    const profileData: Record<string, any> = {
+      name: userData.partnerName || "Her",
+      birthday: userData.partnerBirthday || null,
+      zodiacSign: userData.partnerZodiac || null,
+      loveLanguage: null,
+      communicationStyle: null,
+      relationshipStatus: userData.relationshipStatus || "dating",
+      anniversaryDate: userData.anniversaryDate || null,
+      photoUrl: null,
+      keyDates: [],
+      preferences: { favorites: {}, dislikes: [], hobbies: [] },
+      culturalContext: { background: null, religiousObservance: null, dialect: null },
+      deletedAt: null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    profileData.completionPercent = calculateCompletionPercent(profileData);
+
+    await db.collection("users").doc(uid)
+      .collection("partnerProfiles").doc(profileId).set(profileData);
+    console.log(`[PROFILES] Auto-created profile ${profileId} for uid=${uid} from user doc`);
+    return { id: profileId, collection: "partnerProfiles" };
   }
-  return snap.docs[0].id;
+
+  throw new AppError(404, "NOT_FOUND", "No partner profile found");
 }
 
 // ============================================================
@@ -151,13 +185,20 @@ router.post("/", async (req: AuthenticatedRequest, res: Response, next: NextFunc
 // When id === "default", resolve to the user's first (MVP: only) partner profile.
 router.get("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const id = await resolveProfileId(req.user.uid, req.params.id);
+    const resolved = await resolveProfileId(req.user.uid, req.params.id);
+    const id = resolved.id;
     const cacheKey = `profile:${req.user.uid}:${id}`;
-    const cached = await redis.get(cacheKey);
-    if (cached) return res.json({ data: JSON.parse(cached) });
+
+    // Skip cache for "default" alias to avoid serving stale/malformed data
+    if (req.params.id !== "default") {
+      const cached = await redis.get(cacheKey);
+      if (cached) return res.json({ data: JSON.parse(cached) });
+    } else {
+      await redis.del(cacheKey);
+    }
 
     const profileDoc = await db.collection("users").doc(req.user.uid)
-      .collection("partnerProfiles").doc(id).get();
+      .collection(resolved.collection).doc(id).get();
 
     if (!profileDoc.exists || profileDoc.data()?.deletedAt) {
       throw new AppError(404, "NOT_FOUND", "Profile not found");
@@ -169,9 +210,18 @@ router.get("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFu
       zodiacTraits = await loadZodiacDefaults(profile.zodiacSign, req.locale);
     }
 
+    // Helper: convert Firestore Timestamps or Date objects to ISO strings
+    const toISOString = (val: any): string | null => {
+      if (!val) return null;
+      if (typeof val === "string") return val;
+      if (val.toDate) return val.toDate().toISOString(); // Firestore Timestamp
+      if (val instanceof Date) return val.toISOString();
+      return String(val);
+    };
+
     const data = {
-      id, userId: req.user.uid, name: profile.name,
-      birthday: profile.birthday || null, zodiacSign: profile.zodiacSign || null,
+      id, userId: req.user.uid, name: profile.name || "Her",
+      birthday: toISOString(profile.birthday), zodiacSign: profile.zodiacSign || null,
       zodiacTraits: zodiacTraits ? {
         personality: zodiacTraits.personality,
         communicationTips: zodiacTraits.communicationTips,
@@ -181,13 +231,14 @@ router.get("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFu
       } : null,
       loveLanguage: profile.loveLanguage || null,
       communicationStyle: profile.communicationStyle || null,
-      relationshipStatus: profile.relationshipStatus,
-      anniversaryDate: profile.anniversaryDate || null,
+      relationshipStatus: profile.relationshipStatus || "dating",
+      anniversaryDate: toISOString(profile.anniversaryDate),
       photoUrl: profile.photoUrl || null,
       preferences: profile.preferences || {},
       culturalContext: profile.culturalContext || {},
       profileCompletionPercent: profile.completionPercent || 0,
-      createdAt: profile.createdAt, updatedAt: profile.updatedAt,
+      createdAt: toISOString(profile.createdAt) || new Date().toISOString(),
+      updatedAt: toISOString(profile.updatedAt) || new Date().toISOString(),
     };
 
     await redis.setex(cacheKey, CONFIG.CACHE_TTL_PROFILE, JSON.stringify(data));
@@ -201,11 +252,12 @@ router.get("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFu
 // PUT /profiles/:id -- update fields
 router.put("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const id = await resolveProfileId(req.user.uid, req.params.id);
+    const resolved = await resolveProfileId(req.user.uid, req.params.id);
+    const id = resolved.id;
     const body = updatePartnerProfileSchema.parse(req.body);
 
     const profileRef = db.collection("users").doc(req.user.uid)
-      .collection("partnerProfiles").doc(id);
+      .collection(resolved.collection).doc(id);
     const profileDoc = await profileRef.get();
     if (!profileDoc.exists || profileDoc.data()?.deletedAt) {
       throw new AppError(404, "NOT_FOUND", "Profile not found");
@@ -232,9 +284,10 @@ router.put("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFu
 // DELETE /profiles/:id -- soft delete
 router.delete("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const id = await resolveProfileId(req.user.uid, req.params.id);
+    const resolved = await resolveProfileId(req.user.uid, req.params.id);
+    const id = resolved.id;
     const profileRef = db.collection("users").doc(req.user.uid)
-      .collection("partnerProfiles").doc(id);
+      .collection(resolved.collection).doc(id);
     const profileDoc = await profileRef.get();
     if (!profileDoc.exists || profileDoc.data()?.deletedAt) {
       throw new AppError(404, "NOT_FOUND", "Profile not found");
@@ -251,13 +304,14 @@ router.delete("/:id", async (req: AuthenticatedRequest, res: Response, next: Nex
 // GET /profiles/:id/zodiac-defaults
 router.get("/:id/zodiac-defaults", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const id = await resolveProfileId(req.user.uid, req.params.id);
+    const resolved = await resolveProfileId(req.user.uid, req.params.id);
+    const id = resolved.id;
     let sign = req.query.sign as ZodiacSign | undefined;
     const validSigns: ZodiacSign[] = ["aries","taurus","gemini","cancer","leo","virgo","libra","scorpio","sagittarius","capricorn","aquarius","pisces"];
 
     if (!sign) {
       const profileDoc = await db.collection("users").doc(req.user.uid)
-        .collection("partnerProfiles").doc(id).get();
+        .collection(resolved.collection).doc(id).get();
       if (!profileDoc.exists || !profileDoc.data()?.zodiacSign) {
         throw new AppError(400, "INVALID_ZODIAC_SIGN", "No zodiac sign set on profile");
       }
@@ -277,11 +331,12 @@ router.get("/:id/zodiac-defaults", async (req: AuthenticatedRequest, res: Respon
 // PUT /profiles/:id/preferences
 router.put("/:id/preferences", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const id = await resolveProfileId(req.user.uid, req.params.id);
+    const resolved = await resolveProfileId(req.user.uid, req.params.id);
+    const id = resolved.id;
     const body = updatePreferencesSchema.parse(req.body);
 
     const profileRef = db.collection("users").doc(req.user.uid)
-      .collection("partnerProfiles").doc(id);
+      .collection(resolved.collection).doc(id);
     const profileDoc = await profileRef.get();
     if (!profileDoc.exists || profileDoc.data()?.deletedAt) throw new AppError(404, "NOT_FOUND", "Profile not found");
 
@@ -308,11 +363,12 @@ router.put("/:id/preferences", async (req: AuthenticatedRequest, res: Response, 
 // PUT /profiles/:id/cultural-context
 router.put("/:id/cultural-context", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const id = await resolveProfileId(req.user.uid, req.params.id);
+    const resolved = await resolveProfileId(req.user.uid, req.params.id);
+    const id = resolved.id;
     const body = updateCulturalContextSchema.parse(req.body);
 
     const profileRef = db.collection("users").doc(req.user.uid)
-      .collection("partnerProfiles").doc(id);
+      .collection(resolved.collection).doc(id);
     const profileDoc = await profileRef.get();
     if (!profileDoc.exists || profileDoc.data()?.deletedAt) throw new AppError(404, "NOT_FOUND", "Profile not found");
 
