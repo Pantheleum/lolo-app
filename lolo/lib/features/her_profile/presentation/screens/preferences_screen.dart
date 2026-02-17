@@ -6,6 +6,8 @@ import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_chip_group.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/core/widgets/lolo_text_field.dart';
+import 'package:lolo/features/her_profile/domain/entities/partner_preferences_entity.dart';
+import 'package:lolo/features/her_profile/presentation/providers/her_profile_provider.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Preferences screen: love language chips, interests, triggers.
@@ -27,6 +29,8 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
   final List<String> _hobbies = [];
   final List<String> _dislikes = [];
   String _activeCategory = 'flowers';
+  bool _isSaving = false;
+  bool _loaded = false;
 
   static const _categories = [
     'flowers',
@@ -43,10 +47,24 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
     super.dispose();
   }
 
+  void _loadExistingData(PartnerPreferencesEntity? prefs) {
+    if (_loaded || prefs == null) return;
+    _loaded = true;
+    for (final entry in prefs.favorites.entries) {
+      _favorites[entry.key] = List<String>.from(entry.value);
+    }
+    _hobbies.addAll(prefs.hobbies);
+    _dislikes.addAll(prefs.dislikes);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final profileAsync = ref.watch(herProfileNotifierProvider(widget.profileId));
+
+    // Load existing preferences when profile data is available
+    profileAsync.whenData((profile) => _loadExistingData(profile.preferences));
 
     return Scaffold(
       appBar: LoloAppBar(
@@ -175,8 +193,8 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
             const SizedBox(height: LoloSpacing.space2xl),
 
             LoloPrimaryButton(
-              label: l10n.common_button_save,
-              onPressed: _save,
+              label: _isSaving ? 'Saving...' : l10n.common_button_save,
+              onPressed: _isSaving ? null : _save,
             ),
             const SizedBox(height: LoloSpacing.space2xl),
           ],
@@ -195,8 +213,37 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
     _addController.clear();
   }
 
-  void _save() {
-    // Save via provider
-    Navigator.of(context).pop();
+  Future<void> _save() async {
+    setState(() => _isSaving = true);
+
+    final preferences = PartnerPreferencesEntity(
+      favorites: Map<String, List<String>>.from(_favorites),
+      hobbies: List<String>.from(_hobbies),
+      dislikes: List<String>.from(_dislikes),
+    );
+
+    final success = await ref
+        .read(herProfileNotifierProvider(widget.profileId).notifier)
+        .updatePreferences(preferences);
+
+    if (!mounted) return;
+    setState(() => _isSaving = false);
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Preferences saved'),
+          backgroundColor: LoloColors.colorSuccess,
+        ),
+      );
+      Navigator.of(context).pop();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to save preferences'),
+          backgroundColor: LoloColors.colorError,
+        ),
+      );
+    }
   }
 }

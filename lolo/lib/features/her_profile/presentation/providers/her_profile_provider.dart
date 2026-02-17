@@ -5,6 +5,8 @@ import 'package:lolo/features/her_profile/data/datasources/her_profile_remote_da
 import 'package:lolo/features/her_profile/data/datasources/her_profile_local_datasource.dart';
 import 'package:lolo/features/her_profile/data/repositories/her_profile_repository_impl.dart';
 import 'package:lolo/features/her_profile/domain/entities/partner_profile_entity.dart';
+import 'package:lolo/features/her_profile/domain/entities/partner_preferences_entity.dart';
+import 'package:lolo/features/her_profile/domain/entities/cultural_context_entity.dart';
 import 'package:lolo/features/her_profile/domain/entities/zodiac_profile_entity.dart';
 import 'package:lolo/features/her_profile/domain/repositories/her_profile_repository.dart';
 import 'package:lolo/features/her_profile/domain/usecases/get_partner_profile_usecase.dart';
@@ -93,6 +95,38 @@ class HerProfileNotifier
   Future<void> setZodiacSign(String sign) async {
     await updateProfile({'zodiacSign': sign});
     // Zodiac defaults are fetched automatically when profile reloads
+  }
+
+  /// Update preferences and refresh profile state.
+  Future<bool> updatePreferences(PartnerPreferencesEntity preferences) async {
+    final currentId = state.value?.id;
+    if (currentId == null) return false;
+    final repo = ref.read(herProfileRepositoryProvider);
+    final result = await repo.updatePreferences(currentId, preferences);
+    return result.fold(
+      (failure) => false,
+      (_) {
+        // Refresh profile to pick up updated preferences
+        ref.invalidateSelf();
+        return true;
+      },
+    );
+  }
+
+  /// Update cultural context and refresh profile state.
+  Future<bool> updateCulturalContext(CulturalContextEntity context) async {
+    final currentId = state.value?.id;
+    if (currentId == null) return false;
+    final repo = ref.read(herProfileRepositoryProvider);
+    final result = await repo.updateCulturalContext(currentId, context);
+    return result.fold(
+      (failure) => false,
+      (_) {
+        // Refresh profile to pick up updated cultural context
+        ref.invalidateSelf();
+        return true;
+      },
+    );
   }
 }
 

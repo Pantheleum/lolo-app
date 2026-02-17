@@ -5,6 +5,7 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/features/her_profile/domain/entities/cultural_context_entity.dart';
+import 'package:lolo/features/her_profile/presentation/providers/her_profile_provider.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Cultural context screen: religion dropdown, holidays, dietary chips.
@@ -26,6 +27,8 @@ class _CulturalContextScreenState
   String? _background;
   String? _religiousObservance;
   String? _dialect;
+  bool _isSaving = false;
+  bool _loaded = false;
 
   static const _backgrounds = [
     ('gulf_arab', 'Gulf Arab'),
@@ -53,10 +56,22 @@ class _CulturalContextScreenState
     ('levantine', 'Levantine Arabic'),
   ];
 
+  void _loadExistingData(CulturalContextEntity? ctx) {
+    if (_loaded || ctx == null) return;
+    _loaded = true;
+    _background = ctx.background;
+    _religiousObservance = ctx.religiousObservance;
+    _dialect = ctx.dialect;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final profileAsync = ref.watch(herProfileNotifierProvider(widget.profileId));
+
+    // Load existing cultural context when profile data is available
+    profileAsync.whenData((profile) => _loadExistingData(profile.culturalContext));
 
     return Scaffold(
       appBar: LoloAppBar(
@@ -146,8 +161,8 @@ class _CulturalContextScreenState
             const SizedBox(height: LoloSpacing.space2xl),
 
             LoloPrimaryButton(
-              label: l10n.common_button_save,
-              onPressed: _save,
+              label: _isSaving ? 'Saving...' : l10n.common_button_save,
+              onPressed: _isSaving ? null : _save,
             ),
             const SizedBox(height: LoloSpacing.space2xl),
           ],
@@ -191,13 +206,37 @@ class _CulturalContextScreenState
     );
   }
 
-  void _save() {
-    final _ = CulturalContextEntity(
+  Future<void> _save() async {
+    setState(() => _isSaving = true);
+
+    final culturalContext = CulturalContextEntity(
       background: _background,
       religiousObservance: _religiousObservance,
       dialect: _dialect,
     );
-    // Save via provider
-    Navigator.of(this.context).pop();
+
+    final success = await ref
+        .read(herProfileNotifierProvider(widget.profileId).notifier)
+        .updateCulturalContext(culturalContext);
+
+    if (!mounted) return;
+    setState(() => _isSaving = false);
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Cultural context saved'),
+          backgroundColor: LoloColors.colorSuccess,
+        ),
+      );
+      Navigator.of(context).pop();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to save cultural context'),
+          backgroundColor: LoloColors.colorError,
+        ),
+      );
+    }
   }
 }
