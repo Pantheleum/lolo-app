@@ -7,6 +7,51 @@ import { AuthenticatedRequest, AppError } from "../types";
 const router = Router();
 
 // ============================================================
+// GET /gifts/categories — browse gift suggestions with filters
+// ============================================================
+router.get("/categories", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  try {
+    const uid = req.user.uid;
+    const { page, pageSize, category, search, lowBudget } = req.query;
+    const limit = Math.min(parseInt(pageSize as string) || 20, 50);
+
+    console.log("[GIFTS] Browse request:", { category, page, pageSize, search });
+
+    let query: FirebaseFirestore.Query = db
+      .collection("users")
+      .doc(uid)
+      .collection("giftSuggestions")
+      .orderBy("createdAt", "desc");
+
+    if (category) {
+      query = query.where("category", "==", category);
+    }
+
+    const snapshot = await query.limit(limit).get();
+
+    const gifts = snapshot.docs.flatMap((doc) => {
+      const d = doc.data();
+      const suggestions = d.suggestions || [];
+      return suggestions.map((s: any) => ({
+        id: s.id || doc.id,
+        title: s.title || "Gift suggestion",
+        description: s.description || "",
+        estimatedPrice: s.estimatedPrice || d.budget || null,
+        category: s.category || d.occasion || "general",
+        matchScore: s.matchScore || 0,
+        occasion: d.occasion || "",
+        currency: d.currency || "USD",
+        createdAt: d.createdAt,
+      }));
+    });
+
+    res.json({ data: gifts });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ============================================================
 // POST /gifts/suggest — suggest gifts (placeholder for AI)
 // ============================================================
 router.post("/suggest", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {

@@ -17,28 +17,26 @@ router.get("/daily", async (req: AuthenticatedRequest, res: Response, next: Next
   try {
     const uid = req.user.uid;
     const today = new Date().toISOString().slice(0, 10);
-    const cacheKey = `cards:daily:${uid}:${today}`;
-
-    const cached = await redis.get(cacheKey);
-    if (cached) return res.json(JSON.parse(cached));
+    console.log("[CARDS] Daily request from user:", uid, "| date:", today);
 
     const tier = await getTierFromFirestore(uid);
     const maxCards = CARDS_PER_TIER[tier];
+    console.log("[CARDS] Tier:", tier, "| maxCards:", maxCards);
 
+    // Simple query without composite index requirement
     const snapshot = await db.collection("users").doc(uid).collection("actionCards")
       .where("status", "==", "pending")
-      .where("createdAt", ">=", new Date(today + "T00:00:00Z"))
-      .where("createdAt", "<=", new Date(today + "T23:59:59Z"))
       .orderBy("createdAt", "desc")
       .limit(maxCards)
       .get();
 
     const cards = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    const response = { tier, maxCards, count: cards.length, date: today, cards };
+    console.log("[CARDS] Found", cards.length, "pending cards");
 
-    await redis.setex(cacheKey, 300, JSON.stringify(response));
+    const response = { data: { tier, maxCards, count: cards.length, date: today, cards } };
     return res.json(response);
-  } catch (err) {
+  } catch (err: any) {
+    console.error("[CARDS] Error:", err.message || err);
     next(err);
   }
 });

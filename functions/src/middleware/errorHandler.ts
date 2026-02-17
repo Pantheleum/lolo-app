@@ -9,6 +9,7 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ): void {
+  console.error(`[ERR] ${_req.method} ${_req.originalUrl} => ${err.message}`);
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       error: {
@@ -31,6 +32,7 @@ export function errorHandler(
 }
 
 export function notFoundHandler(req: Request, res: Response): void {
+  console.log(`[404] Route not found: ${req.method} ${req.originalUrl} (path: ${req.path})`);
   res.status(404).json({
     error: {
       code: "NOT_FOUND",
