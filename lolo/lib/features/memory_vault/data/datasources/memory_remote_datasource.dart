@@ -18,10 +18,10 @@ class MemoryRemoteDataSource {
     final response = await _dio.get<dynamic>(
       ApiEndpoints.memories,
       queryParameters: {
-        'page': page,
-        'pageSize': pageSize,
+        'limit': pageSize,
         if (category != null) 'category': category,
-        if (searchQuery != null && searchQuery.isNotEmpty) 'q': searchQuery,
+        if (searchQuery != null && searchQuery.isNotEmpty)
+          'search': searchQuery,
       },
     );
     return (response.data['data'] as List)
