@@ -64,6 +64,9 @@ import 'package:lolo/features/sos_mode/presentation/screens/sos_complete_screen.
 // Gamification
 import 'package:lolo/features/gamification/presentation/screens/gamification_hub_screen.dart';
 
+// Notifications
+import 'package:lolo/features/notifications/presentation/screens/notification_center_screen.dart';
+
 part 'app_router.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -321,6 +324,13 @@ GoRouter appRouter(Ref ref) {
             ],
           ),
         ],
+      ),
+
+      // === NOTIFICATIONS ===
+      GoRoute(
+        path: '/notifications',
+        name: RouteNames.notifications,
+        builder: (_, __) => const NotificationCenterScreen(),
       ),
 
       // === REMINDERS (accessible from multiple tabs) ===

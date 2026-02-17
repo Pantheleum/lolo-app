@@ -11,6 +11,7 @@ import 'package:lolo/features/dashboard/presentation/providers/dashboard_provide
 import 'package:lolo/features/dashboard/presentation/widgets/greeting_header.dart';
 import 'package:lolo/features/dashboard/presentation/widgets/streak_widget.dart';
 import 'package:lolo/features/dashboard/presentation/widgets/quick_actions_row.dart';
+import 'package:lolo/features/notifications/presentation/providers/notifications_provider.dart';
 
 /// Home / Dashboard screen showing greeting, streak, reminders,
 /// daily action cards, and quick action buttons.
@@ -28,11 +29,7 @@ class HomeScreen extends ConsumerWidget {
         showBackButton: false,
         showLogo: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () => context.pushNamed('reminders'),
-            tooltip: 'Reminders',
-          ),
+          _NotificationBellButton(),
         ],
       ),
       body: dashboardAsync.when(
@@ -229,4 +226,24 @@ class _HomeSkeleton extends StatelessWidget {
           ],
         ),
       );
+}
+
+class _NotificationBellButton extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final unread = ref.watch(unreadCountProvider);
+
+    return IconButton(
+      icon: Badge(
+        isLabelVisible: unread > 0,
+        label: Text(
+          unread > 9 ? '9+' : '$unread',
+          style: const TextStyle(fontSize: 10),
+        ),
+        child: const Icon(Icons.notifications_outlined),
+      ),
+      onPressed: () => context.pushNamed('notifications'),
+      tooltip: 'Notifications',
+    );
+  }
 }

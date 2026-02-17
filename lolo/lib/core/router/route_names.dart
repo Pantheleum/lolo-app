@@ -65,6 +65,9 @@ abstract final class RouteNames {
   static const String sosPlan = 'sos-plan';
   static const String sosFollowup = 'sos-followup';
 
+  // Notifications
+  static const String notifications = 'notifications';
+
   // Reminders
   static const String reminders = 'reminders';
   static const String reminderCreate = 'reminder-create';
