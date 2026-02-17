@@ -123,6 +123,36 @@ class HerProfileScreen extends ConsumerWidget {
 
   final String profileId;
 
+  static String _loveLanguageLabel(AppLocalizations l10n, String key) {
+    switch (key) {
+      case 'words':
+        return l10n.profile_edit_loveLanguage_words;
+      case 'acts':
+        return l10n.profile_edit_loveLanguage_acts;
+      case 'gifts':
+        return l10n.profile_edit_loveLanguage_gifts;
+      case 'time':
+        return l10n.profile_edit_loveLanguage_time;
+      case 'touch':
+        return l10n.profile_edit_loveLanguage_touch;
+      default:
+        return key;
+    }
+  }
+
+  static String _commStyleLabel(AppLocalizations l10n, String key) {
+    switch (key) {
+      case 'direct':
+        return l10n.profile_edit_commStyle_direct;
+      case 'indirect':
+        return l10n.profile_edit_commStyle_indirect;
+      case 'mixed':
+        return l10n.profile_edit_commStyle_mixed;
+      default:
+        return key;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(herProfileNotifierProvider(profileId));
@@ -158,24 +188,34 @@ class HerProfileScreen extends ConsumerWidget {
               Text(profile.name, style: theme.textTheme.headlineMedium),
               const SizedBox(height: LoloSpacing.spaceXs),
 
-              // Zodiac badge
-              if (profile.zodiacSign != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: LoloColors.colorAccent.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    profile.zodiacDisplayName,
-                    style: theme.textTheme.labelMedium?.copyWith(
+              // Badges row: zodiac, love language, communication style
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                alignment: WrapAlignment.center,
+                children: [
+                  if (profile.zodiacSign != null)
+                    _HeroBadge(
+                      label: profile.zodiacDisplayName,
                       color: LoloColors.colorAccent,
+                      onTap: () => context.push('/her/edit'),
                     ),
-                  ),
-                ),
+                  if (profile.loveLanguage != null)
+                    _HeroBadge(
+                      label: _loveLanguageLabel(l10n, profile.loveLanguage!),
+                      color: LoloColors.colorPrimary,
+                      onTap: () => context.push('/her/edit'),
+                    ),
+                  if (profile.communicationStyle != null)
+                    _HeroBadge(
+                      label: _commStyleLabel(l10n, profile.communicationStyle!),
+                      color: isDark
+                          ? LoloColors.darkTextSecondary
+                          : LoloColors.lightTextSecondary,
+                      onTap: () => context.push('/her/edit'),
+                    ),
+                ],
+              ),
               const SizedBox(height: LoloSpacing.spaceXs),
 
               // Completion percentage
@@ -216,6 +256,38 @@ class HerProfileScreen extends ConsumerWidget {
               _PartnerNationalitySelector(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HeroBadge extends StatelessWidget {
+  const _HeroBadge({
+    required this.label,
+    required this.color,
+    this.onTap,
+  });
+
+  final String label;
+  final Color color;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: color,
+              ),
         ),
       ),
     );
