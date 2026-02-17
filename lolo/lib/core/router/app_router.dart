@@ -42,6 +42,7 @@ import 'package:lolo/features/memory_vault/presentation/screens/memories_screen.
 import 'package:lolo/features/her_profile/presentation/screens/her_profile_screen.dart';
 import 'package:lolo/features/her_profile/presentation/screens/profile_edit_screen.dart';
 import 'package:lolo/features/her_profile/presentation/screens/preferences_screen.dart';
+import 'package:lolo/features/her_profile/presentation/screens/cultural_context_screen.dart';
 
 // Settings
 import 'package:lolo/features/settings/presentation/screens/settings_screen.dart';
@@ -228,40 +229,42 @@ GoRouter appRouter(Ref ref) {
             ],
           ),
 
-          // Tab 5: Profile / More
+          // Tab 5: Her Profile
+          GoRoute(
+            path: '/her',
+            name: RouteNames.her,
+            builder: (_, __) => const HerProfileScreen(),
+            routes: [
+              GoRoute(
+                path: 'edit',
+                name: RouteNames.herEdit,
+                builder: (_, __) => const ProfileEditScreen(
+                  profileId: 'default',
+                ),
+              ),
+              GoRoute(
+                path: 'preferences',
+                name: RouteNames.herPreferences,
+                builder: (_, __) => const PreferencesScreen(
+                  profileId: 'default',
+                ),
+              ),
+              GoRoute(
+                path: 'cultural',
+                name: RouteNames.herCultural,
+                builder: (_, __) => const CulturalContextScreen(
+                  profileId: 'default',
+                ),
+              ),
+            ],
+          ),
+
+          // Tab 6: Profile / More
           GoRoute(
             path: '/profile',
             name: RouteNames.profile,
             builder: (_, __) => const SettingsScreen(),
             routes: [
-              GoRoute(
-                path: 'her-profile',
-                name: RouteNames.herProfile,
-                builder: (_, state) => HerProfileScreen(
-                  profileId: state.extra as String? ?? 'default',
-                ),
-              ),
-              GoRoute(
-                path: 'her-profile/zodiac',
-                name: RouteNames.herProfileZodiac,
-                builder: (_, state) => ProfileEditScreen(
-                  profileId: state.extra as String? ?? 'default',
-                ),
-              ),
-              GoRoute(
-                path: 'her-profile/family',
-                name: RouteNames.familyProfiles,
-                builder: (_, state) => PreferencesScreen(
-                  profileId: state.extra as String? ?? 'default',
-                ),
-              ),
-              GoRoute(
-                path: 'her-profile/family/:id',
-                name: RouteNames.familyMember,
-                builder: (_, state) => PreferencesScreen(
-                  profileId: state.pathParameters['id'] ?? 'default',
-                ),
-              ),
               GoRoute(
                 path: 'settings',
                 name: RouteNames.settings,

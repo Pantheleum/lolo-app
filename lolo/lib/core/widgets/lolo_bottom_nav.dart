@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lolo/core/theme/lolo_colors.dart';
 
-/// LOLO 5-tab bottom navigation bar.
+/// LOLO 6-tab bottom navigation bar.
 ///
 /// Persistent across all non-onboarding screens. Supports badge counts
 /// for notification indicators. RTL tab order is handled automatically
 /// by Flutter's [BottomNavigationBar] when [Directionality] is RTL.
 ///
-/// Tabs: Home, Messages, Actions, Memories, Profile.
+/// Tabs: Home, Messages, Actions, Memories, Her, Profile.
 class LoloBottomNav extends StatelessWidget {
   const LoloBottomNav({
     required this.currentIndex,
@@ -16,7 +16,7 @@ class LoloBottomNav extends StatelessWidget {
     super.key,
   });
 
-  /// Currently active tab index (0-4).
+  /// Currently active tab index (0-5).
   final int currentIndex;
 
   /// Callback when a tab is tapped.
@@ -100,10 +100,17 @@ class LoloBottomNav extends StatelessWidget {
               ),
               _buildNavItem(
                 context,
+                icon: Icons.favorite_outline,
+                activeIcon: Icons.favorite,
+                label: 'Her',
+                index: 4,
+              ),
+              _buildNavItem(
+                context,
                 icon: Icons.person_outline,
                 activeIcon: Icons.person,
                 label: 'Profile',
-                index: 4,
+                index: 5,
               ),
             ],
           ),

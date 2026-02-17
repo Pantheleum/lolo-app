@@ -12,8 +12,10 @@ import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Profile overview screen showing avatar, zodiac badge, completion %,
 /// and navigation tiles to sub-screens.
+///
+/// Top-level tab screen — no back button.
 class HerProfileScreen extends ConsumerWidget {
-  const HerProfileScreen({required this.profileId, super.key});
+  const HerProfileScreen({this.profileId = 'default', super.key});
 
   final String profileId;
 
@@ -25,7 +27,7 @@ class HerProfileScreen extends ConsumerWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: LoloAppBar(title: l10n.profile_title),
+      appBar: LoloAppBar(title: l10n.profile_title, showBackButton: false),
       body: profileAsync.when(
         loading: () => const _ProfileSkeleton(),
         error: (error, _) => Center(child: Text('$error')),
@@ -90,7 +92,7 @@ class HerProfileScreen extends ConsumerWidget {
                 subtitle: profile.zodiacDisplayName.isNotEmpty
                     ? profile.zodiacDisplayName
                     : l10n.profile_nav_zodiac_empty,
-                onTap: () => context.push('/profile/$profileId/edit'),
+                onTap: () => context.push('/her/edit'),
               ),
               _NavTile(
                 icon: Icons.favorite_outline,
@@ -98,14 +100,13 @@ class HerProfileScreen extends ConsumerWidget {
                 subtitle: l10n.profile_nav_preferences_subtitle(
                   profile.preferences?.filledCount ?? 0,
                 ),
-                onTap: () => context.push('/profile/$profileId/preferences'),
+                onTap: () => context.push('/her/preferences'),
               ),
               _NavTile(
                 icon: Icons.language_outlined,
                 label: l10n.profile_nav_cultural,
                 subtitle: profile.culturalContext?.background ?? l10n.profile_nav_cultural_empty,
-                onTap: () =>
-                    context.push('/profile/$profileId/cultural-context'),
+                onTap: () => context.push('/her/cultural'),
               ),
             ],
           ),

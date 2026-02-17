@@ -40,6 +40,12 @@ abstract final class RouteNames {
   static const String wishlist = 'wishlist';
   static const String wishlistAdd = 'wishlist-add';
 
+  // Her tab
+  static const String her = 'her';
+  static const String herEdit = 'her-edit';
+  static const String herPreferences = 'her-preferences';
+  static const String herCultural = 'her-cultural';
+
   // Profile sub-routes
   static const String herProfile = 'her-profile';
   static const String herProfileZodiac = 'her-profile-zodiac';

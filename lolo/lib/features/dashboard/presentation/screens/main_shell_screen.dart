@@ -11,7 +11,7 @@ class MainShellScreen extends StatelessWidget {
 
   const MainShellScreen({super.key, required this.child});
 
-  static const _tabPaths = ['/', '/messages', '/gifts', '/memories', '/profile'];
+  static const _tabPaths = ['/', '/messages', '/gifts', '/memories', '/her', '/profile'];
 
   int _currentIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
