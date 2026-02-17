@@ -8,6 +8,7 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_avatar.dart';
 import 'package:lolo/core/widgets/lolo_skeleton.dart';
+import 'package:lolo/features/her_profile/domain/entities/partner_profile_entity.dart';
 import 'package:lolo/features/her_profile/presentation/providers/her_profile_provider.dart';
 import 'package:lolo/features/her_profile/presentation/widgets/profile_completion_ring.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
@@ -254,6 +255,15 @@ class HerProfileScreen extends ConsumerWidget {
               ),
               _PartnerBirthdayTile(),
               _PartnerNationalitySelector(),
+              _AnniversaryTile(
+                profileId: profileId,
+                anniversaryDate: profile.anniversaryDate,
+              ),
+              const SizedBox(height: LoloSpacing.spaceXl),
+
+              // Quick Facts card
+              _QuickFactsCard(profile: profile, l10n: l10n),
+              const SizedBox(height: LoloSpacing.screenBottomPadding),
             ],
           ),
         ),
@@ -373,7 +383,7 @@ class _ProfileSkeleton extends StatelessWidget {
             const LoloSkeleton(width: 120, height: 24),
             const SizedBox(height: LoloSpacing.space2xl),
             ...List.generate(
-              5,
+              6,
               (_) => const Padding(
                 padding: EdgeInsets.only(bottom: LoloSpacing.spaceXs),
                 child: LoloSkeleton(width: double.infinity, height: 72),
@@ -632,4 +642,228 @@ class _PartnerNationalitySelector extends ConsumerWidget {
       ),
     );
   }
+}
+
+class _AnniversaryTile extends ConsumerWidget {
+  const _AnniversaryTile({
+    required this.profileId,
+    this.anniversaryDate,
+  });
+
+  final String profileId;
+  final DateTime? anniversaryDate;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    String subtitle;
+    if (anniversaryDate != null) {
+      final month = _monthName(anniversaryDate!.month);
+      subtitle = '$month ${anniversaryDate!.day}, ${anniversaryDate!.year}';
+    } else {
+      subtitle = 'Set your anniversary date';
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: LoloSpacing.spaceXs),
+      child: Material(
+        color: isDark
+            ? LoloColors.darkSurfaceElevated1
+            : LoloColors.lightSurfaceElevated1,
+        borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+        child: InkWell(
+          onTap: () => _pickAnniversary(context, ref),
+          borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+          child: Padding(
+            padding: const EdgeInsets.all(LoloSpacing.spaceMd),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.celebration_outlined,
+                  color: LoloColors.colorPrimary,
+                  size: LoloSpacing.iconSizeMedium,
+                ),
+                const SizedBox(width: LoloSpacing.spaceMd),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Anniversary', style: theme.textTheme.titleMedium),
+                      Text(
+                        subtitle,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: isDark
+                              ? LoloColors.darkTextSecondary
+                              : LoloColors.lightTextSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: isDark
+                      ? LoloColors.darkTextTertiary
+                      : LoloColors.lightTextTertiary,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _monthName(int month) => const [
+        '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      ][month];
+
+  Future<void> _pickAnniversary(BuildContext context, WidgetRef ref) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: anniversaryDate ?? DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2100),
+      helpText: 'Select your anniversary',
+    );
+    if (picked != null) {
+      await ref
+          .read(herProfileNotifierProvider(profileId).notifier)
+          .updateProfile({'anniversaryDate': picked.toIso8601String()});
+    }
+  }
+}
+
+class _QuickFactsCard extends StatelessWidget {
+  const _QuickFactsCard({
+    required this.profile,
+    required this.l10n,
+  });
+
+  final PartnerProfileEntity profile;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final facts = <_QuickFact>[
+      if (profile.relationshipStatus.isNotEmpty)
+        _QuickFact(
+          Icons.favorite,
+          'Status',
+          _capitalize(profile.relationshipStatus),
+        ),
+      if (profile.loveLanguage != null)
+        _QuickFact(
+          Icons.volunteer_activism,
+          l10n.profile_edit_loveLanguage,
+          HerProfileScreen._loveLanguageLabel(l10n, profile.loveLanguage!),
+        ),
+      if (profile.communicationStyle != null)
+        _QuickFact(
+          Icons.chat_bubble_outline,
+          l10n.profile_edit_commStyle,
+          HerProfileScreen._commStyleLabel(l10n, profile.communicationStyle!),
+        ),
+      if (profile.zodiacSign != null)
+        _QuickFact(
+          Icons.stars,
+          'Zodiac',
+          profile.zodiacDisplayName,
+        ),
+      if (profile.culturalContext?.background != null)
+        _QuickFact(
+          Icons.public,
+          'Background',
+          profile.culturalContext!.background!,
+        ),
+    ];
+
+    if (facts.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'QUICK FACTS',
+          style: theme.textTheme.labelMedium?.copyWith(
+            color: isDark
+                ? LoloColors.darkTextTertiary
+                : LoloColors.lightTextTertiary,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1.2,
+          ),
+        ),
+        const SizedBox(height: LoloSpacing.spaceSm),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(LoloSpacing.spaceMd),
+          decoration: BoxDecoration(
+            color: isDark
+                ? LoloColors.darkSurfaceElevated1
+                : LoloColors.lightSurfaceElevated1,
+            borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+          ),
+          child: Wrap(
+            spacing: 16,
+            runSpacing: 12,
+            children: facts
+                .map((f) => _buildFact(context, f, isDark))
+                .toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFact(BuildContext context, _QuickFact fact, bool isDark) {
+    final theme = Theme.of(context);
+    return SizedBox(
+      width: 140,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(fact.icon, size: 16, color: LoloColors.colorPrimary),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  fact.label,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: isDark
+                        ? LoloColors.darkTextTertiary
+                        : LoloColors.lightTextTertiary,
+                  ),
+                ),
+                Text(
+                  fact.value,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static String _capitalize(String s) =>
+      s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
+}
+
+class _QuickFact {
+  const _QuickFact(this.icon, this.label, this.value);
+  final IconData icon;
+  final String label;
+  final String value;
 }
