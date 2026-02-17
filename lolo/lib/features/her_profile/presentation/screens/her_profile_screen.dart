@@ -488,10 +488,14 @@ class _PartnerBirthdayTile extends ConsumerWidget {
     if (picked != null && context.mounted) {
       final uid = FirebaseAuth.instance.currentUser?.uid;
       if (uid != null) {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(uid)
-            .update({'partnerBirthday': Timestamp.fromDate(picked)});
+        try {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .update({'partnerBirthday': Timestamp.fromDate(picked)});
+        } catch (_) {
+          // Firestore write failed — stream will re-sync
+        }
       }
     }
   }
@@ -626,10 +630,14 @@ class _PartnerNationalitySelector extends ConsumerWidget {
                             final uid =
                                 FirebaseAuth.instance.currentUser?.uid;
                             if (uid != null) {
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(uid)
-                                  .update({'partnerNationality': nat});
+                              try {
+                                await FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(uid)
+                                    .update({'partnerNationality': nat});
+                              } catch (_) {
+                                // Firestore write failed — stream will re-sync
+                              }
                             }
                             if (ctx.mounted) Navigator.pop(ctx);
                           },

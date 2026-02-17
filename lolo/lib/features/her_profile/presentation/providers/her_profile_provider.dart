@@ -67,10 +67,12 @@ class HerProfileNotifier
 
   /// Update profile fields and refresh state.
   Future<void> updateProfile(Map<String, dynamic> updates) async {
+    final currentId = state.value?.id;
+    if (currentId == null) return;
     final updateUseCase = ref.read(updatePartnerProfileUseCaseProvider);
     state = const AsyncLoading();
     final result = await updateUseCase(
-      profileId: state.value!.id,
+      profileId: currentId,
       updates: updates,
     );
     state = result.fold(

@@ -15,11 +15,24 @@ import 'package:lolo/features/notifications/presentation/providers/notifications
 
 /// Home / Dashboard screen showing greeting, streak, reminders,
 /// daily action cards, and quick action buttons.
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final _pageController = PageController(viewportFraction: 0.85);
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final dashboardAsync = ref.watch(dashboardNotifierProvider);
     final theme = Theme.of(context);
 
@@ -144,7 +157,7 @@ class HomeScreen extends ConsumerWidget {
                     height: 200,
                     child: PageView.builder(
                       padEnds: false,
-                      controller: PageController(viewportFraction: 0.85),
+                      controller: _pageController,
                       itemCount: dashboard.dailyCards.length,
                       itemBuilder: (context, index) {
                         final card = dashboard.dailyCards[index];

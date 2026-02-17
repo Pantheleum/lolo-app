@@ -182,6 +182,15 @@ class _LineChartPainter extends CustomPainter {
 
     final chartH = size.height - 24; // leave room for labels
     final chartW = size.width;
+
+    // Single data point — just draw a dot
+    if (data.length == 1) {
+      final dotPaint = Paint()..color = lineColor;
+      final y = chartH - (data[0].xp / maxXp * chartH);
+      canvas.drawCircle(Offset(chartW / 2, y), 5, dotPaint);
+      return;
+    }
+
     final stepX = chartW / (data.length - 1).clamp(1, data.length);
 
     // Grid lines
@@ -229,7 +238,11 @@ class _LineChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _LineChartPainter old) =>
-      data != old.data || maxXp != old.maxXp || lineColor != old.lineColor;
+      data != old.data ||
+      maxXp != old.maxXp ||
+      lineColor != old.lineColor ||
+      fillColor != old.fillColor ||
+      gridColor != old.gridColor;
 }
 
 class _ActionBreakdown extends StatelessWidget {
@@ -241,7 +254,7 @@ class _ActionBreakdown extends StatelessWidget {
     ('SAY', 0.45, LoloColors.cardTypeSay),
     ('DO', 0.28, LoloColors.cardTypeDo),
     ('BUY', 0.17, LoloColors.cardTypeBuy),
-    ('GO', 0.10, LoloColors.colorEpicPurple),
+    ('GO', 0.10, LoloColors.cardTypeGo),
   ];
 
   @override

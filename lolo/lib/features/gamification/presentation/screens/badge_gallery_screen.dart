@@ -134,7 +134,7 @@ class BadgeGalleryScreen extends ConsumerWidget {
               child: Icon(
                 _badgeIcon(badge.icon),
                 size: 40,
-                color: badge.isEarned ? rarityColor : Colors.grey,
+                color: badge.isEarned ? rarityColor : LoloColors.gray3,
               ),
             ),
             const SizedBox(height: 16),
@@ -290,7 +290,7 @@ class _BadgeCell extends StatelessWidget {
                   size: 28,
                   color: badge.isEarned
                       ? rarityColor
-                      : (isDark ? Colors.white24 : Colors.black26),
+                      : (isDark ? LoloColors.darkTextDisabled : LoloColors.lightTextDisabled),
                 ),
                 if (!badge.isEarned)
                   Positioned(

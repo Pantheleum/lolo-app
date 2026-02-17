@@ -22,15 +22,6 @@ class _WishListScreenState extends ConsumerState<WishListScreen> {
   _SortMode _sortMode = _SortMode.newest;
 
   @override
-  void initState() {
-    super.initState();
-    // Set the category to wishlist on init
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(memoriesNotifierProvider.notifier).setCategory(MemoryCategory.wishlist);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final memoriesState = ref.watch(memoriesNotifierProvider);
     final theme = Theme.of(context);
@@ -82,7 +73,6 @@ class _WishListScreenState extends ConsumerState<WishListScreen> {
                     itemCount: wishes.length,
                     itemBuilder: (_, i) => _WishCard(
                       wish: wishes[i],
-                      isDark: isDark,
                       onSendToGifts: () => _sendToGiftEngine(context, wishes[i]),
                     ),
                   ),
@@ -161,17 +151,16 @@ enum _SortMode { newest, occasion }
 class _WishCard extends StatelessWidget {
   const _WishCard({
     required this.wish,
-    required this.isDark,
     required this.onSendToGifts,
   });
 
   final Memory wish;
-  final bool isDark;
   final VoidCallback onSendToGifts;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final status = _wishStatus(wish);
 
     return Container(

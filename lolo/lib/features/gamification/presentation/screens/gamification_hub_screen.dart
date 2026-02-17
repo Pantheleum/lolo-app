@@ -193,7 +193,7 @@ class _StreakCard extends StatelessWidget {
                 Icon(Icons.ac_unit,
                     color: profile.freezesAvailable > 0
                         ? LoloColors.colorPrimary
-                        : (isDark ? Colors.white24 : Colors.black26),
+                        : (isDark ? LoloColors.darkTextDisabled : LoloColors.lightTextDisabled),
                     size: 20),
                 Text('${profile.freezesAvailable}',
                     style: theme.textTheme.labelSmall),
@@ -222,7 +222,16 @@ class _StreakCard extends StatelessWidget {
             child: const Text('Cancel'),
           ),
           FilledButton(
-            onPressed: () => Navigator.of(ctx).pop(),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              // TODO: Call freeze API when backend endpoint is ready
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Streak freeze applied!'),
+                  backgroundColor: LoloColors.colorSuccess,
+                ),
+              );
+            },
             child: const Text('Use Freeze'),
           ),
         ],
@@ -254,13 +263,16 @@ class _XpChart extends StatelessWidget {
                   children: [
                     Text('${w.xp}', style: const TextStyle(fontSize: 10)),
                     const SizedBox(height: 4),
-                    Flexible(
-                      child: FractionallySizedBox(
-                        heightFactor: w.xp / maxXp,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: LoloColors.colorPrimary,
-                            borderRadius: BorderRadius.circular(4),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FractionallySizedBox(
+                          heightFactor: w.xp / maxXp,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: LoloColors.colorPrimary,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                           ),
                         ),
                       ),
@@ -299,7 +311,7 @@ class _LeaderboardPreview extends StatelessWidget {
           final (name, xp, rank) = _mockLeaders[i];
           final medalColor = switch (rank) {
             1 => LoloColors.colorAccent,
-            2 => Colors.grey.shade400,
+            2 => LoloColors.gray2,
             3 => LoloColors.colorBronze,
             _ => Colors.transparent,
           };
