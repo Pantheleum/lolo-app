@@ -99,6 +99,14 @@
       ]
     },
     {
+      "collectionGroup": "reminders",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "linkedMemoryId", "order": "ASCENDING" },
+        { "fieldPath": "deletedAt", "order": "ASCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "memories",
       "queryScope": "COLLECTION",
       "fields": [

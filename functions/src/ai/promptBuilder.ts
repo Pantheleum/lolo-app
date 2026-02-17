@@ -29,7 +29,16 @@ export function buildPrompt(
   const ctx = request.context;
   const params = request.parameters;
 
-  const systemPrompt = `You are a relationship communication assistant helping a man communicate with his female partner. Your identity is never revealed.
+  let systemPrompt: string;
+
+  if (request.requestType === "memory_reminder") {
+    systemPrompt = `You are a warm relationship assistant. Generate a short (1-2 sentence) anniversary reminder notification message.
+Mention the memory title naturally. Suggest a sweet action they can take today.
+${LANGUAGE_INSTRUCTIONS[params.language]}
+Partner name: ${ctx.partnerName}. Tone: warm and nostalgic.
+Never mention AI, apps, or that this was generated.`;
+  } else {
+    systemPrompt = `You are a relationship communication assistant helping a man communicate with his female partner. Your identity is never revealed.
 
 CORE RULES:
 1. ${LANGUAGE_INSTRUCTIONS[params.language]}
@@ -52,6 +61,7 @@ PARTNER CONTEXT:
 - Cycle phase: ${ctx.cyclePhase || "unknown"}
 ${ctx.isPregnant ? `- Pregnant, trimester ${ctx.trimester}` : ""}
 ${ctx.recentMemories?.length ? `- Recent memories: ${ctx.recentMemories.join("; ")}` : ""}`;
+  }
 
   let userPrompt: string;
 
@@ -68,6 +78,9 @@ ${ctx.recentMemories?.length ? `- Recent memories: ${ctx.recentMemories.join("; 
       break;
     case "action_card":
       userPrompt = buildActionCardPrompt(request);
+      break;
+    case "memory_reminder":
+      userPrompt = buildMemoryReminderPrompt(request);
       break;
     default:
       userPrompt = `Generate helpful relationship content for: ${request.requestType}`;
@@ -121,4 +134,16 @@ function buildActionCardPrompt(request: AIRequest): string {
   return `Generate 3 personalized daily action cards for a man to strengthen his relationship with ${ctx.partnerName}.
 Each card: { category: "say"|"do"|"buy"|"go", title, description, estimatedMinutes, xpReward }.
 Consider: zodiac ${ctx.zodiacSign}, love language ${ctx.loveLanguage}, emotional state ${ctx.emotionalState}.`;
+}
+
+function buildMemoryReminderPrompt(request: AIRequest): string {
+  const ctx = request.context;
+  const memoryTitle = (request as any).title || "a special memory";
+  const memoryDate = (request as any).memoryDate || "";
+  const yearsAgo = memoryDate
+    ? Math.round((Date.now() - new Date(memoryDate).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+    : 1;
+  const memoryContext = ctx.recentMemories?.length ? ctx.recentMemories[0] : "";
+
+  return `It's been ${yearsAgo} year(s) since "${memoryTitle}".${memoryContext ? ` Context: ${memoryContext}.` : ""} Write a short (1-2 sentence) anniversary notification message for ${ctx.partnerName}. Be warm and nostalgic. Suggest a sweet action they can take today. Do NOT include a title or label — just the message text.`;
 }

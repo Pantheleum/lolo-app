@@ -87,6 +87,16 @@ export function selectModel(classification: AIClassification): ModelSelection {
     };
   }
 
+  if (taskType === "memory_reminder") {
+    return {
+      primary: "claude-haiku-4.5",
+      fallback: "gpt-5-mini",
+      tertiary: null,
+      timeout: 5000,
+      maxOutputTokens: 150,
+    };
+  }
+
   if (taskType === "gift" || taskType === "memory_query") {
     return {
       primary: "gemini-flash",

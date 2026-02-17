@@ -2,6 +2,8 @@
 import { db, redis } from "../config";
 import { sendTemplatedNotification } from "./notificationService";
 import { SupportedLocale } from "../types";
+import { routeAIRequest } from "../ai/router";
+import { v4 as uuidv4 } from "uuid";
 import * as functions from "firebase-functions";
 
 // ============================================================
@@ -16,6 +18,7 @@ interface ScheduleParams {
   tiers: number[];
   timezone: string;
   linkedProfileId: string | null;
+  linkedMemoryId?: string | null;
 }
 
 interface ScheduledNotification {
@@ -41,7 +44,7 @@ const TIER_LABELS: Record<number, string> = {
 export async function scheduleReminderNotifications(
   params: ScheduleParams
 ): Promise<ScheduledNotification[]> {
-  const { userId, reminderId, eventTitle, eventDate, eventTime, tiers, timezone, linkedProfileId } = params;
+  const { userId, reminderId, eventTitle, eventDate, eventTime, tiers, timezone, linkedProfileId, linkedMemoryId } = params;
   const eventDateObj = new Date(eventDate);
   const now = new Date();
   const scheduled: ScheduledNotification[] = [];
@@ -65,7 +68,10 @@ export async function scheduleReminderNotifications(
 
     // Quiet hours adjustment
     const adjusted = await adjustForQuietHours(userId, scheduledFor, timezone);
-    const templateKey = TIER_TEMPLATE_MAP[tier] || "reminder_7d";
+    // Use memory_anniversary template for day-of notifications linked to a memory
+    const templateKey = (linkedMemoryId && tier === 0)
+      ? "memory_anniversary"
+      : (TIER_TEMPLATE_MAP[tier] || "reminder_7d");
     const notifId = `${reminderId}_${tier}d`;
 
     await db.collection("scheduled_notifications").doc(notifId).set({
@@ -131,7 +137,8 @@ export async function processPendingNotifications(): Promise<number> {
 
     try {
       const userDoc = await db.collection("users").doc(notif.userId).get();
-      const locale: SupportedLocale = userDoc.data()?.language || "en";
+      const userData = userDoc.data();
+      const locale: SupportedLocale = userData?.language || "en";
       let partnerName = "her";
       if (notif.linkedProfileId) {
         const pDoc = await db.collection("users").doc(notif.userId)
@@ -139,9 +146,26 @@ export async function processPendingNotifications(): Promise<number> {
         if (pDoc.exists) partnerName = pDoc.data()!.name;
       }
 
+      let templateVars: Record<string, string> = { eventName: notif.eventTitle, partnerName };
+
+      // AI-generate body for memory anniversary notifications
+      if (notif.templateKey === "memory_anniversary") {
+        try {
+          const aiMessage = await generateMemoryAnniversaryMessage(
+            notif.userId, notif.reminderId, notif.eventTitle,
+            notif.eventDate, partnerName, userData?.tier || "free", locale
+          );
+          templateVars = { ...templateVars, aiMessage };
+        } catch (aiErr) {
+          functions.logger.warn("AI generation failed for memory anniversary, using fallback", { error: aiErr });
+          const yearsAgo = Math.round((now.getTime() - new Date(notif.eventDate).getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+          templateVars = { ...templateVars, aiMessage: `It's been ${yearsAgo} year(s) since "${notif.eventTitle}". Relive the memory with ${partnerName} today!` };
+        }
+      }
+
       await sendTemplatedNotification(notif.userId, notif.templateKey,
-        { eventName: notif.eventTitle, partnerName }, locale,
-        { reminderId: notif.reminderId, type: "reminder" });
+        templateVars, locale,
+        { reminderId: notif.reminderId, type: notif.templateKey === "memory_anniversary" ? "memory_anniversary" : "reminder" });
 
       await doc.ref.update({ status: "sent", sentAt: now.toISOString() });
       await redis.setex(dedupKey, 86400, "1");
@@ -152,6 +176,51 @@ export async function processPendingNotifications(): Promise<number> {
     }
   }
   return sent;
+}
+
+// ============================================================
+// Generate AI message for memory anniversary notifications
+// ============================================================
+async function generateMemoryAnniversaryMessage(
+  userId: string, reminderId: string, eventTitle: string,
+  eventDate: string, partnerName: string, tier: string, locale: SupportedLocale
+): Promise<string> {
+  // Fetch linked memory for extra context
+  const reminderDoc = await db.collection("users").doc(userId)
+    .collection("reminders").doc(reminderId).get();
+  const linkedMemoryId = reminderDoc.data()?.linkedMemoryId;
+
+  let memoryDescription = "";
+  if (linkedMemoryId) {
+    const memoryDoc = await db.collection("users").doc(userId)
+      .collection("memories").doc(linkedMemoryId).get();
+    if (memoryDoc.exists) {
+      const mData = memoryDoc.data()!;
+      memoryDescription = mData.description !== "[ENCRYPTED]" ? (mData.description || "") : "";
+    }
+  }
+
+  const aiResponse = await routeAIRequest({
+    requestId: uuidv4(),
+    userId,
+    tier: tier as any,
+    requestType: "memory_reminder",
+    parameters: {
+      tone: "warm",
+      length: "short",
+      language: locale,
+    },
+    context: {
+      partnerName,
+      relationshipStatus: "dating",
+      recentMemories: memoryDescription ? [memoryDescription] : [],
+    },
+    timestamp: new Date().toISOString(),
+    title: eventTitle,
+    memoryDate: eventDate,
+  } as any);
+
+  return aiResponse.content;
 }
 
 // ============================================================
@@ -233,6 +302,11 @@ export function buildFcmPayload(
       en: { title: "Today: {eventName}!", body: "Today is the day! Make it special for {partnerName}." },
       ar: { title: "\u0627\u0644\u064a\u0648\u0645: {eventName}!", body: "\u0627\u0644\u064a\u0648\u0645 \u0647\u0648 \u0627\u0644\u064a\u0648\u0645! \u0627\u062c\u0639\u0644\u0647 \u0645\u0645\u064a\u0632\u0627 \u0644\u0640 {partnerName}." },
       ms: { title: "Hari ini: {eventName}!", body: "Hari ini hari istimewa! Jadikan ia bermakna untuk {partnerName}." },
+    },
+    memory_anniversary: {
+      en: { title: "Memory Anniversary \u{1F4AB}", body: "{aiMessage}" },
+      ar: { title: "\u0630\u0643\u0631\u0649 \u0645\u0645\u064a\u0632\u0629 \u{1F4AB}", body: "{aiMessage}" },
+      ms: { title: "Ulang Tahun Kenangan \u{1F4AB}", body: "{aiMessage}" },
     },
   };
 

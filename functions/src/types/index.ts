@@ -57,7 +57,7 @@ export type BadgeCategory = "streak" | "messages" | "actions" | "gifts" | "sos" 
 // --- AI Router ---
 export type AIRequestType =
   | "message" | "action_card" | "gift" | "sos_coaching"
-  | "sos_assessment" | "analysis" | "memory_query";
+  | "sos_assessment" | "analysis" | "memory_query" | "memory_reminder";
 
 export type LatencyRequirement = "relaxed" | "normal" | "urgent";
 export type CostSensitivity = "minimal" | "standard" | "premium";
