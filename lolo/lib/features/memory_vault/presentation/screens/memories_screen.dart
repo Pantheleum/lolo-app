@@ -155,7 +155,7 @@ class MemoriesScreen extends ConsumerWidget {
         return MemoryVaultCard(
           memory: memory,
           isGridView: true,
-          onTap: () => context.push('/memories/${memory.id}'),
+          onTap: () => context.push('/memories/detail/${memory.id}'),
           onFavoriteToggle: () => ref
               .read(memoriesNotifierProvider.notifier)
               .toggleFavorite(memory.id),
@@ -179,7 +179,7 @@ class MemoriesScreen extends ConsumerWidget {
         return MemoryVaultCard(
           memory: memory,
           isGridView: false,
-          onTap: () => context.push('/memories/${memory.id}'),
+          onTap: () => context.push('/memories/detail/${memory.id}'),
           onFavoriteToggle: () => ref
               .read(memoriesNotifierProvider.notifier)
               .toggleFavorite(memory.id),

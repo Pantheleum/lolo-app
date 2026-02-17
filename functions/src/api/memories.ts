@@ -207,6 +207,52 @@ router.get("/", async (req: AuthenticatedRequest, res: Response, next: NextFunct
 });
 
 // ============================================================
+// GET /memories/:id -- get single memory
+// ============================================================
+router.get("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+
+    // Skip if this looks like a sub-route (timeline, wishlist, search)
+    if (["timeline", "wishlist", "search"].includes(id)) return next();
+
+    const memoryRef = db
+      .collection("users")
+      .doc(req.user.uid)
+      .collection("memories")
+      .doc(id);
+
+    const memoryDoc = await memoryRef.get();
+    if (!memoryDoc.exists || memoryDoc.data()?.deletedAt) {
+      throw new AppError(404, "NOT_FOUND", "Memory not found");
+    }
+
+    const d = memoryDoc.data()!;
+    const description = d.encryptedContent ? decrypt(d.encryptedContent) : d.description || "";
+
+    res.json({
+      data: {
+        id: memoryDoc.id,
+        title: d.title,
+        description,
+        category: d.category,
+        date: d.date,
+        mood: d.mood || null,
+        mediaUrls: d.mediaUrls || [],
+        tags: d.tags || [],
+        isFavorite: d.isFavorite || false,
+        isPrivate: d.isPrivate || false,
+        createdAt: d.createdAt,
+        updatedAt: d.updatedAt,
+      },
+    });
+  } catch (err) {
+    if (err instanceof AppError) return next(err);
+    next(err);
+  }
+});
+
+// ============================================================
 // POST /memories -- create with encryption for sensitive fields
 // ============================================================
 router.post("/", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
