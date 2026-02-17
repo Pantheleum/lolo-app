@@ -395,7 +395,7 @@ class _AiRecommendFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LoloGradients.premium,
         borderRadius: BorderRadius.circular(28),
@@ -407,16 +407,28 @@ class _AiRecommendFab extends StatelessWidget {
           ),
         ],
       ),
-      child: FloatingActionButton.extended(
-        onPressed: onPressed,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        icon: const Icon(Icons.auto_awesome, color: Colors.white),
-        label: const Text(
-          'Get AI Recommendations',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(28),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                SizedBox(width: 8),
+                Text(
+                  'Get AI Recommendations',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
