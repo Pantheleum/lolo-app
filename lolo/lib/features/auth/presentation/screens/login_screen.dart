@@ -12,6 +12,7 @@ import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/core/widgets/lolo_text_field.dart';
 import 'package:lolo/core/router/route_guards.dart';
 import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Login screen with email/password, social auth, and forgot password.
 class LoginScreen extends ConsumerStatefulWidget {
@@ -98,29 +99,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _handleForgotPassword() {
+    final l10n = AppLocalizations.of(context);
     final email = _emailController.text.trim();
     if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Enter your email first')),
+        SnackBar(content: Text(l10n.login_enterEmailFirst)),
       );
       return;
     }
     ref.read(authNotifierProvider.notifier).sendPasswordReset(email);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Password reset email sent')),
+      SnackBar(content: Text(l10n.login_resetEmailSent)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final isLoading = authState.isLoading;
     final errorMessage = authState.hasError ? authState.error.toString() : null;
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'Log In'),
+      appBar: LoloAppBar(title: l10n.login_buttonLogin),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
@@ -135,14 +138,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 // Header
                 Text(
-                  'Welcome back',
+                  l10n.login_heading,
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: LoloSpacing.spaceXs),
                 Text(
-                  'Sign in to continue your journey',
+                  l10n.login_subtitle,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: isDark
                         ? LoloColors.darkTextSecondary
@@ -181,9 +184,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 // Email field
                 LoloTextField(
-                  label: 'Email',
+                  label: l10n.login_label_email,
                   controller: _emailController,
-                  hint: 'you@example.com',
+                  hint: l10n.login_hint_email,
                   prefixIcon: Icons.email_outlined,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
@@ -194,7 +197,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 // Password field
                 LoloTextField(
-                  label: 'Password',
+                  label: l10n.login_label_password,
                   controller: _passwordController,
                   prefixIcon: Icons.lock_outline,
                   obscureText: _obscurePassword,
@@ -220,7 +223,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   child: TextButton(
                     onPressed: isLoading ? null : _handleForgotPassword,
                     child: Text(
-                      'Forgot Password?',
+                      l10n.login_forgotPassword,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: LoloColors.colorPrimary,
                       ),
@@ -231,7 +234,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 // Login button
                 LoloPrimaryButton(
-                  label: 'Log In',
+                  label: l10n.login_buttonLogin,
                   onPressed: _handleEmailLogin,
                   isLoading: isLoading,
                 ),
@@ -251,7 +254,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: LoloSpacing.spaceMd),
                       child: Text(
-                        'or continue with',
+                        l10n.login_orContinueWith,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: isDark
                               ? LoloColors.darkTextTertiary
@@ -276,7 +279,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Expanded(
                       child: _SocialButton(
                         icon: Icons.g_mobiledata,
-                        label: 'Google',
+                        label: l10n.login_google,
                         onTap: isLoading ? null : _handleGoogleLogin,
                       ),
                     ),
@@ -284,7 +287,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Expanded(
                       child: _SocialButton(
                         icon: Icons.apple,
-                        label: 'Apple',
+                        label: l10n.login_apple,
                         onTap: isLoading ? null : _handleAppleLogin,
                       ),
                     ),
@@ -297,7 +300,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Don\'t have an account? ',
+                      l10n.login_noAccount,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: isDark
                             ? LoloColors.darkTextSecondary
@@ -307,7 +310,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     GestureDetector(
                       onTap: () => context.goNamed('onboarding'),
                       child: Text(
-                        'Sign Up',
+                        l10n.login_signUp,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: LoloColors.colorPrimary,
                           fontWeight: FontWeight.w600,

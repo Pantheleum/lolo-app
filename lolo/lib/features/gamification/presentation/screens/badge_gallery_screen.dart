@@ -5,6 +5,7 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_empty_state.dart';
 import 'package:lolo/features/gamification/domain/entities/badge_entity.dart';
 import 'package:lolo/features/gamification/presentation/providers/gamification_providers.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Badge Gallery screen (Screen 31) with category tabs and 3-column grid.
 class BadgeGalleryScreen extends ConsumerWidget {
@@ -17,12 +18,13 @@ class BadgeGalleryScreen extends ConsumerWidget {
     final asyncBadges = ref.watch(badgesProvider);
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return DefaultTabController(
       length: _categories.length,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Badges'),
+          title: Text(l10n.badges),
           bottom: TabBar(
             isScrollable: true,
             tabAlignment: TabAlignment.start,
@@ -61,12 +63,12 @@ class BadgeGalleryScreen extends ConsumerWidget {
                         .toList();
 
                 if (filtered.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: LoloEmptyState(
                       icon: Icons.emoji_events_outlined,
-                      title: 'No badges yet',
+                      title: l10n.badges_noBadges,
                       description:
-                          'Complete your first action to start earning badges!',
+                          l10n.badges_noBadgesDesc,
                     ),
                   );
                 }
@@ -93,6 +95,7 @@ class BadgeGalleryScreen extends ConsumerWidget {
   }
 
   void _showBadgeDetail(BuildContext context, BadgeEntity badge) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final rarityColor = _rarityColor(badge.rarity);
@@ -172,7 +175,7 @@ class BadgeGalleryScreen extends ConsumerWidget {
             // Progress or earned date
             if (badge.isEarned)
               Text(
-                'Earned ${_formatDate(badge.earnedAt!)}',
+                l10n.badges_earnedDate(_formatDate(badge.earnedAt!)),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: LoloColors.colorSuccess,
                 ),

@@ -8,6 +8,7 @@ import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/features/sos_mode/domain/entities/sos_session.dart';
 import 'package:lolo/features/sos_mode/presentation/providers/sos_provider.dart';
 import 'package:lolo/features/sos_mode/presentation/widgets/scenario_selector.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// SOS activation screen: scenario selection and urgency level.
 ///
@@ -24,10 +25,10 @@ class _SosActivationScreenState extends ConsumerState<SosActivationScreen> {
   SosScenario? _selectedScenario;
   SosUrgency _urgency = SosUrgency.happeningNow;
 
-  static const _urgencyLabels = {
-    SosUrgency.happeningNow: 'Happening NOW',
-    SosUrgency.justHappened: 'Just Happened',
-    SosUrgency.brewing: 'Brewing / Building Up',
+  Map<SosUrgency, String> _urgencyLabels(AppLocalizations l10n) => {
+    SosUrgency.happeningNow: l10n.sos_urgency_happeningNow,
+    SosUrgency.justHappened: l10n.sos_urgency_justHappened,
+    SosUrgency.brewing: l10n.sos_urgency_brewing,
   };
 
   @override
@@ -41,6 +42,7 @@ class _SosActivationScreenState extends ConsumerState<SosActivationScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
     final sosState = ref.watch(sosNotifierProvider);
 
     ref.listen<SosState>(sosNotifierProvider, (prev, next) {
@@ -51,7 +53,7 @@ class _SosActivationScreenState extends ConsumerState<SosActivationScreen> {
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'SOS Mode',
+        title: l10n.sosTitle,
         showBackButton: true,
       ),
       body: SingleChildScrollView(
@@ -88,14 +90,14 @@ class _SosActivationScreenState extends ConsumerState<SosActivationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'What happened?',
+                          l10n.whatHappened,
                           style: theme.textTheme.titleMedium?.copyWith(
                             color: LoloColors.colorError,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         Text(
-                          'Select the scenario that best describes the situation',
+                          l10n.sos_whatHappenedDesc,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: isDark
                                 ? LoloColors.darkTextSecondary
@@ -119,7 +121,7 @@ class _SosActivationScreenState extends ConsumerState<SosActivationScreen> {
 
             // Urgency selection
             Text(
-              'How urgent is this?',
+              l10n.sos_howUrgent,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -166,7 +168,7 @@ class _SosActivationScreenState extends ConsumerState<SosActivationScreen> {
                         ),
                         const SizedBox(width: LoloSpacing.spaceSm),
                         Text(
-                          _urgencyLabels[urgency]!,
+                          _urgencyLabels(l10n)[urgency]!,
                           style: theme.textTheme.bodyLarge?.copyWith(
                             fontWeight: isSelected
                                 ? FontWeight.w600
@@ -195,7 +197,7 @@ class _SosActivationScreenState extends ConsumerState<SosActivationScreen> {
 
             // Activate button
             LoloPrimaryButton(
-              label: 'Get Help Now',
+              label: l10n.getHelp,
               icon: Icons.flash_on,
               isLoading: sosState.isLoading,
               isEnabled: _selectedScenario != null,

@@ -17,6 +17,7 @@ import 'package:lolo/features/ai_messages/presentation/providers/message_provide
 import 'package:lolo/features/ai_messages/presentation/providers/message_state.dart';
 import 'package:lolo/features/ai_messages/presentation/widgets/length_selector_widget.dart';
 import 'package:lolo/features/ai_messages/presentation/widgets/language_override_selector.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Screen 20: Message Configuration.
 ///
@@ -73,12 +74,13 @@ class _GenerateMessageScreenState
       },
     );
 
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'Configure Message',
+        title: l10n.generate_configureMessage,
         showBackButton: true,
       ),
       body: SafeArea(
@@ -102,7 +104,7 @@ class _GenerateMessageScreenState
 
                     // Tone selection
                     Text(
-                      'Tone',
+                      l10n.generate_tone,
                       style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(height: LoloSpacing.spaceXs),
@@ -128,11 +130,11 @@ class _GenerateMessageScreenState
                       min: 0,
                       max: 100,
                       divisions: 20,
-                      label: 'Humor Level',
+                      label: l10n.generate_humorLevel,
                       valueDisplay: _humorLevel <= 20
-                          ? 'Serious'
+                          ? l10n.generate_serious
                           : _humorLevel >= 80
-                              ? 'Funny'
+                              ? l10n.generate_funny
                               : '${_humorLevel.round()}',
                       onChanged: (v) => setState(() => _humorLevel = v),
                     ),
@@ -145,7 +147,7 @@ class _GenerateMessageScreenState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Serious',
+                            l10n.generate_serious,
                             style: theme.textTheme.labelSmall?.copyWith(
                               color: isDark
                                   ? LoloColors.darkTextTertiary
@@ -153,7 +155,7 @@ class _GenerateMessageScreenState
                             ),
                           ),
                           Text(
-                            'Funny',
+                            l10n.generate_funny,
                             style: theme.textTheme.labelSmall?.copyWith(
                               color: isDark
                                   ? LoloColors.darkTextTertiary
@@ -168,7 +170,7 @@ class _GenerateMessageScreenState
 
                     // Length toggle
                     Text(
-                      'Message Length',
+                      l10n.generate_messageLength,
                       style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(height: LoloSpacing.spaceXs),
@@ -182,7 +184,7 @@ class _GenerateMessageScreenState
 
                     // Language override
                     Text(
-                      'Language',
+                      l10n.generate_language,
                       style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(height: LoloSpacing.spaceXs),
@@ -199,19 +201,17 @@ class _GenerateMessageScreenState
                       value: _includePartnerName,
                       onChanged: (v) =>
                           setState(() => _includePartnerName = v),
-                      label: 'Include her name',
-                      description:
-                          'Personalize the message with your partner\'s name',
+                      label: l10n.generate_includeHerName,
+                      description: l10n.generate_includeHerNameDesc,
                     ),
 
                     const SizedBox(height: LoloSpacing.spaceXl),
 
                     // Context input
                     LoloTextField(
-                      label: 'Context (optional)',
+                      label: l10n.generate_contextOptional,
                       controller: _contextController,
-                      hint:
-                          'e.g., We had an argument about...',
+                      hint: l10n.generate_contextHint,
                       maxLines: 3,
                       keyboardType: TextInputType.multiline,
                     ),
@@ -334,14 +334,14 @@ class _GenerateButton extends StatelessWidget {
                         AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
                 )
-              : const Row(
+              : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.auto_awesome, size: 20),
-                    SizedBox(width: 8),
+                    const Icon(Icons.auto_awesome, size: 20),
+                    const SizedBox(width: 8),
                     Text(
-                      'Generate Message',
-                      style: TextStyle(
+                      AppLocalizations.of(context).generate_button,
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,

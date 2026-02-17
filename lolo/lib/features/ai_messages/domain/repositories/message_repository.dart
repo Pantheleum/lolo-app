@@ -39,6 +39,8 @@ abstract class MessageRepository {
   });
 
   Future<Either<Failure, ({int used, int limit})>> getUsageCount();
+
+  Future<Either<Failure, GeneratedMessageEntity>> getMessageById(String id);
 }
 
 /// API-backed implementation that calls the Cloud Functions backend
@@ -274,6 +276,50 @@ class MessageRepositoryImpl implements MessageRepository {
       }).toList();
 
       return Right(messages);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GeneratedMessageEntity>> getMessageById(
+      String id) async {
+    try {
+      final uid = _auth.currentUser?.uid;
+      if (uid == null) return Left(ServerFailure(message: 'Not authenticated'));
+
+      final doc = await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('messages')
+          .doc(id)
+          .get();
+
+      if (!doc.exists) {
+        return Left(ServerFailure(message: 'Message not found'));
+      }
+
+      final d = doc.data()!;
+      return Right(GeneratedMessageEntity(
+        id: doc.id,
+        content: d['content'] as String? ?? '',
+        mode: MessageMode.values.firstWhere(
+          (e) => e.name == d['mode'],
+          orElse: () => MessageMode.romantic,
+        ),
+        tone: MessageTone.values.firstWhere(
+          (e) => e.name == d['tone'],
+          orElse: () => MessageTone.heartfelt,
+        ),
+        length: MessageLength.values.firstWhere(
+          (e) => e.name == d['length'],
+          orElse: () => MessageLength.medium,
+        ),
+        createdAt: _parseDateTime(d['createdAt']),
+        rating: d['rating'] as int? ?? 0,
+        isFavorite: d['isFavorite'] as bool? ?? false,
+        languageCode: d['languageCode'] as String?,
+      ));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }

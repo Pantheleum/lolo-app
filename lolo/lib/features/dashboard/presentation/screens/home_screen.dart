@@ -12,6 +12,7 @@ import 'package:lolo/features/dashboard/presentation/widgets/greeting_header.dar
 import 'package:lolo/features/dashboard/presentation/widgets/streak_widget.dart';
 import 'package:lolo/features/dashboard/presentation/widgets/quick_actions_row.dart';
 import 'package:lolo/features/notifications/presentation/providers/notifications_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Home / Dashboard screen showing greeting, streak, reminders,
 /// daily action cards, and quick action buttons.
@@ -34,11 +35,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final dashboardAsync = ref.watch(dashboardNotifierProvider);
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'LOLO',
+        title: l10n.appName,
         showBackButton: false,
         showLogo: true,
         actions: [
@@ -51,12 +53,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Something went wrong', style: theme.textTheme.bodyLarge),
+              Text(l10n.home_somethingWentWrong, style: theme.textTheme.bodyLarge),
               const SizedBox(height: LoloSpacing.spaceMd),
               TextButton(
                 onPressed: () =>
                     ref.read(dashboardNotifierProvider.notifier).refresh(),
-                child: const Text('Retry'),
+                child: Text(l10n.common_button_retry),
               ),
             ],
           ),
@@ -106,7 +108,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Upcoming Reminders',
+                          l10n.home_upcomingReminders,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -114,7 +116,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         TextButton(
                           onPressed: () => context.pushNamed('reminders'),
                           child: Text(
-                            'See All',
+                            l10n.home_seeAll,
                             style: TextStyle(color: LoloColors.colorPrimary),
                           ),
                         ),
@@ -146,7 +148,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       horizontal: LoloSpacing.screenHorizontalPadding,
                     ),
                     child: Text(
-                      'Today\'s Actions',
+                      l10n.home_todaysActions,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -256,7 +258,7 @@ class _NotificationBellButton extends ConsumerWidget {
         child: const Icon(Icons.notifications_outlined),
       ),
       onPressed: () => context.pushNamed('notifications'),
-      tooltip: 'Notifications',
+      tooltip: AppLocalizations.of(context).home_notifications,
     );
   }
 }

@@ -54,10 +54,10 @@ class GamificationHubScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Weekly Activity', style: Theme.of(context).textTheme.titleMedium),
+                    Text(l10n.gamification_weeklyActivity, style: Theme.of(context).textTheme.titleMedium),
                     TextButton(
                       onPressed: () => context.push('/profile/gamification/stats'),
-                      child: Text('View Stats',
+                      child: Text(l10n.gamification_viewStats,
                           style: TextStyle(color: LoloColors.colorPrimary)),
                     ),
                   ],
@@ -69,10 +69,10 @@ class GamificationHubScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Badges', style: Theme.of(context).textTheme.titleMedium),
+                    Text(l10n.badges, style: Theme.of(context).textTheme.titleMedium),
                     TextButton(
                       onPressed: () => context.push('/profile/gamification/badges'),
-                      child: Text('See All',
+                      child: Text(l10n.gamification_seeAll,
                           style: TextStyle(color: LoloColors.colorPrimary)),
                     ),
                   ],
@@ -103,6 +103,7 @@ class _LevelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     return Container(
       width: double.infinity,
@@ -134,7 +135,7 @@ class _LevelCard extends StatelessWidget {
                   children: [
                     Text(profile.levelName,
                         style: theme.textTheme.titleMedium?.copyWith(color: Colors.white)),
-                    Text('${profile.totalXpEarned} XP total',
+                    Text(l10n.gamification_xpTotal(profile.totalXpEarned),
                         style: theme.textTheme.bodySmall?.copyWith(color: Colors.white70)),
                   ],
                 ),
@@ -159,6 +160,7 @@ class _StreakCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     return Container(
@@ -176,9 +178,9 @@ class _StreakCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${profile.currentStreak} day streak',
+                Text(l10n.gamification_dayStreak(profile.currentStreak),
                     style: theme.textTheme.titleMedium),
-                Text('Best: ${profile.longestStreak} days',
+                Text(l10n.gamification_bestStreak(profile.longestStreak),
                     style: theme.textTheme.bodySmall),
               ],
             ),
@@ -197,7 +199,7 @@ class _StreakCard extends StatelessWidget {
                     size: 20),
                 Text('${profile.freezesAvailable}',
                     style: theme.textTheme.labelSmall),
-                Text('freezes', style: theme.textTheme.labelSmall?.copyWith(
+                Text(l10n.gamification_freezes, style: theme.textTheme.labelSmall?.copyWith(
                     fontSize: 9,
                     color: isDark ? LoloColors.darkTextSecondary : LoloColors.lightTextSecondary)),
               ],
@@ -212,27 +214,25 @@ class _StreakCard extends StatelessWidget {
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Use Streak Freeze?'),
-        content: const Text(
-            'This will protect your streak for one missed day. '
-            'You cannot undo this action.'),
+        title: Text(AppLocalizations.of(context).gamification_useFreezeTitle),
+        content: Text(AppLocalizations.of(context).gamification_useFreezeMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context).common_button_cancel),
           ),
           FilledButton(
             onPressed: () {
               Navigator.of(ctx).pop();
               // TODO: Call freeze API when backend endpoint is ready
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Streak freeze applied!'),
+                SnackBar(
+                  content: Text(AppLocalizations.of(context).gamification_freezeApplied),
                   backgroundColor: LoloColors.colorSuccess,
                 ),
               );
             },
-            child: const Text('Use Freeze'),
+            child: Text(AppLocalizations.of(context).gamification_useFreeze),
           ),
         ],
       ),
@@ -300,12 +300,13 @@ class _LeaderboardPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Leaderboard', style: theme.textTheme.titleMedium),
+        Text(l10n.gamification_leaderboard, style: theme.textTheme.titleMedium),
         const SizedBox(height: LoloSpacing.spaceSm),
         ...List.generate(_mockLeaders.length, (i) {
           final (name, xp, rank) = _mockLeaders[i];

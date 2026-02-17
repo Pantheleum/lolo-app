@@ -7,6 +7,7 @@ import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
 import 'package:lolo/features/ai_messages/presentation/providers/message_mode_provider.dart';
 import 'package:lolo/features/ai_messages/presentation/widgets/message_mode_card.dart';
 import 'package:lolo/features/subscription/presentation/providers/subscription_providers.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Screen 19: AI Message Mode Picker.
 ///
@@ -21,17 +22,18 @@ class MessagesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isPremium = ref.watch(isPremiumProvider).valueOrNull ?? false;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'AI Messages',
+        title: l10n.messages_title,
         showBackButton: false,
         showLogo: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.history),
             onPressed: () => context.pushNamed('message-history'),
-            tooltip: 'Message History',
+            tooltip: l10n.messages_history,
           ),
         ],
       ),
@@ -50,7 +52,7 @@ class MessagesScreen extends ConsumerWidget {
                     bottom: LoloSpacing.spaceMd,
                   ),
                   child: Text(
-                    'Choose a message mode',
+                    l10n.messages_chooseMode,
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),

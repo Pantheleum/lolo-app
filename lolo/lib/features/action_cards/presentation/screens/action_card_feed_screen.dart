@@ -301,7 +301,7 @@ class _CardContent extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.bookmark_border, size: 20),
                     onPressed: onSave,
-                    tooltip: 'Save',
+                    tooltip: AppLocalizations.of(context).actionCard_save,
                   ),
                 ],
               ),
@@ -329,7 +329,7 @@ class _CardContent extends StatelessWidget {
                     child: OutlinedButton.icon(
                       onPressed: onSkip,
                       icon: const Icon(Icons.close, size: 18),
-                      label: const Text('Skip'),
+                      label: Text(AppLocalizations.of(context).actionCard_skip),
                     ),
                   ),
                   const SizedBox(width: LoloSpacing.spaceSm),
@@ -337,7 +337,7 @@ class _CardContent extends StatelessWidget {
                     child: FilledButton.icon(
                       onPressed: onComplete,
                       icon: const Icon(Icons.check, size: 18),
-                      label: const Text('Done'),
+                      label: Text(AppLocalizations.of(context).common_button_done),
                       style: FilledButton.styleFrom(
                         backgroundColor: typeColor,
                       ),

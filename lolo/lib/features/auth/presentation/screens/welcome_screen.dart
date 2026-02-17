@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lolo/core/theme/lolo_colors.dart';
 import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Welcome screen -- first screen shown to unauthenticated users.
 ///
@@ -15,6 +16,7 @@ class WelcomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: SafeArea(
@@ -44,7 +46,7 @@ class WelcomeScreen extends ConsumerWidget {
 
               // App name
               Text(
-                'LOLO',
+                l10n.appName,
                 style: theme.textTheme.displayMedium?.copyWith(
                   fontWeight: FontWeight.w800,
                   color: LoloColors.colorPrimary,
@@ -55,7 +57,7 @@ class WelcomeScreen extends ConsumerWidget {
 
               // Tagline
               Text(
-                'Your AI-powered relationship\nintelligence companion',
+                l10n.welcome_tagline,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: isDark
@@ -69,24 +71,24 @@ class WelcomeScreen extends ConsumerWidget {
               // Feature highlights
               _FeatureRow(
                 icon: Icons.auto_awesome,
-                text: 'AI-crafted messages for every moment',
+                text: l10n.welcome_feature_messages,
               ),
               const SizedBox(height: LoloSpacing.spaceMd),
               _FeatureRow(
                 icon: Icons.card_giftcard,
-                text: 'Smart gift recommendations',
+                text: l10n.welcome_feature_gifts,
               ),
               const SizedBox(height: LoloSpacing.spaceMd),
               _FeatureRow(
                 icon: Icons.notifications_active,
-                text: 'Never forget an important date',
+                text: l10n.welcome_feature_reminders,
               ),
 
               const Spacer(flex: 3),
 
               // Get Started button
               LoloPrimaryButton(
-                label: 'Get Started',
+                label: l10n.onboarding_welcome_button_start,
                 onPressed: () => context.goNamed('onboarding'),
                 icon: Icons.arrow_forward,
               ),
@@ -97,7 +99,7 @@ class WelcomeScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already have an account? ',
+                    l10n.welcome_alreadyHaveAccount,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: isDark
                           ? LoloColors.darkTextSecondary
@@ -107,7 +109,7 @@ class WelcomeScreen extends ConsumerWidget {
                   GestureDetector(
                     onTap: () => context.goNamed('login'),
                     child: Text(
-                      'Log In',
+                      l10n.welcome_logIn,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: LoloColors.colorPrimary,
                         fontWeight: FontWeight.w600,

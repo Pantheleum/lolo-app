@@ -101,13 +101,14 @@ class _TierComparison extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    const features = [
-      ('AI Messages', '5/mo', '100/mo', 'Unlimited'),
-      ('Action Cards', '3/day', '10/day', 'Unlimited'),
-      ('SOS Sessions', '2/mo', '10/mo', 'Unlimited'),
-      ('Memories', '20', '200', 'Unlimited'),
-      ('Message Modes', '3', '7', '10'),
-      ('Streak Freezes', '1/mo', '3/mo', '5/mo'),
+    final l10n = AppLocalizations.of(context);
+    final features = [
+      (l10n.paywall_aiMessages, '5/mo', '100/mo', l10n.paywall_unlimited),
+      (l10n.paywall_actionCards, '3/day', '10/day', l10n.paywall_unlimited),
+      (l10n.paywall_sosSessions, '2/mo', '10/mo', l10n.paywall_unlimited),
+      (l10n.paywall_memoriesLimit, '20', '200', l10n.paywall_unlimited),
+      (l10n.paywall_messageModes, '3', '7', '10'),
+      (l10n.paywall_streakFreezes, '1/mo', '3/mo', '5/mo'),
     ];
 
     return Container(
@@ -122,12 +123,12 @@ class _TierComparison extends StatelessWidget {
             child: Row(
               children: [
                 const Expanded(flex: 3, child: SizedBox()),
-                Expanded(flex: 2, child: Text('Free',
+                Expanded(flex: 2, child: Text(l10n.paywall_free,
                     textAlign: TextAlign.center, style: theme.textTheme.labelMedium)),
-                Expanded(flex: 2, child: Text('Pro',
+                Expanded(flex: 2, child: Text(l10n.paywall_pro,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.labelMedium?.copyWith(color: LoloColors.colorPrimary))),
-                Expanded(flex: 2, child: Text('Legend',
+                Expanded(flex: 2, child: Text(l10n.paywall_legend,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.labelMedium?.copyWith(color: LoloColors.colorAccent))),
               ],
@@ -217,7 +218,7 @@ class _PackageCard extends StatelessWidget {
                         width: 20, height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                       )
-                    : const Text('Subscribe'),
+                    : Text(AppLocalizations.of(context).paywall_subscribe),
               ),
             ],
           ),
@@ -234,7 +235,7 @@ class _PackageCard extends StatelessWidget {
                   color: LoloColors.colorPrimary,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Text('MOST POPULAR',
+                child: Text(AppLocalizations.of(context).paywall_mostPopular,
                     style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)),
               ),
             ),

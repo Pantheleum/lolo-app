@@ -8,6 +8,7 @@ import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/core/widgets/sos_coaching_card.dart';
 import 'package:lolo/features/sos_mode/domain/entities/sos_assessment.dart';
 import 'package:lolo/features/sos_mode/presentation/providers/sos_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Quick assessment questions before AI coaching begins.
 ///
@@ -26,22 +27,22 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
   bool _isYourFault = false;
   final _whatHappenedController = TextEditingController();
 
-  static const _timeOptions = [
-    'Right now',
-    'A few minutes ago',
-    'Within the hour',
-    'Earlier today',
-    'Yesterday',
+  static List<String> _timeOptions(AppLocalizations l10n) => [
+    l10n.sos_time_rightNow,
+    l10n.sos_time_fewMinutes,
+    l10n.sos_time_withinHour,
+    l10n.sos_time_earlierToday,
+    l10n.sos_time_yesterday,
   ];
 
-  static const _stateOptions = [
-    'Yelling / Furious',
-    'Crying',
-    'Cold & Silent',
-    'Disappointed',
-    'Confused',
-    'Hurt',
-    'Calm but upset',
+  static List<String> _stateOptions(AppLocalizations l10n) => [
+    l10n.sos_state_yelling,
+    l10n.sos_state_crying,
+    l10n.sos_state_coldSilent,
+    l10n.sos_state_disappointed,
+    l10n.sos_state_confused,
+    l10n.sos_state_hurt,
+    l10n.sos_state_calmUpset,
   ];
 
   @override
@@ -59,6 +60,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
     final sosState = ref.watch(sosNotifierProvider);
     final session = sosState.session;
 
@@ -69,7 +71,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
     });
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'Quick Assessment', showBackButton: true),
+      appBar: LoloAppBar(title: l10n.sos_assessmentTitle, showBackButton: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: LoloSpacing.screenHorizontalPadding,
@@ -83,13 +85,13 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
             if (session != null) ...[
               SOSCoachingCard(
                 variant: SOSCardVariant.doThis,
-                header: 'Do This Right Now',
+                header: l10n.sos_doThisRightNow,
                 content: session.immediateAdvice.doNow,
               ),
               const SizedBox(height: LoloSpacing.spaceXs),
               SOSCoachingCard(
                 variant: SOSCardVariant.dontSay,
-                header: "Don't Do This",
+                header: l10n.sos_dontDoThis,
                 content: session.immediateAdvice.doNotDo,
               ),
               const SizedBox(height: LoloSpacing.spaceXl),
@@ -97,7 +99,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
 
             // How long ago
             Text(
-              'How long ago did this start?',
+              l10n.sos_howLongAgo,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -106,7 +108,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: _timeOptions.map((opt) {
+              children: _timeOptions(l10n).map((opt) {
                 final isSelected = _howLongAgo == opt;
                 return _SelectableChip(
                   label: opt,
@@ -119,7 +121,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
 
             // Her current state
             Text(
-              'Her current state?',
+              l10n.sos_herCurrentState,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -128,7 +130,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: _stateOptions.map((opt) {
+              children: _stateOptions(l10n).map((opt) {
                 final isSelected = _herCurrentState == opt;
                 return _SelectableChip(
                   label: opt,
@@ -152,7 +154,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
                   ),
                   Expanded(
                     child: Text(
-                      'This might be my fault',
+                      l10n.sos_myFault,
                       style: theme.textTheme.bodyLarge,
                     ),
                   ),
@@ -163,7 +165,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
 
             // What happened
             Text(
-              'Briefly, what happened?',
+              l10n.sos_brieflyWhatHappened,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -174,7 +176,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
               maxLines: 3,
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(
-                hintText: 'E.g. I forgot our anniversary and she found out...',
+                hintText: l10n.sos_whatHappenedHint,
                 filled: true,
                 fillColor: isDark
                     ? LoloColors.darkBgTertiary
@@ -204,7 +206,7 @@ class _SosAssessmentScreenState extends ConsumerState<SosAssessmentScreen> {
               ),
 
             LoloPrimaryButton(
-              label: 'Start Coaching',
+              label: l10n.sos_startCoaching,
               icon: Icons.psychology,
               isLoading: sosState.isLoading,
               isEnabled: _canSubmit,

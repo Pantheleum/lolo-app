@@ -8,6 +8,7 @@ import 'package:lolo/core/widgets/lolo_avatar.dart';
 import 'package:lolo/core/widgets/lolo_toggle.dart';
 import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
 import 'package:lolo/features/settings/presentation/providers/settings_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Settings screen with profile, language, theme, notifications,
 /// subscription, and account management sections.
@@ -20,10 +21,11 @@ class SettingsScreen extends ConsumerWidget {
     final currentUser = ref.watch(currentUserProvider);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'Settings',
+        title: l10n.settings_title,
         showBackButton: false,
         showLogo: true,
       ),
@@ -40,7 +42,7 @@ class SettingsScreen extends ConsumerWidget {
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // === PROFILE SECTION ===
-              _SectionHeader(title: 'Profile'),
+              _SectionHeader(title: l10n.settings_profile),
               const SizedBox(height: LoloSpacing.spaceSm),
               _ProfileCard(
                 name: currentUser?.displayName ?? 'User',
@@ -51,7 +53,7 @@ class SettingsScreen extends ConsumerWidget {
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // === LANGUAGE ===
-              _SectionHeader(title: 'Language'),
+              _SectionHeader(title: l10n.settings_language),
               const SizedBox(height: LoloSpacing.spaceSm),
               _SegmentedSelector<String>(
                 value: settings.locale,
@@ -67,7 +69,7 @@ class SettingsScreen extends ConsumerWidget {
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // === THEME ===
-              _SectionHeader(title: 'Appearance'),
+              _SectionHeader(title: l10n.settings_appearance),
               const SizedBox(height: LoloSpacing.spaceSm),
               _SegmentedSelector<String>(
                 value: settings.themeMode,
@@ -83,19 +85,19 @@ class SettingsScreen extends ConsumerWidget {
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // === NOTIFICATIONS ===
-              _SectionHeader(title: 'Notifications'),
+              _SectionHeader(title: l10n.settings_notifications),
               const SizedBox(height: LoloSpacing.spaceSm),
               LoloToggle(
-                label: 'Push Notifications',
-                description: 'Receive push notifications',
+                label: l10n.settings_pushNotifications,
+                description: l10n.settings_receiveNotifications,
                 value: settings.notificationsEnabled,
                 onChanged: (v) => ref
                     .read(settingsNotifierProvider.notifier)
                     .setNotificationsEnabled(v),
               ),
               LoloToggle(
-                label: 'Reminder Alerts',
-                description: 'Get notified about upcoming dates',
+                label: l10n.settings_reminderAlerts,
+                description: l10n.settings_reminderAlertsDesc,
                 value: settings.reminderNotifications,
                 onChanged: settings.notificationsEnabled
                     ? (v) => ref
@@ -105,8 +107,8 @@ class SettingsScreen extends ConsumerWidget {
                 enabled: settings.notificationsEnabled,
               ),
               LoloToggle(
-                label: 'Daily Action Cards',
-                description: 'Daily relationship tips and actions',
+                label: l10n.settings_dailyActionCards,
+                description: l10n.settings_dailyActionCardsDesc,
                 value: settings.dailyCardNotifications,
                 onChanged: settings.notificationsEnabled
                     ? (v) => ref
@@ -116,8 +118,8 @@ class SettingsScreen extends ConsumerWidget {
                 enabled: settings.notificationsEnabled,
               ),
               LoloToggle(
-                label: 'Weekly Digest',
-                description: 'Weekly relationship summary',
+                label: l10n.settings_weeklyDigest,
+                description: l10n.settings_weeklyDigestDesc,
                 value: settings.weeklyDigest,
                 onChanged: settings.notificationsEnabled
                     ? (v) => ref
@@ -129,16 +131,16 @@ class SettingsScreen extends ConsumerWidget {
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // === SUBSCRIPTION ===
-              _SectionHeader(title: 'Subscription'),
+              _SectionHeader(title: l10n.settings_subscription),
               const SizedBox(height: LoloSpacing.spaceSm),
               _SettingsTile(
                 icon: Icons.workspace_premium,
                 label: currentUser?.isPremium == true
-                    ? 'Premium Active'
-                    : 'Upgrade to Premium',
+                    ? l10n.settings_premiumActive
+                    : l10n.settings_upgradeToPremium,
                 subtitle: currentUser?.isPremium == true
-                    ? 'Manage your subscription'
-                    : 'Unlock all features',
+                    ? l10n.settings_manageSubscription
+                    : l10n.settings_unlockAllFeatures,
                 trailing: currentUser?.isPremium == true
                     ? const Icon(Icons.check_circle,
                         color: LoloColors.colorSuccess)
@@ -163,37 +165,37 @@ class SettingsScreen extends ConsumerWidget {
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // === ABOUT ===
-              _SectionHeader(title: 'About'),
+              _SectionHeader(title: l10n.settings_about),
               const SizedBox(height: LoloSpacing.spaceSm),
               _SettingsTile(
                 icon: Icons.info_outline,
-                label: 'About LOLO',
+                label: l10n.settings_aboutLolo,
                 onTap: () => _showAboutDialog(context),
               ),
               _SettingsTile(
                 icon: Icons.description_outlined,
-                label: 'Terms of Service',
+                label: l10n.settings_termsOfService,
                 onTap: () {/* Navigate to terms */},
               ),
               _SettingsTile(
                 icon: Icons.privacy_tip_outlined,
-                label: 'Privacy Policy',
+                label: l10n.settings_privacyPolicy,
                 onTap: () {/* Navigate to privacy */},
               ),
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // === ACCOUNT ACTIONS ===
-              _SectionHeader(title: 'Account'),
+              _SectionHeader(title: l10n.settings_account),
               const SizedBox(height: LoloSpacing.spaceSm),
               _SettingsTile(
                 icon: Icons.logout,
-                label: 'Log Out',
+                label: l10n.settings_logOut,
                 iconColor: LoloColors.colorWarning,
                 onTap: () => _handleLogout(context, ref),
               ),
               _SettingsTile(
                 icon: Icons.delete_forever,
-                label: 'Delete Account',
+                label: l10n.settings_deleteAccount,
                 iconColor: LoloColors.colorError,
                 labelColor: LoloColors.colorError,
                 onTap: () => _handleDeleteAccount(context, ref),
@@ -204,7 +206,7 @@ class SettingsScreen extends ConsumerWidget {
               // App version
               Center(
                 child: Text(
-                  'LOLO v1.0.0',
+                  l10n.settings_appVersion('1.0.0'),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: isDark
                         ? LoloColors.darkTextTertiary
@@ -233,12 +235,12 @@ class SettingsScreen extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Log Out'),
-        content: const Text('Are you sure you want to log out?'),
+        title: Text(AppLocalizations.of(context).settings_logOutTitle),
+        content: Text(AppLocalizations.of(context).settings_logOutConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context).common_button_cancel),
           ),
           TextButton(
             onPressed: () {
@@ -246,7 +248,7 @@ class SettingsScreen extends ConsumerWidget {
               ref.read(authNotifierProvider.notifier).signOut();
               context.go('/welcome');
             },
-            child: const Text('Log Out'),
+            child: Text(AppLocalizations.of(context).settings_logOut),
           ),
         ],
       ),
@@ -257,15 +259,12 @@ class SettingsScreen extends ConsumerWidget {
     showDialog<void>(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Delete Account'),
-        content: const Text(
-          'This action is permanent and cannot be undone. '
-          'All your data will be deleted.',
-        ),
+        title: Text(AppLocalizations.of(context).settings_deleteAccountTitle),
+        content: Text(AppLocalizations.of(context).settings_deleteAccountMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context).common_button_cancel),
           ),
           TextButton(
             onPressed: () {
@@ -275,7 +274,7 @@ class SettingsScreen extends ConsumerWidget {
             },
             style: TextButton.styleFrom(
                 foregroundColor: LoloColors.colorError),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context).common_button_delete),
           ),
         ],
       ),

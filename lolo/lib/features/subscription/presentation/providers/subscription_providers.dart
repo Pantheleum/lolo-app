@@ -2,15 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
 import 'package:lolo/features/subscription/data/services/revenue_cat_service.dart';
 import 'package:lolo/features/subscription/domain/entities/subscription_entity.dart';
 
 /// Checks if the current user has a free pass granted in Firestore.
+/// Re-subscribes automatically on auth state changes.
 ///
 /// To grant a user full access, set `freePass: true` on their
 /// `users/{uid}` document in Firebase Console.
 final freePassProvider = FutureProvider<bool>((ref) async {
-  final uid = FirebaseAuth.instance.currentUser?.uid;
+  final uid = ref.watch(authStateProvider).valueOrNull?.uid;
   if (uid == null) return false;
   try {
     final doc =

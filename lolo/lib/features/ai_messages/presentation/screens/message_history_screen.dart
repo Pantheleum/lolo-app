@@ -11,6 +11,7 @@ import 'package:lolo/features/ai_messages/domain/entities/generated_message_enti
 import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
 import 'package:lolo/features/ai_messages/presentation/providers/message_history_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Screen 22: Message History.
 ///
@@ -33,13 +34,14 @@ class _MessageHistoryScreenState
   Widget build(BuildContext context) {
     final historyState = ref.watch(messageHistoryNotifierProvider);
     final filter = ref.watch(messageHistoryFilterProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: LoloAppBar(
-        title: 'Message History',
+        title: l10n.messageHistory_title,
         showBackButton: true,
         showSearch: true,
-        searchHint: 'Search messages...',
+        searchHint: l10n.messageHistory_searchHint,
         onSearchChanged: (query) {
           ref.read(messageHistoryFilterProvider.notifier).setSearch(query);
           ref.read(messageHistoryNotifierProvider.notifier).loadFirstPage();
@@ -96,10 +98,9 @@ class _MessageHistoryScreenState
                     size: 64,
                     color: LoloColors.gray4,
                   ),
-                  title: 'No messages yet',
-                  description:
-                      'Generate your first message to see it here!',
-                  ctaLabel: 'Generate Now',
+                  title: l10n.messageHistory_noMessages,
+                  description: l10n.messageHistory_noMessagesDesc,
+                  ctaLabel: l10n.messageHistory_generateNow,
                   onCtaTap: () => Navigator.of(context).pop(),
                 ),
                 separatorBuilder: (_, __) => const Divider(height: 1),
@@ -130,8 +131,8 @@ class _MessageHistoryScreenState
   void _copyMessage(BuildContext context, String content) {
     Clipboard.setData(ClipboardData(text: content));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Copied to clipboard'),
+      SnackBar(
+        content: Text(AppLocalizations.of(context).messageHistory_copiedToClipboard),
         duration: Duration(seconds: 2),
       ),
     );
@@ -151,9 +152,10 @@ class _FilterChipsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Build chip items: All + Favorites + each mode
+    final l10n = AppLocalizations.of(context);
     final items = <ChipItem>[
-      const ChipItem(label: 'All'),
-      const ChipItem(label: 'Favorites', icon: Icons.favorite),
+      ChipItem(label: l10n.messageHistory_all),
+      ChipItem(label: l10n.messageHistory_favorites, icon: Icons.favorite),
       ...MessageMode.values.map(
         (m) => ChipItem(
           label: m.name[0].toUpperCase() + m.name.substring(1),

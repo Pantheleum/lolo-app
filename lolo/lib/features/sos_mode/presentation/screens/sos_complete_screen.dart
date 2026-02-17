@@ -6,6 +6,7 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_primary_button.dart';
 import 'package:lolo/features/sos_mode/presentation/providers/sos_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Resolution screen after SOS coaching is complete.
 ///
@@ -33,6 +34,7 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
     final sosState = ref.watch(sosNotifierProvider);
 
     ref.listen<SosState>(sosNotifierProvider, (prev, next) {
@@ -42,7 +44,7 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
     });
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'How Did It Go?', showBackButton: false),
+      appBar: LoloAppBar(title: l10n.sos_feedbackTitle, showBackButton: false),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: LoloSpacing.screenHorizontalPadding,
@@ -69,14 +71,14 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
             const SizedBox(height: LoloSpacing.spaceXl),
 
             Text(
-              'Coaching Complete',
+              l10n.sos_coachingComplete,
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: LoloSpacing.spaceXs),
             Text(
-              'How did the situation turn out?',
+              l10n.sos_situationResult,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: isDark
                     ? LoloColors.darkTextSecondary
@@ -87,7 +89,7 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
 
             // Star rating
             Text(
-              'Rate this coaching session',
+              l10n.sos_rateSession,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -116,7 +118,7 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
             Align(
               alignment: AlignmentDirectional.centerStart,
               child: Text(
-                'Resolution notes (optional)',
+                l10n.sos_resolutionNotes,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -127,8 +129,7 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
               controller: _resolutionController,
               maxLines: 4,
               decoration: InputDecoration(
-                hintText:
-                    'How did she respond? What worked? What would you do differently?',
+                hintText: l10n.sos_resolutionHint,
                 filled: true,
                 fillColor: isDark
                     ? LoloColors.darkBgTertiary
@@ -186,13 +187,13 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Save to Memory Vault',
+                            l10n.sos_saveToMemoryVault,
                             style: theme.textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(
-                            'Remember what you learned for next time',
+                            l10n.sos_saveToMemoryVaultDesc,
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: isDark
                                   ? LoloColors.darkTextSecondary
@@ -221,7 +222,7 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
               ),
 
             LoloPrimaryButton(
-              label: 'Complete',
+              label: l10n.sos_completeButton,
               icon: Icons.check,
               isLoading: sosState.isLoading,
               isEnabled: _rating > 0,
@@ -246,9 +247,10 @@ class _SosCompleteScreenState extends ConsumerState<SosCompleteScreen> {
   }
 
   void _showSuccessAndNavigate() {
+    final l10n = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('SOS session saved. Stay strong!'),
+      SnackBar(
+        content: Text(l10n.sos_sessionSaved),
         backgroundColor: LoloColors.colorSuccess,
       ),
     );

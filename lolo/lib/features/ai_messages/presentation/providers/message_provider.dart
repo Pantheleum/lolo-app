@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lolo/features/ai_messages/domain/entities/generated_message_entity.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_request_entity.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_mode.dart';
 import 'package:lolo/features/ai_messages/domain/entities/message_tone.dart';
@@ -93,6 +94,14 @@ class MessageGenerationNotifier extends Notifier<MessageGenerationState> {
     state = const MessageGenerationState.idle();
   }
 }
+
+/// Fetches a single message by its Firestore document ID.
+final messageByIdProvider =
+    FutureProvider.family<GeneratedMessageEntity?, String>((ref, id) async {
+  final repository = ref.watch(messageRepositoryProvider);
+  final result = await repository.getMessageById(id);
+  return result.fold((_) => null, (msg) => msg);
+});
 
 final messageGenerationNotifierProvider =
     NotifierProvider<MessageGenerationNotifier, MessageGenerationState>(

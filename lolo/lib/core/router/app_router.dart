@@ -37,6 +37,8 @@ import 'package:lolo/features/gift_engine/presentation/screens/gift_history_scre
 
 // Memory Vault
 import 'package:lolo/features/memory_vault/presentation/screens/memories_screen.dart';
+import 'package:lolo/features/memory_vault/presentation/screens/create_memory_screen.dart';
+import 'package:lolo/features/memory_vault/presentation/screens/memory_detail_screen.dart';
 import 'package:lolo/features/memory_vault/presentation/screens/wish_list_screen.dart';
 
 // Her Profile
@@ -169,7 +171,9 @@ GoRouter appRouter(Ref ref) {
               GoRoute(
                 path: 'detail/:id',
                 name: RouteNames.messageDetail,
-                builder: (_, state) => const MessageDetailScreen(),
+                builder: (_, state) => MessageDetailScreen(
+                  messageId: state.pathParameters['id'],
+                ),
               ),
             ],
           ),
@@ -215,22 +219,26 @@ GoRouter appRouter(Ref ref) {
               GoRoute(
                 path: 'create',
                 name: RouteNames.memoryCreate,
-                builder: (_, __) => const MemoriesScreen(),
+                builder: (_, __) => const CreateMemoryScreen(),
               ),
               GoRoute(
                 path: 'detail/:id',
                 name: RouteNames.memoryDetail,
-                builder: (_, state) => const MemoriesScreen(),
+                builder: (_, state) => MemoryDetailScreen(
+                  memoryId: state.pathParameters['id']!,
+                ),
               ),
               GoRoute(
                 path: 'wishlist',
                 name: RouteNames.wishlist,
                 builder: (_, __) => const WishListScreen(),
-              ),
-              GoRoute(
-                path: 'wishlist/add',
-                name: RouteNames.wishlistAdd,
-                builder: (_, __) => const MemoriesScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'add',
+                    name: RouteNames.wishlistAdd,
+                    builder: (_, __) => const CreateMemoryScreen(),
+                  ),
+                ],
               ),
             ],
           ),

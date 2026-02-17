@@ -9,6 +9,7 @@ import 'package:lolo/core/widgets/sos_coaching_card.dart';
 import 'package:lolo/features/sos_mode/presentation/providers/sos_provider.dart';
 import 'package:lolo/features/sos_mode/presentation/widgets/coaching_message_bubble.dart';
 import 'package:lolo/features/sos_mode/presentation/widgets/severity_indicator.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Real-time SSE streaming coaching interface.
 ///
@@ -53,6 +54,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
     final sosState = ref.watch(sosNotifierProvider);
     final assessment = sosState.assessment;
     final steps = sosState.coachingSteps;
@@ -65,7 +67,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
     });
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'Live Coaching', showBackButton: false),
+      appBar: LoloAppBar(title: l10n.sos_liveCoaching, showBackButton: false),
       body: Column(
         children: [
           // Severity header
@@ -110,7 +112,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
                         ),
                         const SizedBox(height: LoloSpacing.spaceMd),
                         Text(
-                          'Analyzing situation...',
+                          l10n.sos_analyzing,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: isDark
                                 ? LoloColors.darkTextSecondary
@@ -167,7 +169,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
                             // Say this card
                             SOSCoachingCard(
                               variant: SOSCardVariant.sayThis,
-                              header: 'Say This',
+                              header: l10n.sayThis,
                               content: step.sayThis,
                               example: step.sayThis,
                             ),
@@ -177,7 +179,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
                             CoachingMessageBubble(
                               message: step.whyItWorks,
                               isAi: true,
-                              subtitle: 'Why this works',
+                              subtitle: l10n.sos_whyThisWorks,
                             ),
 
                             // Don't say
@@ -185,7 +187,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
                               const SizedBox(height: LoloSpacing.spaceXs),
                               SOSCoachingCard(
                                 variant: SOSCardVariant.dontSay,
-                                header: "Don't Say",
+                                header: l10n.dontSay,
                                 content: step.doNotSay.join('\n'),
                               ),
                             ],
@@ -194,7 +196,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
                             const SizedBox(height: LoloSpacing.spaceXs),
                             SOSCoachingCard(
                               variant: SOSCardVariant.doThis,
-                              header: 'Body Language',
+                              header: l10n.sos_bodyLanguage,
                               content: step.bodyLanguageTip,
                             ),
 
@@ -202,7 +204,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
                             if (step.waitFor != null) ...[
                               const SizedBox(height: LoloSpacing.spaceXs),
                               CoachingMessageBubble(
-                                message: 'Wait for: ${step.waitFor}',
+                                message: l10n.sos_waitFor(step.waitFor!),
                                 isAi: true,
                               ),
                             ],
@@ -231,7 +233,7 @@ class _SosCoachingScreenState extends ConsumerState<SosCoachingScreen> {
               ),
               child: SafeArea(
                 child: LoloPrimaryButton(
-                  label: 'Finish Coaching',
+                  label: l10n.sos_finishCoaching,
                   icon: Icons.check_circle_outline,
                   onPressed: () => context.go('/sos/complete'),
                 ),

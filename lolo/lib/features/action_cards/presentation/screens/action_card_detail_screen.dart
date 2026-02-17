@@ -39,7 +39,7 @@ class _State extends ConsumerState<ActionCardDetailScreen> {
         if (card == null) {
           return Scaffold(
             appBar: LoloAppBar(title: l10n.actionCardsTitle),
-            body: const Center(child: Text('Card not found')),
+            body: Center(child: Text(l10n.actionCard_cardNotFound)),
           );
         }
 

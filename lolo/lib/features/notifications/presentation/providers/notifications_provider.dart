@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
 import 'package:lolo/features/notifications/domain/entities/notification_item_entity.dart';
 
 /// Stream of all notifications for the current user, ordered newest-first.
+/// Re-subscribes automatically on auth state changes.
 final notificationsProvider =
     StreamProvider<List<NotificationItemEntity>>((ref) {
-  final uid = FirebaseAuth.instance.currentUser?.uid;
+  final uid = ref.watch(authStateProvider).valueOrNull?.uid;
   if (uid == null) return Stream.value([]);
 
   return FirebaseFirestore.instance

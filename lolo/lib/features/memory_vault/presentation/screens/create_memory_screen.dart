@@ -11,6 +11,7 @@ import 'package:lolo/features/memory_vault/domain/entities/memory_category.dart'
 import 'package:lolo/features/memory_vault/presentation/providers/memory_provider.dart';
 import 'package:lolo/features/memory_vault/presentation/widgets/mood_selector.dart';
 import 'package:lolo/features/memory_vault/presentation/widgets/tag_input.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Form to create a new memory: title, description, date, category,
 /// mood, tags, and photo upload option.
@@ -96,8 +97,8 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
       (_) {
         ref.invalidate(memoriesNotifierProvider);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Memory saved!'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context).createMemory_saved),
             backgroundColor: LoloColors.colorSuccess,
           ),
         );
@@ -108,11 +109,12 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'New Memory', showBackButton: true),
+      appBar: LoloAppBar(title: l10n.createMemory_title, showBackButton: true),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           horizontal: LoloSpacing.screenHorizontalPadding,
@@ -124,18 +126,18 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
 
             // Title
             LoloTextField(
-              label: 'Title',
+              label: l10n.createMemory_titleLabel,
               controller: _titleController,
-              hint: 'Give this memory a name...',
+              hint: l10n.createMemory_titleHint,
               onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: LoloSpacing.spaceMd),
 
             // Description
             LoloTextField(
-              label: 'Description',
+              label: l10n.createMemory_descriptionLabel,
               controller: _descriptionController,
-              hint: 'What happened? How did you feel?',
+              hint: l10n.createMemory_descriptionHint,
               maxLines: 4,
               onChanged: (_) => setState(() {}),
             ),
@@ -143,7 +145,7 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
 
             // Date picker
             Text(
-              'Date',
+              l10n.createMemory_dateLabel,
               style: theme.textTheme.titleSmall
                   ?.copyWith(fontWeight: FontWeight.w600),
             ),
@@ -181,7 +183,7 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
 
             // Category selector
             Text(
-              'Category',
+              l10n.reminders_create_label_category,
               style: theme.textTheme.titleSmall
                   ?.copyWith(fontWeight: FontWeight.w600),
             ),
@@ -232,7 +234,7 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
 
             // Mood selector
             Text(
-              'How were you feeling?',
+              l10n.createMemory_moodLabel,
               style: theme.textTheme.titleSmall
                   ?.copyWith(fontWeight: FontWeight.w600),
             ),
@@ -246,7 +248,7 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
 
             // Tags
             Text(
-              'Tags',
+              l10n.createMemory_tagsLabel,
               style: theme.textTheme.titleSmall
                   ?.copyWith(fontWeight: FontWeight.w600),
             ),
@@ -261,8 +263,8 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
             GestureDetector(
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Photo upload coming soon!')),
+                  SnackBar(
+                      content: Text(l10n.createMemory_photoComingSoon)),
                 );
               },
               child: Container(
@@ -293,7 +295,7 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
                     ),
                     const SizedBox(height: LoloSpacing.space2xs),
                     Text(
-                      'Add photos',
+                      l10n.createMemory_addPhotos,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: isDark
                             ? LoloColors.darkTextTertiary
@@ -308,7 +310,7 @@ class _CreateMemoryScreenState extends ConsumerState<CreateMemoryScreen> {
 
             // Submit button
             LoloPrimaryButton(
-              label: 'Save Memory',
+              label: l10n.createMemory_saveButton,
               icon: Icons.save_outlined,
               isLoading: _isSubmitting,
               isEnabled: _canSubmit,

@@ -7,6 +7,7 @@ import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_empty_state.dart';
 import 'package:lolo/features/notifications/domain/entities/notification_item_entity.dart';
 import 'package:lolo/features/notifications/presentation/providers/notifications_provider.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Full-screen notification center with date-grouped tiles,
 /// unread indicators, mark-all-read, and pull-to-refresh.
@@ -19,9 +20,10 @@ class NotificationCenterScreen extends ConsumerWidget {
     final unreadCount = ref.watch(unreadCountProvider);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'Notifications'),
+      appBar: LoloAppBar(title: l10n.notifications_title),
       body: notificationsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
@@ -29,29 +31,29 @@ class NotificationCenterScreen extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Couldn't load notifications.",
+                l10n.notifications_loadError,
                 style: theme.textTheme.bodyLarge,
               ),
               const SizedBox(height: LoloSpacing.spaceMd),
               TextButton(
                 onPressed: () => ref.invalidate(notificationsProvider),
-                child: const Text('Retry'),
+                child: Text(l10n.common_button_retry),
               ),
             ],
           ),
         ),
         data: (notifications) {
           if (notifications.isEmpty) {
-            return const Center(
+            return Center(
               child: LoloEmptyState(
                 icon: Icons.notifications_none_outlined,
-                title: 'No notifications yet',
-                description: "We'll keep you posted!",
+                title: l10n.notifications_noNotifications,
+                description: l10n.notifications_noNotificationsSubtitle,
               ),
             );
           }
 
-          final groups = _groupByDate(notifications);
+          final groups = _groupByDate(notifications, l10n);
 
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(notificationsProvider),
@@ -77,7 +79,7 @@ class NotificationCenterScreen extends ConsumerWidget {
                             }
                           },
                           child: Text(
-                            'Mark all as read',
+                            l10n.notifications_markAllRead,
                             style: theme.textTheme.labelMedium?.copyWith(
                               color: LoloColors.colorPrimary,
                               fontWeight: FontWeight.w500,
@@ -131,7 +133,7 @@ class NotificationCenterScreen extends ConsumerWidget {
   }
 
   /// Group notifications by Today / Yesterday / Earlier.
-  List<_DateGroup> _groupByDate(List<NotificationItemEntity> items) {
+  List<_DateGroup> _groupByDate(List<NotificationItemEntity> items, AppLocalizations l10n) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
@@ -153,9 +155,9 @@ class NotificationCenterScreen extends ConsumerWidget {
     }
 
     return [
-      if (todayItems.isNotEmpty) _DateGroup('Today', todayItems),
-      if (yesterdayItems.isNotEmpty) _DateGroup('Yesterday', yesterdayItems),
-      if (earlierItems.isNotEmpty) _DateGroup('Earlier', earlierItems),
+      if (todayItems.isNotEmpty) _DateGroup(l10n.notifications_today, todayItems),
+      if (yesterdayItems.isNotEmpty) _DateGroup(l10n.notifications_yesterday, yesterdayItems),
+      if (earlierItems.isNotEmpty) _DateGroup(l10n.notifications_earlier, earlierItems),
     ];
   }
 }

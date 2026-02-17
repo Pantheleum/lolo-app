@@ -8,38 +8,37 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/core/widgets/lolo_avatar.dart';
 import 'package:lolo/core/widgets/lolo_skeleton.dart';
+import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
 import 'package:lolo/features/her_profile/domain/entities/partner_profile_entity.dart';
 import 'package:lolo/features/her_profile/presentation/providers/her_profile_provider.dart';
 import 'package:lolo/features/her_profile/presentation/widgets/profile_completion_ring.dart';
 import 'package:lolo/generated/l10n/app_localizations.dart';
 
-/// Provider for the partner's nationality from Firestore.
-final partnerNationalityProvider = StreamProvider<String>((ref) {
-  final uid = FirebaseAuth.instance.currentUser?.uid;
-  if (uid == null) return Stream.value('');
+/// Single shared Firestore listener on users/{uid} — replaces duplicate
+/// partnerNationalityProvider + partnerBirthdayProvider streams.
+final partnerDocProvider = StreamProvider<Map<String, dynamic>>((ref) {
+  final uid = ref.watch(authStateProvider).valueOrNull?.uid;
+  if (uid == null) return Stream.value({});
   return FirebaseFirestore.instance
       .collection('users')
       .doc(uid)
       .snapshots()
-      .map((doc) => doc.data()?['partnerNationality'] as String? ?? '');
+      .map((doc) => doc.data() ?? {});
 });
 
-/// Provider for partner's birthday from Firestore.
-final partnerBirthdayProvider = StreamProvider<DateTime?>((ref) {
-  final uid = FirebaseAuth.instance.currentUser?.uid;
-  if (uid == null) return Stream.value(null);
-  return FirebaseFirestore.instance
-      .collection('users')
-      .doc(uid)
-      .snapshots()
-      .map((doc) {
-    final data = doc.data();
-    if (data == null || data['partnerBirthday'] == null) return null;
-    final val = data['partnerBirthday'];
-    if (val is Timestamp) return val.toDate();
-    if (val is String) return DateTime.tryParse(val);
-    return null;
-  });
+/// Derived provider — no additional Firestore listener.
+final partnerNationalityProvider = Provider<String>((ref) {
+  final doc = ref.watch(partnerDocProvider).valueOrNull ?? {};
+  return doc['partnerNationality'] as String? ?? '';
+});
+
+/// Derived provider — no additional Firestore listener.
+final partnerBirthdayProvider = Provider<DateTime?>((ref) {
+  final doc = ref.watch(partnerDocProvider).valueOrNull ?? {};
+  final val = doc['partnerBirthday'];
+  if (val is Timestamp) return val.toDate();
+  if (val is String) return DateTime.tryParse(val);
+  return null;
 });
 
 /// Shared month name helper.
@@ -403,18 +402,18 @@ class _ProfileSkeleton extends StatelessWidget {
 class _PartnerBirthdayTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final birthdayAsync = ref.watch(partnerBirthdayProvider);
+    final birthday = ref.watch(partnerBirthdayProvider);
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final birthday = birthdayAsync.valueOrNull;
 
     String subtitle;
     if (birthday != null) {
       final age = _calculateAge(birthday);
       final month = _monthName(birthday.month);
-      subtitle = '$month ${birthday.day}, ${birthday.year} ($age years old)';
+      subtitle = l10n.herProfile_birthdayFormat(month, birthday.day, birthday.year, age);
     } else {
-      subtitle = "Set her birthday for age-aware messages";
+      subtitle = l10n.herProfile_birthdaySubtitle;
     }
 
     return Padding(
@@ -441,7 +440,7 @@ class _PartnerBirthdayTile extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Her Birthday', style: theme.textTheme.titleMedium),
+                      Text(l10n.herProfile_birthday, style: theme.textTheme.titleMedium),
                       Text(
                         subtitle,
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -483,7 +482,7 @@ class _PartnerBirthdayTile extends ConsumerWidget {
       initialDate: current ?? DateTime(1995, 1, 1),
       firstDate: DateTime(1950),
       lastDate: DateTime.now(),
-      helpText: "Select her birthday",
+      helpText: AppLocalizations.of(context).herProfile_selectBirthday,
     );
     if (picked != null && context.mounted) {
       final uid = FirebaseAuth.instance.currentUser?.uid;
@@ -504,10 +503,10 @@ class _PartnerBirthdayTile extends ConsumerWidget {
 class _PartnerNationalitySelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final nationalityAsync = ref.watch(partnerNationalityProvider);
+    final currentNationality = ref.watch(partnerNationalityProvider);
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final currentNationality = nationalityAsync.valueOrNull ?? '';
 
     return Padding(
       padding: const EdgeInsets.only(bottom: LoloSpacing.spaceXs),
@@ -533,10 +532,10 @@ class _PartnerNationalitySelector extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Her Nationality', style: theme.textTheme.titleMedium),
+                      Text(l10n.herProfile_nationality, style: theme.textTheme.titleMedium),
                       Text(
                         currentNationality.isEmpty
-                            ? 'Set her nationality for culturally personalized messages'
+                            ? l10n.herProfile_nationalitySubtitle
                             : currentNationality,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: isDark
@@ -598,7 +597,7 @@ class _PartnerNationalitySelector extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: LoloSpacing.screenHorizontalPadding, vertical: 8),
-              child: Text('Her Nationality',
+              child: Text(AppLocalizations.of(ctx).herProfile_nationality,
                   style: theme.textTheme.titleLarge),
             ),
             Expanded(
@@ -664,6 +663,7 @@ class _AnniversaryTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
@@ -672,7 +672,7 @@ class _AnniversaryTile extends ConsumerWidget {
       final month = _monthName(anniversaryDate!.month);
       subtitle = '$month ${anniversaryDate!.day}, ${anniversaryDate!.year}';
     } else {
-      subtitle = 'Set your anniversary date';
+      subtitle = l10n.herProfile_anniversarySubtitle;
     }
 
     return Padding(
@@ -699,7 +699,7 @@ class _AnniversaryTile extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Anniversary', style: theme.textTheme.titleMedium),
+                      Text(l10n.herProfile_anniversary, style: theme.textTheme.titleMedium),
                       Text(
                         subtitle,
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -731,7 +731,7 @@ class _AnniversaryTile extends ConsumerWidget {
       initialDate: anniversaryDate ?? DateTime.now(),
       firstDate: DateTime(1950),
       lastDate: DateTime(2100),
-      helpText: 'Select your anniversary',
+      helpText: AppLocalizations.of(context).herProfile_selectAnniversary,
     );
     if (picked != null && context.mounted) {
       await ref
@@ -759,7 +759,7 @@ class _QuickFactsCard extends StatelessWidget {
       if (profile.relationshipStatus.isNotEmpty)
         _QuickFact(
           Icons.favorite,
-          'Status',
+          l10n.herProfile_status,
           _capitalize(profile.relationshipStatus),
         ),
       if (profile.loveLanguage != null)
@@ -777,13 +777,13 @@ class _QuickFactsCard extends StatelessWidget {
       if (profile.zodiacSign != null)
         _QuickFact(
           Icons.stars,
-          'Zodiac',
+          l10n.herProfile_zodiac,
           profile.zodiacDisplayName,
         ),
       if (profile.culturalContext?.background != null)
         _QuickFact(
           Icons.public,
-          'Background',
+          l10n.herProfile_background,
           profile.culturalContext!.background!,
         ),
     ];
@@ -794,7 +794,7 @@ class _QuickFactsCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'QUICK FACTS',
+          l10n.herProfile_quickFacts,
           style: theme.textTheme.labelMedium?.copyWith(
             color: isDark
                 ? LoloColors.darkTextTertiary

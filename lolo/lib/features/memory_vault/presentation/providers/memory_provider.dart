@@ -1,4 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lolo/core/network/dio_client.dart';
+import 'package:lolo/features/memory_vault/data/datasources/memory_remote_datasource.dart';
+import 'package:lolo/features/memory_vault/data/repositories/memory_repository_impl.dart';
 import 'package:lolo/features/memory_vault/domain/entities/memory.dart';
 import 'package:lolo/features/memory_vault/domain/entities/memory_category.dart';
 import 'package:lolo/features/memory_vault/domain/repositories/memory_repository.dart';
@@ -141,8 +144,17 @@ final memoryDetailProvider =
   );
 });
 
-/// Placeholder provider for MemoryRepository injection.
-/// Override this in the provider scope with the actual implementation.
+// ---------------------------------------------------------------------------
+// Data source & repository providers
+// ---------------------------------------------------------------------------
+
+final memoryRemoteDataSourceProvider =
+    Provider<MemoryRemoteDataSource>((ref) {
+  return MemoryRemoteDataSource(ref.watch(dioProvider));
+});
+
 final memoryRepositoryProvider = Provider<MemoryRepository>((ref) {
-  throw UnimplementedError('memoryRepositoryProvider must be overridden');
+  return MemoryRepositoryImpl(
+    remote: ref.watch(memoryRemoteDataSourceProvider),
+  );
 });

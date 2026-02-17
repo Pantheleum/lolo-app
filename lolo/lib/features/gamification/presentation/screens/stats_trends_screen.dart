@@ -5,6 +5,7 @@ import 'package:lolo/core/theme/lolo_spacing.dart';
 import 'package:lolo/core/widgets/lolo_app_bar.dart';
 import 'package:lolo/features/gamification/domain/entities/gamification_profile.dart';
 import 'package:lolo/features/gamification/presentation/providers/gamification_providers.dart';
+import 'package:lolo/generated/l10n/app_localizations.dart';
 
 /// Stats & Trends screen (Screen 32) with line chart, action breakdown,
 /// personal bests, and AI insight tip.
@@ -26,9 +27,10 @@ class _StatsTrendsScreenState extends ConsumerState<StatsTrendsScreen> {
     final asyncProfile = ref.watch(gamificationProfileProvider);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: LoloAppBar(title: 'Stats & Trends'),
+      appBar: LoloAppBar(title: l10n.stats_title),
       body: asyncProfile.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('$e')),
@@ -68,19 +70,19 @@ class _StatsTrendsScreenState extends ConsumerState<StatsTrendsScreen> {
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // Line chart (XP over time)
-              Text('Activity Over Time', style: theme.textTheme.titleMedium),
+              Text(l10n.stats_activityOverTime, style: theme.textTheme.titleMedium),
               const SizedBox(height: LoloSpacing.spaceMd),
               _ActivityLineChart(weeklyXp: profile.weeklyXp, isDark: isDark),
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // Action breakdown bar chart
-              Text('Action Breakdown', style: theme.textTheme.titleMedium),
+              Text(l10n.stats_actionBreakdown, style: theme.textTheme.titleMedium),
               const SizedBox(height: LoloSpacing.spaceMd),
               _ActionBreakdown(isDark: isDark),
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // Personal bests
-              Text('Personal Bests', style: theme.textTheme.titleMedium),
+              Text(l10n.stats_personalBests, style: theme.textTheme.titleMedium),
               const SizedBox(height: LoloSpacing.spaceMd),
               _PersonalBests(profile: profile, isDark: isDark),
               const SizedBox(height: LoloSpacing.spaceXl),
@@ -115,7 +117,7 @@ class _ActivityLineChart extends StatelessWidget {
         height: 200,
         child: Center(
           child: Text(
-            'No activity for this period.\nStart by completing an action today!',
+            AppLocalizations.of(context).stats_noActivity,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: isDark
@@ -389,7 +391,7 @@ class _AiTipCard extends StatelessWidget {
             children: [
               const Icon(Icons.auto_awesome, size: 16, color: LoloColors.colorAccent),
               const SizedBox(width: 6),
-              Text('AI Insight',
+              Text(AppLocalizations.of(context).stats_aiInsight,
                   style: theme.textTheme.labelMedium
                       ?.copyWith(fontWeight: FontWeight.w600)),
               const Spacer(),

@@ -1506,6 +1506,2112 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get unlimited access to all features'**
   String get paywallSubtitle;
+
+  /// No description provided for @welcome_tagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Your AI-powered relationship\nintelligence companion'**
+  String get welcome_tagline;
+
+  /// No description provided for @welcome_feature_messages.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-crafted messages for every moment'**
+  String get welcome_feature_messages;
+
+  /// No description provided for @welcome_feature_gifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart gift recommendations'**
+  String get welcome_feature_gifts;
+
+  /// No description provided for @welcome_feature_reminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Never forget an important date'**
+  String get welcome_feature_reminders;
+
+  /// No description provided for @welcome_alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? '**
+  String get welcome_alreadyHaveAccount;
+
+  /// No description provided for @welcome_logIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Log In'**
+  String get welcome_logIn;
+
+  /// No description provided for @login_heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get login_heading;
+
+  /// No description provided for @login_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue your journey'**
+  String get login_subtitle;
+
+  /// No description provided for @login_label_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get login_label_email;
+
+  /// No description provided for @login_hint_email.
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com'**
+  String get login_hint_email;
+
+  /// No description provided for @login_label_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get login_label_password;
+
+  /// No description provided for @login_forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get login_forgotPassword;
+
+  /// No description provided for @login_buttonLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Log In'**
+  String get login_buttonLogin;
+
+  /// No description provided for @login_orContinueWith.
+  ///
+  /// In en, this message translates to:
+  /// **'or continue with'**
+  String get login_orContinueWith;
+
+  /// No description provided for @login_google.
+  ///
+  /// In en, this message translates to:
+  /// **'Google'**
+  String get login_google;
+
+  /// No description provided for @login_apple.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple'**
+  String get login_apple;
+
+  /// No description provided for @login_noAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? '**
+  String get login_noAccount;
+
+  /// No description provided for @login_signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get login_signUp;
+
+  /// No description provided for @login_enterEmailFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email first'**
+  String get login_enterEmailFirst;
+
+  /// No description provided for @login_resetEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset email sent'**
+  String get login_resetEmailSent;
+
+  /// No description provided for @home_upcomingReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Reminders'**
+  String get home_upcomingReminders;
+
+  /// No description provided for @home_seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See All'**
+  String get home_seeAll;
+
+  /// No description provided for @home_todaysActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Actions'**
+  String get home_todaysActions;
+
+  /// No description provided for @home_somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get home_somethingWentWrong;
+
+  /// No description provided for @home_notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get home_notifications;
+
+  /// No description provided for @messages_title.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Messages'**
+  String get messages_title;
+
+  /// No description provided for @messages_chooseMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a message mode'**
+  String get messages_chooseMode;
+
+  /// No description provided for @messages_history.
+  ///
+  /// In en, this message translates to:
+  /// **'Message History'**
+  String get messages_history;
+
+  /// No description provided for @generate_configureMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure Message'**
+  String get generate_configureMessage;
+
+  /// No description provided for @generate_tone.
+  ///
+  /// In en, this message translates to:
+  /// **'Tone'**
+  String get generate_tone;
+
+  /// No description provided for @generate_humorLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Humor Level'**
+  String get generate_humorLevel;
+
+  /// No description provided for @generate_serious.
+  ///
+  /// In en, this message translates to:
+  /// **'Serious'**
+  String get generate_serious;
+
+  /// No description provided for @generate_funny.
+  ///
+  /// In en, this message translates to:
+  /// **'Funny'**
+  String get generate_funny;
+
+  /// No description provided for @generate_messageLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Message Length'**
+  String get generate_messageLength;
+
+  /// No description provided for @generate_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get generate_language;
+
+  /// No description provided for @generate_includeHerName.
+  ///
+  /// In en, this message translates to:
+  /// **'Include her name'**
+  String get generate_includeHerName;
+
+  /// No description provided for @generate_includeHerNameDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalize the message with your partner\'s name'**
+  String get generate_includeHerNameDesc;
+
+  /// No description provided for @generate_contextOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Context (optional)'**
+  String get generate_contextOptional;
+
+  /// No description provided for @generate_contextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., We had an argument about...'**
+  String get generate_contextHint;
+
+  /// No description provided for @generate_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate Message'**
+  String get generate_button;
+
+  /// No description provided for @messageDetail_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Message'**
+  String get messageDetail_title;
+
+  /// No description provided for @messageDetail_noMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No message generated yet.'**
+  String get messageDetail_noMessage;
+
+  /// No description provided for @messageDetail_crafting.
+  ///
+  /// In en, this message translates to:
+  /// **'Crafting your message...'**
+  String get messageDetail_crafting;
+
+  /// No description provided for @messageDetail_copiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Message copied to clipboard'**
+  String get messageDetail_copiedToClipboard;
+
+  /// No description provided for @messageDetail_shareSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Message from LOLO'**
+  String get messageDetail_shareSubject;
+
+  /// No description provided for @messageDetail_savedToFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Favorites'**
+  String get messageDetail_savedToFavorites;
+
+  /// No description provided for @messageDetail_saveToFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Favorites'**
+  String get messageDetail_saveToFavorites;
+
+  /// No description provided for @messageDetail_generatedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Generated by {model}'**
+  String messageDetail_generatedBy(String model);
+
+  /// No description provided for @messageDetail_usageCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{used} of {limit} messages used this month'**
+  String messageDetail_usageCount(int used, int limit);
+
+  /// No description provided for @messageHistory_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Message History'**
+  String get messageHistory_title;
+
+  /// No description provided for @messageHistory_searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search messages...'**
+  String get messageHistory_searchHint;
+
+  /// No description provided for @messageHistory_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get messageHistory_all;
+
+  /// No description provided for @messageHistory_favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get messageHistory_favorites;
+
+  /// No description provided for @messageHistory_noMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get messageHistory_noMessages;
+
+  /// No description provided for @messageHistory_noMessagesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate your first message to see it here!'**
+  String get messageHistory_noMessagesDesc;
+
+  /// No description provided for @messageHistory_generateNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate Now'**
+  String get messageHistory_generateNow;
+
+  /// No description provided for @messageHistory_copiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get messageHistory_copiedToClipboard;
+
+  /// No description provided for @messageHistory_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get messageHistory_today;
+
+  /// No description provided for @messageHistory_yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get messageHistory_yesterday;
+
+  /// No description provided for @messageHistory_daysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{days}d ago'**
+  String messageHistory_daysAgo(int days);
+
+  /// No description provided for @sos_whatHappenedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the scenario that best describes the situation'**
+  String get sos_whatHappenedDesc;
+
+  /// No description provided for @sos_howSevere.
+  ///
+  /// In en, this message translates to:
+  /// **'How severe is the situation?'**
+  String get sos_howSevere;
+
+  /// No description provided for @sos_mild.
+  ///
+  /// In en, this message translates to:
+  /// **'Mild'**
+  String get sos_mild;
+
+  /// No description provided for @sos_moderate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get sos_moderate;
+
+  /// No description provided for @sos_severe.
+  ///
+  /// In en, this message translates to:
+  /// **'Severe'**
+  String get sos_severe;
+
+  /// No description provided for @sos_critical.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical'**
+  String get sos_critical;
+
+  /// No description provided for @sos_herMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Her current mood'**
+  String get sos_herMood;
+
+  /// No description provided for @sos_sad.
+  ///
+  /// In en, this message translates to:
+  /// **'Sad'**
+  String get sos_sad;
+
+  /// No description provided for @sos_angry.
+  ///
+  /// In en, this message translates to:
+  /// **'Angry'**
+  String get sos_angry;
+
+  /// No description provided for @sos_disappointed.
+  ///
+  /// In en, this message translates to:
+  /// **'Disappointed'**
+  String get sos_disappointed;
+
+  /// No description provided for @sos_hurt.
+  ///
+  /// In en, this message translates to:
+  /// **'Hurt'**
+  String get sos_hurt;
+
+  /// No description provided for @sos_frustrated.
+  ///
+  /// In en, this message translates to:
+  /// **'Frustrated'**
+  String get sos_frustrated;
+
+  /// No description provided for @sos_silent.
+  ///
+  /// In en, this message translates to:
+  /// **'Silent'**
+  String get sos_silent;
+
+  /// No description provided for @sos_getCoaching.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Coaching'**
+  String get sos_getCoaching;
+
+  /// No description provided for @sos_doFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Do This First'**
+  String get sos_doFirst;
+
+  /// No description provided for @sos_whatToSay.
+  ///
+  /// In en, this message translates to:
+  /// **'What to Say'**
+  String get sos_whatToSay;
+
+  /// No description provided for @sos_avoidSaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Avoid Saying'**
+  String get sos_avoidSaying;
+
+  /// No description provided for @sos_feedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How did it go?'**
+  String get sos_feedbackTitle;
+
+  /// No description provided for @sos_feedbackGreat.
+  ///
+  /// In en, this message translates to:
+  /// **'Great'**
+  String get sos_feedbackGreat;
+
+  /// No description provided for @sos_feedbackOkay.
+  ///
+  /// In en, this message translates to:
+  /// **'Okay'**
+  String get sos_feedbackOkay;
+
+  /// No description provided for @sos_feedbackNotWell.
+  ///
+  /// In en, this message translates to:
+  /// **'Not well'**
+  String get sos_feedbackNotWell;
+
+  /// No description provided for @sos_sessionComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Session Complete'**
+  String get sos_sessionComplete;
+
+  /// No description provided for @sos_sessionCompleteDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Well done for making the effort. Remember, it\'s about progress, not perfection.'**
+  String get sos_sessionCompleteDesc;
+
+  /// No description provided for @sos_moreResources.
+  ///
+  /// In en, this message translates to:
+  /// **'More Resources'**
+  String get sos_moreResources;
+
+  /// No description provided for @gifts_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift Ideas'**
+  String get gifts_title;
+
+  /// No description provided for @gifts_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Thoughtful gift recommendations powered by AI'**
+  String get gifts_subtitle;
+
+  /// No description provided for @gifts_findPerfectGift.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Perfect Gift'**
+  String get gifts_findPerfectGift;
+
+  /// No description provided for @gifts_recentGifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Gift Ideas'**
+  String get gifts_recentGifts;
+
+  /// No description provided for @gifts_noGiftsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No gift ideas yet'**
+  String get gifts_noGiftsYet;
+
+  /// No description provided for @gifts_noGiftsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap above to get personalized gift recommendations'**
+  String get gifts_noGiftsDesc;
+
+  /// No description provided for @gifts_budget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get gifts_budget;
+
+  /// No description provided for @gifts_occasion.
+  ///
+  /// In en, this message translates to:
+  /// **'Occasion'**
+  String get gifts_occasion;
+
+  /// No description provided for @gifts_getRecommendations.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Recommendations'**
+  String get gifts_getRecommendations;
+
+  /// No description provided for @giftDetail_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift Details'**
+  String get giftDetail_title;
+
+  /// No description provided for @giftDetail_whyThisGift.
+  ///
+  /// In en, this message translates to:
+  /// **'Why this gift?'**
+  String get giftDetail_whyThisGift;
+
+  /// No description provided for @giftDetail_whereToBuy.
+  ///
+  /// In en, this message translates to:
+  /// **'Where to buy'**
+  String get giftDetail_whereToBuy;
+
+  /// No description provided for @giftDetail_priceRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Price range'**
+  String get giftDetail_priceRange;
+
+  /// No description provided for @giftDetail_saveGift.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Gift'**
+  String get giftDetail_saveGift;
+
+  /// No description provided for @giftDetail_markPurchased.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Purchased'**
+  String get giftDetail_markPurchased;
+
+  /// No description provided for @giftHistory_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Gift History'**
+  String get giftHistory_title;
+
+  /// No description provided for @giftHistory_purchased.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchased'**
+  String get giftHistory_purchased;
+
+  /// No description provided for @giftHistory_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get giftHistory_saved;
+
+  /// No description provided for @giftHistory_noHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'No gift history yet'**
+  String get giftHistory_noHistory;
+
+  /// No description provided for @memories_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory Vault'**
+  String get memories_title;
+
+  /// No description provided for @memories_addMemory.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Memory'**
+  String get memories_addMemory;
+
+  /// No description provided for @createMemory_title.
+  ///
+  /// In en, this message translates to:
+  /// **'New Memory'**
+  String get createMemory_title;
+
+  /// No description provided for @createMemory_titleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get createMemory_titleLabel;
+
+  /// No description provided for @createMemory_titleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Our first date'**
+  String get createMemory_titleHint;
+
+  /// No description provided for @createMemory_dateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get createMemory_dateLabel;
+
+  /// No description provided for @createMemory_descriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get createMemory_descriptionLabel;
+
+  /// No description provided for @createMemory_descriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What made this moment special?'**
+  String get createMemory_descriptionHint;
+
+  /// No description provided for @createMemory_addPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Photo'**
+  String get createMemory_addPhoto;
+
+  /// No description provided for @createMemory_moodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood'**
+  String get createMemory_moodLabel;
+
+  /// No description provided for @createMemory_tagsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get createMemory_tagsLabel;
+
+  /// No description provided for @createMemory_tagsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tags...'**
+  String get createMemory_tagsHint;
+
+  /// No description provided for @createMemory_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Memory'**
+  String get createMemory_save;
+
+  /// No description provided for @createMemory_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory saved!'**
+  String get createMemory_saved;
+
+  /// No description provided for @memoryDetail_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory'**
+  String get memoryDetail_title;
+
+  /// No description provided for @memoryDetail_delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Memory'**
+  String get memoryDetail_delete;
+
+  /// No description provided for @memoryDetail_deleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this memory?'**
+  String get memoryDetail_deleteConfirm;
+
+  /// No description provided for @wishlist_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Wish List'**
+  String get wishlist_title;
+
+  /// No description provided for @wishlist_addItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Item'**
+  String get wishlist_addItem;
+
+  /// No description provided for @wishlist_noItems.
+  ///
+  /// In en, this message translates to:
+  /// **'No wish list items yet'**
+  String get wishlist_noItems;
+
+  /// No description provided for @wishlist_noItemsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Save things she mentions wanting'**
+  String get wishlist_noItemsDesc;
+
+  /// No description provided for @wishlist_itemName.
+  ///
+  /// In en, this message translates to:
+  /// **'Item name'**
+  String get wishlist_itemName;
+
+  /// No description provided for @wishlist_itemNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes (optional)'**
+  String get wishlist_itemNotes;
+
+  /// No description provided for @wishlist_priority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get wishlist_priority;
+
+  /// No description provided for @wishlist_priorityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get wishlist_priorityLow;
+
+  /// No description provided for @wishlist_priorityMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get wishlist_priorityMedium;
+
+  /// No description provided for @wishlist_priorityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get wishlist_priorityHigh;
+
+  /// No description provided for @settings_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings_title;
+
+  /// No description provided for @settings_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get settings_account;
+
+  /// No description provided for @settings_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get settings_email;
+
+  /// No description provided for @settings_notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settings_notifications;
+
+  /// No description provided for @settings_pushNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Push Notifications'**
+  String get settings_pushNotifications;
+
+  /// No description provided for @settings_reminderAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder Alerts'**
+  String get settings_reminderAlerts;
+
+  /// No description provided for @settings_appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settings_appearance;
+
+  /// No description provided for @settings_theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settings_theme;
+
+  /// No description provided for @settings_themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settings_themeSystem;
+
+  /// No description provided for @settings_themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settings_themeDark;
+
+  /// No description provided for @settings_themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settings_themeLight;
+
+  /// No description provided for @settings_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settings_language;
+
+  /// No description provided for @settings_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Data & Privacy'**
+  String get settings_data;
+
+  /// No description provided for @settings_exportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export My Data'**
+  String get settings_exportData;
+
+  /// No description provided for @settings_deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get settings_deleteAccount;
+
+  /// No description provided for @settings_deleteAccountConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone. All your data will be permanently deleted.'**
+  String get settings_deleteAccountConfirm;
+
+  /// No description provided for @settings_about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settings_about;
+
+  /// No description provided for @settings_version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get settings_version;
+
+  /// No description provided for @settings_termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get settings_termsOfService;
+
+  /// No description provided for @settings_privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get settings_privacyPolicy;
+
+  /// No description provided for @settings_logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get settings_logOut;
+
+  /// No description provided for @settings_logOutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get settings_logOutConfirm;
+
+  /// No description provided for @settings_saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get settings_saving;
+
+  /// No description provided for @settings_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved!'**
+  String get settings_saved;
+
+  /// No description provided for @notifications_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications_title;
+
+  /// No description provided for @notifications_markAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get notifications_markAllRead;
+
+  /// No description provided for @notifications_noNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get notifications_noNotifications;
+
+  /// No description provided for @notifications_noNotificationsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all caught up!'**
+  String get notifications_noNotificationsDesc;
+
+  /// No description provided for @notifications_justNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get notifications_justNow;
+
+  /// No description provided for @notifications_minutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m ago'**
+  String notifications_minutesAgo(int minutes);
+
+  /// No description provided for @notifications_hoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours}h ago'**
+  String notifications_hoursAgo(int hours);
+
+  /// No description provided for @gamification_level.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {level}'**
+  String gamification_level(int level);
+
+  /// No description provided for @gamification_totalXP.
+  ///
+  /// In en, this message translates to:
+  /// **'Total XP'**
+  String get gamification_totalXP;
+
+  /// No description provided for @gamification_streak.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak'**
+  String get gamification_streak;
+
+  /// No description provided for @gamification_streakDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days'**
+  String gamification_streakDays(int days);
+
+  /// No description provided for @gamification_weeklyProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Progress'**
+  String get gamification_weeklyProgress;
+
+  /// No description provided for @gamification_achievements.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get gamification_achievements;
+
+  /// No description provided for @gamification_recentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Activity'**
+  String get gamification_recentActivity;
+
+  /// No description provided for @gamification_viewAllBadges.
+  ///
+  /// In en, this message translates to:
+  /// **'View All Badges'**
+  String get gamification_viewAllBadges;
+
+  /// No description provided for @badges_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Badge Gallery'**
+  String get badges_title;
+
+  /// No description provided for @badges_earned.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned'**
+  String get badges_earned;
+
+  /// No description provided for @badges_locked.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get badges_locked;
+
+  /// No description provided for @badges_progress.
+  ///
+  /// In en, this message translates to:
+  /// **'{current}/{total}'**
+  String badges_progress(int current, int total);
+
+  /// No description provided for @stats_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Stats & Trends'**
+  String get stats_title;
+
+  /// No description provided for @stats_thisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This Week'**
+  String get stats_thisWeek;
+
+  /// No description provided for @stats_thisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This Month'**
+  String get stats_thisMonth;
+
+  /// No description provided for @stats_allTime.
+  ///
+  /// In en, this message translates to:
+  /// **'All Time'**
+  String get stats_allTime;
+
+  /// No description provided for @stats_messagesGenerated.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages Generated'**
+  String get stats_messagesGenerated;
+
+  /// No description provided for @stats_remindersCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders Completed'**
+  String get stats_remindersCompleted;
+
+  /// No description provided for @stats_sosSessionsUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS Sessions Used'**
+  String get stats_sosSessionsUsed;
+
+  /// No description provided for @stats_cardsCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards Completed'**
+  String get stats_cardsCompleted;
+
+  /// No description provided for @stats_averageRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Average Rating'**
+  String get stats_averageRating;
+
+  /// No description provided for @paywall_subscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get paywall_subscribe;
+
+  /// No description provided for @paywall_mostPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'MOST POPULAR'**
+  String get paywall_mostPopular;
+
+  /// No description provided for @paywall_free.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get paywall_free;
+
+  /// No description provided for @paywall_pro.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro'**
+  String get paywall_pro;
+
+  /// No description provided for @paywall_legend.
+  ///
+  /// In en, this message translates to:
+  /// **'Legend'**
+  String get paywall_legend;
+
+  /// No description provided for @paywall_aiMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Messages'**
+  String get paywall_aiMessages;
+
+  /// No description provided for @paywall_actionCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Action Cards'**
+  String get paywall_actionCards;
+
+  /// No description provided for @paywall_sosSessions.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS Sessions'**
+  String get paywall_sosSessions;
+
+  /// No description provided for @paywall_memoriesLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Memories'**
+  String get paywall_memoriesLimit;
+
+  /// No description provided for @paywall_messageModes.
+  ///
+  /// In en, this message translates to:
+  /// **'Message Modes'**
+  String get paywall_messageModes;
+
+  /// No description provided for @paywall_streakFreezes.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak Freezes'**
+  String get paywall_streakFreezes;
+
+  /// No description provided for @paywall_unlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited'**
+  String get paywall_unlimited;
+
+  /// No description provided for @actionCard_skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get actionCard_skip;
+
+  /// No description provided for @actionCard_cardNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Card not found'**
+  String get actionCard_cardNotFound;
+
+  /// No description provided for @actionCard_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get actionCard_save;
+
+  /// No description provided for @herProfile_birthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Her Birthday'**
+  String get herProfile_birthday;
+
+  /// No description provided for @herProfile_birthdaySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set her birthday for age-aware messages'**
+  String get herProfile_birthdaySubtitle;
+
+  /// No description provided for @herProfile_birthdayFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{month} {day}, {year} ({age} years old)'**
+  String herProfile_birthdayFormat(String month, int day, int year, int age);
+
+  /// No description provided for @herProfile_selectBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Select her birthday'**
+  String get herProfile_selectBirthday;
+
+  /// No description provided for @herProfile_nationality.
+  ///
+  /// In en, this message translates to:
+  /// **'Her Nationality'**
+  String get herProfile_nationality;
+
+  /// No description provided for @herProfile_nationalitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set her nationality for culturally personalized messages'**
+  String get herProfile_nationalitySubtitle;
+
+  /// No description provided for @herProfile_anniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'Anniversary'**
+  String get herProfile_anniversary;
+
+  /// No description provided for @herProfile_anniversarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your anniversary date'**
+  String get herProfile_anniversarySubtitle;
+
+  /// No description provided for @herProfile_selectAnniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your anniversary'**
+  String get herProfile_selectAnniversary;
+
+  /// No description provided for @herProfile_quickFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'QUICK FACTS'**
+  String get herProfile_quickFacts;
+
+  /// No description provided for @herProfile_status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get herProfile_status;
+
+  /// No description provided for @herProfile_zodiac.
+  ///
+  /// In en, this message translates to:
+  /// **'Zodiac'**
+  String get herProfile_zodiac;
+
+  /// No description provided for @herProfile_background.
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get herProfile_background;
+
+  /// No description provided for @preferences_saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get preferences_saving;
+
+  /// No description provided for @preferences_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved!'**
+  String get preferences_saved;
+
+  /// No description provided for @cultural_saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get cultural_saving;
+
+  /// No description provided for @cultural_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved!'**
+  String get cultural_saved;
+
+  /// No description provided for @createMemory_photoComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo upload coming soon!'**
+  String get createMemory_photoComingSoon;
+
+  /// No description provided for @createMemory_addPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photos'**
+  String get createMemory_addPhotos;
+
+  /// No description provided for @createMemory_saveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Memory'**
+  String get createMemory_saveButton;
+
+  /// No description provided for @sos_howUrgent.
+  ///
+  /// In en, this message translates to:
+  /// **'How urgent is this?'**
+  String get sos_howUrgent;
+
+  /// No description provided for @sos_urgency_happeningNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Happening NOW'**
+  String get sos_urgency_happeningNow;
+
+  /// No description provided for @sos_urgency_justHappened.
+  ///
+  /// In en, this message translates to:
+  /// **'Just Happened'**
+  String get sos_urgency_justHappened;
+
+  /// No description provided for @sos_urgency_brewing.
+  ///
+  /// In en, this message translates to:
+  /// **'Brewing / Building Up'**
+  String get sos_urgency_brewing;
+
+  /// No description provided for @sos_assessmentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Assessment'**
+  String get sos_assessmentTitle;
+
+  /// No description provided for @sos_doThisRightNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Do This Right Now'**
+  String get sos_doThisRightNow;
+
+  /// No description provided for @sos_dontDoThis.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t Do This'**
+  String get sos_dontDoThis;
+
+  /// No description provided for @sos_howLongAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'How long ago did this start?'**
+  String get sos_howLongAgo;
+
+  /// No description provided for @sos_time_rightNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Right now'**
+  String get sos_time_rightNow;
+
+  /// No description provided for @sos_time_fewMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'A few minutes ago'**
+  String get sos_time_fewMinutes;
+
+  /// No description provided for @sos_time_withinHour.
+  ///
+  /// In en, this message translates to:
+  /// **'Within the hour'**
+  String get sos_time_withinHour;
+
+  /// No description provided for @sos_time_earlierToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier today'**
+  String get sos_time_earlierToday;
+
+  /// No description provided for @sos_time_yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get sos_time_yesterday;
+
+  /// No description provided for @sos_herCurrentState.
+  ///
+  /// In en, this message translates to:
+  /// **'Her current state?'**
+  String get sos_herCurrentState;
+
+  /// No description provided for @sos_state_yelling.
+  ///
+  /// In en, this message translates to:
+  /// **'Yelling / Furious'**
+  String get sos_state_yelling;
+
+  /// No description provided for @sos_state_crying.
+  ///
+  /// In en, this message translates to:
+  /// **'Crying'**
+  String get sos_state_crying;
+
+  /// No description provided for @sos_state_coldSilent.
+  ///
+  /// In en, this message translates to:
+  /// **'Cold & Silent'**
+  String get sos_state_coldSilent;
+
+  /// No description provided for @sos_state_disappointed.
+  ///
+  /// In en, this message translates to:
+  /// **'Disappointed'**
+  String get sos_state_disappointed;
+
+  /// No description provided for @sos_state_confused.
+  ///
+  /// In en, this message translates to:
+  /// **'Confused'**
+  String get sos_state_confused;
+
+  /// No description provided for @sos_state_hurt.
+  ///
+  /// In en, this message translates to:
+  /// **'Hurt'**
+  String get sos_state_hurt;
+
+  /// No description provided for @sos_state_calmUpset.
+  ///
+  /// In en, this message translates to:
+  /// **'Calm but upset'**
+  String get sos_state_calmUpset;
+
+  /// No description provided for @sos_myFault.
+  ///
+  /// In en, this message translates to:
+  /// **'This might be my fault'**
+  String get sos_myFault;
+
+  /// No description provided for @sos_brieflyWhatHappened.
+  ///
+  /// In en, this message translates to:
+  /// **'Briefly, what happened?'**
+  String get sos_brieflyWhatHappened;
+
+  /// No description provided for @sos_whatHappenedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. I forgot our anniversary and she found out...'**
+  String get sos_whatHappenedHint;
+
+  /// No description provided for @sos_startCoaching.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Coaching'**
+  String get sos_startCoaching;
+
+  /// No description provided for @sos_liveCoaching.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Coaching'**
+  String get sos_liveCoaching;
+
+  /// No description provided for @sos_analyzing.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing situation...'**
+  String get sos_analyzing;
+
+  /// No description provided for @sos_whyThisWorks.
+  ///
+  /// In en, this message translates to:
+  /// **'Why this works'**
+  String get sos_whyThisWorks;
+
+  /// No description provided for @sos_bodyLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Body Language'**
+  String get sos_bodyLanguage;
+
+  /// No description provided for @sos_waitFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait for: {text}'**
+  String sos_waitFor(String text);
+
+  /// No description provided for @sos_finishCoaching.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish Coaching'**
+  String get sos_finishCoaching;
+
+  /// No description provided for @sos_coachingComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Coaching Complete'**
+  String get sos_coachingComplete;
+
+  /// No description provided for @sos_situationResult.
+  ///
+  /// In en, this message translates to:
+  /// **'How did the situation turn out?'**
+  String get sos_situationResult;
+
+  /// No description provided for @sos_rateSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this coaching session'**
+  String get sos_rateSession;
+
+  /// No description provided for @sos_resolutionNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolution notes (optional)'**
+  String get sos_resolutionNotes;
+
+  /// No description provided for @sos_resolutionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How did she respond? What worked? What would you do differently?'**
+  String get sos_resolutionHint;
+
+  /// No description provided for @sos_saveToMemoryVault.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Memory Vault'**
+  String get sos_saveToMemoryVault;
+
+  /// No description provided for @sos_saveToMemoryVaultDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember what you learned for next time'**
+  String get sos_saveToMemoryVaultDesc;
+
+  /// No description provided for @sos_completeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get sos_completeButton;
+
+  /// No description provided for @sos_sessionSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'SOS session saved. Stay strong!'**
+  String get sos_sessionSaved;
+
+  /// No description provided for @gifts_screenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gifts'**
+  String get gifts_screenTitle;
+
+  /// No description provided for @gifts_searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search gifts...'**
+  String get gifts_searchHint;
+
+  /// No description provided for @gifts_whatsOccasion.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s the occasion?'**
+  String get gifts_whatsOccasion;
+
+  /// No description provided for @gifts_occasion_justBecause.
+  ///
+  /// In en, this message translates to:
+  /// **'Just Because'**
+  String get gifts_occasion_justBecause;
+
+  /// No description provided for @gifts_occasion_birthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get gifts_occasion_birthday;
+
+  /// No description provided for @gifts_occasion_anniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'Anniversary'**
+  String get gifts_occasion_anniversary;
+
+  /// No description provided for @gifts_occasion_apology.
+  ///
+  /// In en, this message translates to:
+  /// **'Apology'**
+  String get gifts_occasion_apology;
+
+  /// No description provided for @gifts_occasion_valentines.
+  ///
+  /// In en, this message translates to:
+  /// **'Valentine\'s Day'**
+  String get gifts_occasion_valentines;
+
+  /// No description provided for @gifts_occasion_eidHoliday.
+  ///
+  /// In en, this message translates to:
+  /// **'Eid / Holiday'**
+  String get gifts_occasion_eidHoliday;
+
+  /// No description provided for @gifts_generatingIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating AI gift ideas...'**
+  String get gifts_generatingIdeas;
+
+  /// No description provided for @gifts_noGiftsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No gifts found'**
+  String get gifts_noGiftsFound;
+
+  /// No description provided for @gifts_adjustFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting your filters or search.'**
+  String get gifts_adjustFilters;
+
+  /// No description provided for @gifts_lowBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Low Budget High Impact'**
+  String get gifts_lowBudget;
+
+  /// No description provided for @gifts_getAiRecommendations.
+  ///
+  /// In en, this message translates to:
+  /// **'Get AI Recommendations'**
+  String get gifts_getAiRecommendations;
+
+  /// No description provided for @giftDetail_whySheLoveIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Why She\'ll Love It'**
+  String get giftDetail_whySheLoveIt;
+
+  /// No description provided for @giftDetail_basedOnProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on Her Profile'**
+  String get giftDetail_basedOnProfile;
+
+  /// No description provided for @giftDetail_buyNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy Now'**
+  String get giftDetail_buyNow;
+
+  /// No description provided for @giftDetail_unsave.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsave'**
+  String get giftDetail_unsave;
+
+  /// No description provided for @giftDetail_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get giftDetail_save;
+
+  /// No description provided for @giftDetail_notRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Not right for her'**
+  String get giftDetail_notRight;
+
+  /// No description provided for @giftDetail_relatedGifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Related Gifts'**
+  String get giftDetail_relatedGifts;
+
+  /// No description provided for @giftHistory_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get giftHistory_all;
+
+  /// No description provided for @giftHistory_liked.
+  ///
+  /// In en, this message translates to:
+  /// **'Liked'**
+  String get giftHistory_liked;
+
+  /// No description provided for @giftHistory_didntLike.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t Like'**
+  String get giftHistory_didntLike;
+
+  /// No description provided for @giftHistory_noHistoryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse gifts and get recommendations to build your history.'**
+  String get giftHistory_noHistoryDesc;
+
+  /// No description provided for @memories_searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search memories...'**
+  String get memories_searchHint;
+
+  /// No description provided for @memories_listView.
+  ///
+  /// In en, this message translates to:
+  /// **'List view'**
+  String get memories_listView;
+
+  /// No description provided for @memories_gridView.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid view'**
+  String get memories_gridView;
+
+  /// No description provided for @memories_noMemories.
+  ///
+  /// In en, this message translates to:
+  /// **'No memories yet'**
+  String get memories_noMemories;
+
+  /// No description provided for @memories_noMemoriesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Start capturing your special moments together'**
+  String get memories_noMemoriesDesc;
+
+  /// No description provided for @memoryDetail_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get memoryDetail_photos;
+
+  /// No description provided for @memoryDetail_tags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get memoryDetail_tags;
+
+  /// No description provided for @wishlist_noWishes.
+  ///
+  /// In en, this message translates to:
+  /// **'No wishes captured yet'**
+  String get wishlist_noWishes;
+
+  /// No description provided for @wishlist_noWishesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'When she mentions something she wants, save it with the \'She Said\' toggle.'**
+  String get wishlist_noWishesDesc;
+
+  /// No description provided for @wishlist_sendToGiftEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to Gift Engine'**
+  String get wishlist_sendToGiftEngine;
+
+  /// No description provided for @wishlist_sentToGiftEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent \"{title}\" to Gift Engine'**
+  String wishlist_sentToGiftEngine(String title);
+
+  /// No description provided for @wishlist_sortNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest First'**
+  String get wishlist_sortNewest;
+
+  /// No description provided for @wishlist_sortOccasion.
+  ///
+  /// In en, this message translates to:
+  /// **'By Occasion Proximity'**
+  String get wishlist_sortOccasion;
+
+  /// No description provided for @wishlist_statusNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get wishlist_statusNew;
+
+  /// No description provided for @wishlist_statusSentToGifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent to Gifts'**
+  String get wishlist_statusSentToGifts;
+
+  /// No description provided for @wishlist_statusFulfilled.
+  ///
+  /// In en, this message translates to:
+  /// **'Fulfilled'**
+  String get wishlist_statusFulfilled;
+
+  /// No description provided for @wishlist_sort.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get wishlist_sort;
+
+  /// No description provided for @settings_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get settings_profile;
+
+  /// No description provided for @settings_receiveNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive push notifications'**
+  String get settings_receiveNotifications;
+
+  /// No description provided for @settings_reminderAlertsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified about upcoming dates'**
+  String get settings_reminderAlertsDesc;
+
+  /// No description provided for @settings_dailyActionCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Action Cards'**
+  String get settings_dailyActionCards;
+
+  /// No description provided for @settings_dailyActionCardsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily relationship tips and actions'**
+  String get settings_dailyActionCardsDesc;
+
+  /// No description provided for @settings_weeklyDigest.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Digest'**
+  String get settings_weeklyDigest;
+
+  /// No description provided for @settings_weeklyDigestDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly relationship summary'**
+  String get settings_weeklyDigestDesc;
+
+  /// No description provided for @settings_subscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get settings_subscription;
+
+  /// No description provided for @settings_premiumActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium Active'**
+  String get settings_premiumActive;
+
+  /// No description provided for @settings_upgradeToPremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Premium'**
+  String get settings_upgradeToPremium;
+
+  /// No description provided for @settings_manageSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your subscription'**
+  String get settings_manageSubscription;
+
+  /// No description provided for @settings_unlockAllFeatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock all features'**
+  String get settings_unlockAllFeatures;
+
+  /// No description provided for @settings_aboutLolo.
+  ///
+  /// In en, this message translates to:
+  /// **'About LOLO'**
+  String get settings_aboutLolo;
+
+  /// No description provided for @settings_logOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get settings_logOutTitle;
+
+  /// No description provided for @settings_deleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get settings_deleteAccountTitle;
+
+  /// No description provided for @settings_deleteAccountMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This action is permanent and cannot be undone. All your data will be deleted.'**
+  String get settings_deleteAccountMessage;
+
+  /// No description provided for @settings_appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'LOLO v{version}'**
+  String settings_appVersion(String version);
+
+  /// No description provided for @notifications_loadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load notifications.'**
+  String get notifications_loadError;
+
+  /// No description provided for @notifications_noNotificationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll keep you posted!'**
+  String get notifications_noNotificationsSubtitle;
+
+  /// No description provided for @notifications_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get notifications_today;
+
+  /// No description provided for @notifications_yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get notifications_yesterday;
+
+  /// No description provided for @notifications_earlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get notifications_earlier;
+
+  /// No description provided for @gamification_weeklyActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Activity'**
+  String get gamification_weeklyActivity;
+
+  /// No description provided for @gamification_viewStats.
+  ///
+  /// In en, this message translates to:
+  /// **'View Stats'**
+  String get gamification_viewStats;
+
+  /// No description provided for @gamification_seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See All'**
+  String get gamification_seeAll;
+
+  /// No description provided for @gamification_dayStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} day streak'**
+  String gamification_dayStreak(int days);
+
+  /// No description provided for @gamification_bestStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Best: {days} days'**
+  String gamification_bestStreak(int days);
+
+  /// No description provided for @gamification_xpTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{xp} XP total'**
+  String gamification_xpTotal(int xp);
+
+  /// No description provided for @gamification_freezes.
+  ///
+  /// In en, this message translates to:
+  /// **'freezes'**
+  String get gamification_freezes;
+
+  /// No description provided for @gamification_useFreezeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Streak Freeze?'**
+  String get gamification_useFreezeTitle;
+
+  /// No description provided for @gamification_useFreezeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will protect your streak for one missed day. You cannot undo this action.'**
+  String get gamification_useFreezeMessage;
+
+  /// No description provided for @gamification_useFreeze.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Freeze'**
+  String get gamification_useFreeze;
+
+  /// No description provided for @gamification_freezeApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak freeze applied!'**
+  String get gamification_freezeApplied;
+
+  /// No description provided for @gamification_leaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get gamification_leaderboard;
+
+  /// No description provided for @badges_noBadges.
+  ///
+  /// In en, this message translates to:
+  /// **'No badges yet'**
+  String get badges_noBadges;
+
+  /// No description provided for @badges_noBadgesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your first action to start earning badges!'**
+  String get badges_noBadgesDesc;
+
+  /// No description provided for @badges_category_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get badges_category_all;
+
+  /// No description provided for @badges_category_consistency.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistency'**
+  String get badges_category_consistency;
+
+  /// No description provided for @badges_category_milestones.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones'**
+  String get badges_category_milestones;
+
+  /// No description provided for @badges_category_mastery.
+  ///
+  /// In en, this message translates to:
+  /// **'Mastery'**
+  String get badges_category_mastery;
+
+  /// No description provided for @badges_category_special.
+  ///
+  /// In en, this message translates to:
+  /// **'Special'**
+  String get badges_category_special;
+
+  /// No description provided for @badges_earnedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned {date}'**
+  String badges_earnedDate(String date);
+
+  /// No description provided for @stats_activityOverTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Over Time'**
+  String get stats_activityOverTime;
+
+  /// No description provided for @stats_actionBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Action Breakdown'**
+  String get stats_actionBreakdown;
+
+  /// No description provided for @stats_personalBests.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Bests'**
+  String get stats_personalBests;
+
+  /// No description provided for @stats_aiInsight.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Insight'**
+  String get stats_aiInsight;
+
+  /// No description provided for @stats_noActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'No activity for this period.\nStart by completing an action today!'**
+  String get stats_noActivity;
+
+  /// No description provided for @stats_highestStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest\nStreak'**
+  String get stats_highestStreak;
+
+  /// No description provided for @stats_mostActiveWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Active\nWeek'**
+  String get stats_mostActiveWeek;
+
+  /// No description provided for @stats_favoriteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite\nAction'**
+  String get stats_favoriteAction;
+
+  /// No description provided for @stats_week.
+  ///
+  /// In en, this message translates to:
+  /// **'Week'**
+  String get stats_week;
+
+  /// No description provided for @stats_month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get stats_month;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
