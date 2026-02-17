@@ -1,7 +1,11 @@
 // functions/src/ai/providers/gpt.ts
 import OpenAI from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+let _openai: OpenAI | null = null;
+function getClient(): OpenAI {
+  if (!_openai) _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "" });
+  return _openai;
+}
 
 export async function callGpt(
   _modelId: string,
@@ -9,7 +13,7 @@ export async function callGpt(
   userPrompt: string,
   maxTokens: number
 ): Promise<{ content: string; tokensUsed: { input: number; output: number } }> {
-  const response = await openai.chat.completions.create({
+  const response = await getClient().chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
       { role: "system", content: systemPrompt },

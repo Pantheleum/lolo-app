@@ -434,6 +434,7 @@ router.post("/:id/media", async (req: AuthenticatedRequest, res: Response, next:
     }
 
     // Parse multipart upload via busboy
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const busboy = require("busboy");
     const bb = busboy({
       headers: req.headers,

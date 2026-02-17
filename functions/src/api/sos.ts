@@ -175,6 +175,7 @@ router.post("/coach", async (req: AuthenticatedRequest, res: Response, next: Nex
     const reader = aiResponse.body.getReader();
     const decoder = new TextDecoder();
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
