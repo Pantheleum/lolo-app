@@ -53,6 +53,20 @@ function calculateCompletionPercent(profile: Record<string, any>): number {
 }
 
 // ============================================================
+// Helper: resolve "default" profile ID to real document ID
+// ============================================================
+async function resolveProfileId(uid: string, id: string): Promise<string> {
+  if (id !== "default") return id;
+  const snap = await db.collection("users").doc(uid)
+    .collection("partnerProfiles")
+    .where("deletedAt", "==", null).limit(1).get();
+  if (snap.empty) {
+    throw new AppError(404, "NOT_FOUND", "No partner profile found");
+  }
+  return snap.docs[0].id;
+}
+
+// ============================================================
 // Helper: load zodiac defaults from metadata collection
 // ============================================================
 async function loadZodiacDefaults(sign: ZodiacSign, locale: string): Promise<any | null> {
@@ -134,10 +148,11 @@ router.post("/", async (req: AuthenticatedRequest, res: Response, next: NextFunc
 });
 
 // GET /profiles/:id -- get with zodiac defaults merged
+// When id === "default", resolve to the user's first (MVP: only) partner profile.
 router.get("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
-    const cacheKey = `profile:${id}`;
+    const id = await resolveProfileId(req.user.uid, req.params.id);
+    const cacheKey = `profile:${req.user.uid}:${id}`;
     const cached = await redis.get(cacheKey);
     if (cached) return res.json({ data: JSON.parse(cached) });
 
@@ -186,7 +201,7 @@ router.get("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFu
 // PUT /profiles/:id -- update fields
 router.put("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = await resolveProfileId(req.user.uid, req.params.id);
     const body = updatePartnerProfileSchema.parse(req.body);
 
     const profileRef = db.collection("users").doc(req.user.uid)
@@ -204,7 +219,7 @@ router.put("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFu
     updates.completionPercent = calculateCompletionPercent({ ...current, ...updates });
 
     await profileRef.update(updates);
-    await redis.del(`profile:${id}`);
+    await redis.del(`profile:${req.user.uid}:${id}`);
 
     res.json({ data: { id, name: updates.name || current.name, profileCompletionPercent: updates.completionPercent, updatedAt: updates.updatedAt } });
   } catch (err: any) {
@@ -217,7 +232,7 @@ router.put("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFu
 // DELETE /profiles/:id -- soft delete
 router.delete("/:id", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = await resolveProfileId(req.user.uid, req.params.id);
     const profileRef = db.collection("users").doc(req.user.uid)
       .collection("partnerProfiles").doc(id);
     const profileDoc = await profileRef.get();
@@ -225,7 +240,7 @@ router.delete("/:id", async (req: AuthenticatedRequest, res: Response, next: Nex
       throw new AppError(404, "NOT_FOUND", "Profile not found");
     }
     await profileRef.update({ deletedAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
-    await redis.del(`profile:${id}`);
+    await redis.del(`profile:${req.user.uid}:${id}`);
     res.json({ data: { message: "Profile deleted successfully", deletedAt: new Date().toISOString() } });
   } catch (err) {
     if (err instanceof AppError) return next(err);
@@ -236,7 +251,7 @@ router.delete("/:id", async (req: AuthenticatedRequest, res: Response, next: Nex
 // GET /profiles/:id/zodiac-defaults
 router.get("/:id/zodiac-defaults", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = await resolveProfileId(req.user.uid, req.params.id);
     let sign = req.query.sign as ZodiacSign | undefined;
     const validSigns: ZodiacSign[] = ["aries","taurus","gemini","cancer","leo","virgo","libra","scorpio","sagittarius","capricorn","aquarius","pisces"];
 
@@ -262,7 +277,7 @@ router.get("/:id/zodiac-defaults", async (req: AuthenticatedRequest, res: Respon
 // PUT /profiles/:id/preferences
 router.put("/:id/preferences", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = await resolveProfileId(req.user.uid, req.params.id);
     const body = updatePreferencesSchema.parse(req.body);
 
     const profileRef = db.collection("users").doc(req.user.uid)
@@ -280,7 +295,7 @@ router.put("/:id/preferences", async (req: AuthenticatedRequest, res: Response, 
 
     const completionPercent = calculateCompletionPercent({ ...current, preferences: updatedPrefs });
     await profileRef.update({ preferences: updatedPrefs, completionPercent, updatedAt: new Date().toISOString() });
-    await redis.del(`profile:${id}`);
+    await redis.del(`profile:${req.user.uid}:${id}`);
 
     res.json({ data: { id, preferences: updatedPrefs, profileCompletionPercent: completionPercent, updatedAt: new Date().toISOString() } });
   } catch (err: any) {
@@ -293,7 +308,7 @@ router.put("/:id/preferences", async (req: AuthenticatedRequest, res: Response, 
 // PUT /profiles/:id/cultural-context
 router.put("/:id/cultural-context", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
+    const id = await resolveProfileId(req.user.uid, req.params.id);
     const body = updateCulturalContextSchema.parse(req.body);
 
     const profileRef = db.collection("users").doc(req.user.uid)
@@ -334,7 +349,7 @@ router.put("/:id/cultural-context", async (req: AuthenticatedRequest, res: Respo
 
     const completionPercent = calculateCompletionPercent({ ...current, culturalContext: updatedCtx });
     await profileRef.update({ culturalContext: updatedCtx, completionPercent, updatedAt: new Date().toISOString() });
-    await redis.del(`profile:${id}`);
+    await redis.del(`profile:${req.user.uid}:${id}`);
 
     res.json({ data: { id, culturalContext: updatedCtx, autoAddedHolidays, updatedAt: new Date().toISOString() } });
   } catch (err: any) {
