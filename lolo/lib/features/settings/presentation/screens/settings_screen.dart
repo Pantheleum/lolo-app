@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,90 @@ import 'package:lolo/core/widgets/lolo_avatar.dart';
 import 'package:lolo/core/widgets/lolo_toggle.dart';
 import 'package:lolo/features/auth/presentation/providers/auth_provider.dart';
 import 'package:lolo/features/settings/presentation/providers/settings_provider.dart';
+
+/// Provider for the user's nationality from Firestore.
+final nationalityProvider = StreamProvider<String>((ref) {
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+  if (uid == null) return Stream.value('');
+  return FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .snapshots()
+      .map((doc) => doc.data()?['nationality'] as String? ?? '');
+});
+
+/// All supported nationalities grouped by region.
+const _nationalities = <String, List<String>>{
+  'Middle East': [
+    'Saudi Arabian',
+    'Emirati (UAE)',
+    'Qatari',
+    'Kuwaiti',
+    'Bahraini',
+    'Omani',
+    'Yemeni',
+    'Iraqi',
+    'Jordanian',
+    'Lebanese',
+    'Palestinian',
+    'Syrian',
+    'Egyptian',
+    'Moroccan',
+    'Algerian',
+    'Tunisian',
+    'Libyan',
+    'Sudanese',
+    'Turkish',
+  ],
+  'Southeast Asia': [
+    'Malaysian',
+    'Indonesian',
+    'Bruneian',
+    'Singaporean',
+    'Filipino',
+    'Thai',
+    'Vietnamese',
+  ],
+  'South Asia': [
+    'Indian',
+    'Pakistani',
+    'Bangladeshi',
+    'Sri Lankan',
+  ],
+  'Europe': [
+    'British (UK)',
+    'French',
+    'German',
+    'Spanish',
+    'Italian',
+    'Dutch',
+    'Swedish',
+    'Norwegian',
+  ],
+  'Americas': [
+    'American (USA)',
+    'Canadian',
+    'Mexican',
+    'Brazilian',
+    'Colombian',
+    'Argentinian',
+  ],
+  'Africa': [
+    'Nigerian',
+    'Ghanaian',
+    'Kenyan',
+    'South African',
+    'Ethiopian',
+    'Tanzanian',
+  ],
+  'East Asia & Pacific': [
+    'Australian',
+    'New Zealander',
+    'Chinese',
+    'Japanese',
+    'Korean',
+  ],
+};
 
 /// Settings screen with profile, language, theme, notifications,
 /// subscription, and account management sections.
@@ -48,6 +134,12 @@ class SettingsScreen extends ConsumerWidget {
                 photoUrl: currentUser?.photoUrl,
                 onTap: () => context.pushNamed('her-profile'),
               ),
+              const SizedBox(height: LoloSpacing.spaceXl),
+
+              // === NATIONALITY / CULTURE ===
+              _SectionHeader(title: 'Culture'),
+              const SizedBox(height: LoloSpacing.spaceSm),
+              _NationalitySelector(),
               const SizedBox(height: LoloSpacing.spaceXl),
 
               // === LANGUAGE ===
@@ -426,6 +518,151 @@ class _SegmentedSelector<T> extends StatelessWidget {
             ),
           );
         }).toList(),
+      ),
+    );
+  }
+}
+
+class _NationalitySelector extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nationalityAsync = ref.watch(nationalityProvider);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final currentNationality = nationalityAsync.valueOrNull ?? '';
+
+    return Material(
+      color: isDark
+          ? LoloColors.darkSurfaceElevated1
+          : LoloColors.lightSurfaceElevated1,
+      borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+      child: InkWell(
+        onTap: () => _showNationalityPicker(context, ref, currentNationality),
+        borderRadius: BorderRadius.circular(LoloSpacing.cardBorderRadius),
+        child: Padding(
+          padding: const EdgeInsets.all(LoloSpacing.spaceMd),
+          child: Row(
+            children: [
+              Icon(
+                Icons.public,
+                color: LoloColors.colorPrimary,
+                size: LoloSpacing.iconSizeMedium,
+              ),
+              const SizedBox(width: LoloSpacing.spaceMd),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Nationality', style: theme.textTheme.titleMedium),
+                    Text(
+                      currentNationality.isEmpty
+                          ? 'Set your nationality for culturally personalized messages'
+                          : currentNationality,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: isDark
+                            ? LoloColors.darkTextSecondary
+                            : LoloColors.lightTextSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: isDark
+                    ? LoloColors.darkTextTertiary
+                    : LoloColors.lightTextTertiary,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showNationalityPicker(
+      BuildContext context, WidgetRef ref, String current) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor:
+          isDark ? LoloColors.darkBgSecondary : LoloColors.lightBgSecondary,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.7,
+        maxChildSize: 0.9,
+        minChildSize: 0.4,
+        expand: false,
+        builder: (_, scrollController) => Column(
+          children: [
+            // Handle bar
+            Padding(
+              padding: const EdgeInsets.only(top: 12, bottom: 8),
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? LoloColors.darkBorderDefault
+                      : LoloColors.lightBorderDefault,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: LoloSpacing.screenHorizontalPadding, vertical: 8),
+              child: Text('Select Nationality',
+                  style: theme.textTheme.titleLarge),
+            ),
+            Expanded(
+              child: ListView(
+                controller: scrollController,
+                children: _nationalities.entries.expand((region) {
+                  return [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16, top: 16, bottom: 4),
+                      child: Text(
+                        region.key.toUpperCase(),
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: isDark
+                              ? LoloColors.darkTextTertiary
+                              : LoloColors.lightTextTertiary,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ),
+                    ...region.value.map((nat) => ListTile(
+                          title: Text(nat),
+                          trailing: nat == current
+                              ? const Icon(Icons.check,
+                                  color: LoloColors.colorPrimary)
+                              : null,
+                          onTap: () async {
+                            final uid =
+                                FirebaseAuth.instance.currentUser?.uid;
+                            if (uid != null) {
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(uid)
+                                  .update({'nationality': nat});
+                            }
+                            if (ctx.mounted) Navigator.pop(ctx);
+                          },
+                        )),
+                  ];
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
