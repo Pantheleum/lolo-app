@@ -15,6 +15,74 @@ async function invalidateNotificationCaches(uid: string): Promise<void> {
 }
 
 // ============================================================
+// POST /notifications/device — register or update FCM token
+// ============================================================
+router.post("/device", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  try {
+    const uid = req.user.uid;
+    const { token, platform } = req.body;
+
+    if (!token || typeof token !== "string") {
+      throw new AppError(400, "INVALID_REQUEST", "FCM token is required");
+    }
+
+    // Upsert: use token as doc ID to prevent duplicates
+    const tokenDocId = Buffer.from(token).toString("base64url").slice(0, 128);
+    await db.collection("fcm_tokens").doc(tokenDocId).set({
+      userId: uid,
+      token,
+      platform: platform || "unknown",
+      updatedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+    }, { merge: true });
+
+    res.json({
+      data: {
+        registered: true,
+        message: "Device token registered successfully",
+      },
+    });
+  } catch (err) {
+    if (err instanceof AppError) return next(err);
+    next(err);
+  }
+});
+
+// ============================================================
+// DELETE /notifications/device — unregister FCM token (logout)
+// ============================================================
+router.delete("/device", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  try {
+    const uid = req.user.uid;
+    const { token } = req.body;
+
+    if (token) {
+      // Remove specific token
+      const tokenDocId = Buffer.from(token).toString("base64url").slice(0, 128);
+      await db.collection("fcm_tokens").doc(tokenDocId).delete();
+    } else {
+      // Remove all tokens for this user
+      const tokensSnap = await db.collection("fcm_tokens").where("userId", "==", uid).get();
+      const batch = db.batch();
+      for (const doc of tokensSnap.docs) {
+        batch.delete(doc.ref);
+      }
+      await batch.commit();
+    }
+
+    res.json({
+      data: {
+        unregistered: true,
+        message: "Device token(s) removed successfully",
+      },
+    });
+  } catch (err) {
+    if (err instanceof AppError) return next(err);
+    next(err);
+  }
+});
+
+// ============================================================
 // GET /notifications — returns user notifications with pagination
 // ============================================================
 router.get("/", async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {

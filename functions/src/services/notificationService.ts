@@ -102,7 +102,20 @@ export async function sendNotification(payload: NotificationPayload): Promise<vo
   }
 
   const tokens = await getUserTokens(payload.userId);
-  if (tokens.length === 0) return;
+  if (tokens.length === 0) {
+    functions.logger.warn("No FCM tokens found for user, skipping push", { userId: payload.userId, type: payload.type });
+    // Still store in-app notification below
+    await db.collection("users").doc(payload.userId).collection("notifications").add({
+      type: payload.type,
+      title: payload.title,
+      body: payload.body,
+      data: payload.data || {},
+      read: false,
+      readAt: null,
+      createdAt: new Date().toISOString(),
+    });
+    return;
+  }
 
   const message = {
     notification: { title: payload.title, body: payload.body },
@@ -123,14 +136,14 @@ export async function sendNotification(payload: NotificationPayload): Promise<vo
     functions.logger.error("FCM send failed", { error: err, userId: payload.userId });
   }
 
-  // Store in-app notification
-  await db.collection("notifications").add({
-    userId: payload.userId,
+  // Store in-app notification in user's subcollection
+  await db.collection("users").doc(payload.userId).collection("notifications").add({
     type: payload.type,
     title: payload.title,
     body: payload.body,
     data: payload.data || {},
-    isRead: false,
+    read: false,
+    readAt: null,
     createdAt: new Date().toISOString(),
   });
 }

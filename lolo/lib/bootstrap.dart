@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lolo/core/storage/hive_setup.dart';
@@ -11,6 +12,7 @@ import 'package:lolo/core/services/notification_service.dart';
 /// 2. Hive (local key-value cache for settings, drafts)
 /// 3. Isar (structured local DB for memories, reminders)
 /// 4. Notifications (FCM + local notification channels)
+/// 5. Register FCM token if user is already signed in
 Future<void> bootstrap() async {
   // 1. Firebase
   await Firebase.initializeApp();
@@ -24,4 +26,9 @@ Future<void> bootstrap() async {
 
   // 4. Notification channels
   await NotificationService.init();
+
+  // 5. Register FCM token if user is already logged in (app restart)
+  if (FirebaseAuth.instance.currentUser != null) {
+    NotificationService.registerDevice();
+  }
 }

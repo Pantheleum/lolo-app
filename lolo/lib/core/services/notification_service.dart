@@ -1,26 +1,46 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lolo/core/constants/api_endpoints.dart';
+import 'package:lolo/core/constants/app_constants.dart';
+
+/// Top-level background message handler (must be top-level function).
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // Firebase is auto-initialized by FlutterFire.
+  // Background messages with a `notification` payload are shown automatically
+  // by the system tray. Data-only messages can be handled here if needed.
+}
 
 /// Notification service for FCM + local notification channels.
 ///
 /// Handles:
-/// - FCM token registration
+/// - FCM token registration with backend
+/// - Token refresh listening
 /// - Local notification channel setup
-/// - Notification display and routing
+/// - Foreground & background notification display
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
 
-  static const AndroidNotificationChannel _channel = AndroidNotificationChannel(
+  static const AndroidNotificationChannel _channel =
+      AndroidNotificationChannel(
     'lolo_reminders',
     'Reminders',
     description: 'Scheduled reminders for LOLO',
     importance: Importance.high,
   );
 
+  /// Cached token so we can unregister on logout.
+  static String? _currentToken;
+
   static Future<void> init() async {
+    // --- Background handler (must be set before any other FCM calls) ---
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
     // --- FCM setup ---
     final messaging = FirebaseMessaging.instance;
 
@@ -31,10 +51,14 @@ class NotificationService {
       sound: true,
     );
 
-    // Get and print FCM token for debugging
-    final token = await messaging.getToken();
-    // ignore: avoid_print
-    print('[NotificationService] FCM token: $token');
+    // Get FCM token
+    _currentToken = await messaging.getToken();
+
+    // Listen for token refresh and re-register with backend
+    messaging.onTokenRefresh.listen((newToken) {
+      _currentToken = newToken;
+      _registerTokenWithBackend(newToken);
+    });
 
     // Handle foreground messages by showing a local notification
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -84,6 +108,68 @@ class NotificationService {
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(_channel);
+    }
+  }
+
+  /// Register the current FCM token with the backend.
+  /// Call this after successful login/signup.
+  static Future<void> registerDevice() async {
+    final token = _currentToken ?? await FirebaseMessaging.instance.getToken();
+    if (token == null) return;
+    _currentToken = token;
+    await _registerTokenWithBackend(token);
+  }
+
+  /// Unregister the current device token from backend.
+  /// Call this before signing out.
+  static Future<void> unregisterDevice() async {
+    if (_currentToken == null) return;
+    try {
+      final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+      if (idToken == null) return;
+
+      final dio = Dio(BaseOptions(
+        baseUrl: AppConstants.baseUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+        },
+      ));
+
+      await dio.delete<dynamic>(
+        ApiEndpoints.notificationsRegisterDevice,
+        data: {'token': _currentToken},
+      );
+    } catch (_) {
+      // Best-effort: don't block sign-out if this fails
+    }
+  }
+
+  static Future<void> _registerTokenWithBackend(String token) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
+
+      final idToken = await user.getIdToken();
+      if (idToken == null) return;
+
+      final dio = Dio(BaseOptions(
+        baseUrl: AppConstants.baseUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $idToken',
+        },
+      ));
+
+      await dio.post<dynamic>(
+        ApiEndpoints.notificationsRegisterDevice,
+        data: {
+          'token': token,
+          'platform': Platform.isIOS ? 'ios' : 'android',
+        },
+      );
+    } catch (_) {
+      // Silent failure: will retry on next token refresh or app restart
     }
   }
 

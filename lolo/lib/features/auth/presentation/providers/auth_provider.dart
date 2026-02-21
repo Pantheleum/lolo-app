@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lolo/core/services/notification_service.dart';
 import 'package:lolo/features/auth/domain/entities/auth_user.dart';
 import 'package:lolo/features/auth/domain/repositories/auth_repository.dart';
 import 'package:lolo/features/auth/data/repositories/auth_repository_impl.dart';
@@ -43,6 +44,7 @@ class AuthNotifier extends Notifier<AsyncValue<void>> {
       },
       (_) {
         state = const AsyncData(null);
+        NotificationService.registerDevice();
         return true;
       },
     );
@@ -66,6 +68,7 @@ class AuthNotifier extends Notifier<AsyncValue<void>> {
       },
       (_) {
         state = const AsyncData(null);
+        NotificationService.registerDevice();
         return true;
       },
     );
@@ -81,6 +84,7 @@ class AuthNotifier extends Notifier<AsyncValue<void>> {
       },
       (_) {
         state = const AsyncData(null);
+        NotificationService.registerDevice();
         return true;
       },
     );
@@ -96,6 +100,7 @@ class AuthNotifier extends Notifier<AsyncValue<void>> {
       },
       (_) {
         state = const AsyncData(null);
+        NotificationService.registerDevice();
         return true;
       },
     );
@@ -113,6 +118,7 @@ class AuthNotifier extends Notifier<AsyncValue<void>> {
 
   Future<void> signOut() async {
     state = const AsyncLoading();
+    await NotificationService.unregisterDevice();
     await ref.read(authRepositoryProvider).signOut();
     state = const AsyncData(null);
   }
